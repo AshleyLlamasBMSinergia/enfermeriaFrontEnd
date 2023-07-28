@@ -1,0 +1,26 @@
+<div class="modal-header border-0">
+  <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-circle" style="color: #13D52A"></i> {{ selectedDate | date: 'dd/MM/yyyy' }}</h5>
+</div>
+<div class="modal-body">
+  <div *ngIf="relatedEvents.length > 0; else noEvents">
+    <h6>Citas del día:</h6>
+    <div *ngFor="let event of relatedEvents">
+      <div class="mt-2">
+        <a class="btn bg-green btn-block" data-toggle="collapse" [attr.href]="'#collapseExample-' + event.calendario.Cita" role="button" aria-expanded="false" [attr.aria-controls]="'collapseExample-' + event.calendario.paciente?.pacientable_id">
+          <i class="fas fa-user"></i> {{ event.calendario.paciente?.pacientable?.Nombres }} {{ event.calendario.paciente?.pacientable?.Paterno }}
+        </a>
+        <div class="collapse mt-2" [attr.id]="'collapseExample-' + event.calendario.Cita">
+          <ul class="list-group">
+            <li class="list-group-item"><p class="font-weight-bold mb-1">Hora:</p> {{ event.calendario.Fecha | date: 'h:m a' }}</li>
+            <li class="list-group-item"><p class="font-weight-bold mb-1">Paciente:</p> <a>{{ event.calendario.paciente.pacientable?.Nombres }} {{ event.calendario.paciente.pacientable?.Paterno }} {{ event.calendario.paciente.pacientable?.Materno }}</a></li>
+            <li class="list-group-item"><p class="font-weight-bold mb-1">Profesional:</p> {{ event.calendario.profesional?.Nombres }} {{ event.calendario.profesional?.Paterno }} {{ event.calendario.profesional?.Materno }}</li>
+            <li class="list-group-item"><p class="font-weight-bold mb-1">Motivo:</p> {{ event.calendario.Motivo }} <br></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #noEvents>
+    <p>No hay citas relacionados para esta fecha.</p>
+  </ng-template>
+</div>

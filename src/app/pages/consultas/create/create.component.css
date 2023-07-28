@@ -1,0 +1,14 @@
+.bg-pink1{
+    background: rgb(255, 245, 246);
+}
+
+.bg-pink2{
+    background: rgb(255, 207, 219);
+}
+
+img{
+    background-color: white;
+    box-shadow:
+    0 0 0 1px white,
+    0 0 0 2px black;
+}

@@ -1,0 +1,721 @@
+<div class="content" *ngIf="terminado">
+  <div class="container-fluid">
+    <div class="row gutters-sm">
+      <div class="col-md-4 mb-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex flex-column align-items-center">
+              <img src="../assets/dist/img/user2-160x160.jpg" alt="Admin" class="rounded-circle img-border"
+                width="150">
+              <div class="mt-3 text-center">
+                <h4>
+                  {{historialMedico!.pacientable?.Nombres }} {{historialMedico!.pacientable?.Paterno}} {{historialMedico!.pacientable?.Materno}}
+                </h4>
+                <p class="text-secondary mb-1">
+                  {{historialMedico!.pacientable?.puesto?.Nombre }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div class="card">
+          <button class="btn btn-flat text-left" type="button" data-toggle="collapse" data-target="#datosGenerales" aria-expanded="false" aria-controls="collapseExample">
+            <h5 class="pt-2"><i class="fas fa-plus btn-option"></i> Datos generales</h5>
+          </button>
+          <div class="collapse" id="datosGenerales">
+            <div class="p-3">
+              <table class="table rounded rounded-lg">
+                <tbody>
+                  <tr>
+                    <th scope="row">Nombre</th>
+                    <td>{{historialMedico!.pacientable?.Nombres }} {{historialMedico!.pacientable?.Paterno}} {{historialMedico!.pacientable?.Materno}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Edad</th>
+                    <td>{{edad}} años</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Sexo</th>
+                    <td>{{historialMedico!.pacientable?.Sexo}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Fecha de nacimiento</th>
+                    <td>{{historialMedico!.pacientable?.FechaNacimiento}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Estado civil</th>
+                    <td>{{historialMedico!.pacientable?.EstadoCivil}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Fecha de ingreso</th>
+                    <td>{{historialMedico!.pacientable?.FechaIngreso}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Dirección</th>
+                    <td>{{historialMedico!.pacientable?.Calle}}, {{historialMedico!.pacientable?.Exterior}}, {{historialMedico!.pacientable?.Interior}}, {{historialMedico!.pacientable?.Colonia}}, {{historialMedico!.pacientable?.Localidad}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Escolaridad</th>
+                    <td>{{historialMedico!.pacientable?.Escolaridad}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- -->
+          <button class="btn btn-flat text-left" type="button" data-toggle="collapse" data-target="#atecedentesPP" aria-expanded="false" aria-controls="collapseExample">
+            <h5 class="pt-2"><i class="fas fa-plus btn-option"></i> Antecedentes personales patológicos</h5>
+          </button>
+          <div class="collapse" id="atecedentesPP">
+            <div class="p-3">
+              <table class="table rounded rounded-lg">
+                <tbody>
+                  <tr>
+                    <th scope="row">Cirugías</th>
+                    <td class="text-right">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions1" id="inlineRadio1" value="option1">
+                        <label class="form-check-label" for="inlineRadio1">No</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions1" id="inlineRadio2" value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Si</label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Contusiones</th>
+                    <td class="text-right">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions2" id="inlineRadio1" value="option1">
+                        <label class="form-check-label" for="inlineRadio1">No</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions2" id="inlineRadio2" value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Si</label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Lumbalgias</th>
+                    <td class="text-right">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions3" id="inlineRadio1" value="option1">
+                        <label class="form-check-label" for="inlineRadio1">No</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions3" id="inlineRadio2" value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Si</label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Hernias</th>
+                    <td class="text-right">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions4" id="inlineRadio1" value="option1">
+                        <label class="form-check-label" for="inlineRadio1">No</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions4" id="inlineRadio2" value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Si</label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Fracturas</th>
+                    <td class="text-right">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions5" id="inlineRadio1" value="option1">
+                        <label class="form-check-label" for="inlineRadio1">No</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions5" id="inlineRadio2" value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Si</label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Dorsalgias</th>
+                    <td class="text-right">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions6" id="inlineRadio1" value="option1">
+                        <label class="form-check-label" for="inlineRadio1">No</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions6" id="inlineRadio2" value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Si</label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Hospitalizaciones</th>
+                    <td class="text-right">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions7" id="inlineRadio1" value="option1">
+                        <label class="form-check-label" for="inlineRadio1">No</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions7" id="inlineRadio2" value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Si</label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Esguinces</th>
+                    <td class="text-right">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions8" id="inlineRadio1" value="option1">
+                        <label class="form-check-label" for="inlineRadio1">No</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions8" id="inlineRadio2" value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Si</label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Lesiones arteriales</th>
+                    <td class="text-right">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions9" id="inlineRadio1" value="option1">
+                        <label class="form-check-label" for="inlineRadio1">No</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions9" id="inlineRadio2" value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Si</label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Transfusiones</th>
+                    <td class="text-right">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions10" id="inlineRadio1" value="option1">
+                        <label class="form-check-label" for="inlineRadio1">No</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions10" id="inlineRadio2" value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Si</label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Luxaciones</th>
+                    <td class="text-right">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions11" id="inlineRadio1" value="option1">
+                        <label class="form-check-label" for="inlineRadio1">No</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions11" id="inlineRadio2" value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Si</label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Tetanias</th>
+                    <td class="text-right">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions12" id="inlineRadio1" value="option1">
+                        <label class="form-check-label" for="inlineRadio1">No</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions12" id="inlineRadio2" value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Si</label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Alergias</th>
+                    <td class="text-right">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions13" id="inlineRadio1" value="option1">
+                        <label class="form-check-label" for="inlineRadio1">No</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions13" id="inlineRadio2" value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Si</label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Asma</th>
+                    <td class="text-right">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions14" id="inlineRadio1" value="option1">
+                        <label class="form-check-label" for="inlineRadio1">No</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions14" id="inlineRadio2" value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Si</label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Epilepsia</th>
+                    <td class="text-right">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions15" id="inlineRadio1" value="option1">
+                        <label class="form-check-label" for="inlineRadio1">No</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions15" id="inlineRadio2" value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Si</label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Enfermedades dentales</th>
+                    <td class="text-right">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions16" id="inlineRadio1" value="option1">
+                        <label class="form-check-label" for="inlineRadio1">No</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions16" id="inlineRadio2" value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Si</label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Enfermedades óticas</th>
+                    <td class="text-right">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions17" id="inlineRadio1" value="option1">
+                        <label class="form-check-label" for="inlineRadio1">No</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions17" id="inlineRadio2" value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Si</label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Alteraciones psicológicas</th>
+                    <td>
+                      <div class="text-right">
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" type="radio" name="inlineRadioOptions18" id="inlineRadio1" value="option1">
+                          <label class="form-check-label" for="inlineRadio1">No</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" checked type="radio" name="inlineRadioOptions18" id="inlineRadio2" value="option2">
+                          <label class="form-check-label" for="inlineRadio2">Si</label>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="input18">Especifique
+                          <span class="text-danger">*</span>
+                        </label>
+                        <textarea class="form-control" id="input18" rows="3"></textarea>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="text-center">
+                <button class="btn btn-success">Guardar</button>
+              </div>
+              <hr>
+            </div>
+          </div>
+          <!-- -->
+          <button class="btn btn-flat text-left" type="button" data-toggle="collapse" data-target="#atecedentesPNP" aria-expanded="false" aria-controls="collapseExample">
+            <h5 class="pt-2"><i class="fas fa-plus btn-option"></i> Antecedentes personales no patológicos</h5>
+          </button>
+          <div class="collapse" id="atecedentesPNP">
+            <div class="p-3">
+              <table class="table rounded rounded-lg">
+                <tbody>
+                  <tr>
+                    <th scope="row">Método anticonceptivo</th>
+                    <td>
+                      <div class="text-right">
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" type="radio" name="inlineRadioOptions31" id="inlineRadio1" value="option1">
+                          <label class="form-check-label" for="inlineRadio1">No</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" checked type="radio" name="inlineRadioOptions31" id="inlineRadio2" value="option2">
+                          <label class="form-check-label" for="inlineRadio2">Si</label>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="input18">Especifique
+                          <span class="text-danger">*</span>
+                        </label>
+                        <textarea class="form-control" id="input18" rows="3"></textarea>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Obstétrico</th>
+                    <td class="text-right">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions32" id="inlineRadio1" value="option1">
+                        <label class="form-check-label" for="inlineRadio1">No</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions32" id="inlineRadio2" value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Si</label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Menarca</th>
+                    <td class="text-right">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions33" id="inlineRadio1" value="option">
+                        <label class="form-check-label" for="inlineRadio1">Ritmo</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions33" id="inlineRadio2" value="option">
+                        <label class="form-check-label" for="inlineRadio2">V.S.A</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions33" id="inlineRadio3" value="option">
+                        <label class="form-check-label" for="inlineRadio3">FUR</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions33" id="inlineRadio4" value="option">
+                        <label class="form-check-label" for="inlineRadio4">G</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions33" id="inlineRadio5" value="option">
+                        <label class="form-check-label" for="inlineRadio5">P</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions33" id="inlineRadio6" value="option">
+                        <label class="form-check-label" for="inlineRadio6">A</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions33" id="inlineRadio7" value="option">
+                        <label class="form-check-label" for="inlineRadio7">C</label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Alcoholismo</th>
+                    <td class="text-right">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions34" id="inlineRadio1" value="option1">
+                        <label class="form-check-label" for="inlineRadio1">No</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions34" id="inlineRadio2" value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Si</label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Tabaquismo</th>
+                    <td class="text-right">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions35" id="inlineRadio1" value="option1">
+                        <label class="form-check-label" for="inlineRadio1">No</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions35" id="inlineRadio2" value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Si</label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Toxicomanias</th>
+                    <td class="text-right">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions36" id="inlineRadio1" value="option1">
+                        <label class="form-check-label" for="inlineRadio1">No</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions36" id="inlineRadio2" value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Si</label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Religión</th>
+                    <td class="text-right">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions37" id="inlineRadio1" value="option1">
+                        <label class="form-check-label" for="inlineRadio1">No</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions37" id="inlineRadio2" value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Si</label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Pasatiempos</th>
+                    <td>
+                      <textarea class="form-control" id="input38" rows="3"></textarea>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Tipo y RH</th>
+                    <td class="text-right">
+                      <textarea class="form-control" id="input39" rows="3"></textarea>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Inmunizaciones</th>
+                    <td class="text-right">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions310" id="inlineRadio1" value="option1">
+                        <label class="form-check-label" for="inlineRadio1">No</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions310" id="inlineRadio2" value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Si</label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Habitación</th>
+                    <td class="text-right">
+                      <textarea class="form-control" id="input311" rows="3"></textarea>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Alimentación</th>
+                    <td class="text-right">
+                      <textarea class="form-control" id="input312" rows="3"></textarea>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Aseo Personal</th>
+                    <td class="text-right">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions313" id="inlineRadio1" value="option1">
+                        <label class="form-check-label" for="inlineRadio1">Bueno</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions313" id="inlineRadio2" value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Regular</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions313" id="inlineRadio3" value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Malo</label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Deportes</th>
+                    <td class="text-right">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions314" id="inlineRadio1" value="option1">
+                        <label class="form-check-label" for="inlineRadio1">No</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions314" id="inlineRadio2" value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Si</label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Bajo / Sobre peso</th>
+                    <td class="text-right">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions315" id="inlineRadio1" value="option1">
+                        <label class="form-check-label" for="inlineRadio1">No</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions315" id="inlineRadio2" value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Si</label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Hacinamiento</th>
+                    <td class="text-right">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions316" id="inlineRadio1" value="option1">
+                        <label class="form-check-label" for="inlineRadio1">No</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions316" id="inlineRadio2" value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Si</label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Promiscuidad</th>
+                    <td class="text-right">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions317" id="inlineRadio1" value="option1">
+                        <label class="form-check-label" for="inlineRadio1">No</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions317" id="inlineRadio2" value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Si</label>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="text-center">
+                <button class="btn btn-success">Guardar</button>
+              </div>
+              <hr>
+            </div>
+          </div>
+          <!-- -->
+          <button class="btn btn-flat text-left" type="button" data-toggle="collapse" data-target="#atecedentesH" aria-expanded="false" aria-controls="collapseExample">
+            <h5 class="pt-2"><i class="fas fa-plus btn-option"></i> Antecedentes heredofamiliares</h5>
+          </button>
+          <div class="collapse" id="atecedentesH">
+            <div class="p-3">
+              <table class="table rounded rounded-lg">
+                <tbody>
+                  <tr>
+                    <th scope="row">Padres viven</th>
+                    <td class="text-right">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions41" id="inlineRadio1" value="option1">
+                        <label class="form-check-label" for="inlineRadio1">No</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions41" id="inlineRadio2" value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Si</label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Hermanos viven</th>
+                    <td class="text-right">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions42" id="inlineRadio1" value="option1">
+                        <label class="form-check-label" for="inlineRadio1">No</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions42" id="inlineRadio2" value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Si</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions42" id="inlineRadio3" value="option3">
+                        <label class="form-check-label" for="inlineRadio3">N/A</label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Hermanas viven</th>
+                    <td class="text-right">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions43" id="inlineRadio1" value="option1">
+                        <label class="form-check-label" for="inlineRadio1">No</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions43" id="inlineRadio2" value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Si</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions43" id="inlineRadio3" value="option3">
+                        <label class="form-check-label" for="inlineRadio3">N/A</label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Diabetes</th>
+                    <td class="text-right">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions44" id="inlineRadio1" value="option1">
+                        <label class="form-check-label" for="inlineRadio1">No</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions44" id="inlineRadio2" value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Si</label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Obecidad</th>
+                    <td class="text-right">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions45" id="inlineRadio1" value="option1">
+                        <label class="form-check-label" for="inlineRadio1">No</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions45" id="inlineRadio2" value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Si</label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Hipertensión Arterial</th>
+                    <td class="text-right">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions46" id="inlineRadio1" value="option1">
+                        <label class="form-check-label" for="inlineRadio1">No</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions46" id="inlineRadio2" value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Si</label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Cardiopatias</th>
+                    <td class="text-right">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions47" id="inlineRadio1" value="option1">
+                        <label class="form-check-label" for="inlineRadio1">No</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions47" id="inlineRadio2" value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Si</label>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="text-center">
+                <button class="btn btn-success">Guardar</button>
+              </div>
+              <hr>
+            </div>
+          </div>
+          <!-- -->
+          <button class="btn btn-flat text-left" type="button" data-toggle="collapse" data-target="#examenF" aria-expanded="false" aria-controls="collapseExample">
+            <h5 class="pt-2"><i class="fas fa-plus btn-option"></i> Examen físico</h5>
+          </button>
+          <div class="collapse" id="examenF">
+            <div class="p-3">
+
+            </div>
+          </div>
+          <!-- -->
+          <button class="btn btn-flat text-left" type="button" data-toggle="collapse" data-target="#examenV" aria-expanded="false" aria-controls="collapseExample">
+            <h5 class="pt-2"><i class="fas fa-plus btn-option"></i> Examen de la vista</h5>
+          </button>
+          <div class="collapse" id="examenV">
+            <div class="p-3">
+
+            </div>
+          </div>
+          <!-- -->
+          <button class="btn btn-flat text-left" type="button" data-toggle="collapse" data-target="#examenE" aria-expanded="false" aria-controls="collapseExample">
+            <h5 class="pt-2"><i class="fas fa-plus btn-option"></i> Examen de embarazo</h5>
+          </button>
+          <div class="collapse" id="examenE">
+            <div class="p-3">
+
+            </div>
+          </div>
+          <!-- -->
+          <button class="btn btn-flat text-left" type="button" data-toggle="collapse" data-target="#examenA" aria-expanded="false" aria-controls="collapseExample">
+            <h5 class="pt-2"><i class="fas fa-plus btn-option"></i> Examen de antidoping</h5>
+          </button>
+          <div class="collapse" id="examenA">
+            <div class="p-3">
+
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

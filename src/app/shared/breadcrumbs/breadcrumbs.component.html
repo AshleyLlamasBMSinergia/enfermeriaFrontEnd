@@ -1,0 +1,16 @@
+<section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6 order-sm-12">
+          <div class="bcca-breadcrumb float-right">
+            <div class="bcca-breadcrumb-item active">{{subtitulo}}</div>
+            <div *ngIf="titulo !== subtitulo" class="bcca-breadcrumb-item active">{{titulo}}</div>
+          </div>
+        </div>
+        <div class="col-sm-6 order-sm-1">
+          <!-- ESPACIO LIBRE -->
+          <h1>{{subtitulo}}</h1>
+        </div>
+      </div>
+    </div>
+</section>
