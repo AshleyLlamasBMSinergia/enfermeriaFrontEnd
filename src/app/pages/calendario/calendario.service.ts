@@ -27,4 +27,9 @@ export class CalendarioService {
   createCita(cita: any): Observable<Calendario> {
     return this.httpClient.post<Calendario>(this.apiURL+"citas/create", JSON.stringify(cita), this.httpOptions);
   }
+
+  destroyCita(Cita: number): Observable<any> {
+    const url = `${this.apiURL}citas/${Cita}`;
+    return this.httpClient.delete(url);
+  }
 }

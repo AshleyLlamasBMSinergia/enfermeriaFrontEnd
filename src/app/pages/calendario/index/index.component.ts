@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CalendarOptions, EventApi, EventClickArg } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -13,11 +13,13 @@ import { Calendario } from '../calendario';
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.css'],
 })
+
 export class CalendarioIndexComponent implements OnInit {
 
   events: any[] = [];
   relatedEvents: any[] = [];
   selectedDate: Date = new Date();
+  selectedEvent: any;
 
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin, listWeekPlugin],
@@ -76,6 +78,15 @@ export class CalendarioIndexComponent implements OnInit {
     if (modalElement) {
       modalElement.setAttribute('data-bs-date', this.selectedDate.toISOString());
       (window as any).$('#dateModal').modal('show');
+    }
+  }
+
+  openEventModal(event: any) {
+    console.log('Evento recibido:', event);
+    this.selectedEvent = event; // Set the selected event
+    const modalElement = document.getElementById('eventModal');
+    if (modalElement) {
+      (window as any).$('#eventModal').modal('show');
     }
   }
 }

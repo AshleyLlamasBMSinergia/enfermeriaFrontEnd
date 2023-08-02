@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CalendarioService } from '../../calendario.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-date-modal',
@@ -52,12 +53,39 @@ export class DateModalComponent {
     //Llamar a un servicio para enviar los datos de la cita al backend
     this.calendarioService.createCita(nuevaCita).subscribe(
       (response) => {
-        console.log('Cita guardada exitosamente:', response);
+        this.mensaje(response); // Llamar a la función mensaje() con la respuesta
       },
       (error) => {
-        console.error('Error al guardar la cita:', error);
+        console.error('Error al eliminar la cita:', error);
+      }
+    );
+  }
+
+  destroyCita(event: any) {
+    const Cita = event.calendario;
+    this.calendarioService.destroyCita(Cita.Cita).subscribe(
+      (response) => {
+        this.mensaje(response); // Llamar a la función mensaje() con la respuesta
+      },
+      (error) => {
+        console.error('Error al eliminar la cita:', error);
       }
     );
   }
   
+  mensaje(response: any) {
+    // Mostrar notificación de éxito con mensaje personalizado del backend
+    Swal.fire({
+      icon: 'success',
+      title: response.message, // Usar el mensaje del backend
+      showConfirmButton: false,
+      timer: 6500 // Duración de la notificación en milisegundos
+    });
+  
+    // Esperar unos segundos antes de recargar la página
+    setTimeout(() => {
+      // Refrescar la página
+      window.location.reload();
+    }, 2000); // Cambia el valor si deseas ajustar el tiempo de espera
+  }
 }
