@@ -14,6 +14,8 @@ export class DateModalComponent {
 
   showEventInfo: boolean = true;
   showAppointmentForm: boolean = false;
+  isEditing: boolean = false;
+  editedCita: any = null;
 
   //Formulario
   tipo: string = '';
@@ -26,9 +28,17 @@ export class DateModalComponent {
     return event?.calendario?.Color || '#000000'; // Si no hay color definido, se usará negro (#000000) como valor predeterminado
   }
 
-  openAppointmentForm() {
+  openAppointmentForm(isEditing: boolean = false) {
+
+    if(this.isEditing == true){
+      this.tipo = '';
+      this.motivo = '';
+      this.hora = '';
+    }
+
     this.showAppointmentForm = true;
     this.showEventInfo = false;
+    this.isEditing = isEditing;
   }
 
   closeAppointmentForm() {
@@ -51,7 +61,7 @@ export class DateModalComponent {
     };
   
     //Llamar a un servicio para enviar los datos de la cita al backend
-    this.calendarioService.createCita(nuevaCita).subscribe(
+    this.calendarioService.storeCita(nuevaCita).subscribe(
       (response) => {
         this.mensaje(response); // Llamar a la función mensaje() con la respuesta
       },
@@ -59,6 +69,46 @@ export class DateModalComponent {
         console.error('Error al eliminar la cita:', error);
       }
     );
+  }
+
+  editCita(event: any) {
+
+    this.tipo = event.calendario.Tipo;
+    this.motivo = event.calendario.Motivo;
+    this.hora = new Date(event.calendario.Fecha).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    // Almacena la cita que se está editando en la propiedad editedCita
+    this.editedCita = event;
+
+    this.openAppointmentForm(true);
+  }
+
+  updateCita() {
+    if (this.editedCita && this.editedCita.calendario) {
+      // Combina la fecha del calendario con la hora ingresada en el formulario
+      const fechaHora = new Date(this.selectedDate);
+      const horasMinutos = this.hora.split(':');
+        
+      fechaHora.setHours(Number(horasMinutos[0]), Number(horasMinutos[1]));
+        
+      // Construir el objeto de la cita actualizada con los datos del formulario
+      const citaActualizada = {
+        Tipo: this.tipo,
+        Motivo: this.motivo,
+        Fecha: fechaHora.toISOString(), // Usar la fecha actualizada con la hora
+      };
+    
+      // Llamar al servicio para actualizar la cita en el backend
+      const Cita = this.editedCita.calendario; // Utilizar la cita almacenada en editedCita
+      this.calendarioService.updateCita(Cita.Cita, citaActualizada).subscribe(
+        (response) => {
+          this.mensaje(response); // Llamar a la función mensaje() con la respuesta
+        },
+        (error) => {
+          console.error('Error al actualizar la cita:', error);
+        }
+      );
+    }
   }
 
   destroyCita(event: any) {

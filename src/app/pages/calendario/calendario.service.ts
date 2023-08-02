@@ -24,12 +24,17 @@ export class CalendarioService {
     return this.httpClient.get<any[]>(this.apiURL+"calendario");
   }
 
-  createCita(cita: any): Observable<Calendario> {
-    return this.httpClient.post<Calendario>(this.apiURL+"citas/create", JSON.stringify(cita), this.httpOptions);
+  storeCita(cita: any): Observable<Calendario> {
+    return this.httpClient.post<Calendario>(this.apiURL+"citas", JSON.stringify(cita), this.httpOptions);
   }
 
   destroyCita(Cita: number): Observable<any> {
     const url = `${this.apiURL}citas/${Cita}`;
     return this.httpClient.delete(url);
+  }
+
+  updateCita(CitaCita: number, citaData: any): Observable<any> {
+    const url = `${this.apiURL}citas/edit/${CitaCita}`;
+    return this.httpClient.put(url, citaData);
   }
 }

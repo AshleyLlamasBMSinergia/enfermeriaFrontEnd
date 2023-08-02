@@ -8,7 +8,7 @@
       <div *ngFor="let event of relatedEvents">
         <div class="mt-2">
           <a class="btn btn-flat border-0 border-bottom btn-block text-left" data-toggle="collapse" [attr.href]="'#collapseExample-' + event.calendario.Cita" role="button" aria-expanded="false" [attr.aria-controls]="'collapseExample-' + event.calendario.paciente?.pacientable_id">
-            <h5 class="text-secondary"><i [style.color]="getEventColor(event)" class="fas fa-calendar"></i> {{event.Tipo}} - {{ event.calendario.paciente?.pacientable?.Nombres }} {{ event.calendario.paciente?.pacientable?.Paterno }}</h5>
+            <h5 class="text-secondary"><i [style.color]="getEventColor(event)" class="fas fa-calendar"></i> {{event.calendario.Tipo}} - {{ event.calendario.paciente?.pacientable?.Nombres }} {{ event.calendario.paciente?.pacientable?.Paterno }}</h5>
           </a>
           <div class="collapse mt-2" [attr.id]="'collapseExample-' + event.calendario.Cita">
             <div>
@@ -17,7 +17,7 @@
                   <a class="btn btn-tool btn-sm float-right pt-3" (click)="destroyCita(event)">
                     <i class="fas fa-ban text-danger"></i>
                   </a>
-                  <a class="btn btn-tool btn-sm float-right pt-3">
+                  <a class="btn btn-tool btn-sm float-right pt-3" (click)="editCita(event)">
                     <i class="fas fa-edit text-primary"></i>
                   </a>
                 </li>
@@ -38,7 +38,7 @@
   </div>
   <!-- Formulario para agendar cita -->
   <div *ngIf="showAppointmentForm">
-    <form (submit)="createCita()">
+    <form (submit)="isEditing ? updateCita() : createCita()">
       <!-- Campos del formulario -->
       <div>
         <div class="form-group">
@@ -67,7 +67,7 @@
       </div>
       <!-- Botones para guardar o cancelar la cita -->
       <div class="float-right mb-3">
-        <button type="submit" class="btn btn-success">Guardar cita</button>
+        <button type="submit" class="btn btn-success">{{ isEditing ? 'Guardar cambios' : 'Guardar cita' }}</button>
         <button type="button" class="btn btn-danger ml-3" (click)="closeAppointmentForm()">Cancelar</button>
       </div>
     </form>
