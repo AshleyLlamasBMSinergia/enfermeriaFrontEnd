@@ -11,8 +11,8 @@ import { HistorialesMedicosRoutingModule } from './historiales-medicos-routing.m
   declarations: [
     HistorialesMedicosIndexComponent,
     HistorialesMedicosShowComponent,
-    // HistorialesMedicosCreateComponent,
-    // HistorialesMedicosEditComponent,
+    HistorialesMedicosCreateComponent,
+    HistorialesMedicosEditComponent,
     
   ],
   imports: [

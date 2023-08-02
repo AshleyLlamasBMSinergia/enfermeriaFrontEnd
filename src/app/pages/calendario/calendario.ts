@@ -5,6 +5,7 @@ export interface Calendario {
     Cita: number;
     Fecha: Date;
     Tipo: string;
+    Color: string;
     Motivo: string;
     paciente?: {
         HistorialMedico: number,

@@ -14,8 +14,8 @@ import { HistorialesMedicosRoutingModule } from './historiales-medicos/historial
     CommonModule,
     RouterModule,
     SharedModule,
-    HistorialesMedicosModule,
-    HistorialesMedicosRoutingModule,
+    // HistorialesMedicosModule,
+    // HistorialesMedicosRoutingModule,
   ],
   exports: [
     PagesComponent

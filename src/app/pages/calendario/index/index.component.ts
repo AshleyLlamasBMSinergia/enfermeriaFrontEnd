@@ -42,10 +42,10 @@ export class CalendarioIndexComponent implements OnInit {
     this.calendarioService.getCalendarioEventos().subscribe(
       (calendarioEventos: Calendario[]) => {
         this.events = calendarioEventos.map((evento) => ({
-          title: `${evento.paciente?.pacientable?.Nombres} ${evento.paciente?.pacientable?.Paterno}`,
+          title: `${evento.Tipo} - ${evento.paciente?.pacientable?.Nombres} ${evento.paciente?.pacientable?.Paterno}`,
           start: this.datePipe.transform(evento.Fecha, 'yyyy-MM-ddTHH:mm:ss'),
           end: this.datePipe.transform(evento.Fecha, 'yyyy-MM-ddTHH:mm:ss'),
-          color: '#13D52A',
+          color: evento.Color,
           calendario: evento // Almacenar el objeto Calendario completo en los eventos
         }));
         this.calendarOptions.events = this.events;
@@ -65,7 +65,6 @@ export class CalendarioIndexComponent implements OnInit {
     this.relatedEvents = this.events.filter(event => {
       const eventDate = this.datePipe.transform(event.start, 'yyyy-MM-dd');
       const selectedDate = this.datePipe.transform(this.selectedDate, 'yyyy-MM-dd');
-      console.log(selectedDate);
       return eventDate === selectedDate;
     });
 

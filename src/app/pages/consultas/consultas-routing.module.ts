@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ConsultasComponent } from './consultas.component';
 import { RouterModule, Routes } from '@angular/router';
-import { PagesComponent } from '../pages.component';
 import { ConsultasIndexComponent } from './index/index.component';
 import { ConsultasCreateComponent } from './create/create.component';
 import { ConsultasEditComponent } from './edit/edit.component';

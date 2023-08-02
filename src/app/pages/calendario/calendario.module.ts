@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { CalendarioRoutingModule } from './calendario-routing.module';
 import { DateModalComponent } from './index/date-modal/date-modal.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { DateModalComponent } from './index/date-modal/date-modal.component';
     CommonModule,
     FullCalendarModule,
     RouterModule,
-    CalendarioRoutingModule
+    CalendarioRoutingModule,
+    FormsModule
   ],
   providers: [DatePipe],
 })
