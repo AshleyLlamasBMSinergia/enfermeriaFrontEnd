@@ -54,19 +54,18 @@ export class DateModalComponent {
     fechaHora.setHours(Number(horasMinutos[0]), Number(horasMinutos[1]));
     
     // Construir el objeto de la cita con los datos del formulario
-    const nuevaCita = {
+    const cita = {
       Tipo: this.tipo,
       Motivo: this.motivo,
       Fecha: fechaHora.toISOString(), // Usar la fecha actualizada con la hora
     };
   
-    //Llamar a un servicio para enviar los datos de la cita al backend
-    this.calendarioService.storeCita(nuevaCita).subscribe(
+    this.calendarioService.storeCita(cita).subscribe(
       (response) => {
         this.mensaje(response); // Llamar a la función mensaje() con la respuesta
       },
       (error) => {
-        console.error('Error al eliminar la cita:', error);
+        console.error('Error al generar la cita:', error);
       }
     );
   }

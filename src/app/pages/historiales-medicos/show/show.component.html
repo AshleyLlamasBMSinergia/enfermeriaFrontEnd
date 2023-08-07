@@ -15,704 +15,1194 @@
                   {{historialMedico!.pacientable?.puesto?.Nombre }}
                 </p>
               </div>
+              <div>
+                <div class="text-center pt-3">
+                  <button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" data-target="#datosGenerales" aria-expanded="false" aria-controls="collapseExample">
+                    Datos generales
+                  </button>
+                </div>
+                <div class="collapse" id="datosGenerales">
+                  <div class="p-3">
+                    <table class="table rounded rounded-lg">
+                      <tbody>
+                        <tr>
+                          <th scope="row"  width="10px">Edad</th>
+                          <td>{{edad}} años</td>
+                        </tr>
+                        <tr>
+                          <th scope="row"  width="10px">Sexo</th>
+                          <td>{{historialMedico!.pacientable?.Sexo}}</td>
+                        </tr>
+                        <tr>
+                          <th scope="row"  width="10px">Fecha de nacimiento</th>
+                          <td>{{historialMedico!.pacientable?.FechaNacimiento}}</td>
+                        </tr>
+                        <tr>
+                          <th scope="row"  width="10px">Estado civil</th>
+                          <td>{{historialMedico!.pacientable?.EstadoCivil}}</td>
+                        </tr>
+                        <tr>
+                          <th scope="row"  width="10px">Fecha de ingreso</th>
+                          <td>{{historialMedico!.pacientable?.FechaIngreso}}</td>
+                        </tr>
+                        <tr>
+                          <th scope="row"  width="10px">Dirección</th>
+                          <td>{{historialMedico!.pacientable?.Calle}}, {{historialMedico!.pacientable?.Exterior}}, {{historialMedico!.pacientable?.Interior}}, {{historialMedico!.pacientable?.Colonia}}, {{historialMedico!.pacientable?.Localidad}}</td>
+                        </tr>
+                        <tr>
+                          <th scope="row"  width="10px">Escolaridad</th>
+                          <td>{{historialMedico!.pacientable?.Escolaridad}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
       <div class="col-md-8">
         <div class="card">
-          <button class="btn btn-flat text-left" type="button" data-toggle="collapse" data-target="#datosGenerales" aria-expanded="false" aria-controls="collapseExample">
-            <h5 class="pt-2"><i class="fas fa-plus btn-option"></i> Datos generales</h5>
-          </button>
-          <div class="collapse" id="datosGenerales">
-            <div class="p-3">
-              <table class="table rounded rounded-lg">
-                <tbody>
-                  <tr>
-                    <th scope="row">Nombre</th>
-                    <td>{{historialMedico!.pacientable?.Nombres }} {{historialMedico!.pacientable?.Paterno}} {{historialMedico!.pacientable?.Materno}}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Edad</th>
-                    <td>{{edad}} años</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Sexo</th>
-                    <td>{{historialMedico!.pacientable?.Sexo}}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Fecha de nacimiento</th>
-                    <td>{{historialMedico!.pacientable?.FechaNacimiento}}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Estado civil</th>
-                    <td>{{historialMedico!.pacientable?.EstadoCivil}}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Fecha de ingreso</th>
-                    <td>{{historialMedico!.pacientable?.FechaIngreso}}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Dirección</th>
-                    <td>{{historialMedico!.pacientable?.Calle}}, {{historialMedico!.pacientable?.Exterior}}, {{historialMedico!.pacientable?.Interior}}, {{historialMedico!.pacientable?.Colonia}}, {{historialMedico!.pacientable?.Localidad}}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Escolaridad</th>
-                    <td>{{historialMedico!.pacientable?.Escolaridad}}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+          <div class="card-header text-secondary border-0">
+            <h3 class="card-title text-center">Antecedentes y exámenes médicos</h3>
           </div>
-          <!-- -->
-          <button class="btn btn-flat text-left" type="button" data-toggle="collapse" data-target="#atecedentesPP" aria-expanded="false" aria-controls="collapseExample">
-            <h5 class="pt-2"><i class="fas fa-plus btn-option"></i> Antecedentes personales patológicos</h5>
-          </button>
-          <div class="collapse" id="atecedentesPP">
-            <div class="p-3">
-              <table class="table rounded rounded-lg">
-                <tbody>
-                  <tr>
-                    <th scope="row">Cirugías</th>
-                    <td class="text-right">
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions1" id="inlineRadio1" value="option1">
-                        <label class="form-check-label" for="inlineRadio1">No</label>
+          <div class="card-body">
+            <div>
+              <button class="btn btn-flat text-left btn-block" type="button" data-toggle="collapse" data-target="#atecedentesPP" aria-expanded="false" aria-controls="collapseExample" [class.no-exist]="!historialMedico?.antecedentes_personales_patologicos">
+                <h5 class="pt-2"><i class="fas fa-plus btn-option"></i> Antecedentes personales patológicos</h5>
+              </button>
+              <div class="collapse" id="atecedentesPP">
+                <div class="p-3 rounded bg-light">
+
+                  <div *ngIf="historialMedico!.antecedentes_personales_patologicos">
+                    <div class="bg-ligh">
+
+                      <div class="py-3">
+                        <a class="btn btn-tool btn-sm float-right" (click)="editAntecedentesPersonalesPatologicos()">
+                          <i class="fas fa-edit text-primary"></i>
+                        </a>
                       </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions1" id="inlineRadio2" value="option2">
-                        <label class="form-check-label" for="inlineRadio2">Si</label>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Contusiones</th>
-                    <td class="text-right">
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions2" id="inlineRadio1" value="option1">
-                        <label class="form-check-label" for="inlineRadio1">No</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions2" id="inlineRadio2" value="option2">
-                        <label class="form-check-label" for="inlineRadio2">Si</label>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Lumbalgias</th>
-                    <td class="text-right">
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions3" id="inlineRadio1" value="option1">
-                        <label class="form-check-label" for="inlineRadio1">No</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions3" id="inlineRadio2" value="option2">
-                        <label class="form-check-label" for="inlineRadio2">Si</label>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Hernias</th>
-                    <td class="text-right">
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions4" id="inlineRadio1" value="option1">
-                        <label class="form-check-label" for="inlineRadio1">No</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions4" id="inlineRadio2" value="option2">
-                        <label class="form-check-label" for="inlineRadio2">Si</label>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Fracturas</th>
-                    <td class="text-right">
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions5" id="inlineRadio1" value="option1">
-                        <label class="form-check-label" for="inlineRadio1">No</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions5" id="inlineRadio2" value="option2">
-                        <label class="form-check-label" for="inlineRadio2">Si</label>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Dorsalgias</th>
-                    <td class="text-right">
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions6" id="inlineRadio1" value="option1">
-                        <label class="form-check-label" for="inlineRadio1">No</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions6" id="inlineRadio2" value="option2">
-                        <label class="form-check-label" for="inlineRadio2">Si</label>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Hospitalizaciones</th>
-                    <td class="text-right">
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions7" id="inlineRadio1" value="option1">
-                        <label class="form-check-label" for="inlineRadio1">No</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions7" id="inlineRadio2" value="option2">
-                        <label class="form-check-label" for="inlineRadio2">Si</label>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Esguinces</th>
-                    <td class="text-right">
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions8" id="inlineRadio1" value="option1">
-                        <label class="form-check-label" for="inlineRadio1">No</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions8" id="inlineRadio2" value="option2">
-                        <label class="form-check-label" for="inlineRadio2">Si</label>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Lesiones arteriales</th>
-                    <td class="text-right">
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions9" id="inlineRadio1" value="option1">
-                        <label class="form-check-label" for="inlineRadio1">No</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions9" id="inlineRadio2" value="option2">
-                        <label class="form-check-label" for="inlineRadio2">Si</label>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Transfusiones</th>
-                    <td class="text-right">
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions10" id="inlineRadio1" value="option1">
-                        <label class="form-check-label" for="inlineRadio1">No</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions10" id="inlineRadio2" value="option2">
-                        <label class="form-check-label" for="inlineRadio2">Si</label>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Luxaciones</th>
-                    <td class="text-right">
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions11" id="inlineRadio1" value="option1">
-                        <label class="form-check-label" for="inlineRadio1">No</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions11" id="inlineRadio2" value="option2">
-                        <label class="form-check-label" for="inlineRadio2">Si</label>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Tetanias</th>
-                    <td class="text-right">
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions12" id="inlineRadio1" value="option1">
-                        <label class="form-check-label" for="inlineRadio1">No</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions12" id="inlineRadio2" value="option2">
-                        <label class="form-check-label" for="inlineRadio2">Si</label>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Alergias</th>
-                    <td class="text-right">
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions13" id="inlineRadio1" value="option1">
-                        <label class="form-check-label" for="inlineRadio1">No</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions13" id="inlineRadio2" value="option2">
-                        <label class="form-check-label" for="inlineRadio2">Si</label>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Asma</th>
-                    <td class="text-right">
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions14" id="inlineRadio1" value="option1">
-                        <label class="form-check-label" for="inlineRadio1">No</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions14" id="inlineRadio2" value="option2">
-                        <label class="form-check-label" for="inlineRadio2">Si</label>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Epilepsia</th>
-                    <td class="text-right">
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions15" id="inlineRadio1" value="option1">
-                        <label class="form-check-label" for="inlineRadio1">No</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions15" id="inlineRadio2" value="option2">
-                        <label class="form-check-label" for="inlineRadio2">Si</label>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Enfermedades dentales</th>
-                    <td class="text-right">
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions16" id="inlineRadio1" value="option1">
-                        <label class="form-check-label" for="inlineRadio1">No</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions16" id="inlineRadio2" value="option2">
-                        <label class="form-check-label" for="inlineRadio2">Si</label>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Enfermedades óticas</th>
-                    <td class="text-right">
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions17" id="inlineRadio1" value="option1">
-                        <label class="form-check-label" for="inlineRadio1">No</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions17" id="inlineRadio2" value="option2">
-                        <label class="form-check-label" for="inlineRadio2">Si</label>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Alteraciones psicológicas</th>
-                    <td>
-                      <div class="text-right">
-                        <div class="form-check form-check-inline">
-                          <input class="form-check-input" type="radio" name="inlineRadioOptions18" id="inlineRadio1" value="option1">
-                          <label class="form-check-label" for="inlineRadio1">No</label>
+  
+                      <div class="py-2 border-bottom">
+                        <div class="d-flex py-2">
+                          <div>
+                            <b>Cirugias:</b>
+                          </div>
+                          <div class="ml-auto">
+                            {{historialMedico!.antecedentes_personales_patologicos.Cirujias}}
+                          </div>
                         </div>
-                        <div class="form-check form-check-inline">
-                          <input class="form-check-input" checked type="radio" name="inlineRadioOptions18" id="inlineRadio2" value="option2">
-                          <label class="form-check-label" for="inlineRadio2">Si</label>
+                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspCirujias !== null">
+                          <div class="border rounded bg-white p-2">
+                            {{ historialMedico!.antecedentes_personales_patologicos?.EspCirujias }}
+                          </div>
                         </div>
                       </div>
-                      <div class="form-group">
-                        <label for="input18">Especifique
-                          <span class="text-danger">*</span>
-                        </label>
-                        <textarea class="form-control" id="input18" rows="3"></textarea>
+
+                      <div class="py-2 border-bottom">
+                        <div class="d-flex py-2">
+                          <div>
+                            <b>Contusiones:</b>
+                          </div>
+                          <div class="ml-auto">
+                            {{historialMedico!.antecedentes_personales_patologicos.Contusiones}}
+                          </div>
+                        </div>
+                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspContusiones !== null">
+                          <div class="border rounded bg-white p-2">
+                            {{ historialMedico!.antecedentes_personales_patologicos?.EspContusiones }}
+                          </div>
+                        </div>
                       </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <div class="text-center">
-                <button class="btn btn-success">Guardar</button>
+
+                      <div class="py-2 border-bottom">
+                        <div class="d-flex py-2">
+                          <div>
+                            <b>Lumbalgias:</b>
+                          </div>
+                          <div class="ml-auto">
+                            {{historialMedico!.antecedentes_personales_patologicos.Lumbalgias}}
+                          </div>
+                        </div>
+                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspLumbalgias !== null">
+                          <div class="border rounded bg-white p-2">
+                            {{ historialMedico!.antecedentes_personales_patologicos?.EspLumbalgias }}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="py-2 border-bottom">
+                        <div class="d-flex py-2">
+                          <div>
+                            <b>Hernias:</b>
+                          </div>
+                          <div class="ml-auto">
+                            {{historialMedico!.antecedentes_personales_patologicos.Hernias}}
+                          </div>
+                        </div>
+                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspHernias !== null">
+                          <div class="border rounded bg-white p-2">
+                            {{ historialMedico!.antecedentes_personales_patologicos?.EspHernias }}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="py-2 border-bottom">
+                        <div class="d-flex py-2">
+                          <div>
+                            <b>Fracturas:</b>
+                          </div>
+                          <div class="ml-auto">
+                            {{historialMedico!.antecedentes_personales_patologicos.Fracturas}}
+                          </div>
+                        </div>
+                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspFracturas !== null">
+                          <div class="border rounded bg-white p-2">
+                            {{ historialMedico!.antecedentes_personales_patologicos?.EspFracturas }}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="py-2 border-bottom">
+                        <div class="d-flex py-2">
+                          <div>
+                            <b>Dorsalgias:</b>
+                          </div>
+                          <div class="ml-auto">
+                            {{historialMedico!.antecedentes_personales_patologicos.Dorsalgias}}
+                          </div>
+                        </div>
+                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspDorsalgias !== null">
+                          <div class="border rounded bg-white p-2">
+                            {{ historialMedico!.antecedentes_personales_patologicos?.EspDorsalgias }}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="py-2 border-bottom">
+                        <div class="d-flex py-2">
+                          <div>
+                            <b>Hospitalizaciones:</b>
+                          </div>
+                          <div class="ml-auto">
+                            {{historialMedico!.antecedentes_personales_patologicos.Hospitalizaciones}}
+                          </div>
+                        </div>
+                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspHospitalizaciones !== null">
+                          <div class="border rounded bg-white p-2">
+                            {{ historialMedico!.antecedentes_personales_patologicos?.EspHospitalizaciones }}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="py-2 border-bottom">
+                        <div class="d-flex py-2">
+                          <div>
+                            <b>Esguinces:</b>
+                          </div>
+                          <div class="ml-auto">
+                            {{historialMedico!.antecedentes_personales_patologicos.Esguinces}}
+                          </div>
+                        </div>
+                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspEsguinces !== null">
+                          <div class="border rounded bg-white p-2">
+                            {{ historialMedico!.antecedentes_personales_patologicos?.EspEsguinces }}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="py-2 border-bottom">
+                        <div class="d-flex py-2">
+                          <div>
+                            <b>Lesiones arteriales:</b>
+                          </div>
+                          <div class="ml-auto">
+                            {{historialMedico!.antecedentes_personales_patologicos.LesionesArteriales}}
+                          </div>
+                        </div>
+                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspLesionesArteriales !== null">
+                          <div class="border rounded bg-white p-2">
+                            {{ historialMedico!.antecedentes_personales_patologicos?.EspLesionesArteriales }}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="py-2 border-bottom">
+                        <div class="d-flex py-2">
+                          <div>
+                            <b>Transfusiones:</b>
+                          </div>
+                          <div class="ml-auto">
+                            {{historialMedico!.antecedentes_personales_patologicos.Transfusiones}}
+                          </div>
+                        </div>
+                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspTransfusiones !== null">
+                          <div class="border rounded bg-white p-2">
+                            {{ historialMedico!.antecedentes_personales_patologicos?.EspTransfusiones }}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="py-2 border-bottom">
+                        <div class="d-flex py-2">
+                          <div>
+                            <b>Luxaciones:</b>
+                          </div>
+                          <div class="ml-auto">
+                            {{historialMedico!.antecedentes_personales_patologicos.Luxaciones}}
+                          </div>
+                        </div>
+                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspLuxaciones !== null">
+                          <div class="border rounded bg-white p-2">
+                            {{ historialMedico!.antecedentes_personales_patologicos?.EspLuxaciones }}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="py-2 border-bottom">
+                        <div class="d-flex py-2">
+                          <div>
+                            <b>Tetanias:</b>
+                          </div>
+                          <div class="ml-auto">
+                            {{historialMedico!.antecedentes_personales_patologicos.Tetanias}}
+                          </div>
+                        </div>
+                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspTetanias !== null">
+                          <div class="border rounded bg-white p-2">
+                            {{ historialMedico!.antecedentes_personales_patologicos?.EspTetanias }}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="py-2 border-bottom">
+                        <div class="d-flex py-2">
+                          <div>
+                            <b>Alergias:</b>
+                          </div>
+                          <div class="ml-auto">
+                            {{historialMedico!.antecedentes_personales_patologicos.Alergias}}
+                          </div>
+                        </div>
+                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspAlergias !== null">
+                          <div class="border rounded bg-white p-2">
+                            {{ historialMedico!.antecedentes_personales_patologicos?.EspAlergias }}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="py-2 border-bottom">
+                        <div class="d-flex py-2">
+                          <div>
+                            <b>Asma:</b>
+                          </div>
+                          <div class="ml-auto">
+                            {{historialMedico!.antecedentes_personales_patologicos.Asma}}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="py-2 border-bottom">
+                        <div class="d-flex py-2">
+                          <div>
+                            <b>Epilepsia:</b>
+                          </div>
+                          <div class="ml-auto">
+                            {{historialMedico!.antecedentes_personales_patologicos.Epilepsia}}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="py-2 border-bottom">
+                        <div class="d-flex py-2">
+                          <div>
+                            <b>Enfermedades dentales:</b>
+                          </div>
+                          <div class="ml-auto">
+                            {{historialMedico!.antecedentes_personales_patologicos.EnfDentales}}
+                          </div>
+                        </div>
+                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspEnfDentales !== null">
+                          <div class="border rounded bg-white p-2">
+                            {{ historialMedico!.antecedentes_personales_patologicos?.EspEnfDentales }}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="py-2 border-bottom">
+                        <div class="d-flex py-2">
+                          <div>
+                            <b>Enfermedades opticas:</b>
+                          </div>
+                          <div class="ml-auto">
+                            {{historialMedico!.antecedentes_personales_patologicos.EnfOpticas}}
+                          </div>
+                        </div>
+                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspEnfOpticas !== null">
+                          <div class="border rounded bg-white p-2">
+                            {{ historialMedico!.antecedentes_personales_patologicos?.EspEnfOpticas }}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="py-2 border-bottom">
+                        <div class="d-flex py-2">
+                          <div>
+                            <b>Alteraciones psicologicas:</b>
+                          </div>
+                          <div class="ml-auto">
+                            {{historialMedico!.antecedentes_personales_patologicos.AltPsicologicas}}
+                          </div>
+                        </div>
+                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspAltPsicologicas !== null">
+                          <div class="border rounded bg-white p-2">
+                            {{ historialMedico!.antecedentes_personales_patologicos?.EspAltPsicologicas }}
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <ng-template [ngIf]="!historialMedico?.antecedentes_personales_patologicos">
+                    <form (submit)="createAntecedentesPersonalesPatologicos()">
+                      <div class="bg-light w-100">
+  
+                        <div class="py-2 border-bottom">
+                          <div class="d-flex py-2">
+                            <div>
+                              <b>Cirugias:</b>
+                            </div>
+                            <div class="ml-auto">
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="cirujiasOptions1" id="cirujias1" value="No" [(ngModel)]="cirujias">
+                                <label class="form-check-label" for="cirujias1">No</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="cirujiasOptions2" id="cirujias2" value="Si" [(ngModel)]="cirujias">
+                                <label class="form-check-label" for="cirujias2">Si</label>
+                              </div>
+                            </div>
+                          </div>
+                          <div *ngIf="cirujias === 'Si'">
+                            <label class="text-secondary small">Especifique
+                              <span class="text-danger">*</span>
+                            </label>
+                            <textarea class="form-control" rows="3" name="espCirujias" id="espCirujias" [(ngModel)]="espCirujias"></textarea>
+                          </div>
+                        </div>
+  
+                        <div class="py-2 border-bottom">
+                          <div class="d-flex py-2">
+                            <div>
+                              <b>Contusiones:</b>
+                            </div>
+                            <div class="ml-auto">
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="contusionesOptions1" id="contusiones1" value="No" [(ngModel)]="contusiones">
+                                <label class="form-check-label" for="contusiones1">No</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="contusionesOptions2" id="contusiones2" value="Si" [(ngModel)]="contusiones">
+                                <label class="form-check-label" for="contusiones2">Si</label>
+                              </div>
+                            </div>
+                          </div>
+                          <div *ngIf="contusiones === 'Si'">
+                            <label class="text-secondary small">Especifique
+                              <span class="text-danger">*</span>
+                            </label>
+                            <textarea class="form-control" rows="3" name="espContusiones" id="espContusiones" [(ngModel)]="espContusiones"></textarea>
+                          </div>
+                        </div>
+  
+                        <div class="py-2 border-bottom">
+                          <div class="d-flex py-2">
+                            <div>
+                              <b>Lumbalgias:</b>
+                            </div>
+                            <div class="ml-auto">
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="lumbalgiasOptions1" id="lumbalgias1" value="No" [(ngModel)]="lumbalgias">
+                                <label class="form-check-label" for="lumbalgias1">No</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="lumbalgiasOptions2" id="lumbalgias2" value="Si" [(ngModel)]="lumbalgias">
+                                <label class="form-check-label" for="lumbalgias2">Si</label>
+                              </div>
+                            </div>
+                          </div>
+                          <div *ngIf="lumbalgias === 'Si'">
+                            <label class="text-secondary small">Especifique
+                              <span class="text-danger">*</span>
+                            </label>
+                            <textarea class="form-control" rows="3" name="espLumbalgias" id="espLumbalgias" [(ngModel)]="espLumbalgias"></textarea>
+                          </div>
+                        </div>
+  
+                        <div class="py-2 border-bottom">
+                          <div class="d-flex py-2">
+                            <div>
+                              <b>Hernias:</b>
+                            </div>
+                            <div class="ml-auto">
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="herniasOptions1" id="hernias1" value="No" [(ngModel)]="hernias">
+                                <label class="form-check-label" for="hernias1">No</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="herniasOptions2" id="hernias2" value="Si" [(ngModel)]="hernias">
+                                <label class="form-check-label" for="hernias2">Si</label>
+                              </div>
+                            </div>
+                          </div>
+                          <div *ngIf="hernias === 'Si'">
+                            <label class="text-secondary small">Especifique
+                              <span class="text-danger">*</span>
+                            </label>
+                            <textarea class="form-control" rows="3" name="espHernias" id="espHernias" [(ngModel)]="espHernias"></textarea>
+                          </div>
+                        </div>
+  
+                        <div class="py-2 border-bottom">
+                          <div class="d-flex py-2">
+                            <div>
+                              <b>Fracturas:</b>
+                            </div>
+                            <div class="ml-auto">
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="fracturasOptions1" id="fracturas1" value="No" [(ngModel)]="fracturas">
+                                <label class="form-check-label" for="fracturas1">No</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="fracturasOptions2" id="fracturas2" value="Si" [(ngModel)]="fracturas">
+                                <label class="form-check-label" for="fracturas2">Si</label>
+                              </div>
+                            </div>
+                          </div>
+                          <div *ngIf="fracturas === 'Si'">
+                            <label class="text-secondary small">Especifique
+                              <span class="text-danger">*</span>
+                            </label>
+                            <textarea class="form-control" rows="3" name="espFracturas" id="espFracturas" [(ngModel)]="espFracturas"></textarea>
+                          </div>
+                        </div>
+  
+                        <div class="py-2 border-bottom">
+                          <div class="d-flex py-2">
+                            <div>
+                              <b>Dorsalgias:</b>
+                            </div>
+                            <div class="ml-auto">
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="dorsalgiasOptions1" id="dorsalgias1" value="No" [(ngModel)]="dorsalgias">
+                                <label class="form-check-label" for="dorsalgias1">No</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="dorsalgiasOptions2" id="dorsalgias2" value="Si" [(ngModel)]="dorsalgias">
+                                <label class="form-check-label" for="dorsalgias2">Si</label>
+                              </div>
+                            </div>
+                          </div>
+                          <div *ngIf="dorsalgias === 'Si'">
+                            <label class="text-secondary small">Especifique
+                              <span class="text-danger">*</span>
+                            </label>
+                            <textarea class="form-control" rows="3" name="espDorsalgias" id="espDorsalgias" [(ngModel)]="espDorsalgias"></textarea>
+                          </div>
+                        </div>
+  
+                        <div class="py-2 border-bottom">
+                          <div class="d-flex py-2">
+                            <div>
+                              <b>Hospitalizaciones:</b>
+                            </div>
+                            <div class="ml-auto">
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="hospitalizacionesOptions1" id="hospitalizaciones1" value="No" [(ngModel)]="hospitalizaciones">
+                                <label class="form-check-label" for="hospitalizaciones1">No</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="hospitalizacionesOptions2" id="hospitalizaciones2" value="Si" [(ngModel)]="hospitalizaciones">
+                                <label class="form-check-label" for="hospitalizaciones2">Si</label>
+                              </div>
+                            </div>
+                          </div>
+                          <div *ngIf="hospitalizaciones === 'Si'">
+                            <label class="text-secondary small">Especifique
+                              <span class="text-danger">*</span>
+                            </label>
+                            <textarea class="form-control" rows="3" name="espHospitalizaciones" id="espHospitalizaciones" [(ngModel)]="espHospitalizaciones"></textarea>
+                          </div>
+                        </div>
+  
+                        <div class="py-2 border-bottom">
+                          <div class="d-flex py-2">
+                            <div>
+                              <b>Esguiences:</b>
+                            </div>
+                            <div class="ml-auto">
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="esguincesOptions1" id="esguinces1" value="No" [(ngModel)]="esguinces">
+                                <label class="form-check-label" for="dorsalgias1">No</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="esguincesOptions2" id="esguinces2" value="Si" [(ngModel)]="esguinces">
+                                <label class="form-check-label" for="dorsalgias2">Si</label>
+                              </div>
+                            </div>
+                          </div>
+                          <div *ngIf="esguinces === 'Si'">
+                            <label class="text-secondary small">Especifique
+                              <span class="text-danger">*</span>
+                            </label>
+                            <textarea class="form-control" rows="3" name="espEsguinces" id="espEsguinces" [(ngModel)]="espEsguinces"></textarea>
+                          </div>
+                        </div>
+  
+                        <div class="py-2 border-bottom">
+                          <div class="d-flex py-2">
+                            <div>
+                              <b>Lesiones arteriales:</b>
+                            </div>
+                            <div class="ml-auto">
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="lesionesArterialesOptions1" id="lesionesArteriales1" value="No" [(ngModel)]="lesionesArteriales">
+                                <label class="form-check-label" for="lesionesArteriales1">No</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="lesionesArterialesOptions2" id="lesionesArteriales2" value="Si" [(ngModel)]="lesionesArteriales">
+                                <label class="form-check-label" for="lesionesArteriales2">Si</label>
+                              </div>
+                            </div>
+                          </div>
+                          <div *ngIf="lesionesArteriales === 'Si'">
+                            <label class="text-secondary small">Especifique
+                              <span class="text-danger">*</span>
+                            </label>
+                            <textarea class="form-control" rows="3" name="espLesionesArteriales" id="espLesionesArteriales" [(ngModel)]="espLesionesArteriales"></textarea>
+                          </div>
+                        </div>
+  
+                        <div class="py-2 border-bottom">
+                          <div class="d-flex py-2">
+                            <div>
+                              <b>Transfuciones:</b>
+                            </div>
+                            <div class="ml-auto">
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="transfusionesOptions1" id="transfusiones1" value="No" [(ngModel)]="transfusiones">
+                                <label class="form-check-label" for="transfusiones1">No</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="transfusionesOptions2" id="transfusiones2" value="Si" [(ngModel)]="transfusiones">
+                                <label class="form-check-label" for="transfusiones2">Si</label>
+                              </div>
+                            </div>
+                          </div>
+                          <div *ngIf="transfusiones === 'Si'">
+                            <label class="text-secondary small">Especifique
+                              <span class="text-danger">*</span>
+                            </label>
+                            <textarea class="form-control" rows="3" name="espTransfusiones" id="espTransfusiones" [(ngModel)]="espTransfusiones"></textarea>
+                          </div>
+                        </div>
+  
+                        <div class="py-2 border-bottom">
+                          <div class="d-flex py-2">
+                            <div>
+                              <b>Luxaciones:</b>
+                            </div>
+                            <div class="ml-auto">
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="luxacionesOptions1" id="luxaciones1" value="No" [(ngModel)]="luxaciones">
+                                <label class="form-check-label" for="luxaciones1">No</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="luxacionesOptions2" id="luxaciones2" value="Si" [(ngModel)]="luxaciones">
+                                <label class="form-check-label" for="luxaciones2">Si</label>
+                              </div>
+                            </div>
+                          </div>
+                          <div *ngIf="luxaciones === 'Si'">
+                            <label class="text-secondary small">Especifique
+                              <span class="text-danger">*</span>
+                            </label>
+                            <textarea class="form-control" rows="3" name="espLuxaciones" id="espLuxaciones" [(ngModel)]="espLuxaciones"></textarea>
+                          </div>
+                        </div>
+  
+                        <div class="py-2 border-bottom">
+                          <div class="d-flex py-2">
+                            <div>
+                              <b>Tetanias:</b>
+                            </div>
+                            <div class="ml-auto">
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="tetaniasOptions1" id="tetanias1" value="No" [(ngModel)]="tetanias">
+                                <label class="form-check-label" for="tetanias1">No</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="tetaniasOptions2" id="tetanias2" value="Si" [(ngModel)]="tetanias">
+                                <label class="form-check-label" for="tetanias2">Si</label>
+                              </div>
+                            </div>
+                          </div>
+                          <div *ngIf="tetanias === 'Si'">
+                            <label class="text-secondary small">Especifique
+                              <span class="text-danger">*</span>
+                            </label>
+                            <textarea class="form-control" rows="3" name="espTetanias" id="espTetanias" [(ngModel)]="espTetanias"></textarea>
+                          </div>
+                        </div>
+  
+                        <div class="py-2 border-bottom">
+                          <div class="d-flex py-2">
+                            <div>
+                              <b>Alergias:</b>
+                            </div>
+                            <div class="ml-auto">
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="alergiasOptions1" id="alergias1" value="No" [(ngModel)]="alergias">
+                                <label class="form-check-label" for="alergias1">No</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="alergiasOptions2" id="alergias2" value="Si" [(ngModel)]="alergias">
+                                <label class="form-check-label" for="alergias2">Si</label>
+                              </div>
+                            </div>
+                          </div>
+                          <div *ngIf="alergias === 'Si'">
+                            <label class="text-secondary small">Especifique
+                              <span class="text-danger">*</span>
+                            </label>
+                            <textarea class="form-control" rows="3" name="espAlergias" id="espAlergias" [(ngModel)]="espAlergias"></textarea>
+                          </div>
+                        </div>
+  
+                        <div class="py-2 border-bottom">
+                          <div class="d-flex py-2">
+                            <div>
+                              <b>Asma:</b>
+                            </div>
+                            <div class="ml-auto">
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="asmaOptions1" id="asma1" value="No" [(ngModel)]="asma">
+                                <label class="form-check-label" for="asma1">No</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="asmaOptions2" id="asma2" value="Si" [(ngModel)]="asma">
+                                <label class="form-check-label" for="asma2">Si</label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+  
+                        <div class="py-2 border-bottom">
+                          <div class="d-flex py-2">
+                            <div>
+                              <b>Epilepsia:</b>
+                            </div>
+                            <div class="ml-auto">
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="epilepsiaOptions1" id="epilepsia1" value="No" [(ngModel)]="epilepsia">
+                                <label class="form-check-label" for="epilepsia1">No</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="epilepsiaOptions2" id="epilepsia2" value="Si" [(ngModel)]="epilepsia">
+                                <label class="form-check-label" for="epilepsia2">Si</label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+  
+                        <div class="py-2 border-bottom">
+                          <div class="d-flex py-2">
+                            <div>
+                              <b>Enfermedades dentales:</b>
+                            </div>
+                            <div class="ml-auto">
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="enfDentalesOptions1" id="enfDentales1" value="No" [(ngModel)]="enfDentales">
+                                <label class="form-check-label" for="enfDentales1">No</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="enfDentalesOptions2" id="enfDentales2" value="Si" [(ngModel)]="enfDentales">
+                                <label class="form-check-label" for="enfDentales2">Si</label>
+                              </div>
+                            </div>
+                          </div>
+                          <div *ngIf="enfDentales === 'Si'">
+                            <label class="text-secondary small">Especifique
+                              <span class="text-danger">*</span>
+                            </label>
+                            <textarea class="form-control" rows="3" name="espEnfDentales" id="espEnfDentales" [(ngModel)]="espEnfDentales"></textarea>
+                          </div>
+                        </div>
+  
+                        <div class="py-2 border-bottom">
+                          <div class="d-flex py-2">
+                            <div>
+                              <b>Enfermedades opticas:</b>
+                            </div>
+                            <div class="ml-auto">
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="enfOpticasOptions1" id="enfOpticas1" value="No" [(ngModel)]="enfOpticas">
+                                <label class="form-check-label" for="enfOpticas1">No</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="enfOpticasOptions2" id="enfOpticas2" value="Si" [(ngModel)]="enfOpticas">
+                                <label class="form-check-label" for="enfOpticas2">Si</label>
+                              </div>
+                            </div>
+                          </div>
+                          <div *ngIf="enfOpticas === 'Si'">
+                            <label class="text-secondary small">Especifique
+                              <span class="text-danger">*</span>
+                            </label>
+                            <textarea class="form-control" rows="3" name="espEnfOpticas" id="espEnfOpticas" [(ngModel)]="espEnfOpticas"></textarea>
+                          </div>
+                        </div>
+  
+                        <div class="py-2 border-bottom">
+                          <div class="d-flex py-2">
+                            <div>
+                              <b>Alteraciones psicologicas:</b>
+                            </div>
+                            <div class="ml-auto">
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="altPsicologicasOptions1" id="altPsicologicas1" value="No" [(ngModel)]="altPsicologicas">
+                                <label class="form-check-label" for="enfOpticas1">No</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="altPsicologicasOptions2" id="altPsicologicas2" value="Si" [(ngModel)]="altPsicologicas">
+                                <label class="form-check-label" for="altPsicologicas2">Si</label>
+                              </div>
+                            </div>
+                          </div>
+                          <div *ngIf="altPsicologicas === 'Si'">
+                            <label class="text-secondary small">Especifique
+                              <span class="text-danger">*</span>
+                            </label>
+                            <textarea class="form-control" rows="3" name="espAltPsicologicas" id="espAltPsicologicas" [(ngModel)]="espAltPsicologicas"></textarea>
+                          </div>
+                        </div>
+  
+                      </div>
+                      <div class="text-center pt-3">
+                        <button class="btn btn-success">Guardar</button>
+                      </div>
+                    </form>
+                  </ng-template>
+                </div>
+                <hr>
               </div>
-              <hr>
             </div>
-          </div>
-          <!-- -->
-          <button class="btn btn-flat text-left" type="button" data-toggle="collapse" data-target="#atecedentesPNP" aria-expanded="false" aria-controls="collapseExample">
-            <h5 class="pt-2"><i class="fas fa-plus btn-option"></i> Antecedentes personales no patológicos</h5>
-          </button>
-          <div class="collapse" id="atecedentesPNP">
-            <div class="p-3">
-              <table class="table rounded rounded-lg">
-                <tbody>
-                  <tr>
-                    <th scope="row">Método anticonceptivo</th>
-                    <td>
-                      <div class="text-right">
-                        <div class="form-check form-check-inline">
-                          <input class="form-check-input" type="radio" name="inlineRadioOptions31" id="inlineRadio1" value="option1">
-                          <label class="form-check-label" for="inlineRadio1">No</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                          <input class="form-check-input" checked type="radio" name="inlineRadioOptions31" id="inlineRadio2" value="option2">
-                          <label class="form-check-label" for="inlineRadio2">Si</label>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label for="input18">Especifique
-                          <span class="text-danger">*</span>
-                        </label>
-                        <textarea class="form-control" id="input18" rows="3"></textarea>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Obstétrico</th>
-                    <td class="text-right">
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions32" id="inlineRadio1" value="option1">
-                        <label class="form-check-label" for="inlineRadio1">No</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions32" id="inlineRadio2" value="option2">
-                        <label class="form-check-label" for="inlineRadio2">Si</label>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Menarca</th>
-                    <td class="text-right">
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions33" id="inlineRadio1" value="option">
-                        <label class="form-check-label" for="inlineRadio1">Ritmo</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions33" id="inlineRadio2" value="option">
-                        <label class="form-check-label" for="inlineRadio2">V.S.A</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions33" id="inlineRadio3" value="option">
-                        <label class="form-check-label" for="inlineRadio3">FUR</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions33" id="inlineRadio4" value="option">
-                        <label class="form-check-label" for="inlineRadio4">G</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions33" id="inlineRadio5" value="option">
-                        <label class="form-check-label" for="inlineRadio5">P</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions33" id="inlineRadio6" value="option">
-                        <label class="form-check-label" for="inlineRadio6">A</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions33" id="inlineRadio7" value="option">
-                        <label class="form-check-label" for="inlineRadio7">C</label>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Alcoholismo</th>
-                    <td class="text-right">
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions34" id="inlineRadio1" value="option1">
-                        <label class="form-check-label" for="inlineRadio1">No</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions34" id="inlineRadio2" value="option2">
-                        <label class="form-check-label" for="inlineRadio2">Si</label>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Tabaquismo</th>
-                    <td class="text-right">
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions35" id="inlineRadio1" value="option1">
-                        <label class="form-check-label" for="inlineRadio1">No</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions35" id="inlineRadio2" value="option2">
-                        <label class="form-check-label" for="inlineRadio2">Si</label>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Toxicomanias</th>
-                    <td class="text-right">
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions36" id="inlineRadio1" value="option1">
-                        <label class="form-check-label" for="inlineRadio1">No</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions36" id="inlineRadio2" value="option2">
-                        <label class="form-check-label" for="inlineRadio2">Si</label>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Religión</th>
-                    <td class="text-right">
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions37" id="inlineRadio1" value="option1">
-                        <label class="form-check-label" for="inlineRadio1">No</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions37" id="inlineRadio2" value="option2">
-                        <label class="form-check-label" for="inlineRadio2">Si</label>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Pasatiempos</th>
-                    <td>
-                      <textarea class="form-control" id="input38" rows="3"></textarea>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Tipo y RH</th>
-                    <td class="text-right">
-                      <textarea class="form-control" id="input39" rows="3"></textarea>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Inmunizaciones</th>
-                    <td class="text-right">
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions310" id="inlineRadio1" value="option1">
-                        <label class="form-check-label" for="inlineRadio1">No</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions310" id="inlineRadio2" value="option2">
-                        <label class="form-check-label" for="inlineRadio2">Si</label>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Habitación</th>
-                    <td class="text-right">
-                      <textarea class="form-control" id="input311" rows="3"></textarea>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Alimentación</th>
-                    <td class="text-right">
-                      <textarea class="form-control" id="input312" rows="3"></textarea>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Aseo Personal</th>
-                    <td class="text-right">
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions313" id="inlineRadio1" value="option1">
-                        <label class="form-check-label" for="inlineRadio1">Bueno</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions313" id="inlineRadio2" value="option2">
-                        <label class="form-check-label" for="inlineRadio2">Regular</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions313" id="inlineRadio3" value="option2">
-                        <label class="form-check-label" for="inlineRadio2">Malo</label>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Deportes</th>
-                    <td class="text-right">
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions314" id="inlineRadio1" value="option1">
-                        <label class="form-check-label" for="inlineRadio1">No</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions314" id="inlineRadio2" value="option2">
-                        <label class="form-check-label" for="inlineRadio2">Si</label>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Bajo / Sobre peso</th>
-                    <td class="text-right">
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions315" id="inlineRadio1" value="option1">
-                        <label class="form-check-label" for="inlineRadio1">No</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions315" id="inlineRadio2" value="option2">
-                        <label class="form-check-label" for="inlineRadio2">Si</label>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Hacinamiento</th>
-                    <td class="text-right">
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions316" id="inlineRadio1" value="option1">
-                        <label class="form-check-label" for="inlineRadio1">No</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions316" id="inlineRadio2" value="option2">
-                        <label class="form-check-label" for="inlineRadio2">Si</label>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Promiscuidad</th>
-                    <td class="text-right">
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions317" id="inlineRadio1" value="option1">
-                        <label class="form-check-label" for="inlineRadio1">No</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions317" id="inlineRadio2" value="option2">
-                        <label class="form-check-label" for="inlineRadio2">Si</label>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <div class="text-center">
-                <button class="btn btn-success">Guardar</button>
+            <!-- -->
+            <div>
+              <button class="btn btn-flat text-left btn-block" type="button" data-toggle="collapse" data-target="#atecedentesPNP" aria-expanded="false" aria-controls="collapseExample" [class.no-exist]="!historialMedico?.antecedentes_personales_no_patologicos">
+                <h5 class="pt-2"><i class="fas fa-plus btn-option"></i> Antecedentes personales no patológicos</h5>
+              </button>
+              <div class="collapse" id="atecedentesPNP">
+                <div class="p-3">
+                  <table class="table rounded rounded-lg">
+                    <tbody>
+                      <tr>
+                        <th scope="row"  width="10px">Método anticonceptivo</th>
+                        <td>
+                          <div class="text-right">
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="radio" name="cirujiasOptions31" id="cirujias1" value="option1">
+                              <label class="form-check-label" for="cirujias1">No</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" checked type="radio" name="cirujiasOptions31" id="cirujias2" value="option2">
+                              <label class="form-check-label" for="cirujias2">Si</label>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label for="input18">Especifique
+                              <span class="text-danger">*</span>
+                            </label>
+                            <textarea class="form-control" id="input18" rows="3"></textarea>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row"  width="10px">Obstétrico</th>
+                        <td class="text-right">
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions32" id="cirujias1" value="option1">
+                            <label class="form-check-label" for="cirujias1">No</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions32" id="cirujias2" value="option2">
+                            <label class="form-check-label" for="cirujias2">Si</label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row"  width="10px">Menarca</th>
+                        <td class="text-right">
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions33" id="cirujias1" value="option">
+                            <label class="form-check-label" for="cirujias1">Ritmo</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions33" id="cirujias2" value="option">
+                            <label class="form-check-label" for="cirujias2">V.S.A</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions33" id="cirujias3" value="option">
+                            <label class="form-check-label" for="cirujias3">FUR</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions33" id="cirujias4" value="option">
+                            <label class="form-check-label" for="cirujias4">G</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions33" id="cirujias5" value="option">
+                            <label class="form-check-label" for="cirujias5">P</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions33" id="cirujias6" value="option">
+                            <label class="form-check-label" for="cirujias6">A</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions33" id="cirujias7" value="option">
+                            <label class="form-check-label" for="cirujias7">C</label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row"  width="10px">Alcoholismo</th>
+                        <td class="text-right">
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions34" id="cirujias1" value="option1">
+                            <label class="form-check-label" for="cirujias1">No</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions34" id="cirujias2" value="option2">
+                            <label class="form-check-label" for="cirujias2">Si</label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row"  width="10px">Tabaquismo</th>
+                        <td class="text-right">
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions35" id="cirujias1" value="option1">
+                            <label class="form-check-label" for="cirujias1">No</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions35" id="cirujias2" value="option2">
+                            <label class="form-check-label" for="cirujias2">Si</label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row"  width="10px">Toxicomanias</th>
+                        <td class="text-right">
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions36" id="cirujias1" value="option1">
+                            <label class="form-check-label" for="cirujias1">No</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions36" id="cirujias2" value="option2">
+                            <label class="form-check-label" for="cirujias2">Si</label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row"  width="10px">Religión</th>
+                        <td class="text-right">
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions37" id="cirujias1" value="option1">
+                            <label class="form-check-label" for="cirujias1">No</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions37" id="cirujias2" value="option2">
+                            <label class="form-check-label" for="cirujias2">Si</label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row"  width="10px">Pasatiempos</th>
+                        <td>
+                          <textarea class="form-control" id="input38" rows="3"></textarea>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row"  width="10px">Tipo y RH</th>
+                        <td class="text-right">
+                          <textarea class="form-control" id="input39" rows="3"></textarea>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row"  width="10px">Inmunizaciones</th>
+                        <td class="text-right">
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions310" id="cirujias1" value="option1">
+                            <label class="form-check-label" for="cirujias1">No</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions310" id="cirujias2" value="option2">
+                            <label class="form-check-label" for="cirujias2">Si</label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row"  width="10px">Habitación</th>
+                        <td class="text-right">
+                          <textarea class="form-control" id="input311" rows="3"></textarea>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row"  width="10px">Alimentación</th>
+                        <td class="text-right">
+                          <textarea class="form-control" id="input312" rows="3"></textarea>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row"  width="10px">Aseo Personal</th>
+                        <td class="text-right">
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions313" id="cirujias1" value="option1">
+                            <label class="form-check-label" for="cirujias1">Bueno</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions313" id="cirujias2" value="option2">
+                            <label class="form-check-label" for="cirujias2">Regular</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions313" id="cirujias3" value="option2">
+                            <label class="form-check-label" for="cirujias2">Malo</label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row"  width="10px">Deportes</th>
+                        <td class="text-right">
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions314" id="cirujias1" value="option1">
+                            <label class="form-check-label" for="cirujias1">No</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions314" id="cirujias2" value="option2">
+                            <label class="form-check-label" for="cirujias2">Si</label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row"  width="10px">Bajo / Sobre peso</th>
+                        <td class="text-right">
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions315" id="cirujias1" value="option1">
+                            <label class="form-check-label" for="cirujias1">No</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions315" id="cirujias2" value="option2">
+                            <label class="form-check-label" for="cirujias2">Si</label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row"  width="10px">Hacinamiento</th>
+                        <td class="text-right">
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions316" id="cirujias1" value="option1">
+                            <label class="form-check-label" for="cirujias1">No</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions316" id="cirujias2" value="option2">
+                            <label class="form-check-label" for="cirujias2">Si</label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row"  width="10px">Promiscuidad</th>
+                        <td class="text-right">
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions317" id="cirujias1" value="option1">
+                            <label class="form-check-label" for="cirujias1">No</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions317" id="cirujias2" value="option2">
+                            <label class="form-check-label" for="cirujias2">Si</label>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="text-center">
+                    <button class="btn btn-success">Guardar</button>
+                  </div>
+                  <hr>
+                </div>
               </div>
-              <hr>
             </div>
-          </div>
-          <!-- -->
-          <button class="btn btn-flat text-left" type="button" data-toggle="collapse" data-target="#atecedentesH" aria-expanded="false" aria-controls="collapseExample">
-            <h5 class="pt-2"><i class="fas fa-plus btn-option"></i> Antecedentes heredofamiliares</h5>
-          </button>
-          <div class="collapse" id="atecedentesH">
-            <div class="p-3">
-              <table class="table rounded rounded-lg">
-                <tbody>
-                  <tr>
-                    <th scope="row">Padres viven</th>
-                    <td class="text-right">
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions41" id="inlineRadio1" value="option1">
-                        <label class="form-check-label" for="inlineRadio1">No</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions41" id="inlineRadio2" value="option2">
-                        <label class="form-check-label" for="inlineRadio2">Si</label>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Hermanos viven</th>
-                    <td class="text-right">
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions42" id="inlineRadio1" value="option1">
-                        <label class="form-check-label" for="inlineRadio1">No</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions42" id="inlineRadio2" value="option2">
-                        <label class="form-check-label" for="inlineRadio2">Si</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions42" id="inlineRadio3" value="option3">
-                        <label class="form-check-label" for="inlineRadio3">N/A</label>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Hermanas viven</th>
-                    <td class="text-right">
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions43" id="inlineRadio1" value="option1">
-                        <label class="form-check-label" for="inlineRadio1">No</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions43" id="inlineRadio2" value="option2">
-                        <label class="form-check-label" for="inlineRadio2">Si</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions43" id="inlineRadio3" value="option3">
-                        <label class="form-check-label" for="inlineRadio3">N/A</label>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Diabetes</th>
-                    <td class="text-right">
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions44" id="inlineRadio1" value="option1">
-                        <label class="form-check-label" for="inlineRadio1">No</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions44" id="inlineRadio2" value="option2">
-                        <label class="form-check-label" for="inlineRadio2">Si</label>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Obecidad</th>
-                    <td class="text-right">
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions45" id="inlineRadio1" value="option1">
-                        <label class="form-check-label" for="inlineRadio1">No</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions45" id="inlineRadio2" value="option2">
-                        <label class="form-check-label" for="inlineRadio2">Si</label>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Hipertensión Arterial</th>
-                    <td class="text-right">
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions46" id="inlineRadio1" value="option1">
-                        <label class="form-check-label" for="inlineRadio1">No</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions46" id="inlineRadio2" value="option2">
-                        <label class="form-check-label" for="inlineRadio2">Si</label>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Cardiopatias</th>
-                    <td class="text-right">
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions47" id="inlineRadio1" value="option1">
-                        <label class="form-check-label" for="inlineRadio1">No</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions47" id="inlineRadio2" value="option2">
-                        <label class="form-check-label" for="inlineRadio2">Si</label>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <div class="text-center">
-                <button class="btn btn-success">Guardar</button>
+            <!-- -->
+            <div>
+              <button class="btn btn-flat text-left btn-block" type="button" data-toggle="collapse" data-target="#atecedentesH" aria-expanded="false" aria-controls="collapseExample" [class.no-exist]="!historialMedico?.antecedentes_heredofamiliares">
+                <h5 class="pt-2"><i class="fas fa-plus btn-option"></i> Antecedentes heredofamiliares</h5>
+              </button>
+              <div class="collapse" id="atecedentesH">
+                <div class="p-3">
+                  <table class="table rounded rounded-lg">
+                    <tbody>
+                      <tr>
+                        <th scope="row"  width="10px">Padres viven</th>
+                        <td class="text-right">
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions41" id="cirujias1" value="option1">
+                            <label class="form-check-label" for="cirujias1">No</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions41" id="cirujias2" value="option2">
+                            <label class="form-check-label" for="cirujias2">Si</label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row"  width="10px">Hermanos viven</th>
+                        <td class="text-right">
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions42" id="cirujias1" value="option1">
+                            <label class="form-check-label" for="cirujias1">No</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions42" id="cirujias2" value="option2">
+                            <label class="form-check-label" for="cirujias2">Si</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions42" id="cirujias3" value="option3">
+                            <label class="form-check-label" for="cirujias3">N/A</label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row"  width="10px">Hermanas viven</th>
+                        <td class="text-right">
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions43" id="cirujias1" value="option1">
+                            <label class="form-check-label" for="cirujias1">No</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions43" id="cirujias2" value="option2">
+                            <label class="form-check-label" for="cirujias2">Si</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions43" id="cirujias3" value="option3">
+                            <label class="form-check-label" for="cirujias3">N/A</label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row"  width="10px">Diabetes</th>
+                        <td class="text-right">
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions44" id="cirujias1" value="option1">
+                            <label class="form-check-label" for="cirujias1">No</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions44" id="cirujias2" value="option2">
+                            <label class="form-check-label" for="cirujias2">Si</label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row"  width="10px">Obecidad</th>
+                        <td class="text-right">
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions45" id="cirujias1" value="option1">
+                            <label class="form-check-label" for="cirujias1">No</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions45" id="cirujias2" value="option2">
+                            <label class="form-check-label" for="cirujias2">Si</label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row"  width="10px">Hipertensión Arterial</th>
+                        <td class="text-right">
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions46" id="cirujias1" value="option1">
+                            <label class="form-check-label" for="cirujias1">No</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions46" id="cirujias2" value="option2">
+                            <label class="form-check-label" for="cirujias2">Si</label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row"  width="10px">Cardiopatias</th>
+                        <td class="text-right">
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions47" id="cirujias1" value="option1">
+                            <label class="form-check-label" for="cirujias1">No</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cirujiasOptions47" id="cirujias2" value="option2">
+                            <label class="form-check-label" for="cirujias2">Si</label>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="text-center">
+                    <button class="btn btn-success">Guardar</button>
+                  </div>
+                  <hr>
+                </div>
               </div>
-              <hr>
             </div>
-          </div>
-          <!-- -->
-          <button class="btn btn-flat text-left" type="button" data-toggle="collapse" data-target="#examenF" aria-expanded="false" aria-controls="collapseExample">
-            <h5 class="pt-2"><i class="fas fa-plus btn-option"></i> Examen físico</h5>
-          </button>
-          <div class="collapse" id="examenF">
-            <div class="p-3">
-
+            <!-- -->
+            <div>
+              <button class="btn btn-flat text-left" type="button" data-toggle="collapse" data-target="#examenF" aria-expanded="false" aria-controls="collapseExample">
+                <h5 class="pt-2"><i class="fas fa-plus btn-option"></i> Examen físico</h5>
+              </button>
+              <div class="collapse" id="examenF">
+                <div class="p-3">
+    
+                </div>
+              </div>
             </div>
-          </div>
-          <!-- -->
-          <button class="btn btn-flat text-left" type="button" data-toggle="collapse" data-target="#examenV" aria-expanded="false" aria-controls="collapseExample">
-            <h5 class="pt-2"><i class="fas fa-plus btn-option"></i> Examen de la vista</h5>
-          </button>
-          <div class="collapse" id="examenV">
-            <div class="p-3">
-
-            </div>
-          </div>
-          <!-- -->
-          <button class="btn btn-flat text-left" type="button" data-toggle="collapse" data-target="#examenE" aria-expanded="false" aria-controls="collapseExample">
-            <h5 class="pt-2"><i class="fas fa-plus btn-option"></i> Examen de embarazo</h5>
-          </button>
-          <div class="collapse" id="examenE">
-            <div class="p-3">
-
-            </div>
-          </div>
-          <!-- -->
-          <button class="btn btn-flat text-left" type="button" data-toggle="collapse" data-target="#examenA" aria-expanded="false" aria-controls="collapseExample">
-            <h5 class="pt-2"><i class="fas fa-plus btn-option"></i> Examen de antidoping</h5>
-          </button>
-          <div class="collapse" id="examenA">
-            <div class="p-3">
-
-            </div>
+            <!-- -->
+            <!-- <div>
+              <button class="btn btn-flat text-left" type="button" data-toggle="collapse" data-target="#examenV" aria-expanded="false" aria-controls="collapseExample">
+                <h5 class="pt-2"><i class="fas fa-plus btn-option"></i> Examen de la vista</h5>
+              </button>
+              <div class="collapse" id="examenV">
+                <div class="p-3">
+    
+                </div>
+              </div>
+            </div> -->
+            <!-- -->
+            <!-- <div>
+              <button class="btn btn-flat text-left" type="button" data-toggle="collapse" data-target="#examenE" aria-expanded="false" aria-controls="collapseExample">
+                <h5 class="pt-2"><i class="fas fa-plus btn-option"></i> Examen de embarazo</h5>
+              </button>
+              <div class="collapse" id="examenE">
+                <div class="p-3">
+    
+                </div>
+              </div>
+            </div> -->
+            <!-- -->
+            <!-- <div>
+              <button class="btn btn-flat text-left" type="button" data-toggle="collapse" data-target="#examenA" aria-expanded="false" aria-controls="collapseExample">
+                <h5 class="pt-2"><i class="fas fa-plus btn-option"></i> Examen de antidoping</h5>
+              </button>
+              <div class="collapse" id="examenA">
+                <div class="p-3">
+    
+                </div>
+              </div>
+            </div> -->
           </div>
       </div>
     </div>

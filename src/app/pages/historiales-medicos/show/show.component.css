@@ -8,3 +8,11 @@
 .btn-option{
     background-color: #1DEFFF; color: white; padding: 8px; border-radius: 5px;
 }
+
+.no-exist{
+    
+}
+
+.no-exist .btn-option{
+    background-color: #cfdedf; color: white; padding: 8px; border-radius: 5px;
+}

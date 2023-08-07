@@ -5,13 +5,12 @@ import {  Observable } from 'rxjs';
 import { HistorialesMedicos } from './historiales-medicos';
 import { API_URL } from 'src/app/config';
 import { Router } from '@angular/router';
+import { AntecedentesPersonalesPatologicos } from './antecedentes-personales-patologicos';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HistorialesMedicosService {
-
-  private apiURL = API_URL+"historiales-medicos";
   
   httpOptions = {
      headers: new HttpHeaders({
@@ -27,10 +26,14 @@ export class HistorialesMedicosService {
   }
 
   getHistorialesMedicos (): Observable<HistorialesMedicos[]> {
-    return this.httpClient.get<HistorialesMedicos[]>(this.apiURL);
+    return this.httpClient.get<HistorialesMedicos[]>(API_URL+"historiales-medicos");
   }
 
   getHistorialMedico(HistorialMedico: number): Observable<HistorialesMedicos> {
-    return this.httpClient.get<HistorialesMedicos>(`${this.apiURL}/${HistorialMedico}`);
+    return this.httpClient.get<HistorialesMedicos>(`${API_URL+"historiales-medicos"}/${HistorialMedico}`);
+  }
+
+  storeAntecedentespersonalesPatologicos(antecedentesPersonalesPatologicos: any): Observable<AntecedentesPersonalesPatologicos> {
+    return this.httpClient.post<AntecedentesPersonalesPatologicos>(API_URL+"antecendentes-personales-patologicos", JSON.stringify(antecedentesPersonalesPatologicos), this.httpOptions);
   }
 }

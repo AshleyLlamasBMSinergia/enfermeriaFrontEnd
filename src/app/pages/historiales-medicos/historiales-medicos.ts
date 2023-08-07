@@ -1,5 +1,6 @@
 import { DecimalPipe } from "@angular/common";
 import { Binary } from "@angular/compiler";
+import { AntecedentesPersonalesPatologicos } from "./antecedentes-personales-patologicos";
 
 export interface HistorialesMedicos {
     HistorialMedico: number,
@@ -12,7 +13,6 @@ export interface HistorialesMedicos {
     };
 
     pacientable?: {
-
       Empleado: number;
       Paterno: string;
       Materno: string;
@@ -93,4 +93,11 @@ export interface HistorialesMedicos {
         Nombre: string;
       }
     };
+
+    APPatologicos: number;
+    
+    antecedentes_personales_patologicos?: AntecedentesPersonalesPatologicos;
+
+    antecedentes_personales_no_patologicos: number,
+    antecedentes_heredofamiliares: number
   }

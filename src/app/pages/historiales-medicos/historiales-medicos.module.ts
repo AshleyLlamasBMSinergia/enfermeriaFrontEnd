@@ -6,6 +6,7 @@ import { HistorialesMedicosEditComponent } from './edit/edit.component';
 import { HistorialesMedicosShowComponent } from './show/show.component';
 import { RouterModule } from '@angular/router';
 import { HistorialesMedicosRoutingModule } from './historiales-medicos-routing.module';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { HistorialesMedicosRoutingModule } from './historiales-medicos-routing.m
     CommonModule,
     RouterModule,
     HistorialesMedicosRoutingModule,
+    FormsModule
   ],
 })
 export class HistorialesMedicosModule { }

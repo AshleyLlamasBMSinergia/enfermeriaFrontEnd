@@ -1,0 +1,37 @@
+export interface AntecedentesPersonalesPatologicos {
+    id: number,
+    Cirujias: string;
+    EspCirujias: string;
+    Contusiones: string;
+    EspContusiones: string;
+    Lumbalgias: string;
+    EspLumbalgias: string;
+    Hernias: string;
+    EspHernias: string;
+    Fracturas: string;
+    EspFracturas: string;
+    Dorsalgias: string;
+    EspDorsalgias: string;
+    Hospitalizaciones: string;
+    EspHospitalizaciones: string;
+    Esguinces: string;
+    EspEsguinces: string;
+    LesionesArteriales: string;
+    EspLesionesArteriales: string;
+    Transfusiones: string;
+    EspTransfusiones: string;
+    Luxaciones: string;
+    EspLuxaciones: string;
+    Tetanias: string;
+    EspTetanias: string;
+    Alergias: string;
+    EspAlergias: string;
+    Asma: string;
+    Epilepsia: string;
+    EnfDentales: string;
+    EspEnfDentales: string;
+    EnfOpticas: string;
+    EspEnfOpticas: string;
+    AltPsicologicas: string;
+    EspAltPsicologicas: string;
+  }

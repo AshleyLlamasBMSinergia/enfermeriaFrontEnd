@@ -30,6 +30,13 @@ export class CalendarioIndexComponent implements OnInit {
       center: 'title',
       right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
     },
+    buttonText: {
+      today: 'Hoy', // Cambiar el texto del botón "Today"
+      month: 'Mes',
+      week: 'Semana',
+      day: 'Día',
+      list: 'Lista',
+    },
     weekends: true,
     editable: false,
     selectable: true,
