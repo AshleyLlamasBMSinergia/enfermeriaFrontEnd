@@ -1,1 +1,29 @@
 @import '~bootstrap/dist/css/bootstrap.css';
+
+@font-face {
+  font-family: 'Cotage Black';
+  src: url('./assets/fonts/Contage Black.otf') format('opentype'),
+       url('./assets/fonts/Contage Black.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+    font-family: 'Noiche Black';
+    src: url('./assets/fonts/Noiche Black.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.contageBlack-font {
+    font-family: 'Cotage Black';
+}
+
+.noicheBlack-font {
+    font-family: 'Noiche Black';
+    line-height: 1;
+}
+
+a {
+    text-decoration: none;
+}

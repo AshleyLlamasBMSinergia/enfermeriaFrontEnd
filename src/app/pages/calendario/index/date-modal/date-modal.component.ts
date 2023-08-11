@@ -112,14 +112,40 @@ export class DateModalComponent {
 
   destroyCita(event: any) {
     const Cita = event.calendario;
-    this.calendarioService.destroyCita(Cita.Cita).subscribe(
-      (response) => {
-        this.mensaje(response); // Llamar a la función mensaje() con la respuesta
+  
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger',
       },
-      (error) => {
-        console.error('Error al eliminar la cita:', error);
-      }
-    );
+      buttonsStyling: false,
+    });
+  
+    swalWithBootstrapButtons
+      .fire({
+        title: '¿Estás seguro de cancelar la cita?',
+        text: '¡No podrás revertir esto!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí',
+        cancelButtonText: 'No',
+        reverseButtons: true,
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          this.calendarioService.destroyCita(Cita.Cita).subscribe(
+            (response) => {
+              this.mensaje(response);
+            },
+            (error) => {
+              console.error('Error al eliminar la cita:', error);
+              swalWithBootstrapButtons.fire('Error', 'Hubo un error al eliminar la cita.', 'error');
+            }
+          );
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          swalWithBootstrapButtons.fire('Cancelado', 'Tu cita está segura :)', 'error');
+        }
+      });
   }
   
   mensaje(response: any) {

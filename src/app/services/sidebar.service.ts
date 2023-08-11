@@ -7,37 +7,37 @@ export class SidebarService {
   menu:any[] = [
     {
       titulo: 'Inicio',
-      icono: 'nav-icon fas fa-th',
+      icono: 'assets/icons/inicio.svg',
       url: ''
     },
     {
       titulo: 'Calendario',
-      icono: 'nav-icon fas fa-calendar',
+      icono: 'assets/icons/calendario.svg',
       url: 'calendario'
     },
     {
       titulo: 'Consultas',
-      icono: 'nav-icon fas fa-solid fa-hospital-user',
+      icono: 'assets/icons/consultas.svg',
       url: 'consultas'
     },
     {
       titulo: 'Historiales médicos',
-      icono: 'nav-icon fas fa-solid fa-book-medical',
+      icono: 'assets/icons/historialesMedicos.svg',
       url: 'historiales-medicos'
     },
     {
       titulo: 'Insumos médicos',
-      icono: 'nav-icon fas fa-solid fa-pills',
+      icono: 'assets/icons/insumosMedicos.svg',
       url: 'insumos-medicos'
     },
     {
       titulo: 'Requisiciones',
-      icono: 'nav-icon fas fa-shopping-cart',
+      icono: 'assets/icons/requisiciones.svg',
       url: 'requisiciones'
     },
     {
       titulo: 'Estadisticas',
-      icono: 'nav-icon fas fa-solid fa-chart-pie',
+      icono: 'assets/icons/estadisticas.svg',
       url: 'estadisticas'
     }    
   ]

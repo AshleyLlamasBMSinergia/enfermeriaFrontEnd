@@ -7,7 +7,7 @@ object-position: bottom;">
     <div class="bg-dark">
       <a href="index3.html" class="brand-link">
         <img src="../assets/dist/img/talentoHumano.jpg" alt="AdminLTE Logo" class="brand-image">
-        <span class="brand-text font-weight-light text-white"><b>Talento Humano</b></span>
+        <span class="brand-text font-weight-light text-white contageBlack-font"><b>Talento Humano</b></span>
       </a>
     </div>
 
@@ -23,18 +23,6 @@ object-position: bottom;">
         </div>
       </div>
 
-      <!-- SidebarSearch Form -->
-      <!-- <div class="form-inline">
-        <div class="input-group" data-widget="sidebar-search">
-          <input class="form-control form-control-sidebar" type="search" placeholder="Buscador" aria-label="Search">
-          <div class="input-group-append">
-            <button class="btn btn-sidebar">
-              <i class="fas fa-search fa-fw"></i>
-            </button>
-          </div>
-        </div>
-      </div> -->
-
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar nav-child-indent flex-column" data-widget="treeview" role="menu" data-accordion="false">
@@ -42,8 +30,8 @@ object-position: bottom;">
                with font-awesome or any other icon font library -->
           <li class="nav-item" *ngFor="let item of menuItems">
             <a routerLink="{{item.url}}" class="nav-link" style="cursor: pointer;">
-              <i class="{{item.icono}}"></i>
-              <p>
+              <img width="35px" class="pr-2" src="{{item.icono}}" alt="{{item.titulo}} icono">
+              <p class="noicheBlack-font">
                 {{item.titulo}}
               </p>
             </a>
