@@ -5,17 +5,14 @@ import { CommonModule } from '@angular/common';
 import { PagesRoutingModule } from './pages/pages-routing.module';
 import { AuthRoutingModule } from './auth/auth-routing.module';
 import { HttpClientModule } from '@angular/common/http';
+import { LoginComponent } from './auth/login/login.component';
 
 const routes: Routes =  [
-  {
-    path: '', 
-    redirectTo: '/login', 
-    pathMatch: 'full'
-  },
   {
     path: 'enfermeria',
     loadChildren: () => import('./pages/pages.module').then(m => m.PagesModule)
   },
+  { path: 'login', component: LoginComponent },
   { path: '404', component: NopageFoundComponent },
   { path: '**', redirectTo: '/404' },
 ]

@@ -3,7 +3,6 @@ import { HistorialesMedicosService } from '../historiales-medicos.service';
 import { ActivatedRoute } from '@angular/router';
 import { HistorialesMedicos } from '../historiales-medicos';
 import { differenceInYears } from 'date-fns';
-import { AntecedentesPersonalesPatologicos } from '../antecedentes-personales-patologicos';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -15,6 +14,7 @@ export class HistorialesMedicosShowComponent implements OnInit {
   
   historialMedico!: HistorialesMedicos | null;
   edad: number | null = null;
+  
   terminado: boolean = false;
   formAPPatologicos: boolean = false;
 
@@ -100,7 +100,7 @@ export class HistorialesMedicosShowComponent implements OnInit {
       });
   }
 
-  createAntecedentesPersonalesPatologicos() {
+  private mapAntecedentesPersonalesPatologicosToRequestBody(): { [key: string]: string } {
     const antecedentesPersonalesPatologicos: { [key: string]: string } = {
       Cirujias: this.cirujias,
       EspCirujias: this.espCirujias,
@@ -140,7 +140,7 @@ export class HistorialesMedicosShowComponent implements OnInit {
       ? this.historialMedico?.HistorialMedico.toString()
       : ''
     };
-
+  
     const espFieldsMap: Map<string, string> = new Map([
       ['Cirujias', 'EspCirujias'],
       ['Contusiones', 'EspContusiones'],
@@ -159,13 +159,23 @@ export class HistorialesMedicosShowComponent implements OnInit {
       ['enfOpticas', 'EspenfOpticas'],
       ['AltPsicologicas', 'EspAltPsicologicas'],
     ]);
-    
-
+  
     espFieldsMap.forEach((espField, mainField) => {
       if (antecedentesPersonalesPatologicos[mainField] === 'No') {
         antecedentesPersonalesPatologicos[espField] = this.espFields[espField];
       }
     });
+  
+    if (this.historialMedico?.HistorialMedico !== undefined) {
+      antecedentesPersonalesPatologicos['HistorialMedico'] = this.historialMedico.HistorialMedico.toString();
+    }
+  
+    return antecedentesPersonalesPatologicos;
+  }
+
+  createAntecedentesPersonalesPatologicos() {
+
+    const antecedentesPersonalesPatologicos = this.mapAntecedentesPersonalesPatologicosToRequestBody();
   
     this.historialesMedicosService.storeAntecedentespersonalesPatologicos(antecedentesPersonalesPatologicos)
       .subscribe(
@@ -173,14 +183,67 @@ export class HistorialesMedicosShowComponent implements OnInit {
           this.mensaje(response); // Llamar a la función mensaje() con la respuesta
         },
         (error) => {
-          console.error('Error al generar la cita:', error);
+          console.error('Error al generar los antecedentes personales patológicos:', error);
           this.mensaje('¡Uy!, hubo un error al guardar los antecedentes personales patológicos.');
         }
       );
   }
 
-  editAntecedentesPersonalesPatologicos() {
+  editAntecedentesPersonalesPatologicos(){
+    this.cirujias = this.historialMedico?.antecedentes_personales_patologicos?.Cirujias || '';
+    this.espCirujias = this.historialMedico?.antecedentes_personales_patologicos?.EspCirujias || '';
+    this.contusiones = this.historialMedico?.antecedentes_personales_patologicos?.Contusiones || '';
+    this.espContusiones = this.historialMedico?.antecedentes_personales_patologicos?.EspContusiones || '';
+    this.lumbalgias = this.historialMedico?.antecedentes_personales_patologicos?.Lumbalgias || '';
+    this.espLumbalgias = this.historialMedico?.antecedentes_personales_patologicos?.EspLumbalgias || '';
+    this.hernias = this.historialMedico?.antecedentes_personales_patologicos?.Hernias || '';
+    this.espHernias = this.historialMedico?.antecedentes_personales_patologicos?.EspHernias || '';
+    this.fracturas = this.historialMedico?.antecedentes_personales_patologicos?.Fracturas || '';
+    this.espFracturas = this.historialMedico?.antecedentes_personales_patologicos?.EspFracturas || '';
+    this.dorsalgias = this.historialMedico?.antecedentes_personales_patologicos?.Dorsalgias || '';
+    this.espDorsalgias = this.historialMedico?.antecedentes_personales_patologicos?.EspDorsalgias || '';
+    this.hospitalizaciones = this.historialMedico?.antecedentes_personales_patologicos?.Hospitalizaciones || '';
+    this.espHospitalizaciones = this.historialMedico?.antecedentes_personales_patologicos?.EspHospitalizaciones || '';
+    this.esguinces = this.historialMedico?.antecedentes_personales_patologicos?.Esguinces || '';
+    this.espEsguinces = this.historialMedico?.antecedentes_personales_patologicos?.EspEsguinces || '';
+    this.lesionesArteriales = this.historialMedico?.antecedentes_personales_patologicos?.LesionesArteriales || '';
+    this.espLesionesArteriales = this.historialMedico?.antecedentes_personales_patologicos?.EspLesionesArteriales || '';
+    this.transfusiones = this.historialMedico?.antecedentes_personales_patologicos?.Transfusiones || '';
+    this.espTransfusiones = this.historialMedico?.antecedentes_personales_patologicos?.EspTransfusiones || '';
+    this.luxaciones = this.historialMedico?.antecedentes_personales_patologicos?.Luxaciones || '';
+    this.espLuxaciones = this.historialMedico?.antecedentes_personales_patologicos?.EspLuxaciones || '';
+    this.tetanias = this.historialMedico?.antecedentes_personales_patologicos?.Tetanias || '';
+    this.espTetanias = this.historialMedico?.antecedentes_personales_patologicos?.EspTetanias || '';
+    this.alergias = this.historialMedico?.antecedentes_personales_patologicos?.Alergias || '';
+    this.espAlergias = this.historialMedico?.antecedentes_personales_patologicos?.EspAlergias || '';
+    this.asma = this.historialMedico?.antecedentes_personales_patologicos?.Asma || '';
+    this.epilepsia = this.historialMedico?.antecedentes_personales_patologicos?.Epilepsia || '';
+    this.enfDentales = this.historialMedico?.antecedentes_personales_patologicos?.EnfDentales || '';
+    this.espEnfDentales = this.historialMedico?.antecedentes_personales_patologicos?.EspEnfDentales || '';
+    this.enfOpticas = this.historialMedico?.antecedentes_personales_patologicos?.EnfOpticas || '';
+    this.espEnfOpticas = this.historialMedico?.antecedentes_personales_patologicos?.EspEnfOpticas || '';
+    this.altPsicologicas = this.historialMedico?.antecedentes_personales_patologicos?.AltPsicologicas || '';
+    this.espAltPsicologicas = this.historialMedico?.antecedentes_personales_patologicos?.EspAltPsicologicas || '';
+  
+    // Cambiar el valor de formAPPatologicos para mostrar el formulario de edición
     this.formAPPatologicos = true;
+  }
+
+  updateAntecedentesPersonalesPatologicos(){
+    const antecedentesPersonalesPatologicos = this.mapAntecedentesPersonalesPatologicosToRequestBody();
+
+    this.historialesMedicosService.updateAntecedentespersonalesPatologicos(
+      this.historialMedico!.APPatologicos,
+      antecedentesPersonalesPatologicos
+    ).subscribe(
+      (response) => {
+        this.mensaje(response);
+      },
+      (error) => {
+        console.error('Error al actualizar los antecedentes personales patológicos:', error);
+        // this.mensaje('¡Uy!, hubo un error al actualizar los antecedentes personales patológicos.');
+      }
+    );
   }
 
   mensaje(response: any) {

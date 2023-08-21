@@ -19,7 +19,7 @@ object-position: bottom;">
           <img src="../assets/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="info pt-2">
-          <a href="#" class="d-block">Alexander Pierce</a>
+          <a href="#" class="d-block"></a>
         </div>
       </div>
 
@@ -31,13 +31,27 @@ object-position: bottom;">
           <li class="nav-item" *ngFor="let item of menuItems">
             <a routerLink="{{item.url}}" class="nav-link" style="cursor: pointer;">
               <img width="35px" class="pr-2" src="{{item.icono}}" alt="{{item.titulo}} icono">
-              <p class="noicheBlack-font">
+              <p>
                 {{item.titulo}}
               </p>
             </a>
           </li>
         </ul>
       </nav>
+<hr>
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar nav-child-indent flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <li class="nav-item">
+            <a class="nav-link" style="cursor: pointer;" (click)="logout()">
+              <img width="25px" class="pr-2" src="assets/icons/logout.svg" alt="Cerrar sesión icono">
+              <p>
+                Cerrar sesión
+              </p>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
       <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->

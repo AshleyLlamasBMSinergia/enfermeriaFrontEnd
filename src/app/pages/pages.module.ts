@@ -3,9 +3,6 @@ import { CommonModule } from '@angular/common';
 import { PagesComponent } from './pages.component';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
-import { HistorialesMedicosModule } from './historiales-medicos/historiales-medicos.module';
-import { HistorialesMedicosRoutingModule } from './historiales-medicos/historiales-medicos-routing.module';
-
 @NgModule({
   declarations: [
     PagesComponent,
@@ -14,11 +11,9 @@ import { HistorialesMedicosRoutingModule } from './historiales-medicos/historial
     CommonModule,
     RouterModule,
     SharedModule,
-    // HistorialesMedicosModule,
-    // HistorialesMedicosRoutingModule,
   ],
   exports: [
-    PagesComponent
+    PagesComponent,
   ]
 })
 export class PagesModule { }

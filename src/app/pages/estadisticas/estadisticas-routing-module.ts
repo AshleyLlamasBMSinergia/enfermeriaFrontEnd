@@ -2,15 +2,14 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { RouterModule, Routes } from '@angular/router';
-import { PagesComponent } from '../pages.component';
-import { RequisicionesIndexComponent } from './index/index.component';
+import { EstadisticasIndexComponent } from './index/index.component';
 
 const routes:Routes = [
   {
     path: '',
-    component: RequisicionesIndexComponent,
+    component: EstadisticasIndexComponent,
     data: {
-      subtitulo: 'Requisiciones',
+      subtitulo: 'Estadísticas',
     },
   },
 ]
@@ -26,4 +25,4 @@ const routes:Routes = [
     RouterModule
   ]
 })
-export class RequisicionesRoutingModule { }
+export class EstadisticasRoutingModule { }

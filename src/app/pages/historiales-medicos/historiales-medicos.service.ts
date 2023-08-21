@@ -36,4 +36,17 @@ export class HistorialesMedicosService {
   storeAntecedentespersonalesPatologicos(antecedentesPersonalesPatologicos: any): Observable<AntecedentesPersonalesPatologicos> {
     return this.httpClient.post<AntecedentesPersonalesPatologicos>(API_URL+"antecendentes-personales-patologicos", JSON.stringify(antecedentesPersonalesPatologicos), this.httpOptions);
   }
+
+  updateAntecedentespersonalesPatologicos(
+    aPPatologicoId: number,
+    antecedentesPersonalesPatologicos: any
+  ): Observable<AntecedentesPersonalesPatologicos> {
+    const url = `${API_URL}antecendentes-personales-patologicos/edit/${aPPatologicoId}`;
+  
+    return this.httpClient.put<AntecedentesPersonalesPatologicos>(
+      url,
+      JSON.stringify(antecedentesPersonalesPatologicos),
+      this.httpOptions
+    );
+  }
 }

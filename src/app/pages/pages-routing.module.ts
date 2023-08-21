@@ -3,17 +3,17 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { PagesComponent } from './pages.component';
 import { EstadisticasComponent } from './estadisticas/estadisticas.component';
-import { EnfermeriaComponent } from './enfermeria/enfermeria.component';
 const routes:Routes = [
   {
     path: 'enfermeria', component:PagesComponent,
     children: [
       {
-        path: '', component:EnfermeriaComponent,
+        path: '',
+        loadChildren: () =>
+          import('./enfermeria/enfermeria.module').then((m) => m.EnfermeriaModule),
         data: {
           titulo: 'Inicio',
-          subtitulo: 'Inicio'
-        }
+        },
       },
       {
         path: 'calendario',
@@ -32,11 +32,35 @@ const routes:Routes = [
         },
       },
       {
+        path: 'estadisticas',
+        loadChildren: () =>
+          import('./estadisticas/estadisticas.module').then((m) => m.EstadisticasModule),
+        data: {
+          titulo: 'Estadísticas',
+        },
+      },
+      {
         path: 'historiales-medicos',
         loadChildren: () =>
           import('./historiales-medicos/historiales-medicos.module').then((m) => m.HistorialesMedicosModule),
         data: {
           titulo: 'Historiales médicos',
+        },
+      },
+      {
+        path: 'insumos-medicos',
+        loadChildren: () =>
+          import('./insumos-medicos/insumos-medicos.module').then((m) => m.InsumosMedicosModule),
+        data: {
+          titulo: 'Insumos médicos',
+        },
+      },
+      {
+        path: 'requisiciones',
+        loadChildren: () =>
+          import('./requisiciones/requisiciones.module').then((m) => m.RequisicionesModule),
+        data: {
+          titulo: 'Requisiciones',
         },
       },
       {

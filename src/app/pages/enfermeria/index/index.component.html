@@ -1,1 +1,47 @@
-<p>index works!</p>
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <div class="info-box bg-info">
+                    <span class="info-box-icon">
+                        <img width="50px" src="assets/icons/calendario.svg" alt="">
+                    </span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Citas del día</span>
+                        <span class="info-box-number">23</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header text-secondary border-0">
+                <h3 class="card-title text-center">Lista de pendientes</h3>
+                <div class="card-tools">
+                    <a class="btn btn-success btn-sm">
+                        <i class="fas fa-plus"></i> Crear pendiente
+                    </a>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <ul class="todo-list">
+                    <li *ngFor="let task of tasks" [class.done]="task.completed" class="bg-white">
+                      <input type="checkbox" [(ngModel)]="task.completed" class="checkbox">
+                      <span class="text">{{ task.titulo }}</span>
+                      <div class="tools">
+                        <button class="btn btn-sm btn-primary mr-2" (click)="openEditModal(task)"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                      </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="eventModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <app-pendiente-modal></app-pendiente-modal>
+      </div>
+    </div>
+  </div>

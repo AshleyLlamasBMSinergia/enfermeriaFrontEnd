@@ -10,13 +10,17 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { LoadingInterceptor } from './loading.interceptor';
 import { SpinnerComponent } from './spinner/spinner.component';
+import { LoginComponent } from './auth/login/login.component';
+import { FormsModule } from '@angular/forms';
+import { AuthInterceptor } from './auth/auth.interceptor';
 
 @NgModule({
   declarations: [
     AppComponent,
     NopageFoundComponent,
     SpinnerComponent,
-    NopageFoundComponent
+    NopageFoundComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -25,10 +29,14 @@ import { SpinnerComponent } from './spinner/spinner.component';
     AuthModule,
     PagesModule,
     HttpClientModule,
+    FormsModule
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true
     }
   ],
   bootstrap: [AppComponent]

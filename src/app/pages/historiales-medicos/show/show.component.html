@@ -75,7 +75,7 @@
               <div class="collapse" id="atecedentesPP">
                 <div class="p-3 rounded bg-light">
 
-                  <div *ngIf="historialMedico!.antecedentes_personales_patologicos">
+                  <div *ngIf="historialMedico!.antecedentes_personales_patologicos && !formAPPatologicos">
                     <div class="bg-ligh">
 
                       <div class="py-3">
@@ -93,9 +93,9 @@
                             {{historialMedico!.antecedentes_personales_patologicos.Cirujias}}
                           </div>
                         </div>
-                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspCirujias !== null">
+                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspCirujias">
                           <div class="border rounded bg-white p-2">
-                            {{ historialMedico!.antecedentes_personales_patologicos?.EspCirujias }}
+                            {{ historialMedico!.antecedentes_personales_patologicos.EspCirujias }}
                           </div>
                         </div>
                       </div>
@@ -109,9 +109,9 @@
                             {{historialMedico!.antecedentes_personales_patologicos.Contusiones}}
                           </div>
                         </div>
-                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspContusiones !== null">
+                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspContusiones">
                           <div class="border rounded bg-white p-2">
-                            {{ historialMedico!.antecedentes_personales_patologicos?.EspContusiones }}
+                            {{ historialMedico!.antecedentes_personales_patologicos.EspContusiones }}
                           </div>
                         </div>
                       </div>
@@ -125,9 +125,9 @@
                             {{historialMedico!.antecedentes_personales_patologicos.Lumbalgias}}
                           </div>
                         </div>
-                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspLumbalgias !== null">
+                        <div *ngIf="historialMedico!.antecedentes_personales_patologicos?.EspLumbalgias">
                           <div class="border rounded bg-white p-2">
-                            {{ historialMedico!.antecedentes_personales_patologicos?.EspLumbalgias }}
+                            {{ historialMedico!.antecedentes_personales_patologicos.EspLumbalgias }}
                           </div>
                         </div>
                       </div>
@@ -141,9 +141,9 @@
                             {{historialMedico!.antecedentes_personales_patologicos.Hernias}}
                           </div>
                         </div>
-                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspHernias !== null">
+                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspHernias">
                           <div class="border rounded bg-white p-2">
-                            {{ historialMedico!.antecedentes_personales_patologicos?.EspHernias }}
+                            {{ historialMedico!.antecedentes_personales_patologicos.EspHernias }}
                           </div>
                         </div>
                       </div>
@@ -157,9 +157,9 @@
                             {{historialMedico!.antecedentes_personales_patologicos.Fracturas}}
                           </div>
                         </div>
-                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspFracturas !== null">
+                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspFracturas">
                           <div class="border rounded bg-white p-2">
-                            {{ historialMedico!.antecedentes_personales_patologicos?.EspFracturas }}
+                            {{ historialMedico!.antecedentes_personales_patologicos.EspFracturas }}
                           </div>
                         </div>
                       </div>
@@ -173,9 +173,9 @@
                             {{historialMedico!.antecedentes_personales_patologicos.Dorsalgias}}
                           </div>
                         </div>
-                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspDorsalgias !== null">
+                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspDorsalgias">
                           <div class="border rounded bg-white p-2">
-                            {{ historialMedico!.antecedentes_personales_patologicos?.EspDorsalgias }}
+                            {{ historialMedico!.antecedentes_personales_patologicos.EspDorsalgias }}
                           </div>
                         </div>
                       </div>
@@ -189,9 +189,9 @@
                             {{historialMedico!.antecedentes_personales_patologicos.Hospitalizaciones}}
                           </div>
                         </div>
-                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspHospitalizaciones !== null">
+                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspHospitalizaciones">
                           <div class="border rounded bg-white p-2">
-                            {{ historialMedico!.antecedentes_personales_patologicos?.EspHospitalizaciones }}
+                            {{ historialMedico!.antecedentes_personales_patologicos.EspHospitalizaciones }}
                           </div>
                         </div>
                       </div>
@@ -205,9 +205,9 @@
                             {{historialMedico!.antecedentes_personales_patologicos.Esguinces}}
                           </div>
                         </div>
-                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspEsguinces !== null">
+                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspEsguinces">
                           <div class="border rounded bg-white p-2">
-                            {{ historialMedico!.antecedentes_personales_patologicos?.EspEsguinces }}
+                            {{ historialMedico!.antecedentes_personales_patologicos.EspEsguinces }}
                           </div>
                         </div>
                       </div>
@@ -221,9 +221,9 @@
                             {{historialMedico!.antecedentes_personales_patologicos.LesionesArteriales}}
                           </div>
                         </div>
-                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspLesionesArteriales !== null">
+                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspLesionesArteriales">
                           <div class="border rounded bg-white p-2">
-                            {{ historialMedico!.antecedentes_personales_patologicos?.EspLesionesArteriales }}
+                            {{ historialMedico!.antecedentes_personales_patologicos.EspLesionesArteriales }}
                           </div>
                         </div>
                       </div>
@@ -237,9 +237,9 @@
                             {{historialMedico!.antecedentes_personales_patologicos.Transfusiones}}
                           </div>
                         </div>
-                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspTransfusiones !== null">
+                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspTransfusiones">
                           <div class="border rounded bg-white p-2">
-                            {{ historialMedico!.antecedentes_personales_patologicos?.EspTransfusiones }}
+                            {{ historialMedico!.antecedentes_personales_patologicos.EspTransfusiones }}
                           </div>
                         </div>
                       </div>
@@ -253,9 +253,9 @@
                             {{historialMedico!.antecedentes_personales_patologicos.Luxaciones}}
                           </div>
                         </div>
-                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspLuxaciones !== null">
+                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspLuxaciones">
                           <div class="border rounded bg-white p-2">
-                            {{ historialMedico!.antecedentes_personales_patologicos?.EspLuxaciones }}
+                            {{ historialMedico!.antecedentes_personales_patologicos.EspLuxaciones }}
                           </div>
                         </div>
                       </div>
@@ -269,9 +269,9 @@
                             {{historialMedico!.antecedentes_personales_patologicos.Tetanias}}
                           </div>
                         </div>
-                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspTetanias !== null">
+                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspTetanias">
                           <div class="border rounded bg-white p-2">
-                            {{ historialMedico!.antecedentes_personales_patologicos?.EspTetanias }}
+                            {{ historialMedico!.antecedentes_personales_patologicos.EspTetanias }}
                           </div>
                         </div>
                       </div>
@@ -285,9 +285,9 @@
                             {{historialMedico!.antecedentes_personales_patologicos.Alergias}}
                           </div>
                         </div>
-                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspAlergias !== null">
+                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspAlergias">
                           <div class="border rounded bg-white p-2">
-                            {{ historialMedico!.antecedentes_personales_patologicos?.EspAlergias }}
+                            {{ historialMedico!.antecedentes_personales_patologicos.EspAlergias }}
                           </div>
                         </div>
                       </div>
@@ -323,9 +323,9 @@
                             {{historialMedico!.antecedentes_personales_patologicos.EnfDentales}}
                           </div>
                         </div>
-                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspEnfDentales !== null">
+                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspEnfDentales">
                           <div class="border rounded bg-white p-2">
-                            {{ historialMedico!.antecedentes_personales_patologicos?.EspEnfDentales }}
+                            {{ historialMedico!.antecedentes_personales_patologicos.EspEnfDentales }}
                           </div>
                         </div>
                       </div>
@@ -339,9 +339,9 @@
                             {{historialMedico!.antecedentes_personales_patologicos.EnfOpticas}}
                           </div>
                         </div>
-                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspEnfOpticas !== null">
+                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspEnfOpticas">
                           <div class="border rounded bg-white p-2">
-                            {{ historialMedico!.antecedentes_personales_patologicos?.EspEnfOpticas }}
+                            {{ historialMedico!.antecedentes_personales_patologicos.EspEnfOpticas }}
                           </div>
                         </div>
                       </div>
@@ -355,9 +355,9 @@
                             {{historialMedico!.antecedentes_personales_patologicos.AltPsicologicas}}
                           </div>
                         </div>
-                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspAltPsicologicas !== null">
+                        <div *ngIf="historialMedico?.antecedentes_personales_patologicos?.EspAltPsicologicas">
                           <div class="border rounded bg-white p-2">
-                            {{ historialMedico!.antecedentes_personales_patologicos?.EspAltPsicologicas }}
+                            {{ historialMedico!.antecedentes_personales_patologicos.EspAltPsicologicas }}
                           </div>
                         </div>
                       </div>
@@ -365,8 +365,8 @@
                     </div>
                   </div>
 
-                  <ng-template [ngIf]="!historialMedico?.antecedentes_personales_patologicos">
-                    <form (submit)="createAntecedentesPersonalesPatologicos()">
+                  <ng-template [ngIf]="!historialMedico?.antecedentes_personales_patologicos || formAPPatologicos">
+                    <form (submit)="formAPPatologicos ? updateAntecedentesPersonalesPatologicos() : createAntecedentesPersonalesPatologicos()">
                       <div class="bg-light w-100">
   
                         <div class="py-2 border-bottom">

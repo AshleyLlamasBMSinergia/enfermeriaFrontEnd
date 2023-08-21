@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-enfermeria',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./enfermeria.component.css']
 })
 export class EnfermeriaComponent {
-
+  constructor(private router: Router) {}
 }
