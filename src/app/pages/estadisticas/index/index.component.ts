@@ -6,5 +6,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./index.component.css']
 })
 export class EstadisticasIndexComponent {
+  public pieChartLabels: string[] = ['Red', 'Green', 'Blue'];
+  public pieChartData: number[] = [300, 500, 100];
+  public pieChartType = 'pie';
+  
+  constructor() {}
+
+  ngOnInit(): void {}
 
 }

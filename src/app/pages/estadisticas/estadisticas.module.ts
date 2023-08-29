@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EstadisticasIndexComponent } from './index/index.component';
 import { EstadisticasRoutingModule } from './estadisticas-routing-module';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgChartjsModule } from 'ng-chartjs';
 
 
 
@@ -11,7 +13,9 @@ import { EstadisticasRoutingModule } from './estadisticas-routing-module';
   ],
   imports: [
     CommonModule,
-    EstadisticasRoutingModule
+    EstadisticasRoutingModule,
+    BrowserModule,
+    NgChartjsModule
   ]
 })
 export class EstadisticasModule { }

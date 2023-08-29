@@ -2,13 +2,13 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { PagesComponent } from './pages.component';
-import { EstadisticasComponent } from './estadisticas/estadisticas.component';
+
 const routes:Routes = [
   {
     path: 'enfermeria', component:PagesComponent,
     children: [
       {
-        path: '',
+        path: 'inicio',
         loadChildren: () =>
           import('./enfermeria/enfermeria.module').then((m) => m.EnfermeriaModule),
         data: {
@@ -64,12 +64,13 @@ const routes:Routes = [
         },
       },
       {
-        path: 'estadisticas', component:EstadisticasComponent,
+        path: 'estadisticas',
+        loadChildren: () =>
+          import('./estadisticas/estadisticas.module').then((m) => m.EstadisticasModule),
         data: {
           titulo: 'Estadísticas',
-          subtitulo: 'Estadísticas'
-        }
-      }
+        },
+      },
     ]
   }
 ]

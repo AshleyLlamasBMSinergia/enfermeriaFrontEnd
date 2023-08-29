@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
+import { ImageService } from 'src/app/services/imagen.service';
 import { SidebarService } from 'src/app/services/sidebar.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -12,23 +14,47 @@ import { UserService } from 'src/app/services/user.service';
 export class SidebarComponent implements OnInit {
 
   menuItems?:any[];
+  user: any;
+  image: any;
 
   constructor(
     private authService: AuthService,
-    private UserServices: UserService, // Inyecta el UserStateService
-    private sidebarServices: SidebarService,
-    private router: Router
+    public userService: UserService,
+    private imageService: ImageService,
+    private sidebarService: SidebarService,
+    private router: Router,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
-    this.menuItems = this.sidebarServices.menu;
+    this.menuItems = this.sidebarService.menu;
+
+    this.userService.user$.subscribe(
+      (user: any) => {
+        this.user = user[0];
+      },
+      (error) => {
+        console.error('Error al obtener los datos del usuario', error);
+      }
+    );
+
+    this.imageService.getImagen(this.user.image.url).subscribe(
+      (response: any) => {
+        const blob = new Blob([response], { type: 'image/jpeg' });
+        this.image = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
+      },
+      (error) => {
+        console.error('Error al obtener la imagen', error);
+      }
+    );
+    
   }
 
   logout() {
     this.authService.logout().subscribe(
       () => {
-        localStorage.removeItem('token'); // Elimina el token almacenado
-        this.router.navigateByUrl('/login'); // Redirige al componente de inicio de sesión
+        localStorage.removeItem('token');
+        this.router.navigateByUrl('/login');
       },
       error => {
         console.error('Error al cerrar sesión:', error);

@@ -8,7 +8,7 @@ export class SidebarService {
     {
       titulo: 'Inicio',
       icono: 'assets/icons/inicio.svg',
-      url: ''
+      url: 'inicio'
     },
     {
       titulo: 'Calendario',

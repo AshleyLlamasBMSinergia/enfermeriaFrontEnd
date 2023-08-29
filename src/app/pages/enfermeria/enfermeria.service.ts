@@ -18,6 +18,10 @@ export class EnfermeriaService {
     
     constructor(private httpClient: HttpClient, private router: Router) { }
 
+    getCitasHoy(): Observable<number> {
+      return this.httpClient.get<number>(API_URL+'inicio/citas-de-hoy');
+    }
+
     getPendientes(): Observable<any[]> {
         return this.httpClient.get<any[]>(API_URL+"pendientes");
     }

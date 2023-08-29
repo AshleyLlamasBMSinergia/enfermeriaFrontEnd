@@ -10,11 +10,21 @@ import { PendienteModalComponent } from './pendiente-modal/pendiente-modal.compo
 })
 export class EnfermeriaIndexComponent {
 
+  citasHoy: number = 0;
   tasks: any[] = [];
 
   constructor(private router: Router, private enfermeriaService: EnfermeriaService) {}
 
   ngOnInit(): void {
+    this.enfermeriaService.getCitasHoy().subscribe(
+      (citasHoy: number) => {
+        this.citasHoy = citasHoy;
+      },
+      (error) => {
+        console.error('Error al obtener el número de citas', error);
+      }
+    );
+
     this.enfermeriaService.getPendientes().subscribe(data => {
       this.tasks = data.map(task => ({
         ...task,
@@ -27,7 +37,6 @@ export class EnfermeriaIndexComponent {
   private pendienteModalComponent!: PendienteModalComponent;
 
   openEditModal(task: any) {
-    console.log('Open Edit Modal called');
     this.pendienteModalComponent.openModal();
   }
 }
