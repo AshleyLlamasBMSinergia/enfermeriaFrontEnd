@@ -27,3 +27,15 @@
 a {
     text-decoration: none;
 }
+
+.btn-pink {
+    background-color: #ff2970;
+    color: #fff;
+    border-color: #ff2970;
+}
+  
+.btn-pink:hover {
+    background-color: #c72158;
+    border-color: #c72158;
+    color: #fff;
+}

@@ -35,7 +35,7 @@ export class HistorialesMedicosIndexComponent {
       );
     }
     
-    getHistorialMedico(HistorialMedico: number) {
-      this.router.navigate(['/enfermeria/historiales-medicos', HistorialMedico]);
+    getHistorialMedico(id: number) {
+      this.router.navigate(['/enfermeria/historiales-medicos', id]);
     }
 }

@@ -89,8 +89,7 @@ export class CalendarioIndexComponent implements OnInit {
   }
 
   openEventModal(event: any) {
-    console.log('Evento recibido:', event);
-    this.selectedEvent = event; // Set the selected event
+    this.selectedEvent = event;
     const modalElement = document.getElementById('eventModal');
     if (modalElement) {
       (window as any).$('#eventModal').modal('show');

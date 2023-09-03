@@ -24,14 +24,14 @@
                     <tr>
                         <td>
                             <img src="../assets/dist/img/user2-160x160.jpg" alt="Product 1" class="img-circle img-size-32 mr-2">
-                            {{ historial.pacientable?.Nombres }} {{ historial.pacientable?.Paterno }}
+                            {{ historial.pacientable?.nombre }} {{ historial.pacientable?.paterno }}
                         </td>
                         <td [ngSwitch]="historial.pacientable_type" class="text-center">
                             (<small *ngSwitchCase="'App\\Models\\NomEmpleado'">Empleado</small>
                             <small *ngSwitchCase="'App\\Models\\Externo'">Externo</small>)
                         </td>
                         <td width="10px">
-                            <button (click)="getHistorialMedico(historial.HistorialMedico)" class="btn btn-default">
+                            <button (click)="getHistorialMedico(historial.id)" class="btn btn-default">
                                 <i class="fas fa-eye"></i>
                             </button>
                         </td>
