@@ -28,13 +28,13 @@ export class CalendarioService {
     return this.httpClient.post<Calendario>(this.apiURL+"citas", JSON.stringify(cita), this.httpOptions);
   }
 
-  destroyCita(Cita: number): Observable<any> {
-    const url = `${this.apiURL}citas/${Cita}`;
+  destroyCita(id: number): Observable<any> {
+    const url = `${this.apiURL}citas/${id}`;
     return this.httpClient.delete(url);
   }
 
-  updateCita(CitaCita: number, citaData: any): Observable<any> {
-    const url = `${this.apiURL}citas/edit/${CitaCita}`;
+  updateCita(id: number, citaData: any): Observable<any> {
+    const url = `${this.apiURL}citas/edit/${id}`;
     return this.httpClient.put(url, citaData);
   }
 }

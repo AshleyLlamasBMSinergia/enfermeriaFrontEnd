@@ -31,17 +31,17 @@
                             <small *ngSwitchCase="'App\\Models\\Externo'">Externo</small>)
                         </td>
                         <td width="10px">
-                            <button (click)="getHistorialMedico(historial.id)" class="btn btn-default">
+                            <button (click)="showHistorialMedico(historial.id)" class="btn btn-sm btn-default">
                                 <i class="fas fa-eye"></i>
                             </button>
                         </td>
                         <td width="10px">
-                            <button href="#" class="btn btn-primary">
+                            <button (click)="editHistorialMedico(historial.id)" class="btn btn-sm btn-primary">
                                 <i class="fas fa-edit"></i>
                             </button>
                         </td>
                         <td width="10px">
-                            <button href="#" class="btn btn-danger">
+                            <button href="#" class="btn btn-sm btn-danger">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </td>

@@ -29,9 +29,9 @@ export class ConsultasCreateComponent {
       this.selectData.push({
         label: 'Empleados',
         options: empleados.map((empleado: any) => ({
-          'data-pacientable_id': empleado.Empleado,
+          'data-pacientable_id': empleado.id,
           'data-pacientable_type': 'App//Models//NomEmpleado',
-          label: empleado.Nombres,
+          label: empleado.nombre,
         }))
       });
     });
@@ -40,9 +40,9 @@ export class ConsultasCreateComponent {
       this.selectData.push({
         label: 'Externos',
         options: externos.map((externo: any) => ({
-          'data-pacientable_id': externo.Externo,
+          'data-pacientable_id': externo.id,
           'data-pacientable_type': 'App//Models//Externo',
-          label: externo.Nombres,
+          label: externo.nombre,
         }))
       });
     });

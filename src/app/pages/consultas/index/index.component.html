@@ -30,13 +30,13 @@
                     <tr>
                         <td>
                             <img src="../assets/dist/img/user2-160x160.jpg" alt="Product 1" class="img-circle img-size-32 mr-2">
-                            {{ consulta.pacientable?.Nombres }} {{ consulta.pacientable?.Paterno }}
+                            {{ consulta.pacientable?.nombre }} {{ consulta.pacientable?.paterno }}
                         </td>
                         <td>
-                            {{ consulta.Fecha | date:'dd/MM/yyyy' }}
+                            {{ consulta.fecha | date:'dd/MM/yyyy' }}
                         </td>
                         <td>
-                            {{ consulta.Fecha | date:'h:mm a' }}
+                            {{ consulta.fecha | date:'h:mm a' }}
                         </td>
                         <td width="10px">
                             <button href="#" class="btn btn-default">

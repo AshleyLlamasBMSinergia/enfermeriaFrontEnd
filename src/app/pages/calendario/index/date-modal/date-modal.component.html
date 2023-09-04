@@ -7,10 +7,10 @@
       <h6>Citas del día:</h6>
       <div *ngFor="let event of relatedEvents">
         <div class="mt-2">
-          <a class="btn btn-flat border-0 border-bottom btn-block text-left" data-toggle="collapse" [attr.href]="'#collapseExample-' + event.calendario.Cita" role="button" aria-expanded="false" [attr.aria-controls]="'collapseExample-' + event.calendario.paciente?.pacientable_id">
-            <h5 class="text-secondary"><i [style.color]="getEventColor(event)" class="fas fa-calendar"></i> {{event.calendario.Tipo}} - {{ event.calendario.paciente?.pacientable?.Nombres }} {{ event.calendario.paciente?.pacientable?.Paterno }}</h5>
+          <a class="btn btn-flat border-0 border-bottom btn-block text-left" data-toggle="collapse" [attr.href]="'#collapseExample-' + event.calendario.id" role="button" aria-expanded="false" [attr.aria-controls]="'collapseExample-' + event.calendario.paciente?.pacientable_id">
+            <h5 class="text-secondary"><i [style.color]="getEventColor(event)" class="fas fa-calendar"></i> {{event.calendario.tipo}} - {{ event.calendario.paciente?.pacientable?.nombre }} {{ event.calendario.paciente?.pacientable?.paterno }}</h5>
           </a>
-          <div class="collapse mt-2" [attr.id]="'collapseExample-' + event.calendario.Cita">
+          <div class="collapse mt-2" [attr.id]="'collapseExample-' + event.calendario.id">
             <div>
               <ul class="list-group">
                 <li class="list-group-item border-0 bg-light">
@@ -21,10 +21,10 @@
                     <i class="fas fa-edit text-primary"></i>
                   </a>
                 </li>
-                <li class="list-group-item border-0 bg-light"><p class="font-weight-bold mb-1">Hora:</p> {{ event.calendario.Fecha | date: 'h:m a' }}</li>
-                <li class="list-group-item border-0 bg-light"><p class="font-weight-bold mb-1">Paciente:</p> <a>{{ event.calendario.paciente.pacientable?.Nombres }} {{ event.calendario.paciente.pacientable?.Paterno }} {{ event.calendario.paciente.pacientable?.Materno }}</a></li>
-                <li class="list-group-item border-0 bg-light"><p class="font-weight-bold mb-1">Profesional:</p> {{ event.calendario.profesional?.Nombres }} {{ event.calendario.profesional?.Paterno }} {{ event.calendario.profesional?.Materno }}</li>
-                <li class="list-group-item border-0 bg-light"><p class="font-weight-bold mb-1">Motivo:</p> {{ event.calendario.Motivo }} <br></li>
+                <li class="list-group-item border-0 bg-light"><p class="font-weight-bold mb-1">Hora:</p> {{ event.calendario.fecha | date: 'h:m a' }}</li>
+                <li class="list-group-item border-0 bg-light"><p class="font-weight-bold mb-1">Paciente:</p> <a>{{ event.calendario.paciente.pacientable?.nombre }} {{ event.calendario.paciente.pacientable?.paterno }} {{ event.calendario.paciente.pacientable?.materno }}</a></li>
+                <li class="list-group-item border-0 bg-light"><p class="font-weight-bold mb-1">Profesional:</p> {{ event.calendario.profesional?.nombre }} {{ event.calendario.profesional?.paterno }} {{ event.calendario.profesional?.materno }}</li>
+                <li class="list-group-item border-0 bg-light"><p class="font-weight-bold mb-1">Motivo:</p> {{ event.calendario.motivo }} <br></li>
               </ul>
             </div>
           </div>

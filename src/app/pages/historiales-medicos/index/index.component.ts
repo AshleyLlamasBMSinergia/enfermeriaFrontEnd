@@ -35,7 +35,11 @@ export class HistorialesMedicosIndexComponent {
       );
     }
     
-    getHistorialMedico(id: number) {
+    showHistorialMedico(id: number) {
       this.router.navigate(['/enfermeria/historiales-medicos', id]);
+    }
+
+    editHistorialMedico(id: number) {
+      this.router.navigate(['/enfermeria/historiales-medicos/edit', id]);
     }
 }

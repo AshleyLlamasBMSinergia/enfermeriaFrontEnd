@@ -51,10 +51,10 @@ export class CalendarioIndexComponent implements OnInit {
     this.calendarioService.getCalendarioEventos().subscribe(
       (calendarioEventos: Calendario[]) => {
         this.events = calendarioEventos.map((evento) => ({
-          title: `${evento.Tipo} - ${evento.paciente?.pacientable?.Nombres} ${evento.paciente?.pacientable?.Paterno}`,
-          start: this.datePipe.transform(evento.Fecha, 'yyyy-MM-ddTHH:mm:ss'),
-          end: this.datePipe.transform(evento.Fecha, 'yyyy-MM-ddTHH:mm:ss'),
-          color: evento.Color,
+          title: `${evento.tipo} - ${evento.paciente?.pacientable?.nombre} ${evento.paciente?.pacientable?.paterno}`,
+          start: this.datePipe.transform(evento.fecha, 'yyyy-MM-ddTHH:mm:ss'),
+          end: this.datePipe.transform(evento.fecha, 'yyyy-MM-ddTHH:mm:ss'),
+          color: evento.color,
           calendario: evento // Almacenar el objeto Calendario completo en los eventos
         }));
         this.calendarOptions.events = this.events;

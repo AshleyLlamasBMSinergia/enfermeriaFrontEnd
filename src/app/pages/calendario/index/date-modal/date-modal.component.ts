@@ -25,7 +25,7 @@ export class DateModalComponent {
   constructor(private calendarioService: CalendarioService) { }
 
   getEventColor(event: any): string {
-    return event?.calendario?.Color || '#000000'; // Si no hay color definido, se usará negro (#000000) como valor predeterminado
+    return event?.calendario?.color || '#000000'; // Si no hay color definido, se usará negro (#000000) como valor predeterminado
   }
 
   openAppointmentForm(isEditing: boolean = false) {
@@ -55,9 +55,9 @@ export class DateModalComponent {
     
     // Construir el objeto de la cita con los datos del formulario
     const cita = {
-      Tipo: this.tipo,
-      Motivo: this.motivo,
-      Fecha: fechaHora.toISOString(), // Usar la fecha actualizada con la hora
+      tipo: this.tipo,
+      motivo: this.motivo,
+      fecha: fechaHora.toISOString(), // Usar la fecha actualizada con la hora
     };
   
     this.calendarioService.storeCita(cita).subscribe(
@@ -72,9 +72,9 @@ export class DateModalComponent {
 
   editCita(event: any) {
 
-    this.tipo = event.calendario.Tipo;
-    this.motivo = event.calendario.Motivo;
-    this.hora = new Date(event.calendario.Fecha).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    this.tipo = event.calendario.tipo;
+    this.motivo = event.calendario.motivo;
+    this.hora = new Date(event.calendario.fecha).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
     // Almacena la cita que se está editando en la propiedad editedCita
     this.editedCita = event;
@@ -92,14 +92,15 @@ export class DateModalComponent {
         
       // Construir el objeto de la cita actualizada con los datos del formulario
       const citaActualizada = {
-        Tipo: this.tipo,
-        Motivo: this.motivo,
-        Fecha: fechaHora.toISOString(), // Usar la fecha actualizada con la hora
+        tipo: this.tipo,
+        motivo: this.motivo,
+        fecha: fechaHora.toISOString(), // Usar la fecha actualizada con la hora
       };
     
       // Llamar al servicio para actualizar la cita en el backend
-      const Cita = this.editedCita.calendario; // Utilizar la cita almacenada en editedCita
-      this.calendarioService.updateCita(Cita.Cita, citaActualizada).subscribe(
+      const cita = this.editedCita.calendario; // Utilizar la cita almacenada en editedCita
+
+      this.calendarioService.updateCita(cita.id, citaActualizada).subscribe(
         (response) => {
           this.mensaje(response); // Llamar a la función mensaje() con la respuesta
         },
@@ -111,7 +112,7 @@ export class DateModalComponent {
   }
 
   destroyCita(event: any) {
-    const Cita = event.calendario;
+    const cita = event.calendario;
   
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
@@ -133,7 +134,7 @@ export class DateModalComponent {
       })
       .then((result) => {
         if (result.isConfirmed) {
-          this.calendarioService.destroyCita(Cita.Cita).subscribe(
+          this.calendarioService.destroyCita(cita.id).subscribe(
             (response) => {
               this.mensaje(response);
             },
