@@ -25,4 +25,8 @@ export class ExternosService {
   getExternos(): Observable<any> {
     return this.httpClient.get<Externos[]>(this.apiURL);
   }
+
+  getExterno(id: number): Observable<Externos> {
+    return this.httpClient.get<Externos>(`${this.apiURL}/${id}`);
+  }
 }

@@ -31,4 +31,11 @@ export class ConsultasService {
     return this.httpClient.get<Consultas[]>(this.apiURL);
   }
 
+  storeConsulta(consulta: any): Observable<Consultas> {
+    return this.httpClient.post<Consultas>(this.apiURL, consulta, this.httpOptions);
+  }
+
+  getConsulta(id: number): Observable<Consultas> {
+    return this.httpClient.get<Consultas>(`${this.apiURL}/${id}`);
+  }
 }

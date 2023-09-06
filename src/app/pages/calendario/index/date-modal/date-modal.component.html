@@ -1,75 +1,90 @@
-<div class="modal-header border-0">
-  <h5 class="modal-title" id="dateModalLabel"><i class="fas fa-circle" style="color: #13D52A"></i> {{ selectedDate | date: 'dd/MM/yyyy' }}</h5>
-</div>
-<div class="modal-body">
-  <div *ngIf="showEventInfo">
-    <div *ngIf="relatedEvents.length > 0; else noEvents">
-      <h6>Citas del día:</h6>
-      <div *ngFor="let event of relatedEvents">
-        <div class="mt-2">
-          <a class="btn btn-flat border-0 border-bottom btn-block text-left" data-toggle="collapse" [attr.href]="'#collapseExample-' + event.calendario.id" role="button" aria-expanded="false" [attr.aria-controls]="'collapseExample-' + event.calendario.paciente?.pacientable_id">
-            <h5 class="text-secondary"><i [style.color]="getEventColor(event)" class="fas fa-calendar"></i> {{event.calendario.tipo}} - {{ event.calendario.paciente?.pacientable?.nombre }} {{ event.calendario.paciente?.pacientable?.paterno }}</h5>
-          </a>
-          <div class="collapse mt-2" [attr.id]="'collapseExample-' + event.calendario.id">
-            <div>
-              <ul class="list-group">
-                <li class="list-group-item border-0 bg-light">
-                  <a class="btn btn-tool btn-sm float-right pt-3" (click)="destroyCita(event)">
-                    <i class="fas fa-ban text-danger"></i>
-                  </a>
-                  <a class="btn btn-tool btn-sm float-right pt-3" (click)="editCita(event)">
-                    <i class="fas fa-edit text-primary"></i>
-                  </a>
-                </li>
-                <li class="list-group-item border-0 bg-light"><p class="font-weight-bold mb-1">Hora:</p> {{ event.calendario.fecha | date: 'h:m a' }}</li>
-                <li class="list-group-item border-0 bg-light"><p class="font-weight-bold mb-1">Paciente:</p> <a>{{ event.calendario.paciente.pacientable?.nombre }} {{ event.calendario.paciente.pacientable?.paterno }} {{ event.calendario.paciente.pacientable?.materno }}</a></li>
-                <li class="list-group-item border-0 bg-light"><p class="font-weight-bold mb-1">Profesional:</p> {{ event.calendario.profesional?.nombre }} {{ event.calendario.profesional?.paterno }} {{ event.calendario.profesional?.materno }}</li>
-                <li class="list-group-item border-0 bg-light"><p class="font-weight-bold mb-1">Motivo:</p> {{ event.calendario.motivo }} <br></li>
-              </ul>
+<div class="modal" id="dateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div #eventosColapsados class="modal-content">
+      <div class="modal-header border-0">
+        <h5 class="modal-title" id="dateModalLabel"><i class="fas fa-circle" style="color: #13D52A"></i> {{ selectedDate | date: 'dd/MM/yyyy' }}</h5>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="showEventInfo">
+          <div *ngIf="relatedEvents.length > 0; else noEvents">
+            <h6>Citas del día:</h6>
+            <div *ngFor="let event of relatedEvents">
+              <div class="mt-2">
+                <a class="btn btn-flat border-0 border-bottom btn-block text-left" data-toggle="collapse" [attr.href]="'#collapseExample-' + event.calendario.id" role="button" aria-expanded="false" [attr.aria-controls]="'collapseExample-' + event.calendario.paciente?.pacientable_id">
+                  <h5 class="text-secondary"><i [style.color]="getEventColor(event)" class="fas fa-calendar"></i> {{event.calendario.tipo}} - {{ event.calendario.paciente?.pacientable?.nombre }} {{ event.calendario.paciente?.pacientable?.paterno }}</h5>
+                </a>
+                <div class="collapse mt-2" [attr.id]="'collapseExample-' + event.calendario.id">
+                  <div>
+                    <ul class="list-group">
+                      <li class="list-group-item border-0 bg-light">
+                        <a class="btn btn-tool btn-sm float-right pt-3" (click)="destroyCita(event)">
+                          <i class="fas fa-ban text-danger"></i>
+                        </a>
+                        <a class="btn btn-tool btn-sm float-right pt-3" (click)="editCita(event)">
+                          <i class="fas fa-edit text-primary"></i>
+                        </a>
+                      </li>
+                      <li class="list-group-item border-0 bg-light"><p class="font-weight-bold mb-1">Hora:</p> {{ event.calendario.fecha | date: 'h:m a' }}</li>
+                      <li class="list-group-item border-0 bg-light"><p class="font-weight-bold mb-1">Paciente:</p> <a>{{ event.calendario.paciente.pacientable?.nombre }} {{ event.calendario.paciente.pacientable?.paterno }} {{ event.calendario.paciente.pacientable?.materno }}</a></li>
+                      <li class="list-group-item border-0 bg-light"><p class="font-weight-bold mb-1">Profesional:</p> {{ event.calendario.profesional?.nombre }} {{ event.calendario.profesional?.paterno }} {{ event.calendario.profesional?.materno }}</li>
+                      <li class="list-group-item border-0 bg-light"><p class="font-weight-bold mb-1">Motivo:</p> {{ event.calendario.motivo }} <br></li>
+                      <li class="list-group-item border-0 bg-light text-center">
+                        <!-- <button class="btn btn-sm btn-pink" (click)="iniciarConsulta(event.calendario.id)">
+                          Iniciar consulta
+                        </button> -->
+      
+                        <button class="btn btn-sm btn-pink" (click)="iniciarConsulta(event.calendario.id)">
+                          Iniciar consulta
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
+          <ng-template #noEvents>
+            <p>No hay citas relacionados para esta fecha.</p>
+          </ng-template>
+          <button class="btn btn-success btn-block mt-3" (click)="openAppointmentForm()">Agendar cita</button>
+        </div>
+        <!-- Formulario para agendar cita -->
+        <div *ngIf="showAppointmentForm">
+          <form (submit)="isEditing ? updateCita() : createCita()">
+            <!-- Campos del formulario -->
+            <div>
+              <div class="form-group">
+                <label class="col-form-label">
+                  Tipo
+                </label>
+                  <select class="form-control" name="tipo" id="tipo" [(ngModel)]="tipo">
+                    <option value="">-- Seleccione una opción --</option>
+                    <option value="Consulta">Consulta médica</option>
+                    <option value="Psicólogo">Psicólogo</option>
+                    <option value="Nutriólogo">Nutriólogo</option>
+                  </select>
+              </div>
+              <div class="form-group">
+                  <label class="col-form-label">
+                      Motivo
+                  </label>
+                  <textarea class="form-control" name="motivo" id="motivo" cols="30" rows="8" [(ngModel)]="motivo"></textarea>
+              </div>
+              <div class="form-group">
+                <label class="col-form-label">
+                    Hora
+                </label>
+                <input type="time" class="form-control" name="hora" id="hora" [(ngModel)]="hora">
+            </div>
+            </div>
+            <!-- Botones para guardar o cancelar la cita -->
+            <div class="float-right mb-3">
+              <button type="submit" class="btn btn-success">{{ isEditing ? 'Guardar cambios' : 'Guardar cita' }}</button>
+              <button type="button" class="btn btn-danger ml-3" (click)="closeAppointmentForm()">Cancelar</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
-    <ng-template #noEvents>
-      <p>No hay citas relacionados para esta fecha.</p>
-    </ng-template>
-    <button class="btn btn-success btn-block mt-3" (click)="openAppointmentForm()">Agendar cita</button>
-  </div>
-  <!-- Formulario para agendar cita -->
-  <div *ngIf="showAppointmentForm">
-    <form (submit)="isEditing ? updateCita() : createCita()">
-      <!-- Campos del formulario -->
-      <div>
-        <div class="form-group">
-          <label class="col-form-label">
-            Tipo
-          </label>
-            <select class="form-control" name="tipo" id="tipo" [(ngModel)]="tipo">
-              <option value="">-- Seleccione una opción --</option>
-              <option value="Consulta">Consulta médica</option>
-              <option value="Psicólogo">Psicólogo</option>
-              <option value="Nutriólogo">Nutriólogo</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label class="col-form-label">
-                Motivo
-            </label>
-            <textarea class="form-control" name="motivo" id="motivo" cols="30" rows="8" [(ngModel)]="motivo"></textarea>
-        </div>
-        <div class="form-group">
-          <label class="col-form-label">
-              Hora
-          </label>
-          <input type="time" class="form-control" name="hora" id="hora" [(ngModel)]="hora">
-      </div>
-      </div>
-      <!-- Botones para guardar o cancelar la cita -->
-      <div class="float-right mb-3">
-        <button type="submit" class="btn btn-success">{{ isEditing ? 'Guardar cambios' : 'Guardar cita' }}</button>
-        <button type="button" class="btn btn-danger ml-3" (click)="closeAppointmentForm()">Cancelar</button>
-      </div>
-    </form>
   </div>
 </div>

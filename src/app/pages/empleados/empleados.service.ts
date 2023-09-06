@@ -18,10 +18,14 @@ export class EmpleadosService {
      })
   }
 
-  constructor( private httpClient: HttpClient,) { }
+  constructor( private httpClient: HttpClient) { }
 
   // Método para obtener los empleados desde la API
   getEmpleados(): Observable<any> {
     return this.httpClient.get<Empleados[]>(this.apiURL);
+  }
+
+  getEmpleado(id: number): Observable<Empleados> {
+    return this.httpClient.get<Empleados>(`${this.apiURL}/${id}`);
   }
 }

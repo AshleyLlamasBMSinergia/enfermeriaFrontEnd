@@ -1,1 +1,216 @@
-<p>show works!</p>
+<div class="content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header bg-pink1">
+                <p class="font-weight-bold">Profesional asignado</p>
+                <div class="border rounded bg-white p-2">
+                    <!-- <img [src]="image" alt="Product 1" class="img-circle img-size-32 mr-2">
+                    {{ profesional?.nickname }} -->
+                    {{ consulta?.profesional?.nombre }}
+                </div>
+            </div>
+                <div class="border-footer px-3 bg-pink2">
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="col-form-label">
+                                Tipo de paciente
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label">
+                                    Paciente
+                                </label>
+                                <div class="border rounded bg-white p-2">
+                                    {{consulta?.pacientable?.nombre}} {{consulta?.pacientable?.paterno}} {{consulta?.pacientable?.materno}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-8">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label class="col-form-label">
+                                            Edad
+                                        </label>
+                                        <div class="border rounded bg-white p-2">
+                                            {{ consulta?.edad ? consulta?.peso + ' años' : '-' }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label class="col-form-label">
+                                            Peso
+                                        </label>
+                                        <div class="border rounded bg-white p-2">
+                                            {{ consulta?.peso ? consulta?.peso + ' Kg' : '-' }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label class="col-form-label">
+                                            Altura
+                                        </label>
+                                        <div class="border rounded bg-white p-2">
+                                            {{consulta?.talla || '-' }} mts
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="align-items-center d-flex justify-content-around w-100 pb-3">
+                        <span><i class="fas fa-circle fa-xs px-1"></i><b>Fecha:</b> {{ consulta?.fecha | date:'dd/MM/yyyy' : '-' }}</span>
+                        <span><i class="fas fa-circle fa-xs px-1"></i><b>Hora:</b> {{ consulta?.fecha | date:'hh:mm a' : '-' }}</span>
+                        <span><i class="fas fa-circle fa-xs px-1"></i><b>Lugar:</b> - </span>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label">
+                                    Clasificación triaje
+                                </label>
+                                <div class="border rounded p-2 text-center">
+                                    {{ toRoman(consulta?.triajeClasificacion) || '-' }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label">
+                                    Preción diastolica
+                                </label>
+                                <div class="border rounded p-2">
+                                    {{consulta?.pecionDiastolica || '-'}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label">
+                                    Frecuencia respiratoria
+                                </label>
+                                <div class="border rounded p-2">
+                                    {{consulta?.frecuenciaRespiratoria || '-'}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label">
+                                    Frecuencia cardiaca
+                                </label>
+                                <div class="border rounded p-2">
+                                    {{consulta?.frecuenciaCardiaca || '-'}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label">
+                                    Temperatura
+                                </label>
+                                <div class="border rounded p-2">
+                                    {{ consulta?.temperatura ? consulta?.peso + ' °C' : '-' }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label">
+                                    Grucemia capilar
+                                </label>
+                                <div class="border rounded p-2">
+                                    {{consulta?.grucemiaCapilar || '-'}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="py-4">
+                        <table class="table table-borderless">
+                            <tbody>
+                              <tr>
+                                <th class="text-vertical th-pink1 text-white" scope="row">Subjetivo</th>
+                                <td>
+                                    <div class="form-group">
+                                        <label class="col-form-label">
+                                            Lo que dice el paciente
+                                        </label>
+                                        <div class="border rounded p-2">
+                                            {{consulta?.subjetivo || '-'}}
+                                        </div>
+                                    </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <th class="text-vertical th-pink2 text-white" scope="row">Objetivo</th>
+                                <td>
+                                    <div class="form-group">
+                                        <label class="col-form-label">
+                                            Lo que usted ve
+                                        </label>
+                                        <div class="border rounded p-2">
+                                            {{consulta?.objetivo || '-'}}
+                                        </div>
+                                    </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <th class="text-vertical th-pink3 text-white" scope="row">Análisis</th>
+                                <td>
+                                    <div class="form-group">
+                                        <label class="col-form-label">
+                                            Lo que usted cree que está pasando
+                                        </label>
+                                        <div class="border rounded p-2">
+                                            {{consulta?.analisis || '-'}}
+                                        </div>
+                                    </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <th class="text-vertical th-pink4 text-white" scope="row">Plan</th>
+                                <td>
+                                    <div class="form-group">
+                                        <label class="col-form-label">
+                                            Lo que va hacer al respecto
+                                        </label>
+                                        <div class="border rounded p-2">
+                                            {{consulta?.plan || '-'}}
+                                        </div>
+                                    </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <div class="form-group">
+                            <label class="col-form-label">
+                                Diagnóstico
+                            </label>
+                            <div class="border rounded p-2">
+                                {{consulta?.diagnostico || '-'}}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label">
+                                Receta
+                            </label>
+                            <div class="border rounded p-2">
+                                {{consulta?.receta || '-'}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>

@@ -16,13 +16,7 @@
   </div>
 </div>
 
-<div class="modal" id="dateModal" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div #eventosColapsados class="modal-content">
-      <app-date-modal [selectedDate]="selectedDate" [relatedEvents]="relatedEvents"></app-date-modal>
-    </div>
-  </div>
-</div>
+<app-date-modal [selectedDate]="selectedDate" [relatedEvents]="relatedEvents"></app-date-modal>
 
 <div class="modal" id="eventModal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">

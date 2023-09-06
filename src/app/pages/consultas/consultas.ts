@@ -1,5 +1,6 @@
 import { DecimalPipe } from "@angular/common";
 import { Calendario } from "../calendario/calendario";
+import { Empleados } from "../empleados/empleados";
 
 export interface Consultas {
     id: number,
@@ -8,6 +9,8 @@ export interface Consultas {
     cita: Calendario,
 
     fecha: Date;
+
+    profesional: Empleados;
 
     pacientable_id: number;
     pacientable_type: string;
@@ -26,8 +29,10 @@ export interface Consultas {
     frecuenciaRespiratoria: number;
     frecuenciaCardiaca: number;
     temperatura: number;
+    edad: number;
     peso: DecimalPipe;
     talla: DecimalPipe;
+    altura: DecimalPipe;
     grucemiaCapilar: DecimalPipe;
     subjetivo: string;
     objetivo: string;

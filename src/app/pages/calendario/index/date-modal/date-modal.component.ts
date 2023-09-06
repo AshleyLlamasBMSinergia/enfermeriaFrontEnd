@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
 import { CalendarioService } from '../../calendario.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { Component, ElementRef, Renderer2, Input, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-date-modal',
@@ -22,7 +23,21 @@ export class DateModalComponent {
   motivo: string = '';
   hora: string = '';
 
-  constructor(private calendarioService: CalendarioService) { }
+  constructor(
+    private router: Router, private route: ActivatedRoute,
+    private calendarioService: CalendarioService,
+    private el: ElementRef, private renderer: Renderer2,
+    ) { }
+
+  iniciarConsulta(cita: number) {
+    // console.log('Iniciar consulta:', cita);
+    // if ($('#dateModal').length) {
+    //   $('#dateModal').modal('hide'); // Oculta el modal
+    // }else{
+    //   console.log('No existe');
+
+    // }
+  }
 
   getEventColor(event: any): string {
     return event?.calendario?.color || '#000000'; // Si no hay color definido, se usará negro (#000000) como valor predeterminado
@@ -62,7 +77,7 @@ export class DateModalComponent {
   
     this.calendarioService.storeCita(cita).subscribe(
       (response) => {
-        this.mensaje(response); // Llamar a la función mensaje() con la respuesta
+        this.mensaje(response);
       },
       (error) => {
         console.error('Error al generar la cita:', error);
@@ -71,7 +86,6 @@ export class DateModalComponent {
   }
 
   editCita(event: any) {
-
     this.tipo = event.calendario.tipo;
     this.motivo = event.calendario.motivo;
     this.hora = new Date(event.calendario.fecha).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -164,4 +178,8 @@ export class DateModalComponent {
       window.location.reload();
     }, 2000); // Cambia el valor si deseas ajustar el tiempo de espera
   }
+
+  // iniciarConsulta(cita: number) {
+  //   this.router.navigate(['/enfermeria/consultas/create'], { queryParams: { cita } });
+  // }
 }

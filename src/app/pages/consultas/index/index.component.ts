@@ -33,4 +33,9 @@ export class ConsultasIndexComponent implements OnInit{
         }
       );
     }
+
+    showConsulta(id: number) {
+      this.router.navigate(['/enfermeria/consultas', id]);
+    }
+
   }

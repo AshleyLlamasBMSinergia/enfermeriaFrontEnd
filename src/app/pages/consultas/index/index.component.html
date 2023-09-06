@@ -11,7 +11,7 @@
             </div>
             <div class="card-header border-0">
                 <div class="float-right">
-                    <a class="btn btn-success" routerLink="/enfermeria/consultas/create"><i class="fas fa-plus"></i> Generar consulta</a>
+                    <a class="btn btn-sm btn-pink" routerLink="/enfermeria/consultas/create"><i class="fas fa-plus"></i> Generar consulta</a>
                 </div>    
             </div>
             <div class="card-body table-responsive p-0">
@@ -22,7 +22,7 @@
                   <th>Fecha</th>
                   <th>Hora</th>
                   <th></th>
-                  <th></th>
+                  <!-- <th></th> -->
                   <th></th>
                 </tr>
                 </thead>
@@ -39,17 +39,17 @@
                             {{ consulta.fecha | date:'h:mm a' }}
                         </td>
                         <td width="10px">
-                            <button href="#" class="btn btn-default">
+                            <button href="#" class="btn btn-sm btn-secondary" (click)="showConsulta(consulta.id)">
                                 <i class="fas fa-eye"></i>
                             </button>
                         </td>
-                        <td width="10px">
-                            <button href="#" class="btn btn-primary">
+                        <!-- <td width="10px">
+                            <button href="#" class="btn btn-sm btn-primary">
                                 <i class="fas fa-edit"></i>
                             </button>
-                        </td>
+                        </td> -->
                         <td width="10px">
-                            <button href="#" class="btn btn-danger">
+                            <button href="#" class="btn btn-sm btn-danger">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </td>

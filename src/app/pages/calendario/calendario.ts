@@ -1,6 +1,3 @@
-import { DecimalPipe } from "@angular/common";
-import { Binary } from "@angular/compiler";
-
 export interface Calendario {
     id: number;
     fecha: Date;
