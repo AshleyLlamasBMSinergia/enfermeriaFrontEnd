@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { ConsultasRoutingModule } from './consultas-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSelectModule } from 'ngx-select-ex';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { NgxSelectModule } from 'ngx-select-ex';
     ConsultasRoutingModule,
     NgxSelectModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    NgxPaginationModule
   ],
   providers: [DatePipe],
 })

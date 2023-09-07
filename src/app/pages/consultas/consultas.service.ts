@@ -39,4 +39,9 @@ export class ConsultasService {
   getConsulta(id: number): Observable<Consultas> {
     return this.httpClient.get<Consultas>(`${this.apiURL}/${id}`);
   }
+
+  destroyConsulta(consulta: number): Observable<any> {
+    const url = `${API_URL}consultas/${consulta}`;
+    return this.httpClient.delete(url);
+  }
 }

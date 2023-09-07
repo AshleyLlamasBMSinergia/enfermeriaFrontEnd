@@ -131,7 +131,7 @@ export class EnfermeriaIndexComponent {
   
     swalWithBootstrapButtons
       .fire({
-        title: '¿Estás seguro de cancelar el pendiente?',
+        title: '¿Estás seguro de eliminar el pendiente?',
         text: '¡No podrás revertir esto!',
         icon: 'warning',
         showCancelButton: true,

@@ -7,6 +7,7 @@ import { HistorialesMedicosShowComponent } from './show/show.component';
 import { RouterModule } from '@angular/router';
 import { HistorialesMedicosRoutingModule } from './historiales-medicos-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     RouterModule,
     HistorialesMedicosRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxPaginationModule
   ],
 })
 export class HistorialesMedicosModule { }

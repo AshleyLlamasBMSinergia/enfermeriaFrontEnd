@@ -27,6 +27,11 @@ export class HistorialesMedicosService {
     return historialesMedicos;
   }
 
+  buscador(nombre: string): Observable<any[]> {
+    const url = `${API_URL}historiales-medicos/buscador?nombre=${nombre}`;
+    return this.httpClient.get<any[]>(url);
+  }
+
   getHistorialesMedicos (): Observable<HistorialesMedicos[]> {
     return this.httpClient.get<HistorialesMedicos[]>(API_URL+"historiales-medicos");
   }

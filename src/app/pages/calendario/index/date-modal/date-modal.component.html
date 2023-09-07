@@ -27,10 +27,6 @@
                   <li class="list-group-item border-0 bg-light"><p class="font-weight-bold mb-1">Profesional:</p> {{ event.calendario.profesional?.nombre }} {{ event.calendario.profesional?.paterno }} {{ event.calendario.profesional?.materno }}</li>
                   <li class="list-group-item border-0 bg-light"><p class="font-weight-bold mb-1">Motivo:</p> {{ event.calendario.motivo }} <br></li>
                   <li class="list-group-item border-0 bg-light text-center">
-                    <!-- <button class="btn btn-sm btn-pink" (click)="iniciarConsulta(event.calendario.id)">
-                      Iniciar consulta
-                    </button> -->
-  
                     <button class="btn btn-sm btn-pink" id="iniciarConsulta" (click)="iniciarConsulta(event.calendario.id)">
                       Iniciar consulta
                     </button>
@@ -44,7 +40,7 @@
       <ng-template #noEvents>
         <p>No hay citas relacionados para esta fecha.</p>
       </ng-template>
-      <button class="btn btn-success btn-block mt-3" (click)="openAppointmentForm()">Agendar cita</button>
+      <button class="btn btn-pink btn-block mt-3" (click)="openAppointmentForm()">Agendar cita</button>
     </div>
     <!-- Formulario para agendar cita -->
     <div *ngIf="showAppointmentForm">
@@ -77,8 +73,8 @@
         </div>
         <!-- Botones para guardar o cancelar la cita -->
         <div class="float-right mb-3">
-          <button type="submit" class="btn btn-success">{{ isEditing ? 'Guardar cambios' : 'Guardar cita' }}</button>
-          <button type="button" class="btn btn-danger ml-3" (click)="closeAppointmentForm()">Cancelar</button>
+          <button type="submit" class="btn btn-pink">{{ isEditing ? 'Guardar cambios' : 'Guardar cita' }}</button>
+          <button type="button" class="btn btn-secondary ml-3" (click)="closeAppointmentForm()">Cancelar</button>
         </div>
       </form>
     </div>

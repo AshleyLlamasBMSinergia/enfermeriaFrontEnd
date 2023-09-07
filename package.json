@@ -39,6 +39,7 @@
     "ng-chartjs": "^0.2.7",
     "ng-select2-component": "^11.0.0",
     "ngx-bootstrap": "^10.3.0",
+    "ngx-pagination": "^6.0.3",
     "ngx-select-ex": "^8.0.1",
     "rxjs": "~7.8.0",
     "sweetalert2": "^11.7.20",
