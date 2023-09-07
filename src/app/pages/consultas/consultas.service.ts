@@ -5,6 +5,7 @@ import {  Observable } from 'rxjs';
 import { Consultas } from './consultas';
 import { API_URL } from 'src/app/config';
 import { Router } from '@angular/router';
+import { Calendario } from '../calendario/calendario';
 
 @Injectable({
   providedIn: 'root'

@@ -8,8 +8,10 @@ import { ConsultasService } from '../consultas.service';
 import { UserService } from 'src/app/services/user.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ImageService } from 'src/app/services/imagen.service';
-import { Router } from '@angular/router';
+import { CitasService } from 'src/app/services/cita.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { C } from '@fullcalendar/core/internal-common';
 
 @Component({
   selector: 'app-create',
@@ -20,7 +22,8 @@ import Swal from 'sweetalert2';
 export class ConsultasCreateComponent implements OnInit {
   consultaForm: FormGroup;
 
-  cita: number | null = null;
+  citaId: number | null = null;
+  cita: any;
 
   profesional: any;
   image: any;
@@ -36,6 +39,7 @@ export class ConsultasCreateComponent implements OnInit {
   horaActual: string | null = null;
 
   constructor(
+    private route: ActivatedRoute,
     private router: Router,
     private formBuilder: FormBuilder,
     private userService: UserService,
@@ -43,6 +47,7 @@ export class ConsultasCreateComponent implements OnInit {
     private empleadosService: EmpleadosService,
     private externosService: ExternosService,
     private consultasService: ConsultasService,
+    private citasService: CitasService,
     private datePipe: DatePipe,
     private sanitizer: DomSanitizer
   ) 
@@ -72,6 +77,10 @@ export class ConsultasCreateComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.route.params.subscribe(params => {
+      this.citaId = params['cita'];
+      this.getCita();
+    });
 
     this.userService.user$.subscribe(
       (user: any) => {
@@ -94,6 +103,36 @@ export class ConsultasCreateComponent implements OnInit {
 
     this.obtenerFechaHoraActual();
     this.cargarOpcionesEmpleados();
+  }
+
+  getCita(){
+    if(this.citaId !== null && this.citaId !== undefined){
+    
+      this.citasService.getCita(this.citaId)
+        .subscribe(cita => {
+          this.cita = cita;
+
+          let tipoPaciente: string;
+  
+          switch(this.cita.paciente.pacientable_type){
+            case 'App\\Models\\NomEmpleado':
+              tipoPaciente = 'Empleado';
+            break;
+            case 'App\\Models\\Externo':
+              tipoPaciente = 'Externo';
+            break;
+            default:
+              tipoPaciente = '';
+            break;
+          }
+          
+          this.consultaForm.get('cita_id')?.setValue(this.citaId);
+    
+          this.consultaForm.get('pacientable_id')?.setValue(this.cita.paciente.pacientable_id);
+          this.consultaForm.get('tipoPaciente')?.setValue(tipoPaciente);
+        }
+      );
+    }
   }
 
   cambiarTipoPaciente() {
@@ -144,40 +183,41 @@ export class ConsultasCreateComponent implements OnInit {
   }
 
   cargarDatosPaciente(id: number) {
-
-    const tipoPacienteControl = this.consultaForm.get('tipoPaciente');
-    if (tipoPacienteControl) {
-      const tipoPaciente = tipoPacienteControl.value;
-      if (tipoPaciente === 'Empleado') {
-        this.empleadosService.getEmpleado(id).subscribe(
-          (paciente) => {
-            this.paciente = paciente;
-            if (this.paciente?.fechaNacimiento) {
-              const fechaNacimiento = new Date(this.paciente!.fechaNacimiento);
-              const edad = differenceInYears(new Date(), fechaNacimiento);
-    
-              this.consultaForm.get('edad')?.setValue(edad);
+    if(id !== null && id !== undefined){
+      const tipoPacienteControl = this.consultaForm.get('tipoPaciente');
+      if (tipoPacienteControl) {
+        const tipoPaciente = tipoPacienteControl.value;
+        if (tipoPaciente === 'Empleado') {
+          this.empleadosService.getEmpleado(id).subscribe(
+            (paciente) => {
+              this.paciente = paciente;
+              if (this.paciente?.fechaNacimiento) {
+                const fechaNacimiento = new Date(this.paciente!.fechaNacimiento);
+                const edad = differenceInYears(new Date(), fechaNacimiento);
+      
+                this.consultaForm.get('edad')?.setValue(edad);
+              }
+            },
+            (error) => {
+              console.error('Error al obtener los datos del paciente:', error);
             }
-          },
-          (error) => {
-            console.error('Error al obtener los datos del paciente:', error);
-          }
-        );
-      } else if (tipoPaciente === 'Externo') {
-        this.externosService.getExterno(id).subscribe(
-          (paciente) => {
-            this.paciente = paciente;
-            if (this.paciente?.fechaNacimiento) {
-              const fechaNacimiento = new Date(this.paciente!.fechaNacimiento);
-              const edad = differenceInYears(new Date(), fechaNacimiento);
-    
-              this.consultaForm.get('edad')?.setValue(edad);
+          );
+        } else if (tipoPaciente === 'Externo') {
+          this.externosService.getExterno(id).subscribe(
+            (paciente) => {
+              this.paciente = paciente;
+              if (this.paciente?.fechaNacimiento) {
+                const fechaNacimiento = new Date(this.paciente!.fechaNacimiento);
+                const edad = differenceInYears(new Date(), fechaNacimiento);
+      
+                this.consultaForm.get('edad')?.setValue(edad);
+              }
+            },
+            (error) => {
+              console.error('Error al obtener los datos del paciente:', error);
             }
-          },
-          (error) => {
-            console.error('Error al obtener los datos del paciente:', error);
-          }
-        );
+          );
+        }
       }
     }
   }
@@ -190,10 +230,6 @@ export class ConsultasCreateComponent implements OnInit {
   guardar(){
 
     if (!this.consultaForm.invalid) {
-
-      if(this.cita){
-        this.consultaForm.get('cita_id')?.setValue(this.cita);
-      }
   
       const fechaHoraActual = `${this.fechaActual} ${this.horaActual}`;
       this.consultaForm.get('fecha')?.setValue(fechaHoraActual);
@@ -207,7 +243,6 @@ export class ConsultasCreateComponent implements OnInit {
           this.mensaje(response);
         },
         (error) => {
-
           this.error(error);
         }
       );

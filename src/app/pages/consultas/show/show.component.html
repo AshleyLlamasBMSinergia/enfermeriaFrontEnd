@@ -11,20 +11,21 @@
             </div>
                 <div class="border-footer px-3 bg-pink2">
                     <div class="row">
-                        <div class="form-group">
-                            <label class="col-form-label">
-                                Tipo de paciente
-                            </label>
-                        </div>
-                    </div>
-                    <div class="row">
                         <div class="col-12 col-md-4">
                             <div class="form-group">
                                 <label class="col-form-label">
                                     Paciente
                                 </label>
-                                <div class="border rounded bg-white p-2">
-                                    {{consulta?.pacientable?.nombre}} {{consulta?.pacientable?.paterno}} {{consulta?.pacientable?.materno}}
+                                <div class="row border rounded bg-white p-2">
+                                    <div class="col-12 col-md-8">
+                                        {{consulta?.pacientable?.nombre}} {{consulta?.pacientable?.paterno}} {{consulta?.pacientable?.materno}}
+                                    </div>
+                                    <div class="col-12 col-md-4 bg-info text-center rounded">
+                                        <span [ngSwitch]="consulta?.pacientable_type">
+                                            <span *ngSwitchCase="'App\\Models\\NomEmpleado'">Empleado</span>
+                                            <span *ngSwitchCase="'App\\Models\\Externo'">Externo</span>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>

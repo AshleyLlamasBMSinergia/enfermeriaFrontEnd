@@ -1,7 +1,9 @@
+import * as $ from 'jquery';
 import { CalendarioService } from '../../calendario.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
-import { Component, ElementRef, Renderer2, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, Renderer2, Input } from '@angular/core';
+import 'bootstrap';
 
 @Component({
   selector: 'app-date-modal',
@@ -30,13 +32,8 @@ export class DateModalComponent {
     ) { }
 
   iniciarConsulta(cita: number) {
-    // console.log('Iniciar consulta:', cita);
-    // if ($('#dateModal').length) {
-    //   $('#dateModal').modal('hide'); // Oculta el modal
-    // }else{
-    //   console.log('No existe');
-
-    // }
+    (window as any).$('#dateModal').modal('hide');
+    this.router.navigate(['/enfermeria/consultas/create', { cita: cita }]);
   }
 
   getEventColor(event: any): string {
@@ -178,8 +175,4 @@ export class DateModalComponent {
       window.location.reload();
     }, 2000); // Cambia el valor si deseas ajustar el tiempo de espera
   }
-
-  // iniciarConsulta(cita: number) {
-  //   this.router.navigate(['/enfermeria/consultas/create'], { queryParams: { cita } });
-  // }
 }

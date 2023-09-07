@@ -10,7 +10,7 @@
             </div>
             <form [formGroup]="consultaForm" (ngSubmit)="guardar()">
                 <div class="border-footer px-3 bg-pink2">
-                    <div class="row">
+                    <div class="row" *ngIf="cita == null && cita == undefined">
                         <div class="form-group">
                             <label class="col-form-label">
                                 Tipo de paciente
@@ -22,7 +22,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-4" *ngIf="cita == null && cita == undefined">
                             <div class="form-group">
                                 <label class="col-form-label">
                                     Paciente
@@ -35,6 +35,24 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-12 col-md-4" *ngIf="cita !== null && cita !== undefined">
+                            <div class="form-group">
+                                <label class="col-form-label">
+                                    Paciente
+                                </label>
+                                <div class="row border rounded bg-white p-2">
+                                    <div class="col-12 col-md-8">
+                                        {{cita.paciente?.pacientable?.nombre}}
+                                    </div>
+                                    <div class="col-12 col-md-4 bg-info text-center rounded">
+                                        <span [ngSwitch]="cita.paciente?.pacientable_type">
+                                            <span *ngSwitchCase="'App\\Models\\NomEmpleado'">Empleado</span>
+                                            <span *ngSwitchCase="'App\\Models\\Externo'">Externo</span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-12 col-md-8">
                             <div class="row">
                                 <div class="col">
@@ -42,7 +60,7 @@
                                         <label class="col-form-label">
                                             Edad
                                         </label>
-                                        <input type="text" id="edad" class="form-control" formControlName="edad">
+                                        <input type="number" id="edad" class="form-control" formControlName="edad">
                                     </div>
                                 </div>
                                 <div class="col">
@@ -50,7 +68,7 @@
                                         <label class="col-form-label">
                                             Peso
                                         </label>
-                                        <input type="text" id="peso" class="form-control" formControlName="peso">
+                                        <input type="number" id="peso" class="form-control" formControlName="peso">
                                     </div>
                                 </div>
                                 <div class="col">
@@ -58,7 +76,7 @@
                                         <label class="col-form-label">
                                             Altura
                                         </label>
-                                        <input type="text" id="talla" class="form-control" formControlName="talla">
+                                        <input type="number" id="talla" class="form-control" formControlName="talla">
                                     </div>
                                 </div>
                             </div>

@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { CalendarOptions, EventApi, EventClickArg } from '@fullcalendar/core';
+import { Component, OnInit } from '@angular/core';
+import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listWeekPlugin from '@fullcalendar/list';
@@ -7,6 +7,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import { CalendarioService } from '../calendario.service';
 import { DatePipe } from '@angular/common';
 import { Calendario } from '../calendario';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-index',
@@ -45,7 +46,7 @@ export class CalendarioIndexComponent implements OnInit {
     events: [],
   };
 
-  constructor(private calendarioService: CalendarioService, private datePipe: DatePipe) {}
+  constructor(private calendarioService: CalendarioService, private datePipe: DatePipe, private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.calendarioService.getCalendarioEventos().subscribe(
@@ -85,14 +86,6 @@ export class CalendarioIndexComponent implements OnInit {
     if (modalElement) {
       modalElement.setAttribute('data-bs-date', this.selectedDate.toISOString());
       (window as any).$('#dateModal').modal('show');
-    }
-  }
-
-  openEventModal(event: any) {
-    this.selectedEvent = event;
-    const modalElement = document.getElementById('eventModal');
-    if (modalElement) {
-      (window as any).$('#eventModal').modal('show');
     }
   }
 }
