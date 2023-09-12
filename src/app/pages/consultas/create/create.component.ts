@@ -11,7 +11,6 @@ import { ImageService } from 'src/app/services/imagen.service';
 import { CitasService } from 'src/app/services/cita.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
-import { C } from '@fullcalendar/core/internal-common';
 
 @Component({
   selector: 'app-create',

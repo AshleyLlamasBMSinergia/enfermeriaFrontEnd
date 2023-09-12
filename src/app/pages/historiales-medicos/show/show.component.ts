@@ -5,6 +5,8 @@ import { HistorialesMedicos } from '../historiales-medicos';
 import { differenceInYears } from 'date-fns';
 import Swal from 'sweetalert2';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { ImageService } from 'src/app/services/imagen.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-show',
@@ -16,6 +18,8 @@ export class HistorialesMedicosShowComponent implements OnInit {
   historialMedico!: HistorialesMedicos | null;
   edad: number | null = null;
   terminado: boolean = false;
+
+  image: any;
 
   editandoAPPatologicos: boolean = false;
   editandoAPNPatologicos: boolean = false;
@@ -171,7 +175,9 @@ export class HistorialesMedicosShowComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private historialesMedicosService: HistorialesMedicosService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private imageService: ImageService,
+    private sanitizer: DomSanitizer
   ) { }
 
   ngOnInit() {
@@ -189,7 +195,7 @@ export class HistorialesMedicosShowComponent implements OnInit {
     const historialMedicoId = +this.route.snapshot.paramMap.get('HistorialMedico')!;
     this.historialesMedicosService.getHistorialMedico(historialMedicoId)
       .subscribe(historialMedico => {
-        console.table(historialMedico)
+        // console.table(historialMedico)
         this.historialMedico = historialMedico;
         this.calcularEdad();
         this.terminado = true;
@@ -197,6 +203,24 @@ export class HistorialesMedicosShowComponent implements OnInit {
         this.formAPPatologicos.get('historialMedico_id')?.setValue(historialMedico.id);
         this.formAPNPatologicos.get('historialMedico_id')?.setValue(historialMedico.id);
         this.formAHeredofamiliares.get('historialMedico_id')?.setValue(historialMedico.id);
+
+        let imagen = '';
+
+        if(historialMedico.id == 1){
+          imagen = '352509003_6049771758454029_8179069290620608597_n.jpg';
+        }else{
+          imagen = historialMedico.id + '.jpeg';
+        }
+
+        this.imageService.getImagen(imagen).subscribe(
+          (response: any) => {
+            const blob = new Blob([response], { type: 'image/jpeg' });
+            this.image = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
+          },
+          (error) => {
+            console.error('Error al obtener la imagen', error);
+          }
+        );
       });
   }
 

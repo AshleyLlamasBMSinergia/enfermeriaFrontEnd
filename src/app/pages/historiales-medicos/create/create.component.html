@@ -11,12 +11,18 @@
                             <div class="border rounded bg-light p-3 h-100">
                                 <div class="form-group">
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="imagen" required (change)="onFileSelected($event)">
+                                        <input type="file" class="custom-file-input" id="imagen" required (change)="imagenSeleccionada($event)">
                                         <label class="custom-file-label">Fotografía</label>
                                     </div>
                                 </div>
+                                
                                 <div class="pb-3">
-                                    <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="..." class="img-thumbnail mx-auto d-block">
+                                    <ng-container *ngIf="url; else defaultImage">
+                                        <img *ngIf="url" [src]="url" alt="Imagen seleccionada" class="img-thumbnail mx-auto d-block">
+                                    </ng-container>
+                                    <ng-template #defaultImage>
+                                        <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="..." class="img-thumbnail mx-auto d-block">
+                                    </ng-template>
                                 </div>
                                 <div class="form-group">
                                     <label for="nick">Nickname</label>
@@ -29,9 +35,9 @@
                                 <div class="form-group">
                                     <label>Tipo de paciente</label>
                                     <select class="form-control text-center" id="paciente" formControlName="paciente">
-                                      <option class="">-- Seleccione una opción --</option>
+                                      <option value="" selected>-- Seleccione una opción --</option>
                                       <option>Empleado</option>
-                                      <option>Dependiente</option>
+                                      <!-- <option>Dependiente</option> -->
                                       <option>Externo</option>
                                     </select>
                                 </div>
@@ -66,7 +72,7 @@
                                 <div class="form-group">
                                     <label>Sexo</label>
                                     <select class="form-control text-center" id="sexo" formControlName="sexo">
-                                      <option class="">-- Seleccione una opción --</option>
+                                      <option value="" selected>-- Seleccione una opción --</option>
                                       <option>F</option>
                                       <option>M</option>
                                     </select>
@@ -78,7 +84,7 @@
                                 <div class="form-group">
                                     <label>Estado civil</label>
                                     <select class="form-control text-center" id="estadoCivil" formControlName="estadoCivil">
-                                      <option class="">-- Seleccione una opción --</option>
+                                      <option value="" selected>-- Seleccione una opción --</option>
                                       <option>Soltero</option>
                                       <option>Casado por lo civil</option>
                                       <option>Divorciado legalmente</option>
@@ -92,7 +98,7 @@
                                         <select class="custom-select" id="prefijoInternacional" style="width: 25%;" formControlName="prefijoInternacional">
                                           <option selected>+52</option>
                                         </select>
-                                        <input type="text" class="form-control" id="telefono" style="width: 75%;" formControlName="telefono">
+                                        <input type="tel" class="form-control" id="telefono" style="width: 75%;" formControlName="telefono">
                                     </div>
                                 </div>
                             </div>

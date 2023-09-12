@@ -40,6 +40,45 @@ export class HistorialesMedicosService {
     return this.httpClient.get<HistorialesMedicos>(`${API_URL+"historiales-medicos"}/${id}`);
   }
 
+  storeHistorialMedico(historialMedico: any, imagen: File): Observable<HistorialesMedicos> {
+    return new Observable<HistorialesMedicos>((observer) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(imagen);
+  
+      reader.onload = (event) => {
+        const imagenBase64 = (event.target as FileReader).result as string;
+        historialMedico.imagen = imagenBase64;
+  
+        this.httpClient.post<HistorialesMedicos>(API_URL + "historiales-medicos", historialMedico, this.httpOptions)
+          .subscribe(
+            (response) => {
+              observer.next(response);
+              observer.complete();
+            },
+            (error) => {
+              observer.error(error);
+            }
+          );
+      };
+    });
+  }
+
+  // storeHistorialMedico(historialMedico: any, imagen: File): Observable<HistorialesMedicos> {
+
+  //   const datos = new FormData();
+  //   datos.append('imagen', imagen);
+
+  //   Object.keys(historialMedico).forEach(key => {
+  //     datos.append(key, historialMedico[key]);
+  //   });
+  
+  //   return this.httpClient.post<HistorialesMedicos>(API_URL+"historiales-medicos", datos, this.httpOptions);
+  // }
+
+  // storeHistorialMedico(historialMedico: any): Observable<HistorialesMedicos> {
+  //   return this.httpClient.post<HistorialesMedicos>(API_URL+"historiales-medicos", JSON.stringify(historialMedico), this.httpOptions);
+  // }
+
   storeAntecedentespersonalesPatologicos(antecedentesPersonalesPatologicos: any): Observable<AntecedentesPersonalesPatologicos> {
     return this.httpClient.post<AntecedentesPersonalesPatologicos>(API_URL+"antecendentes-personales-patologicos", JSON.stringify(antecedentesPersonalesPatologicos), this.httpOptions);
   }
