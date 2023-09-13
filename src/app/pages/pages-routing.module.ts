@@ -55,6 +55,14 @@ const routes:Routes = [
           titulo: 'Insumos médicos',
         },
       },
+      // {
+      //   path: 'lotes-medicos',
+      //   loadChildren: () =>
+      //     import('./lotes-medicos/lotes-medicos.module').then((m) => m.LotesMedicosModule),
+      //   data: {
+      //     titulo: 'Lotes médicos',
+      //   },
+      // },
       {
         path: 'requisiciones',
         loadChildren: () =>

@@ -2,22 +2,14 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { RouterModule, Routes } from '@angular/router';
-import { InsumosMedicosIndexComponent } from './index/index.component';
-import { LotesMedicosIndexComponent } from '../lotes-medicos/index/index.component';
+import { LotesMedicosIndexComponent } from './index/index.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: InsumosMedicosIndexComponent,
-    data: {
-      subtitulo: 'Insumos médicos',
-    },
-  },
-  {
-    path: ':id',
     component: LotesMedicosIndexComponent,
     data: {
-      subtitulo: 'Ver Insumo',
+      subtitulo: 'Lotes médicos',
     },
   },
 ];
@@ -32,4 +24,4 @@ const routes: Routes = [
     RouterModule
   ]
 })
-export class InsumosMedicosRoutingModule { }
+export class LotesMedicosRoutingModule { }

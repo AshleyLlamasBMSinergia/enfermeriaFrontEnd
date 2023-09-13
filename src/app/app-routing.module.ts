@@ -13,6 +13,7 @@ const routes: Routes =  [
     loadChildren: () => import('./pages/pages.module').then(m => m.PagesModule)
   },
   { path: 'login', component: LoginComponent },
+  // { path: '', component: HomeComponent, canActivate: [AuthGuard] },
   { path: '404', component: NopageFoundComponent },
   { path: '**', redirectTo: '/404' },
 ]
