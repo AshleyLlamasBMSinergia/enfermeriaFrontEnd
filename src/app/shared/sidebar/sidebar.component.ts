@@ -51,14 +51,6 @@ export class SidebarComponent implements OnInit {
   }
 
   logout() {
-    this.authService.logout().subscribe(
-      () => {
-        localStorage.removeItem('token');
-        this.router.navigateByUrl('/login');
-      },
-      error => {
-        console.error('Error al cerrar sesión:', error);
-      }
-    );
+    this.authService.logout();
   }
 }

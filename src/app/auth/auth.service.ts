@@ -12,6 +12,8 @@ export class AuthService {
   
   constructor(private http: HttpClient, private router: Router, private userService: UserService) { }
 
+  isLoggedIn = false;
+
   login(credentials: { email: string; password: string }): Observable<any> {
     const url = `${API_URL}login`;
 
@@ -29,16 +31,21 @@ export class AuthService {
 
   handleLoginResponse(response: any) {
     if (response.status) {
+      this.isLoggedIn = true;
       this.userService.setUser(response.data.user);
-      // console.log(this.userService.getUser());
+      localStorage.setItem('token', response.data.token);
+      console.log(localStorage);
       this.router.navigate(['/enfermeria/inicio']);
     }
   }
 
-  logout(): Observable<any> {
+  logout(): void {
     const url = `${API_URL}logout`;
+    this.isLoggedIn = false;
     this.userService.clearUser();
-    return this.http.post(url, {});
+    localStorage.removeItem('token');
+    this.userService.clearUser();
+    this.router.navigateByUrl('/login');
   }
 
   getAuthHeaders(): HttpHeaders {

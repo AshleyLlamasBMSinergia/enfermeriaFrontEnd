@@ -18,6 +18,7 @@ export class UserService {
 
   setUser(user: any) {
     localStorage.setItem('user', JSON.stringify(user));
+    localStorage.removeItem('user');
     this.userSubject.next(user);
   }
 

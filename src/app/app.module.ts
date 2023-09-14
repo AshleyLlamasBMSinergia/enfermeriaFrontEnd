@@ -13,6 +13,7 @@ import { SpinnerComponent } from './spinner/spinner.component';
 import { LoginComponent } from './auth/login/login.component';
 import { FormsModule } from '@angular/forms';
 import { AuthInterceptor } from './auth/auth.interceptor';
+import { AuthGuard } from './auth/auth.guard';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     NopageFoundComponent,
     SpinnerComponent,
     NopageFoundComponent,
-    LoginComponent
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,12 +33,13 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     FormsModule
   ],
   providers: [
+    AuthGuard,
     {
       provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true
     },
     {
       provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true
-    }
+    },
   ],
   bootstrap: [AppComponent]
 })
