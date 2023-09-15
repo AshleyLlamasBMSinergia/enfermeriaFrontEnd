@@ -229,6 +229,8 @@ export class ConsultasCreateComponent implements OnInit {
   guardar(){
 
     if (!this.consultaForm.invalid) {
+
+      console.log(this.consultaForm.invalid);
   
       const fechaHoraActual = `${this.fechaActual} ${this.horaActual}`;
       this.consultaForm.get('fecha')?.setValue(fechaHoraActual);
@@ -237,14 +239,14 @@ export class ConsultasCreateComponent implements OnInit {
   
       const consulta = this.consultaForm.value;
   
-      this.consultasService.storeConsulta(consulta).subscribe(
-        (response) => {
-          this.mensaje(response);
-        },
-        (error) => {
-          this.error(error);
-        }
-      );
+      // this.consultasService.storeConsulta(consulta).subscribe(
+      //   (response) => {
+      //     this.mensaje(response);
+      //   },
+      //   (error) => {
+      //     this.error(error);
+      //   }
+      // );
     }else{
       this.error({ message: 'Faltan campos por llenar' });
     }

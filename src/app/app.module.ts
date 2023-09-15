@@ -33,7 +33,7 @@ import { AuthGuard } from './auth/auth.guard';
     FormsModule
   ],
   providers: [
-    AuthGuard,
+    // AuthGuard,
     {
       provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true
     },

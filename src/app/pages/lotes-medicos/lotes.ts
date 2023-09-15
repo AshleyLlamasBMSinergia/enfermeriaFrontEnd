@@ -5,7 +5,6 @@ export interface Lotes {
     lote: string,
     fechaCaducidad: Date,
     fechaIngreso: Date,
-    descripcion: string,
     piezasDisponibles: number,
 
     insumos_id: number,

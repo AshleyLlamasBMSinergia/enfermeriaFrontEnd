@@ -1,9 +1,9 @@
-import * as $ from 'jquery';
 import { CalendarioService } from '../../calendario.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { Component, ElementRef, Renderer2, Input } from '@angular/core';
 import 'bootstrap';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-date-modal',
@@ -20,6 +20,8 @@ export class DateModalComponent {
   isEditing: boolean = false;
   editedCita: any = null;
 
+  horariosDisponibles: any[] = [];
+
   //Formulario
   tipo: string = '';
   motivo: string = '';
@@ -31,13 +33,17 @@ export class DateModalComponent {
     private el: ElementRef, private renderer: Renderer2,
     ) { }
 
-  iniciarConsulta(cita: number) {
+  cerrarModal(){
     (window as any).$('#dateModal').modal('hide');
+  }
+
+  iniciarConsulta(cita: number) {
+    this.cerrarModal();
     this.router.navigate(['/enfermeria/consultas/create', { cita: cita }]);
   }
 
   getEventColor(event: any): string {
-    return event?.calendario?.color || '#000000'; // Si no hay color definido, se usará negro (#000000) como valor predeterminado
+    return event?.calendario?.color || '#000000';
   }
 
   openAppointmentForm(isEditing: boolean = false) {
@@ -51,27 +57,48 @@ export class DateModalComponent {
     this.showAppointmentForm = true;
     this.showEventInfo = false;
     this.isEditing = isEditing;
+    
+    const selectedDate = new Date(this.selectedDate); // Convertir a objeto Date
+    const formattedDate = formatDate(selectedDate, 'yyyy-MM-dd', 'en-US');
+  
+    this.calendarioService.getHorariosDisponibles(1, formattedDate).subscribe(
+      (horariosDisponibles: string[]) => {
+        this.horariosDisponibles = horariosDisponibles;
+      },
+      (error) => {
+        console.error('Error al obtener los horarios disponibles', error);
+      }
+    );
   }
 
   closeAppointmentForm() {
+    this.horariosDisponibles = [];
     this.showAppointmentForm = false;
     this.showEventInfo = true;
   }
 
   createCita() {
-    // Combina la fecha del calendario con la hora ingresada en el formulario
-    const fechaHora = new Date(this.selectedDate);
-    const horasMinutos = this.hora.split(':');
-    
-    fechaHora.setHours(Number(horasMinutos[0]), Number(horasMinutos[1]));
-    
-    // Construir el objeto de la cita con los datos del formulario
+    const fechaCalendario = new Date(this.selectedDate);
+
+    const [horas, minutos] = this.hora.split(':').map(Number);
+
+    const fechaHora = new Date(
+      fechaCalendario.getFullYear(),
+      fechaCalendario.getMonth(),
+      fechaCalendario.getDate(),
+      horas,
+      minutos
+    );
+
+    // Convertir a la hora local
+    const fechaHoraLocal = fechaHora.toLocaleString();
+
     const cita = {
       tipo: this.tipo,
       motivo: this.motivo,
-      fecha: fechaHora.toISOString(), // Usar la fecha actualizada con la hora
+      fecha: fechaHoraLocal,
     };
-  
+
     this.calendarioService.storeCita(cita).subscribe(
       (response) => {
         this.mensaje(response);

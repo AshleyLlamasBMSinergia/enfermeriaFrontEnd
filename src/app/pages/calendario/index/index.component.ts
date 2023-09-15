@@ -86,6 +86,19 @@ export class CalendarioIndexComponent implements OnInit {
     if (modalElement) {
       modalElement.setAttribute('data-bs-date', this.selectedDate.toISOString());
       (window as any).$('#dateModal').modal('show');
+      (window as any).$('#dateModal').modal({ backdrop: 'static', keyboard: false });
     }
   }
+
+  // openDateModal(): void {
+  //   const modalElement = document.getElementById('dateModal');
+  //   if (modalElement) {
+  //     modalElement.setAttribute('data-bs-date', this.selectedDate.toISOString());
+  //     const modal = new (window as any).bootstrap.Modal(modalElement, {
+  //       backdrop: 'static',
+  //       keyboard: false
+  //     });
+  //     modal.show();
+  //   }
+  // }
 }

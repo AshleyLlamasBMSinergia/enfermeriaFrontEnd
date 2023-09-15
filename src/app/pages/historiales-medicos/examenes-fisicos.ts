@@ -1,0 +1,27 @@
+import { DecimalPipe } from "@angular/common";
+
+export interface ExamenesFisicos {
+    id: number,
+    fecha: Date,
+    TA: string,
+    FR: string,
+    peso: DecimalPipe,
+    TC: string,
+    temperatura: number,
+    talla: string,
+    estadoConciencia: string,
+    coordinacion: string,
+    equilibrio: string,
+    marcha: string,
+    orientacion: string,
+    orientacionTiempo: string,
+    orientacionPersona: string,
+    orientacionEspacio: string,
+    historialMedico_id: number,
+    EOrganoSentido_id: number,
+    ECabeza_id: number,
+    ETorax_id: number,
+    EAbdomen_id: number,
+    EExtremidad_id: number,
+    EColumnaVertebral_id: number,
+  }

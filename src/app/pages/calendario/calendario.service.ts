@@ -37,4 +37,9 @@ export class CalendarioService {
     const url = `${this.apiURL}citas/edit/${id}`;
     return this.httpClient.put(url, citaData);
   }
+
+  getHorariosDisponibles(profesionalId: number, fecha: string): Observable<any> {
+    const url = `${this.apiURL}horarios/${profesionalId}/${fecha}/horas-disponibles`;
+    return this.httpClient.get(url);
+  }
 }

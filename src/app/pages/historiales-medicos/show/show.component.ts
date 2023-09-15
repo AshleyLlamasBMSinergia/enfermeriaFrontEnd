@@ -204,23 +204,21 @@ export class HistorialesMedicosShowComponent implements OnInit {
         this.formAPNPatologicos.get('historialMedico_id')?.setValue(historialMedico.id);
         this.formAHeredofamiliares.get('historialMedico_id')?.setValue(historialMedico.id);
 
-        let imagen = '';
+        const imageUrl = historialMedico.pacientable?.image?.url;
 
-        if(historialMedico.id == 1){
-          imagen = '352509003_6049771758454029_8179069290620608597_n.jpg';
-        }else{
-          imagen = historialMedico.id + '.jpeg';
+        if (imageUrl) {
+          this.imageService.getImagen(imageUrl).subscribe(
+            (response: any) => {
+              const blob = new Blob([response], { type: 'image/jpeg' });
+              this.image = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
+            },
+            (error) => {
+              console.error('Error al obtener la imagen', error);
+            }
+          );
+        } else {
+          console.error('La URL de la imagen es indefinida');
         }
-
-        this.imageService.getImagen(imagen).subscribe(
-          (response: any) => {
-            const blob = new Blob([response], { type: 'image/jpeg' });
-            this.image = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
-          },
-          (error) => {
-            console.error('Error al obtener la imagen', error);
-          }
-        );
       });
   }
 

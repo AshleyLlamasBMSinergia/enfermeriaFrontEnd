@@ -2,6 +2,8 @@ import { AntecedentesPersonalesPatologicos } from "./antecedentes-personales-pat
 import { User } from "../../interfaces/user";
 import { AntecedentesPersonalesNoPatologicos } from "./antecedentes-personales-no-patologicos";
 import { AntecedentesHeredofamiliares } from "./antecedentes-heredofamiliares";
+import { Image } from "src/app/interfaces/image";
+import { ExamenesFisicos } from "./examenes-fisicos";
 
 export interface HistorialesMedicos {
     id: number,
@@ -11,7 +13,6 @@ export interface HistorialesMedicos {
     user?: User;
 
     pacientable?: {
-
       paterno: string
       materno: string
       nombre: string
@@ -30,6 +31,8 @@ export interface HistorialesMedicos {
       user_id: number
       created_at: Date;
       updated_at: Date;
+
+      image: Image
     };
 
     APPatologicos_id: number;
@@ -39,4 +42,6 @@ export interface HistorialesMedicos {
     antecedentes_personales_patologicos?: AntecedentesPersonalesPatologicos;
     antecedentes_personales_no_patologicos?: AntecedentesPersonalesNoPatologicos,
     antecedentes_heredofamiliares?: AntecedentesHeredofamiliares
+
+    examenes_fisicos?: ExamenesFisicos []
   }

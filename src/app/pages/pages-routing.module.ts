@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { PagesComponent } from './pages.component';
+import { AuthGuard } from '../auth/auth.guard';
 
 const routes:Routes = [
   {
@@ -14,6 +15,7 @@ const routes:Routes = [
         data: {
           titulo: 'Inicio',
         },
+        canActivate: [AuthGuard,]
       },
       {
         path: 'calendario',
@@ -22,6 +24,7 @@ const routes:Routes = [
         data: {
           titulo: 'Calendario',
         },
+        canActivate: [AuthGuard,]
       },
       {
         path: 'consultas',
@@ -30,6 +33,7 @@ const routes:Routes = [
         data: {
           titulo: 'Consultas',
         },
+        canActivate: [AuthGuard,]
       },
       {
         path: 'estadisticas',
@@ -38,6 +42,7 @@ const routes:Routes = [
         data: {
           titulo: 'Estadísticas',
         },
+        canActivate: [AuthGuard,]
       },
       {
         path: 'historiales-medicos',
@@ -46,6 +51,7 @@ const routes:Routes = [
         data: {
           titulo: 'Historiales médicos',
         },
+        canActivate: [AuthGuard,]
       },
       {
         path: 'insumos-medicos',
@@ -53,7 +59,9 @@ const routes:Routes = [
           import('./insumos-medicos/insumos-medicos.module').then((m) => m.InsumosMedicosModule),
         data: {
           titulo: 'Insumos médicos',
+
         },
+        canActivate: [AuthGuard,]
       },
       // {
       //   path: 'lotes-medicos',
@@ -70,6 +78,7 @@ const routes:Routes = [
         data: {
           titulo: 'Requisiciones',
         },
+        canActivate: [AuthGuard,]
       },
       {
         path: 'estadisticas',
@@ -78,6 +87,7 @@ const routes:Routes = [
         data: {
           titulo: 'Estadísticas',
         },
+        canActivate: [AuthGuard,]
       },
     ]
   }

@@ -35,7 +35,9 @@
                         </tr>
                         <tr>
                           <th scope="row">Fecha de nacimiento</th>
-                          <td class="text-center">{{historialMedico?.pacientable?.fechaNacimiento}}</td>
+                          <td class="text-center">
+                            {{ historialMedico?.pacientable?.fechaNacimiento | date:'dd/MM/yyyy' }}
+                          </td>
                         </tr>
                         <tr>
                           <th scope="row">Estado civil</th>
@@ -61,7 +63,7 @@
           </div>
           <div class="card-body">
             <div>
-              <button class="btn btn-flat text-left btn-block" type="button" data-toggle="collapse" data-target="#atecedentesPP" aria-expanded="false" aria-controls="collapseExample" [class.no-exist]="!historialMedico?.antecedentes_personales_patologicos">
+              <button class="btn btn-flat text-left btn-block border-0" type="button" data-toggle="collapse" data-target="#atecedentesPP" aria-expanded="false" aria-controls="collapseExample" [class.no-exist]="!historialMedico?.antecedentes_personales_patologicos">
                 <h5 class="pt-2"><i class="fas fa-plus btn-option"></i> Antecedentes personales patológicos</h5>
               </button>
               <div class="collapse" id="atecedentesPP">
@@ -793,7 +795,7 @@
             </div>
             <!-- -->
             <div>
-              <button class="btn btn-flat text-left btn-block" type="button" data-toggle="collapse" data-target="#atecedentesPNP" aria-expanded="false" aria-controls="collapseExample" [class.no-exist]="!historialMedico?.antecedentes_personales_no_patologicos">
+              <button class="btn btn-flat text-left btn-block border-0" type="button" data-toggle="collapse" data-target="#atecedentesPNP" aria-expanded="false" aria-controls="collapseExample" [class.no-exist]="!historialMedico?.antecedentes_personales_no_patologicos">
                 <h5 class="pt-2"><i class="fas fa-plus btn-option"></i> Antecedentes personales no patológicos</h5>
               </button>
               <div class="collapse" id="atecedentesPNP">
@@ -1380,7 +1382,7 @@
             </div>
             <!-- -->
             <div>
-              <button class="btn btn-flat text-left btn-block" type="button" data-toggle="collapse" data-target="#atecedentesH" aria-expanded="false" aria-controls="collapseExample" [class.no-exist]="!historialMedico?.antecedentes_heredofamiliares">
+              <button class="btn btn-flat text-left btn-block border-0" type="button" data-toggle="collapse" data-target="#atecedentesH" aria-expanded="false" aria-controls="collapseExample" [class.no-exist]="!historialMedico?.antecedentes_heredofamiliares">
                 <h5 class="pt-2"><i class="fas fa-plus btn-option"></i> Antecedentes heredofamiliares</h5>
               </button>
               <div class="collapse" id="atecedentesH">
@@ -2052,23 +2054,197 @@
           </div>
         </div>
 
-        <!-- <div class="card">
+        <div class="card">
           <div class="card-header text-secondary border-0">
             <h3 class="card-title text-center">Exámenes médicos</h3>
           </div>
           <div class="card-body">
             <div>
-              <button class="btn btn-flat text-left" type="button" data-toggle="collapse" data-target="#examenF" aria-expanded="false" aria-controls="collapseExample">
-                <h5 class="pt-2"><i class="fas fa-plus btn-option"></i> Examen físico</h5>
+              <button class="btn btn-flat text-left border-0" type="button" data-toggle="collapse" data-target="#examenF" aria-expanded="false" aria-controls="collapseExample">
+                <h5 class="pt-2"><i class="fas fa-plus btn-option"></i> Exámenes físicos <span class="badge badge-pill">4</span></h5>
               </button>
+
               <div class="collapse" id="examenF">
-                <div class="p-3">
-    
+                <div *ngFor="let examen_fisico of historialMedico?.examenes_fisicos; let i = index">
+                  <div>
+                    <div class="border-bottom mb-2" [id]="'headingAccordionEFisico' + i">
+                      <h5 class="mb-0">
+                        <button class="btn collapsed btn-none-efects border-0" [attr.data-toggle]="'collapse'" [attr.data-target]="'#collapseEFisico' + i" [attr.aria-expanded]="false" [attr.aria-controls]="'collapseEFisico' + i">
+                          <h5 class="text-secondary ml-4">
+                            <img src="assets/icons/carpeta.svg" alt="Carpeta" width="35px">
+                            {{ examen_fisico.fecha | date:'dd/MM/yyyy' }}
+                          </h5>
+                        </button>
+                      </h5>
+                    </div>
+                    <div [id]="'collapseEFisico' + i" class="collapse" [attr.aria-labelledby]="'headingAccordionEFisico' + i" data-parent="#examenF">
+                      <div class="bg-light rounded p-3">
+                        <div class="py-3">
+                          <a class="btn btn-tool btn-sm float-right">
+                            <i class="fas fa-trash text-danger"></i>
+                          </a>
+                          <a class="btn btn-tool btn-sm float-right">
+                            <i class="fas fa-edit text-primary"></i>
+                          </a>
+                        </div>
+                      
+                        <div class="py-2 border-bottom">
+                          <div class="d-flex py-2">
+                            <div>
+                              <b>T.A</b>
+                            </div>
+                            <div class="ml-auto">
+                              {{examen_fisico?.TA}}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="py-2 border-bottom">
+                          <div class="d-flex py-2">
+                            <div>
+                              <b>F.R</b>
+                            </div>
+                            <div class="ml-auto">
+                              {{examen_fisico?.FR}}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="py-2 border-bottom">
+                          <div class="d-flex py-2">
+                            <div>
+                              <b>Peso</b>
+                            </div>
+                            <div class="ml-auto">
+                              {{examen_fisico?.peso}} Kg
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="py-2 border-bottom">
+                          <div class="d-flex py-2">
+                            <div>
+                              <b>T.C</b>
+                            </div>
+                            <div class="ml-auto">
+                              {{examen_fisico?.TC}}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="py-2 border-bottom">
+                          <div class="d-flex py-2">
+                            <div>
+                              <b>Temperatura</b>
+                            </div>
+                            <div class="ml-auto">
+                              {{examen_fisico?.temperatura}} C
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="py-2 border-bottom">
+                          <div class="d-flex py-2">
+                            <div>
+                              <b>Talla</b>
+                            </div>
+                            <div class="ml-auto">
+                              {{examen_fisico?.talla}}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="py-2 border-bottom">
+                          <div class="d-flex py-2">
+                            <div>
+                              <b>Estado de conciencia</b>
+                            </div>
+                            <div class="ml-auto">
+                              {{examen_fisico?.estadoConciencia}}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="py-2 border-bottom">
+                          <div class="d-flex py-2">
+                            <div>
+                              <b>Coordinación</b>
+                            </div>
+                            <div class="ml-auto">
+                              {{examen_fisico?.coordinacion}}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="py-2 border-bottom">
+                          <div class="d-flex py-2">
+                            <div>
+                              <b>Equilibrio</b>
+                            </div>
+                            <div class="ml-auto">
+                              {{examen_fisico?.equilibrio}}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="py-2 border-bottom">
+                          <div class="d-flex py-2">
+                            <div>
+                              <b>Marcha</b>
+                            </div>
+                            <div class="ml-auto">
+                              {{examen_fisico?.marcha}}
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- <div class="py-2 border-bottom">
+                          <div class="d-flex py-2">
+                            <div>
+                              <b>Orientación</b>
+                            </div>
+                            <div class="ml-auto">
+                              {{examen_fisico?.orientacion}}
+                            </div>
+                          </div>
+                        </div> -->
+
+                        <div>
+                          <table class="table rounded border bg-light">
+                            <tbody>
+                              <tr>
+                                <th colspan="2">Orientación</th>
+                                <td>{{examen_fisico?.orientacion}}</td>
+                              </tr>
+                              <tr>
+                                <th scope="row">2</th>
+                                <td>Jacob</td>
+                                <td>Thornton</td>
+                                <td>@fat</td>
+                              </tr>
+                              <tr>
+                                <th scope="row">3</th>
+                                <td>Larry</td>
+                                <td>the Bird</td>
+                                <td>@twitter</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="text-center">
+                  <button type="submit" class="btn btn-pink">Nuevo examen físico</button>
                 </div>
               </div>
+              
+              
             </div>
           </div>
-        </div> -->
+        </div>
       </div>
     </div>
   </div>

@@ -12,3 +12,8 @@
 .no-exist .btn-option{
     background-color: #cfdedf; color: white; padding: 8px; border-radius: 5px;
 }
+
+.btn-none-efects {
+    text-decoration: none !important; /* Elimina el subrayado */
+    color: inherit !important; /* Usa el color del texto del elemento padre */
+}
