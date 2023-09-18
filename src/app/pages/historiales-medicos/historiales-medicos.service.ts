@@ -122,4 +122,13 @@ export class HistorialesMedicosService {
     const url = `${API_URL}examenes-fisicos/${EFisicoId}`;
     return this.httpClient.delete(url);
   }
+
+  storeExamenAntidoping(examenAntidoping: any): Observable<any> {
+    return this.httpClient.post<any>(API_URL+"examen-antidoping", JSON.stringify(examenAntidoping), this.httpOptions);
+  }
+
+  destroyEAntidoping(EAntidopingId: number): Observable<any> {
+    const url = `${API_URL}examen-antidoping/${EAntidopingId}`;
+    return this.httpClient.delete(url);
+  }
 }

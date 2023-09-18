@@ -17,7 +17,7 @@
               </div>
               <div>
                 <div class="text-center pt-3">
-                  <button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" data-target="#datosGenerales" aria-expanded="false" aria-controls="collapseExample">
+                  <button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" data-target="#datosGenerales" aria-expanded="false" aria-controls="collapseDatosGenerales">
                     Datos generales
                   </button>
                 </div>
@@ -63,7 +63,7 @@
           </div>
           <div class="card-body">
             <div>
-              <button class="btn btn-flat text-left btn-block border-0" type="button" data-toggle="collapse" data-target="#atecedentesPP" aria-expanded="false" aria-controls="collapseExample" [class.no-exist]="!historialMedico?.antecedentes_personales_patologicos">
+              <button class="btn btn-flat text-left btn-block border-0" type="button" data-toggle="collapse" data-target="#atecedentesPP" aria-expanded="false" aria-controls="collapseAtecedentesPP" [class.no-exist]="!historialMedico?.antecedentes_personales_patologicos">
                 <h5 class="pt-2"><i class="fas  fa-circle btn-option"></i> Antecedentes personales patológicos</h5>
               </button>
               <div class="collapse" id="atecedentesPP">
@@ -795,7 +795,7 @@
             </div>
             <!-- -->
             <div>
-              <button class="btn btn-flat text-left btn-block border-0" type="button" data-toggle="collapse" data-target="#atecedentesPNP" aria-expanded="false" aria-controls="collapseExample" [class.no-exist]="!historialMedico?.antecedentes_personales_no_patologicos">
+              <button class="btn btn-flat text-left btn-block border-0" type="button" data-toggle="collapse" data-target="#atecedentesPNP" aria-expanded="false" aria-controls="collapseAtecedentesPNP" [class.no-exist]="!historialMedico?.antecedentes_personales_no_patologicos">
                 <h5 class="pt-2"><i class="fas  fa-circle btn-option"></i> Antecedentes personales no patológicos</h5>
               </button>
               <div class="collapse" id="atecedentesPNP">
@@ -1382,7 +1382,7 @@
             </div>
             <!-- -->
             <div>
-              <button class="btn btn-flat text-left btn-block border-0" type="button" data-toggle="collapse" data-target="#atecedentesH" aria-expanded="false" aria-controls="collapseExample" [class.no-exist]="!historialMedico?.antecedentes_heredofamiliares">
+              <button class="btn btn-flat text-left btn-block border-0" type="button" data-toggle="collapse" data-target="#atecedentesH" aria-expanded="false" aria-controls="collapseAtecedentesH" [class.no-exist]="!historialMedico?.antecedentes_heredofamiliares">
                 <h5 class="pt-2"><i class="fas  fa-circle btn-option"></i> Antecedentes heredofamiliares</h5>
               </button>
               <div class="collapse" id="atecedentesH">
@@ -2060,7 +2060,7 @@
           </div>
           <div class="card-body">
             <div>
-              <button class="btn btn-flat text-left border-0" type="button" data-toggle="collapse" data-target="#examenF" aria-expanded="false" aria-controls="collapseExample">
+              <button class="btn btn-flat text-left border-0" type="button" data-toggle="collapse" data-target="#examenF" aria-expanded="false" aria-controls="collapseExamenF">
                 <h5 class="pt-2"><i class="fas  fa-circle btn-option"></i> Exámenes físicos</h5>
               </button>
 
@@ -3639,11 +3639,153 @@
               </div>
             </div>
             <div>
-              <button class="btn btn-flat text-left border-0" type="button" data-toggle="collapse" data-target="#examenA" aria-expanded="false" aria-controls="collapseExample">
+              <button class="btn btn-flat text-left border-0" type="button" data-toggle="collapse" data-target="#examenA" aria-expanded="false" aria-controls="collapseExamenA">
                 <h5 class="pt-2"><i class="fas  fa-circle btn-option"></i> Exámenes de antidoping</h5>
               </button>
               <div class="collapse" id="examenA">
                 
+                <div *ngFor="let examen_antidoping of historialMedico?.examenes_antidoping; let i = index">
+                  <div>
+                    <div class="border-bottom mb-2" [id]="'headingAccordionEA' + i">
+                      <h5 class="mb-0">
+                        <button class="btn collapsed btn-none-efects border-0" [attr.data-toggle]="'collapse'" [attr.data-target]="'#collapseEAntidoping' + i" [attr.aria-expanded]="false" [attr.aria-controls]="'collapseEAntidoping' + i">
+                          <h5 class="text-secondary">
+                            <img src="assets/icons/carpeta.svg" alt="Carpeta" width="35px">
+                            {{ examen_antidoping.fecha | date:'dd/MM/yyyy' }}
+                          </h5>
+                        </button>
+                      </h5>
+                    </div>
+                    <div [id]="'collapseEAntidoping' + i" class="collapse" [attr.aria-labelledby]="'headingAccordionEAntidoping' + i" data-parent="#examenA">
+                      <div class="bg-light rounded p-3">
+                        <div class="py-3">
+                          <a class="btn btn-tool btn-sm float-right" (click)="destroyEAntidoping(examen_antidoping.id)">
+                            <i class="fas fa-trash text-danger"></i>
+                          </a>
+                        </div>
+
+                        <div class="row">
+                          <div class="py-2 col-12 col-sm-6">
+                            <div class="d-flex border-bottom py-2">
+                              <div>
+                                <b>Tipo</b>
+                              </div>
+                              <div class="ml-auto">
+                                {{examen_antidoping?.tipo}}
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="py-2 col-12 col-sm-6">
+                            <div class="d-flex border-bottom py-2">
+                              <div>
+                                <b>Examen</b>
+                              </div>
+                              <div class="ml-auto">
+                                {{examen_antidoping?.examen}}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="pt-3">
+                          <h5 class="text-center">Sustancias</h5>
+                          <div class="border rounded p-2 mt-3" *ngFor="let sustancia of examen_antidoping?.sustancias; let i = index">
+                            <div class="row">
+                              
+                              <div class="py-2 col-12 col-sm-6">
+                                <div class="d-flex border-bottom py-2">
+                                  <div>
+                                    <b>Nombre</b>
+                                  </div>
+                                  <div class="ml-auto">
+                                    {{sustancia.sustancia}}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="py-2 col-12 col-sm-6">
+                                <div class="d-flex border-bottom py-2">
+                                  <div>
+                                    <b>Resultado</b>
+                                  </div>
+                                  <div class="ml-auto">
+                                    {{sustancia.resultado}}
+                                  </div>
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div *ngIf="mostrarFormularioEAntidoping">
+                  <div class="bg-light rounded p-3 mt-3">
+                    <form [formGroup]="formEAntidoping" (submit)="storeEAntidoping()">
+  
+                      <div class="row">
+                        <div class="py-2 col-12">
+                          <div class="d-flex justify-content-between border-bottom py-2">
+                            <div>
+                              <b>Tipo</b>
+                            </div>
+                            <div class="ml-2">
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" formControlName="tipo" id="tipo1" value="Reingreso">
+                                <label class="form-check-label" for="tipo1">Reingreso</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" formControlName="tipo" id="tipo2" value="Periodico">
+                                <label class="form-check-label" for="tipo2">Periodico</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" formControlName="tipo" id="tipo3" value="Temporal">
+                                <label class="form-check-label" for="tipo3">Temporal</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" formControlName="tipo" id="tipo4" value="Especial">
+                                <label class="form-check-label" for="tipo4">Especial</label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="py-2 col-12">
+                          <div class="d-flex justify-content-between border-bottom py-2">
+                            <div>
+                              <b>Examen</b>
+                            </div>
+                            <div class="ml-2">
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" formControlName="examen" id="examen1" value="Interno">
+                                <label class="form-check-label" for="tipo1">Interno</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" formControlName="examen" id="examen2" value="Externo">
+                                <label class="form-check-label" for="tipo2">Externo</label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="text-center pt-3">
+                        <button type="submit" class="btn btn-sm btn-pink">
+                          <i class="fas fa-save"></i> Guardar
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                
+                <div *ngIf="!mostrarFormularioEAntidoping" class="text-center pt-3">
+                  <button type="submit" class="btn btn-sm btn-pink" (click)="abrirFormularioEAntidoping()"><i class="fas fa-plus"></i> Nuevo examen antidoping</button>
+                </div>
+
               </div>
             </div>
           </div>

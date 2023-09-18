@@ -4,6 +4,7 @@ import { AntecedentesPersonalesNoPatologicos } from "./antecedentes-personales-n
 import { AntecedentesHeredofamiliares } from "./antecedentes-heredofamiliares";
 import { Image } from "src/app/interfaces/image";
 import { ExamenesFisicos } from "./examenes-fisicos";
+import { ExamenesAntidopings } from "./examenes-antidoping";
 
 export interface HistorialesMedicos {
     id: number,
@@ -43,5 +44,6 @@ export interface HistorialesMedicos {
     antecedentes_personales_no_patologicos?: AntecedentesPersonalesNoPatologicos,
     antecedentes_heredofamiliares?: AntecedentesHeredofamiliares
 
-    examenes_fisicos?: ExamenesFisicos []
+    examenes_fisicos?: ExamenesFisicos [];
+    examenes_antidoping?: ExamenesAntidopings [];
   }

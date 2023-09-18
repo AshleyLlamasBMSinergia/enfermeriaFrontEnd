@@ -24,6 +24,7 @@ export interface ExamenesFisicos {
     orientacionPersona: string,
     orientacionEspacio: string,
     historialMedico_id: number,
+
     EOrganoSentido_id: number,
     ECabeza_id: number,
     ETorax_id: number,

@@ -204,6 +204,14 @@ export class HistorialesMedicosShowComponent implements OnInit {
 
   mostrarFormularioEFisico = false;
 
+  formEAntidoping: FormGroup = this.formBuilder.group({
+    tipo: [null],
+    examen: [null],
+    historialMedico_id: [this.historialMedico?.id],
+  })
+
+  mostrarFormularioEAntidoping = false;
+
   espFieldsAPPatologicos: { [key: string]: string } = {
     cirujias: 'espCirujias',
     contusiones: 'espContusiones',
@@ -287,6 +295,7 @@ export class HistorialesMedicosShowComponent implements OnInit {
         this.formAPNPatologicos.get('historialMedico_id')?.setValue(historialMedico.id);
         this.formAHeredofamiliares.get('historialMedico_id')?.setValue(historialMedico.id);
         this.formEFisico.get('historialMedico_id')?.setValue(historialMedico.id);
+        this.formEAntidoping.get('historialMedico_id')?.setValue(historialMedico.id);
 
         const imageUrl = historialMedico.pacientable?.image?.url;
 
@@ -631,6 +640,60 @@ export class HistorialesMedicosShowComponent implements OnInit {
           );
         } else if (result.dismiss === Swal.DismissReason.cancel) {
           swalWithBootstrapButtons.fire('Cancelado', 'Tus exámenes físcos están seguros :)', 'error');
+        }
+      });
+  }
+
+  storeEAntidoping() {
+    const formData = this.formEAntidoping.value;
+
+    this.historialesMedicosService.storeExamenAntidoping(formData)
+    .subscribe(
+      (response) => {
+        this.mensaje(response);
+      },
+      (error) => {
+        console.error('Error al generar el examen antidoping:', error);
+      }
+    );
+  }
+
+  abrirFormularioEAntidoping() {
+    this.mostrarFormularioEAntidoping = !this.mostrarFormularioEAntidoping;
+  }
+
+  destroyEAntidoping(EAntidopingId: number) {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger',
+      },
+      buttonsStyling: false,
+    });
+  
+    swalWithBootstrapButtons
+      .fire({
+        title: '¿Estás seguro de eliminar el examen de antidoping?',
+        text: '¡No podrás revertir esto!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí',
+        cancelButtonText: 'No',
+        reverseButtons: true,
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          this.historialesMedicosService.destroyEAntidoping(EAntidopingId).subscribe(
+            (response) => {
+              this.mensaje(response);
+            },
+            (error) => {
+              console.error('Error al eliminar el examen de antidoping:', error);
+              swalWithBootstrapButtons.fire('Error', 'Hubo un error al eliminar el examen de antidoping.', 'error');
+            }
+          );
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          swalWithBootstrapButtons.fire('Cancelado', 'Examen de antidoping esta seguro :)', 'error');
         }
       });
   }
