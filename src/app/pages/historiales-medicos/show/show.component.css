@@ -5,14 +5,21 @@
     0 0 0 8px black;
 }
 
-.btn-option{
-    background-color: #1DEFFF; color: white; padding: 8px; border-radius: 5px;
+.btn-option {
+    color: #1DEFFF;
 }
 
-.no-exist .btn-option{
-    background-color: #cfdedf; color: white; padding: 8px; border-radius: 5px;
+.no-exist .btn-option {
+    color: #cfdedf;
 }
 
+.chevron-icon::before {
+    content: "\f054"; /* Icono de chevron-right (puedes cambiarlo) */
+}
+
+.no-exist .chevron-icon::before {
+    content: "\f078"; /* Icono de chevron-down (puedes cambiarlo) */
+}
 .btn-none-efects {
     text-decoration: none !important; /* Elimina el subrayado */
     color: inherit !important; /* Usa el color del texto del elemento padre */

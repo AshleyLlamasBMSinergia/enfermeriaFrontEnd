@@ -125,6 +125,85 @@ export class HistorialesMedicosShowComponent implements OnInit {
     otros: [''],
   });
 
+  formEFisico: FormGroup = this.formBuilder.group({
+    TA: [null],
+    FR: [null],
+    peso: [null],
+    TC: [null],
+    temperatura: [null],
+    talla: [null],
+    estadoConciencia: [null],
+    coordinacion: [null],
+    equilibrio: [null],
+    marcha: [null],
+    orientacion: [null],
+    orientacionTiempo: [null],
+    orientacionPersona: [null],
+    orientacionEspacio: [null],
+    historialMedico_id: [this.historialMedico?.id],
+
+    //Cabeza
+    craneo: [null],
+    ojos: [null],
+    nariz: [null],
+    boca: [null],
+    cuello: [null],
+    Cobservaciones: [null],
+
+    //Torax
+    camposPulmonares: [null],
+    ampAmplex: [null],
+    ruidoPulmonar: [null],
+    transVoz: [null],
+    areaPrecordial: [null],
+    FC: [null],
+    tono: [null],
+    ritmo: [null],
+    Tobservaciones: [null],
+
+    // Abdomen
+    pared: [null],
+    peristalsis: [null],
+    visceromegalias: [null],
+    hernias: [null],
+    Aobservaciones: [null],
+
+    // Extremidades
+    toraxicas: [null],
+    hombro: [null],
+    codo: [null],
+    muneca: [null],
+    pie: [null],
+    movilidad: [null],
+    pelvicas: [null],
+    cadera: [null],
+    rodilla: [null],
+    tobillo: [null],
+    mano: [null],
+    fuerza: [null],
+    Eobservaciones: [null],
+
+    // Columna vertebral
+    lordosis: [null],
+    flexion: [null],
+    lateralizacion: [null],
+    puntosDolor: [null],
+    xifosis: [null],
+    extension: [null],
+    rotacion: [null],
+    otros: [null],
+    CVobservaciones: [null],
+
+    //Organos de los sentidos
+    vista: [null],
+    oido: [null],
+    olfato: [null],
+    tacto: [null],
+    OSobservaciones: [null],
+  });
+
+  mostrarFormularioEFisico = false;
+
   espFieldsAPPatologicos: { [key: string]: string } = {
     cirujias: 'espCirujias',
     contusiones: 'espContusiones',
@@ -199,10 +278,15 @@ export class HistorialesMedicosShowComponent implements OnInit {
         this.historialMedico = historialMedico;
         this.calcularEdad();
         this.terminado = true;
+        
+        if (historialMedico?.examenes_fisicos?.length == 0) {
+          this.mostrarFormularioEFisico = true;
+        }
 
         this.formAPPatologicos.get('historialMedico_id')?.setValue(historialMedico.id);
         this.formAPNPatologicos.get('historialMedico_id')?.setValue(historialMedico.id);
         this.formAHeredofamiliares.get('historialMedico_id')?.setValue(historialMedico.id);
+        this.formEFisico.get('historialMedico_id')?.setValue(historialMedico.id);
 
         const imageUrl = historialMedico.pacientable?.image?.url;
 
@@ -429,7 +513,7 @@ export class HistorialesMedicosShowComponent implements OnInit {
 
   storeAntecedentesHeredofamiliares() {
     const formData = this.formAHeredofamiliares.value;
-    this.mapMainToespFieldsAPPatologicos(formData, this.espFieldsAHeredofamiliares);
+    this.mapMainToespFieldsAHeredofamiliares(formData, this.espFieldsAHeredofamiliares);
 
     this.historialesMedicosService.storeAntecedentesHeredofamiliares(formData)
     .subscribe(
@@ -495,6 +579,60 @@ export class HistorialesMedicosShowComponent implements OnInit {
           this.mensaje('¡Uy!, hubo un error al actualizar los antecedentes heredofamiliares.');
         }
       );
+  }
+
+  storeEFisico() {
+    const formData = this.formEFisico.value;
+
+    this.historialesMedicosService.storeExamenesFisicos(formData)
+    .subscribe(
+      (response) => {
+        this.mensaje(response);
+      },
+      (error) => {
+        console.error('Error al generar los exámenes físicos:', error);
+      }
+    );
+  }
+
+  abrirFormularioEFisico() {
+    this.mostrarFormularioEFisico = !this.mostrarFormularioEFisico;
+  }
+
+  destroyEFisico(EFisicoId: number) {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger',
+      },
+      buttonsStyling: false,
+    });
+  
+    swalWithBootstrapButtons
+      .fire({
+        title: '¿Estás seguro de eliminar los examenes físicos?',
+        text: '¡No podrás revertir esto!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí',
+        cancelButtonText: 'No',
+        reverseButtons: true,
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          this.historialesMedicosService.destroyEFisico(EFisicoId).subscribe(
+            (response) => {
+              this.mensaje(response);
+            },
+            (error) => {
+              console.error('Error al eliminar los exámenes físicos:', error);
+              swalWithBootstrapButtons.fire('Error', 'Hubo un error al eliminar los exámenes físicos.', 'error');
+            }
+          );
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          swalWithBootstrapButtons.fire('Cancelado', 'Tus exámenes físcos están seguros :)', 'error');
+        }
+      });
   }
 
   mensaje(response: any) {

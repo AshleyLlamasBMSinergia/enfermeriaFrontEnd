@@ -63,22 +63,6 @@ export class HistorialesMedicosService {
     });
   }
 
-  // storeHistorialMedico(historialMedico: any, imagen: File): Observable<HistorialesMedicos> {
-
-  //   const datos = new FormData();
-  //   datos.append('imagen', imagen);
-
-  //   Object.keys(historialMedico).forEach(key => {
-  //     datos.append(key, historialMedico[key]);
-  //   });
-  
-  //   return this.httpClient.post<HistorialesMedicos>(API_URL+"historiales-medicos", datos, this.httpOptions);
-  // }
-
-  // storeHistorialMedico(historialMedico: any): Observable<HistorialesMedicos> {
-  //   return this.httpClient.post<HistorialesMedicos>(API_URL+"historiales-medicos", JSON.stringify(historialMedico), this.httpOptions);
-  // }
-
   storeAntecedentespersonalesPatologicos(antecedentesPersonalesPatologicos: any): Observable<AntecedentesPersonalesPatologicos> {
     return this.httpClient.post<AntecedentesPersonalesPatologicos>(API_URL+"antecendentes-personales-patologicos", JSON.stringify(antecedentesPersonalesPatologicos), this.httpOptions);
   }
@@ -128,5 +112,14 @@ export class HistorialesMedicosService {
       JSON.stringify(antecedentesHeredofamiliares),
       this.httpOptions
     );
+  }
+
+  storeExamenesFisicos(examenesFisicos: any): Observable<any> {
+    return this.httpClient.post<any>(API_URL+"examenes-fisicos", JSON.stringify(examenesFisicos), this.httpOptions);
+  }
+
+  destroyEFisico(EFisicoId: number): Observable<any> {
+    const url = `${API_URL}examenes-fisicos/${EFisicoId}`;
+    return this.httpClient.delete(url);
   }
 }

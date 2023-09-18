@@ -1,4 +1,10 @@
 import { DecimalPipe } from "@angular/common";
+import { ExamenesCabezas } from "./examenes-cabeza";
+import { ExamenesToraxs } from "./examenes-torax";
+import { ExamenesAbodomen } from "./examenes-abdomen";
+import { ExamenesExtremidad } from "./examenes-extremidad";
+import { ExamenesColumnaVertebral } from "./examenes-columna-vertebral";
+import { ExamenesOrganoSentido } from "./examenes-organo-sentido";
 
 export interface ExamenesFisicos {
     id: number,
@@ -24,4 +30,11 @@ export interface ExamenesFisicos {
     EAbdomen_id: number,
     EExtremidad_id: number,
     EColumnaVertebral_id: number,
+
+    cabeza: ExamenesCabezas;
+    torax: ExamenesToraxs;
+    abdomen: ExamenesAbodomen;
+    extremidad: ExamenesExtremidad;
+    columna_vertebral: ExamenesColumnaVertebral;
+    organo_sentido: ExamenesOrganoSentido;
   }

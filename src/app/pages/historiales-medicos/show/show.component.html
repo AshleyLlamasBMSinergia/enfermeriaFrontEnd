@@ -64,7 +64,7 @@
           <div class="card-body">
             <div>
               <button class="btn btn-flat text-left btn-block border-0" type="button" data-toggle="collapse" data-target="#atecedentesPP" aria-expanded="false" aria-controls="collapseExample" [class.no-exist]="!historialMedico?.antecedentes_personales_patologicos">
-                <h5 class="pt-2"><i class="fas fa-plus btn-option"></i> Antecedentes personales patológicos</h5>
+                <h5 class="pt-2"><i class="fas  fa-circle btn-option"></i> Antecedentes personales patológicos</h5>
               </button>
               <div class="collapse" id="atecedentesPP">
                 <div class="p-3 rounded bg-light">
@@ -796,7 +796,7 @@
             <!-- -->
             <div>
               <button class="btn btn-flat text-left btn-block border-0" type="button" data-toggle="collapse" data-target="#atecedentesPNP" aria-expanded="false" aria-controls="collapseExample" [class.no-exist]="!historialMedico?.antecedentes_personales_no_patologicos">
-                <h5 class="pt-2"><i class="fas fa-plus btn-option"></i> Antecedentes personales no patológicos</h5>
+                <h5 class="pt-2"><i class="fas  fa-circle btn-option"></i> Antecedentes personales no patológicos</h5>
               </button>
               <div class="collapse" id="atecedentesPNP">
                 <div class="p-3 rounded bg-light">
@@ -1383,7 +1383,7 @@
             <!-- -->
             <div>
               <button class="btn btn-flat text-left btn-block border-0" type="button" data-toggle="collapse" data-target="#atecedentesH" aria-expanded="false" aria-controls="collapseExample" [class.no-exist]="!historialMedico?.antecedentes_heredofamiliares">
-                <h5 class="pt-2"><i class="fas fa-plus btn-option"></i> Antecedentes heredofamiliares</h5>
+                <h5 class="pt-2"><i class="fas  fa-circle btn-option"></i> Antecedentes heredofamiliares</h5>
               </button>
               <div class="collapse" id="atecedentesH">
                 <div class="p-3 rounded bg-light">
@@ -2061,7 +2061,7 @@
           <div class="card-body">
             <div>
               <button class="btn btn-flat text-left border-0" type="button" data-toggle="collapse" data-target="#examenF" aria-expanded="false" aria-controls="collapseExample">
-                <h5 class="pt-2"><i class="fas fa-plus btn-option"></i> Exámenes físicos <span class="badge badge-pill">4</span></h5>
+                <h5 class="pt-2"><i class="fas  fa-circle btn-option"></i> Exámenes físicos</h5>
               </button>
 
               <div class="collapse" id="examenF">
@@ -2070,7 +2070,7 @@
                     <div class="border-bottom mb-2" [id]="'headingAccordionEFisico' + i">
                       <h5 class="mb-0">
                         <button class="btn collapsed btn-none-efects border-0" [attr.data-toggle]="'collapse'" [attr.data-target]="'#collapseEFisico' + i" [attr.aria-expanded]="false" [attr.aria-controls]="'collapseEFisico' + i">
-                          <h5 class="text-secondary ml-4">
+                          <h5 class="text-secondary">
                             <img src="assets/icons/carpeta.svg" alt="Carpeta" width="35px">
                             {{ examen_fisico.fecha | date:'dd/MM/yyyy' }}
                           </h5>
@@ -2080,168 +2080,1571 @@
                     <div [id]="'collapseEFisico' + i" class="collapse" [attr.aria-labelledby]="'headingAccordionEFisico' + i" data-parent="#examenF">
                       <div class="bg-light rounded p-3">
                         <div class="py-3">
-                          <a class="btn btn-tool btn-sm float-right">
+                          <a class="btn btn-tool btn-sm float-right" (click)="destroyEFisico(examen_fisico.id)">
                             <i class="fas fa-trash text-danger"></i>
                           </a>
-                          <a class="btn btn-tool btn-sm float-right">
+                          <!-- <a class="btn btn-tool btn-sm float-right">
                             <i class="fas fa-edit text-primary"></i>
-                          </a>
+                          </a> -->
                         </div>
                       
-                        <div class="py-2 border-bottom">
-                          <div class="d-flex py-2">
-                            <div>
-                              <b>T.A</b>
+                        <div class="row">
+                          <div class="py-2 col-12 col-sm-6">
+                            <div class="d-flex border-bottom py-2">
+                              <div>
+                                <b>T.A</b>
+                              </div>
+                              <div class="ml-auto">
+                                {{examen_fisico?.TA}}
+                              </div>
                             </div>
-                            <div class="ml-auto">
-                              {{examen_fisico?.TA}}
+                          </div>
+  
+                          <div class="py-2 col-12 col-sm-6">
+                            <div class="d-flex border-bottom py-2">
+                              <div>
+                                <b>F.R</b>
+                              </div>
+                              <div class="ml-auto">
+                                {{examen_fisico?.FR}}
+                              </div>
+                            </div>
+                          </div>
+  
+                          <div class="py-2 col-12 col-sm-6">
+                            <div class="d-flex border-bottom py-2">
+                              <div>
+                                <b>Peso</b>
+                              </div>
+                              <div class="ml-auto">
+                                {{examen_fisico?.peso}} Kg
+                              </div>
+                            </div>
+                          </div>
+  
+                          <div class="py-2 col-12 col-sm-6">
+                            <div class="d-flex border-bottom py-2">
+                              <div>
+                                <b>T.C</b>
+                              </div>
+                              <div class="ml-auto">
+                                {{examen_fisico?.TC}}
+                              </div>
+                            </div>
+                          </div>
+  
+                          <div class="py-2 col-12 col-sm-6">
+                            <div class="d-flex border-bottom py-2">
+                              <div>
+                                <b>Temperatura</b>
+                              </div>
+                              <div class="ml-auto">
+                                {{examen_fisico?.temperatura}} C
+                              </div>
+                            </div>
+                          </div>
+  
+                          <div class="py-2 col-12 col-sm-6">
+                            <div class="d-flex border-bottom py-2">
+                              <div>
+                                <b>Talla</b>
+                              </div>
+                              <div class="ml-auto">
+                                {{examen_fisico?.talla}}
+                              </div>
+                            </div>
+                          </div>
+  
+                          <div class="py-2 col-12 col-sm-6">
+                            <div class="d-flex border-bottom py-2">
+                              <div>
+                                <b>Estado de conciencia</b>
+                              </div>
+                              <div class="ml-auto">
+                                {{examen_fisico?.estadoConciencia}}
+                              </div>
+                            </div>
+                          </div>
+  
+                          <div class="py-2 col-12 col-sm-6">
+                            <div class="d-flex border-bottom py-2">
+                              <div>
+                                <b>Coordinación</b>
+                              </div>
+                              <div class="ml-auto">
+                                {{examen_fisico?.coordinacion}}
+                              </div>
+                            </div>
+                          </div>
+  
+                          <div class="py-2 col-12 col-sm-6">
+                            <div class="d-flex border-bottom py-2">
+                              <div>
+                                <b>Equilibrio</b>
+                              </div>
+                              <div class="ml-auto">
+                                {{examen_fisico?.equilibrio}}
+                              </div>
+                            </div>
+                          </div>
+  
+                          <div class="py-2 col-12 col-sm-6">
+                            <div class="d-flex border-bottom py-2">
+                              <div>
+                                <b>Marcha</b>
+                              </div>
+                              <div class="ml-auto">
+                                {{examen_fisico?.marcha}}
+                              </div>
+                            </div>
+                          </div>
+  
+                          <div class="py-2 col-12 col-sm-6">
+                            <div class="d-flex border-bottom py-2">
+                              <div>
+                                <b>Orientación</b>
+                              </div>
+                              <div class="ml-auto">
+                                {{examen_fisico?.orientacion}}
+                              </div>
+                            </div>
+                          </div>
+  
+                          <div class="py-2 col-12 col-sm-6">
+                            <div class="d-flex border-bottom py-2">
+                              <div>
+                                <b>Orientación en tiempo</b>
+                              </div>
+                              <div class="ml-auto">
+                                {{examen_fisico?.orientacionTiempo}}
+                              </div>
+                            </div>
+                          </div>
+  
+                          <div class="py-2 col-12 col-sm-6">
+                            <div class="d-flex border-bottom py-2">
+                              <div>
+                                <b>Orientación en persona</b>
+                              </div>
+                              <div class="ml-auto">
+                                {{examen_fisico?.orientacionPersona}}
+                              </div>
+                            </div>
+                          </div>
+  
+                          <div class="py-2 col-12 col-sm-6">
+                            <div class="d-flex border-bottom py-2">
+                              <div>
+                                <b>Orientación en espacio</b>
+                              </div>
+                              <div class="ml-auto">
+                                {{examen_fisico?.orientacionEspacio}}
+                              </div>
                             </div>
                           </div>
                         </div>
 
-                        <div class="py-2 border-bottom">
-                          <div class="d-flex py-2">
-                            <div>
-                              <b>F.R</b>
-                            </div>
-                            <div class="ml-auto">
-                              {{examen_fisico?.FR}}
+                        <div class="pt-3">
+                          <h5 class="text-center">Cabeza</h5>
+                          <div class="border rounded p-2">
+                            <div class="row">
+                              
+                              <div class="py-2 col-12 col-sm-6">
+                                <div class="d-flex border-bottom py-2">
+                                  <div>
+                                    <b>Craneo</b>
+                                  </div>
+                                  <div class="ml-auto">
+                                    {{examen_fisico?.cabeza?.craneo}}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="py-2 col-12 col-sm-6">
+                                <div class="d-flex border-bottom py-2">
+                                  <div>
+                                    <b>Ojos</b>
+                                  </div>
+                                  <div class="ml-auto">
+                                    {{examen_fisico?.cabeza?.ojos}}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="py-2 col-12 col-sm-6">
+                                <div class="d-flex border-bottom py-2">
+                                  <div>
+                                    <b>Nariz</b>
+                                  </div>
+                                  <div class="ml-auto">
+                                    {{examen_fisico?.cabeza?.nariz}}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="py-2 col-12 col-sm-6">
+                                <div class="d-flex border-bottom py-2">
+                                  <div>
+                                    <b>Boca</b>
+                                  </div>
+                                  <div class="ml-auto">
+                                    {{examen_fisico?.cabeza?.boca}}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="py-2 col-12">
+                                <div class="d-flex border-bottom py-2">
+                                  <div>
+                                    <b>Cuello</b>
+                                  </div>
+                                  <div class="ml-auto">
+                                    {{examen_fisico?.cabeza?.cuello}}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="py-2 col-12">
+                                <div class="d-flex py-2">
+                                  <div>
+                                    <b>Observaciones</b>
+                                  </div>
+                                </div>
+                                <div>
+                                  <div class="border rounded bg-white p-2">
+                                    {{ examen_fisico?.cabeza?.observaciones }}
+                                  </div>
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
 
-                        <div class="py-2 border-bottom">
-                          <div class="d-flex py-2">
-                            <div>
-                              <b>Peso</b>
-                            </div>
-                            <div class="ml-auto">
-                              {{examen_fisico?.peso}} Kg
+                        <div class="pt-3">
+                          <h5 class="text-center">Torax</h5>
+                          <div class="border rounded p-2">
+                            <div class="row">
+                              
+                              <div class="py-2 col-12 col-sm-6">
+                                <div class="d-flex border-bottom py-2">
+                                  <div>
+                                    <b>Campos pulmonares</b>
+                                  </div>
+                                  <div class="ml-auto">
+                                    {{examen_fisico?.torax?.camposPulmonares}}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="py-2 col-12 col-sm-6">
+                                <div class="d-flex border-bottom py-2">
+                                  <div>
+                                    <b>AMP. AMPLEX.</b>
+                                  </div>
+                                  <div class="ml-auto">
+                                    {{examen_fisico?.torax?.ampAmplex}}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="py-2 col-12 col-sm-6">
+                                <div class="d-flex border-bottom py-2">
+                                  <div>
+                                    <b>Ruido pulmonar</b>
+                                  </div>
+                                  <div class="ml-auto">
+                                    {{examen_fisico?.torax?.ruidoPulmonar}}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="py-2 col-12 col-sm-6">
+                                <div class="d-flex border-bottom py-2">
+                                  <div>
+                                    <b>Trans. Voz</b>
+                                  </div>
+                                  <div class="ml-auto">
+                                    {{examen_fisico?.torax?.transVoz}}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="py-2 col-12 col-sm-6">
+                                <div class="d-flex border-bottom py-2">
+                                  <div>
+                                    <b>Área precordial</b>
+                                  </div>
+                                  <div class="ml-auto">
+                                    {{examen_fisico?.torax?.areaPrecordial}}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="py-2 col-12 col-sm-6">
+                                <div class="d-flex border-bottom py-2">
+                                  <div>
+                                    <b>FC.</b>
+                                  </div>
+                                  <div class="ml-auto">
+                                    {{examen_fisico?.torax?.FC}}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="py-2 col-12 col-sm-6">
+                                <div class="d-flex border-bottom py-2">
+                                  <div>
+                                    <b>Tono</b>
+                                  </div>
+                                  <div class="ml-auto">
+                                    {{examen_fisico?.torax?.tono}}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="py-2 col-12 col-sm-6">
+                                <div class="d-flex border-bottom py-2">
+                                  <div>
+                                    <b>Ritmo</b>
+                                  </div>
+                                  <div class="ml-auto">
+                                    {{examen_fisico?.torax?.ritmo}}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="py-2 col-12">
+                                <div class="d-flex py-2">
+                                  <div>
+                                    <b>Observaciones</b>
+                                  </div>
+                                </div>
+                                <div>
+                                  <div class="border rounded bg-white p-2">
+                                    {{ examen_fisico?.torax?.observaciones }}
+                                  </div>
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
 
-                        <div class="py-2 border-bottom">
-                          <div class="d-flex py-2">
-                            <div>
-                              <b>T.C</b>
-                            </div>
-                            <div class="ml-auto">
-                              {{examen_fisico?.TC}}
+                        <div class="pt-3">
+                          <h5 class="text-center">Abdomen</h5>
+                          <div class="border rounded p-2">
+                            <div class="row">
+                              
+                              <div class="py-2 col-12 col-sm-6">
+                                <div class="d-flex border-bottom py-2">
+                                  <div>
+                                    <b>Pared</b>
+                                  </div>
+                                  <div class="ml-auto">
+                                    {{examen_fisico?.abdomen?.pared}}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="py-2 col-12 col-sm-6">
+                                <div class="d-flex border-bottom py-2">
+                                  <div>
+                                    <b>Peristalsis</b>
+                                  </div>
+                                  <div class="ml-auto">
+                                    {{examen_fisico?.abdomen?.peristalsis}}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="py-2 col-12 col-sm-6">
+                                <div class="d-flex border-bottom py-2">
+                                  <div>
+                                    <b>Visceromagalias</b>
+                                  </div>
+                                  <div class="ml-auto">
+                                    {{examen_fisico?.abdomen?.visceromegalias}}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="py-2 col-12 col-sm-6">
+                                <div class="d-flex border-bottom py-2">
+                                  <div>
+                                    <b>Hernias</b>
+                                  </div>
+                                  <div class="ml-auto">
+                                    {{examen_fisico?.abdomen?.hernias}}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="py-2 col-12">
+                                <div class="d-flex py-2">
+                                  <div>
+                                    <b>Observaciones</b>
+                                  </div>
+                                </div>
+                                <div>
+                                  <div class="border rounded bg-white p-2">
+                                    {{ examen_fisico?.abdomen?.observaciones }}
+                                  </div>
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
 
-                        <div class="py-2 border-bottom">
-                          <div class="d-flex py-2">
-                            <div>
-                              <b>Temperatura</b>
-                            </div>
-                            <div class="ml-auto">
-                              {{examen_fisico?.temperatura}} C
+                        <div class="pt-3">
+                          <h5 class="text-center">Extremidades</h5>
+                          <div class="border rounded p-2">
+                            <div class="row">
+                              
+                              <div class="py-2 col-12 col-sm-6">
+                                <div class="d-flex border-bottom py-2">
+                                  <div>
+                                    <b>toraxicas</b>
+                                  </div>
+                                  <div class="ml-auto">
+                                    {{examen_fisico?.extremidad?.toraxicas}}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="py-2 col-12 col-sm-6">
+                                <div class="d-flex border-bottom py-2">
+                                  <div>
+                                    <b>Hombros</b>
+                                  </div>
+                                  <div class="ml-auto">
+                                    {{examen_fisico?.extremidad?.hombro}}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="py-2 col-12 col-sm-6">
+                                <div class="d-flex border-bottom py-2">
+                                  <div>
+                                    <b>Codos</b>
+                                  </div>
+                                  <div class="ml-auto">
+                                    {{examen_fisico?.extremidad?.codo}}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="py-2 col-12 col-sm-6">
+                                <div class="d-flex border-bottom py-2">
+                                  <div>
+                                    <b>Muñecas</b>
+                                  </div>
+                                  <div class="ml-auto">
+                                    {{examen_fisico?.extremidad?.muneca}}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="py-2 col-12 col-sm-6">
+                                <div class="d-flex border-bottom py-2">
+                                  <div>
+                                    <b>Pie</b>
+                                  </div>
+                                  <div class="ml-auto">
+                                    {{examen_fisico?.extremidad?.pie}}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="py-2 col-12 col-sm-6">
+                                <div class="d-flex border-bottom py-2">
+                                  <div>
+                                    <b>Movilidad</b>
+                                  </div>
+                                  <div class="ml-auto">
+                                    {{examen_fisico?.extremidad?.movilidad}}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="py-2 col-12 col-sm-6">
+                                <div class="d-flex border-bottom py-2">
+                                  <div>
+                                    <b>Pelvicas</b>
+                                  </div>
+                                  <div class="ml-auto">
+                                    {{examen_fisico?.extremidad?.pelvicas}}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="py-2 col-12 col-sm-6">
+                                <div class="d-flex border-bottom py-2">
+                                  <div>
+                                    <b>Cadera</b>
+                                  </div>
+                                  <div class="ml-auto">
+                                    {{examen_fisico?.extremidad?.cadera}}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="py-2 col-12 col-sm-6">
+                                <div class="d-flex border-bottom py-2">
+                                  <div>
+                                    <b>Rodillas</b>
+                                  </div>
+                                  <div class="ml-auto">
+                                    {{examen_fisico?.extremidad?.rodilla}}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="py-2 col-12 col-sm-6">
+                                <div class="d-flex border-bottom py-2">
+                                  <div>
+                                    <b>Tobillos</b>
+                                  </div>
+                                  <div class="ml-auto">
+                                    {{examen_fisico?.extremidad?.tobillo}}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="py-2 col-12 col-sm-6">
+                                <div class="d-flex border-bottom py-2">
+                                  <div>
+                                    <b>Manos</b>
+                                  </div>
+                                  <div class="ml-auto">
+                                    {{examen_fisico?.extremidad?.mano}}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="py-2 col-12 col-sm-6">
+                                <div class="d-flex border-bottom py-2">
+                                  <div>
+                                    <b>Fuerza</b>
+                                  </div>
+                                  <div class="ml-auto">
+                                    {{examen_fisico?.extremidad?.fuerza}}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="py-2 col-12">
+                                <div class="d-flex py-2">
+                                  <div>
+                                    <b>Observaciones</b>
+                                  </div>
+                                </div>
+                                <div>
+                                  <div class="border rounded bg-white p-2">
+                                    {{ examen_fisico?.abdomen?.observaciones }}
+                                  </div>
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
 
-                        <div class="py-2 border-bottom">
-                          <div class="d-flex py-2">
-                            <div>
-                              <b>Talla</b>
-                            </div>
-                            <div class="ml-auto">
-                              {{examen_fisico?.talla}}
+                        <div class="pt-3">
+                          <h5 class="text-center">Columna vertebral</h5>
+                          <div class="border rounded p-2">
+                            <div class="row">
+                              
+                              <div class="py-2 col-12 col-sm-6">
+                                <div class="d-flex border-bottom py-2">
+                                  <div>
+                                    <b>Lordosis</b>
+                                  </div>
+                                  <div class="ml-auto">
+                                    {{examen_fisico?.columna_vertebral?.lordosis}}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="py-2 col-12 col-sm-6">
+                                <div class="d-flex border-bottom py-2">
+                                  <div>
+                                    <b>Flexión</b>
+                                  </div>
+                                  <div class="ml-auto">
+                                    {{examen_fisico?.columna_vertebral?.flexion}}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="py-2 col-12 col-sm-6">
+                                <div class="d-flex border-bottom py-2">
+                                  <div>
+                                    <b>Lateralizacion</b>
+                                  </div>
+                                  <div class="ml-auto">
+                                    {{examen_fisico?.columna_vertebral?.lateralizacion}}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="py-2 col-12 col-sm-6">
+                                <div class="d-flex border-bottom py-2">
+                                  <div>
+                                    <b>Puntos de dolor</b>
+                                  </div>
+                                  <div class="ml-auto">
+                                    {{examen_fisico?.columna_vertebral?.puntosDolor}}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="py-2 col-12 col-sm-6">
+                                <div class="d-flex border-bottom py-2">
+                                  <div>
+                                    <b>Xifosis</b>
+                                  </div>
+                                  <div class="ml-auto">
+                                    {{examen_fisico?.columna_vertebral?.xifosis}}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="py-2 col-12 col-sm-6">
+                                <div class="d-flex border-bottom py-2">
+                                  <div>
+                                    <b>Extensión</b>
+                                  </div>
+                                  <div class="ml-auto">
+                                    {{examen_fisico?.columna_vertebral?.extension}}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="py-2 col-12">
+                                <div class="d-flex border-bottom py-2">
+                                  <div>
+                                    <b>Rotación</b>
+                                  </div>
+                                  <div class="ml-auto">
+                                    {{examen_fisico?.columna_vertebral?.rotacion}}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="py-2 col-12">
+                                <div class="d-flex py-2">
+                                  <div>
+                                    <b>Otros</b>
+                                  </div>
+                                </div>
+                                <div>
+                                  <div class="border rounded bg-white p-2">
+                                    {{ examen_fisico?.columna_vertebral?.otros }}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="py-2 col-12">
+                                <div class="d-flex py-2">
+                                  <div>
+                                    <b>Observaciones</b>
+                                  </div>
+                                </div>
+                                <div>
+                                  <div class="border rounded bg-white p-2">
+                                    {{ examen_fisico?.columna_vertebral?.observaciones }}
+                                  </div>
+                                </div>
+                              </div>
+
                             </div>
                           </div>
                         </div>
 
-                        <div class="py-2 border-bottom">
-                          <div class="d-flex py-2">
-                            <div>
-                              <b>Estado de conciencia</b>
-                            </div>
-                            <div class="ml-auto">
-                              {{examen_fisico?.estadoConciencia}}
+                        <!-- ORGANOS DE LOS SENTIDOS -->
+                        <div class="pt-3">
+                          <h5 class="text-center">Organos de los sentidos</h5>
+                          <div class="border rounded p-2">
+                            <div class="row">
+                              
+                              <div class="py-2 col-12 col-sm-6">
+                                <div class="d-flex border-bottom py-2">
+                                  <div>
+                                    <b>Vista</b>
+                                  </div>
+                                  <div class="ml-auto">
+                                    {{examen_fisico?.organo_sentido?.vista}}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="py-2 col-12 col-sm-6">
+                                <div class="d-flex border-bottom py-2">
+                                  <div>
+                                    <b>Oido</b>
+                                  </div>
+                                  <div class="ml-auto">
+                                    {{examen_fisico?.organo_sentido?.oido}}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="py-2 col-12 col-sm-6">
+                                <div class="d-flex border-bottom py-2">
+                                  <div>
+                                    <b>Olfato</b>
+                                  </div>
+                                  <div class="ml-auto">
+                                    {{examen_fisico?.organo_sentido?.olfato}}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="py-2 col-12 col-sm-6">
+                                <div class="d-flex border-bottom py-2">
+                                  <div>
+                                    <b>Tacto</b>
+                                  </div>
+                                  <div class="ml-auto">
+                                    {{examen_fisico?.organo_sentido?.tacto}}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="py-2 col-12">
+                                <div class="d-flex py-2">
+                                  <div>
+                                    <b>Observaciones</b>
+                                  </div>
+                                </div>
+                                <div>
+                                  <div class="border rounded bg-white p-2">
+                                    {{ examen_fisico?.organo_sentido?.observaciones }}
+                                  </div>
+                                </div>
+                              </div>
+
                             </div>
                           </div>
-                        </div>
-
-                        <div class="py-2 border-bottom">
-                          <div class="d-flex py-2">
-                            <div>
-                              <b>Coordinación</b>
-                            </div>
-                            <div class="ml-auto">
-                              {{examen_fisico?.coordinacion}}
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="py-2 border-bottom">
-                          <div class="d-flex py-2">
-                            <div>
-                              <b>Equilibrio</b>
-                            </div>
-                            <div class="ml-auto">
-                              {{examen_fisico?.equilibrio}}
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="py-2 border-bottom">
-                          <div class="d-flex py-2">
-                            <div>
-                              <b>Marcha</b>
-                            </div>
-                            <div class="ml-auto">
-                              {{examen_fisico?.marcha}}
-                            </div>
-                          </div>
-                        </div>
-
-                        <!-- <div class="py-2 border-bottom">
-                          <div class="d-flex py-2">
-                            <div>
-                              <b>Orientación</b>
-                            </div>
-                            <div class="ml-auto">
-                              {{examen_fisico?.orientacion}}
-                            </div>
-                          </div>
-                        </div> -->
-
-                        <div>
-                          <table class="table rounded border bg-light">
-                            <tbody>
-                              <tr>
-                                <th colspan="2">Orientación</th>
-                                <td>{{examen_fisico?.orientacion}}</td>
-                              </tr>
-                              <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                              </tr>
-                              <tr>
-                                <th scope="row">3</th>
-                                <td>Larry</td>
-                                <td>the Bird</td>
-                                <td>@twitter</td>
-                              </tr>
-                            </tbody>
-                          </table>
                         </div>
 
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="text-center">
-                  <button type="submit" class="btn btn-pink">Nuevo examen físico</button>
+
+                <div *ngIf="mostrarFormularioEFisico">
+                  <div class="bg-light rounded p-3 mt-3">
+                    <form [formGroup]="formEFisico" (submit)="storeEFisico()">
+  
+                      <div class="row">
+                        <div class="py-2 col-12 col-sm-6">
+                          <div class="d-flex justify-content-between border-bottom py-2">
+                            <div>
+                              <b>T.A</b>
+                            </div>
+                            <div class="ml-2">
+                              <input type="text" class="form-control form-control-sm" formControlName="TA" id="TA">
+                            </div>
+                          </div>
+                        </div>
+    
+                        <div class="py-2 col-12 col-sm-6">
+                          <div class="d-flex justify-content-between border-bottom py-2">
+                            <div>
+                              <b>F.R</b>
+                            </div>
+                            <div class="ml-2">
+                              <input type="text" class="form-control form-control-sm" formControlName="FR" id="FR">
+                            </div>
+                          </div>
+                        </div>
+    
+                        <div class="py-2 col-12 col-sm-6">
+                          <div class="d-flex justify-content-between border-bottom py-2">
+                            <div>
+                              <b>Peso</b>
+                            </div>
+                            <div class="ml-2">
+                              <div class="input-group input-group-sm">
+                                <input type="number" class="form-control" formControlName="peso" id="peso">
+                                <div class="input-group-append">
+                                  <span class="input-group-text">Kg</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+    
+                        <div class="py-2 col-12 col-sm-6">
+                          <div class="d-flex justify-content-between border-bottom py-2">
+                            <div>
+                              <b>T.C</b>
+                            </div>
+                            <div class="ml-2">
+                              <input type="text" class="form-control form-control-sm" formControlName="TC" id="TC">
+                            </div>
+                          </div>
+                        </div>
+    
+                        <div class="py-2 col-12 col-sm-6">
+                          <div class="d-flex justify-content-between border-bottom py-2">
+                            <div>
+                              <b>Temperatura</b>
+                            </div>
+                            <div class="ml-2">
+                              <div class="input-group input-group-sm">
+                                <input type="number" class="form-control" formControlName="temperatura" id="temperatura">
+                                <div class="input-group-append">
+                                  <span class="input-group-text">C</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+    
+                        <div class="py-2 col-12 col-sm-6">
+                          <div class="d-flex justify-content-between border-bottom py-2">
+                            <div>
+                              <b>Talla</b>
+                            </div>
+                            <div class="ml-2">
+                              <input type="text" class="form-control form-control-sm" formControlName="talla" id="talla">
+                            </div>
+                          </div>
+                        </div>
+    
+                        <div class="py-2 col-12 col-sm-6">
+                          <div class="d-flex justify-content-between border-bottom py-2">
+                            <div>
+                              <b>Estado de conciencia</b>
+                            </div>
+                            <div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" formControlName="estadoConciencia" id="estadoConciencia1" value="Mala">
+                                <label class="form-check-label" for="estadoConciencia1">Mala</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" formControlName="estadoConciencia" id="estadoConciencia2" value="Buena">
+                                <label class="form-check-label" for="estadoConciencia2">Buena</label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+    
+                        <div class="py-2 col-12 col-sm-6">
+                          <div class="d-flex justify-content-between border-bottom py-2">
+                            <div>
+                              <b>Coordinación</b>
+                            </div>
+                            <div class="ml-auto">
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" formControlName="coordinacion" id="coordinacion1" value="Mala">
+                                <label class="form-check-label" for="coordinacion1">Mala</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" formControlName="coordinacion" id="coordinacion2" value="Buena">
+                                <label class="form-check-label" for="coordinacion2">Buena</label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+    
+                        <div class="py-2 col-12 col-sm-6">
+                          <div class="d-flex justify-content-between border-bottom py-2">
+                            <div>
+                              <b>Equilibrio</b>
+                            </div>
+                            <div class="ml-2">
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" formControlName="equilibrio" id="equilibrio1" value="Mala">
+                                <label class="form-check-label" for="equilibrio1">Mala</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" formControlName="equilibrio" id="equilibrio2" value="Buena">
+                                <label class="form-check-label" for="equilibrio2">Buena</label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+    
+                        <div class="py-2 col-12 col-sm-6">
+                          <div class="d-flex justify-content-between border-bottom py-2">
+                            <div>
+                              <b>Marcha</b>
+                            </div>
+                            <div class="ml-2">
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" formControlName="marcha" id="marcha1" value="Mala">
+                                <label class="form-check-label" for="marcha1">Mala</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" formControlName="marcha" id="marcha2" value="Buena">
+                                <label class="form-check-label" for="marcha2">Buena</label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+    
+                        <div class="py-2 col-12 col-sm-6">
+                          <div class="d-flex justify-content-between border-bottom py-2">
+                            <div>
+                              <b>Orientación</b>
+                            </div>
+                            <div class="ml-2">
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" formControlName="orientacion" id="orientacion1" value="Mala">
+                                <label class="form-check-label" for="orientacion1">Mala</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" formControlName="orientacion" id="orientacion2" value="Buena">
+                                <label class="form-check-label" for="orientacion2">Buena</label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+    
+                        <div class="py-2 col-12 col-sm-6">
+                          <div class="d-flex justify-content-between border-bottom py-2">
+                            <div>
+                              <b>Orientación en tiempo</b>
+                            </div>
+                            <div class="ml-2">
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" formControlName="orientacionTiempo" id="orientacionTiempo1" value="Mala">
+                                <label class="form-check-label" for="orientacionTiempo1">Mala</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" formControlName="orientacionTiempo" id="orientacionTiempo2" value="Buena">
+                                <label class="form-check-label" for="orientacionTiempo2">Buena</label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+    
+                        <div class="py-2 col-12 col-sm-6">
+                          <div class="d-flex justify-content-between border-bottom py-2">
+                            <div>
+                              <b>Orientación en persona</b>
+                            </div>
+                            <div class="ml-2">
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" formControlName="orientacionPersona" id="orientacionPersona1" value="Mala">
+                                <label class="form-check-label" for="orientacionPersona1">Mala</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" formControlName="orientacionPersona" id="orientacionPersona2" value="Buena">
+                                <label class="form-check-label" for="orientacionPersona2">Buena</label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+    
+                        <div class="py-2 col-12 col-sm-6">
+                          <div class="d-flex justify-content-between border-bottom py-2">
+                            <div>
+                              <b>Orientación en espacio</b>
+                            </div>
+                            <div class="ml-2">
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" formControlName="orientacionEspacio" id="orientacionEspacio1" value="Mala">
+                                <label class="form-check-label" for="orientacionEspacio1">Mala</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" formControlName="orientacionEspacio" id="orientacionEspacio2" value="Buena">
+                                <label class="form-check-label" for="orientacionEspacio2">Buena</label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+    
+                      <div class="pt-3">
+                        <h5 class="text-center">Cabeza</h5>
+                        <div class="border rounded p-2">
+                          <div class="row">
+                            
+                            <div class="py-2 col-12 col-sm-6">
+                              <div class="d-flex justify-content-between border-bottom py-2">
+                                <div>
+                                  <b>Craneo</b>
+                                </div>
+                                <div class="ml-2">
+                                  <input type="text" class="form-control form-control-sm" formControlName="craneo" id="craneo">
+                                </div>
+                              </div>
+                            </div>
+    
+                            <div class="py-2 col-12 col-sm-6">
+                              <div class="d-flex justify-content-between border-bottom py-2">
+                                <div>
+                                  <b>Ojos</b>
+                                </div>
+                                <div class="ml-2">
+                                  <input type="text" class="form-control form-control-sm" formControlName="ojos" id="ojos">
+                                </div>
+                              </div>
+                            </div>
+    
+                            <div class="py-2 col-12 col-sm-6">
+                              <div class="d-flex justify-content-between border-bottom py-2">
+                                <div>
+                                  <b>Nariz</b>
+                                </div>
+                                <div class="ml-2">
+                                  <input type="text" class="form-control form-control-sm" formControlName="nariz" id="nariz">
+                                </div>
+                              </div>
+                            </div>
+    
+                            <div class="py-2 col-12 col-sm-6">
+                              <div class="d-flex justify-content-between border-bottom py-2">
+                                <div>
+                                  <b>Boca</b>
+                                </div>
+                                <div class="ml-2">
+                                  <input type="text" class="form-control form-control-sm" formControlName="boca" id="boca">
+                                </div>
+                              </div>
+                            </div>
+    
+                            <div class="py-2 col-12">
+                              <div class="d-flex justify-content-between border-bottom py-2">
+                                <div>
+                                  <b>Cuello</b>
+                                </div>
+                                <div class="ml-2 w-100">
+                                  <input type="text" class="form-control form-control-sm" formControlName="cuello" id="cuello">
+                                </div>
+                              </div>
+                            </div>
+    
+                            <div class="py-2 col-12">
+                              <div class="d-flex justify-content-between pt-2">
+                                <div>
+                                  <b>Observaciones</b>
+                                </div>
+                              </div>
+                              <div>
+                                <div class="ml-2">
+                                  <textarea class="form-control form-control-sm" formControlName="Cobservaciones" id="Cobservaciones" row="3"></textarea>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+    
+                      <div class="pt-3">
+                        <h5 class="text-center">Torax</h5>
+                        <div class="border rounded p-2">
+                          <div class="row">
+                            
+                            <div class="py-2 col-12 col-sm-6">
+                              <div class="d-flex justify-content-between border-bottom py-2">
+                                <div>
+                                  <b>Campos pulmonares</b>
+                                </div>
+                                <div class="ml-2">
+                                  <input type="text" class="form-control form-control-sm" formControlName="camposPulmonares" id="camposPulmonares">
+                                </div>
+                              </div>
+                            </div>
+    
+                            <div class="py-2 col-12 col-sm-6">
+                              <div class="d-flex justify-content-between border-bottom py-2">
+                                <div>
+                                  <b>AMP. AMPLEX.</b>
+                                </div>
+                                <div class="ml-2">
+                                  <input type="text" class="form-control form-control-sm" formControlName="ampAmplex" id="ampAmplex">
+                                </div>
+                              </div>
+                            </div>
+    
+                            <div class="py-2 col-12 col-sm-6">
+                              <div class="d-flex justify-content-between border-bottom py-2">
+                                <div>
+                                  <b>Ruido pulmonar</b>
+                                </div>
+                                <div class="ml-2">
+                                  <input type="text" class="form-control form-control-sm" formControlName="ruidoPulmonar" id="ruidoPulmonar">
+                                </div>
+                              </div>
+                            </div>
+    
+                            <div class="py-2 col-12 col-sm-6">
+                              <div class="d-flex justify-content-between border-bottom py-2">
+                                <div>
+                                  <b>Trans. Voz</b>
+                                </div>
+                                <div class="ml-2">
+                                  <input type="text" class="form-control form-control-sm" formControlName="transVoz" id="transVoz">
+                                </div>
+                              </div>
+                            </div>
+    
+                            <div class="py-2 col-12 col-sm-6">
+                              <div class="d-flex justify-content-between border-bottom py-2">
+                                <div>
+                                  <b>Área precordial</b>
+                                </div>
+                                <div class="ml-2">
+                                  <input type="text" class="form-control form-control-sm" formControlName="areaPrecordial" id="areaPrecordial">
+                                </div>
+                              </div>
+                            </div>
+    
+                            <div class="py-2 col-12 col-sm-6">
+                              <div class="d-flex justify-content-between border-bottom py-2">
+                                <div>
+                                  <b>FC.</b>
+                                </div>
+                                <div class="ml-2">
+                                  <input type="text" class="form-control form-control-sm" formControlName="FC" id="FC">
+                                </div>
+                              </div>
+                            </div>
+    
+                            <div class="py-2 col-12 col-sm-6">
+                              <div class="d-flex justify-content-between border-bottom py-2">
+                                <div>
+                                  <b>Tono</b>
+                                </div>
+                                <div class="ml-2">
+                                  <input type="text" class="form-control form-control-sm" formControlName="tono" id="tono">
+                                </div>
+                              </div>
+                            </div>
+    
+                            <div class="py-2 col-12 col-sm-6">
+                              <div class="d-flex justify-content-between border-bottom py-2">
+                                <div>
+                                  <b>Ritmo</b>
+                                </div>
+                                <div class="ml-2">
+                                  <input type="text" class="form-control form-control-sm" formControlName="ritmo" id="ritmo">
+                                </div>
+                              </div>
+                            </div>
+    
+                            <div class="py-2 col-12">
+                              <div class="d-flex justify-content-between pt-2">
+                                <div>
+                                  <b>Observaciones</b>
+                                </div>
+                              </div>
+                              <div>
+                                <div class="ml-2">
+                                  <textarea class="form-control form-control-sm" formControlName="Tobservaciones" id="Tobservaciones" row="3"></textarea>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+    
+                      <div class="pt-3">
+                        <h5 class="text-center">Abdomen</h5>
+                        <div class="border rounded p-2">
+                          <div class="row">
+                            
+                            <div class="py-2 col-12 col-sm-6">
+                              <div class="d-flex justify-content-between border-bottom py-2">
+                                <div>
+                                  <b>Pared</b>
+                                </div>
+                                <div class="ml-2">
+                                  <input type="text" class="form-control form-control-sm" formControlName="pared" id="pared">
+                                </div>
+                              </div>
+                            </div>
+    
+                            <div class="py-2 col-12 col-sm-6">
+                              <div class="d-flex justify-content-between border-bottom py-2">
+                                <div>
+                                  <b>Peristalsis</b>
+                                </div>
+                                <div class="ml-2">
+                                  <input type="text" class="form-control form-control-sm" formControlName="peristalsis" id="peristalsis">
+                                </div>
+                              </div>
+                            </div>
+    
+                            <div class="py-2 col-12 col-sm-6">
+                              <div class="d-flex justify-content-between border-bottom py-2">
+                                <div>
+                                  <b>Visceromagalias</b>
+                                </div>
+                                <div class="ml-2">
+                                  <input type="text" class="form-control form-control-sm" formControlName="visceromegalias" id="visceromegalias">
+                                </div>
+                              </div>
+                            </div>
+    
+                            <div class="py-2 col-12 col-sm-6">
+                              <div class="d-flex justify-content-between border-bottom py-2">
+                                <div>
+                                  <b>Hernias</b>
+                                </div>
+                                <div class="ml-2">
+                                  <input type="text" class="form-control form-control-sm" formControlName="hernias" id="hernias">
+                                </div>
+                              </div>
+                            </div>
+    
+                            <div class="py-2 col-12">
+                              <div class="d-flex justify-content-between pT-2">
+                                <div>
+                                  <b>Observaciones</b>
+                                </div>
+                              </div>
+                              <div>
+                                <div class="ml-2">
+                                  <textarea class="form-control form-control-sm" formControlName="Aobservaciones" id="Aobservaciones" row="3"></textarea>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+    
+                      <div class="pt-3">
+                        <h5 class="text-center">Extremidades</h5>
+                        <div class="border rounded p-2">
+                          <div class="row">
+                            
+                            <div class="py-2 col-12 col-sm-6">
+                              <div class="d-flex justify-content-between border-bottom py-2">
+                                <div>
+                                  <b>toraxicas</b>
+                                </div>
+                                <div class="ml-2">
+                                  <input type="text" class="form-control form-control-sm" formControlName="toraxicas" id="toraxicas">
+                                </div>
+                              </div>
+                            </div>
+    
+                            <div class="py-2 col-12 col-sm-6">
+                              <div class="d-flex justify-content-between border-bottom py-2">
+                                <div>
+                                  <b>Hombros</b>
+                                </div>
+                                <div class="ml-2">
+                                  <input type="text" class="form-control form-control-sm" formControlName="hombro" id="hombro">
+                                </div>
+                              </div>
+                            </div>
+    
+                            <div class="py-2 col-12 col-sm-6">
+                              <div class="d-flex justify-content-between border-bottom py-2">
+                                <div>
+                                  <b>Codos</b>
+                                </div>
+                                <div class="ml-2">
+                                  <input type="text" class="form-control form-control-sm" formControlName="codo" id="codo">
+                                </div>
+                              </div>
+                            </div>
+    
+                            <div class="py-2 col-12 col-sm-6">
+                              <div class="d-flex justify-content-between border-bottom py-2">
+                                <div>
+                                  <b>Muñecas</b>
+                                </div>
+                                <div class="ml-2">
+                                  <input type="text" class="form-control form-control-sm" formControlName="muneca" id="muneca">
+                                </div>
+                              </div>
+                            </div>
+    
+                            <div class="py-2 col-12 col-sm-6">
+                              <div class="d-flex justify-content-between border-bottom py-2">
+                                <div>
+                                  <b>Pie</b>
+                                </div>
+                                <div class="ml-2">
+                                  <input type="text" class="form-control form-control-sm" formControlName="pie" id="pie">
+                                </div>
+                              </div>
+                            </div>
+    
+                            <div class="py-2 col-12 col-sm-6">
+                              <div class="d-flex justify-content-between border-bottom py-2">
+                                <div>
+                                  <b>Movilidad</b>
+                                </div>
+                                <div class="ml-2">
+                                  <input type="text" class="form-control form-control-sm" formControlName="movilidad" id="movilidad">
+                                </div>
+                              </div>
+                            </div>
+    
+                            <div class="py-2 col-12 col-sm-6">
+                              <div class="d-flex justify-content-between border-bottom py-2">
+                                <div>
+                                  <b>Pelvicas</b>
+                                </div>
+                                <div class="ml-2">
+                                  <input type="text" class="form-control form-control-sm" formControlName="pelvicas" id="pelvicas">
+                                </div>
+                              </div>
+                            </div>
+    
+                            <div class="py-2 col-12 col-sm-6">
+                              <div class="d-flex justify-content-between border-bottom py-2">
+                                <div>
+                                  <b>Cadera</b>
+                                </div>
+                                <div class="ml-2">
+                                  <input type="text" class="form-control form-control-sm" formControlName="cadera" id="cadera">
+                                </div>
+                              </div>
+                            </div>
+    
+                            <div class="py-2 col-12 col-sm-6">
+                              <div class="d-flex justify-content-between border-bottom py-2">
+                                <div>
+                                  <b>Rodillas</b>
+                                </div>
+                                <div class="ml-2">
+                                  <input type="text" class="form-control form-control-sm" formControlName="rodilla" id="rodilla">
+                                </div>
+                              </div>
+                            </div>
+    
+                            <div class="py-2 col-12 col-sm-6">
+                              <div class="d-flex justify-content-between border-bottom py-2">
+                                <div>
+                                  <b>Tobillos</b>
+                                </div>
+                                <div class="ml-2">
+                                  <input type="text" class="form-control form-control-sm" formControlName="tobillo" id="tobillo">
+                                </div>
+                              </div>
+                            </div>
+    
+                            <div class="py-2 col-12 col-sm-6">
+                              <div class="d-flex justify-content-between border-bottom py-2">
+                                <div>
+                                  <b>Manos</b>
+                                </div>
+                                <div class="ml-2">
+                                  <input type="text" class="form-control form-control-sm" formControlName="mano" id="mano">
+                                </div>
+                              </div>
+                            </div>
+    
+                            <div class="py-2 col-12 col-sm-6">
+                              <div class="d-flex justify-content-between border-bottom py-2">
+                                <div>
+                                  <b>Fuerza</b>
+                                </div>
+                                <div class="ml-2">
+                                  <input type="text" class="form-control form-control-sm" formControlName="fuerza" id="fuerza">
+                                </div>
+                              </div>
+                            </div>
+    
+                            <div class="py-2 col-12">
+                              <div class="d-flex justify-content-between pt-2">
+                                <div>
+                                  <b>Observaciones</b>
+                                </div>
+                              </div>
+                              <textarea class="form-control form-control-sm" formControlName="Eobservaciones" id="Eobservaciones" row="3"></textarea>
+                            </div>
+  
+                          </div>
+                        </div>
+                      </div>
+    
+                      <div class="pt-3">
+                        <h5 class="text-center">Columna vertebral</h5>
+                        <div class="border rounded p-2">
+                          <div class="row">
+                            
+                            <div class="py-2 col-12 col-sm-6">
+                              <div class="d-flex justify-content-between border-bottom py-2">
+                                <div>
+                                  <b>Lordosis</b>
+                                </div>
+                                <div class="ml-2">
+                                  <input type="text" class="form-control form-control-sm" formControlName="lordosis" id="lordosis">
+                                </div>
+                              </div>
+                            </div>
+    
+                            <div class="py-2 col-12 col-sm-6">
+                              <div class="d-flex justify-content-between border-bottom py-2">
+                                <div>
+                                  <b>Flexión</b>
+                                </div>
+                                <div class="ml-2">
+                                  <input type="text" class="form-control form-control-sm" formControlName="flexion" id="flexion">
+                                </div>
+                              </div>
+                            </div>
+    
+                            <div class="py-2 col-12 col-sm-6">
+                              <div class="d-flex justify-content-between border-bottom py-2">
+                                <div>
+                                  <b>Lateralizacion</b>
+                                </div>
+                                <div class="ml-2">
+                                  <input type="text" class="form-control form-control-sm" formControlName="lateralizacion" id="lateralizacion">
+                                </div>
+                              </div>
+                            </div>
+    
+                            <div class="py-2 col-12 col-sm-6">
+                              <div class="d-flex justify-content-between border-bottom py-2">
+                                <div>
+                                  <b>Puntos de dolor</b>
+                                </div>
+                                <div class="ml-2">
+                                  <input type="text" class="form-control form-control-sm" formControlName="puntosDolor" id="puntosDolor">
+                                </div>
+                              </div>
+                            </div>
+    
+                            <div class="py-2 col-12 col-sm-6">
+                              <div class="d-flex justify-content-between border-bottom py-2">
+                                <div>
+                                  <b>Xifosis</b>
+                                </div>
+                                <div class="ml-2">
+                                  <input type="text" class="form-control form-control-sm" formControlName="xifosis" id="xifosis">
+                                </div>
+                              </div>
+                            </div>
+    
+                            <div class="py-2 col-12 col-sm-6">
+                              <div class="d-flex justify-content-between border-bottom py-2">
+                                <div>
+                                  <b>Extensión</b>
+                                </div>
+                                <div class="ml-2">
+                                  <input type="text" class="form-control form-control-sm" formControlName="extension" id="extension">
+                                </div>
+                              </div>
+                            </div>
+  
+                            <div class="py-2 col-12">
+                              <div class="d-flex justify-content-between border-bottom py-2">
+                                <div>
+                                  <b>Rotación</b>
+                                </div>
+                                <div class="ml-2 w-100">
+                                  <input type="text" class="form-control form-control-sm" formControlName="rotacion" id="rotacion">
+                                </div>
+                              </div>
+                            </div>
+  
+                            <div class="py-2 col-12">
+                              <div class="d-flex justify-content-between pt-2">
+                                <div>
+                                  <b>Otros</b>
+                                </div>
+                              </div>
+                              <textarea class="form-control form-control-sm" formControlName="otros" id="otros" row="3"></textarea>
+                            </div>
+  
+                            <div class="py-2 col-12">
+                              <div class="d-flex justify-content-between pt-2">
+                                <div>
+                                  <b>Observaciones</b>
+                                </div>
+                              </div>
+                              <textarea class="form-control form-control-sm" formControlName="CVobservaciones" id="CVobservaciones" row="3"></textarea>
+                            </div>
+    
+                          </div>
+                        </div>
+                      </div>
+  
+                      <div class="pt-3">
+                        <h5 class="text-center">Organos de los sentidos</h5>
+                        <div class="border rounded p-2">
+                          <div class="row">
+                            
+                            <div class="py-2 col-12 col-sm-6">
+                              <div class="d-flex justify-content-between border-bottom py-2">
+                                <div>
+                                  <b>Vista</b>
+                                </div>
+                                <div class="ml-2 w-100">
+                                  <input type="text" class="form-control form-control-sm" formControlName="vista" id="vista">
+                                </div>
+                              </div>
+                            </div>
+    
+                            <div class="py-2 col-12 col-sm-6">
+                              <div class="d-flex justify-content-between border-bottom py-2">
+                                <div>
+                                  <b>Oido</b>
+                                </div>
+                                <div class="ml-2 w-100">
+                                  <input type="text" class="form-control form-control-sm" formControlName="oido" id="oido">
+                                </div>
+                              </div>
+                            </div>
+    
+                            <div class="py-2 col-12 col-sm-6">
+                              <div class="d-flex justify-content-between border-bottom py-2">
+                                <div>
+                                  <b>Olfato</b>
+                                </div>
+                                <div class="ml-2 w-100">
+                                  <input type="text" class="form-control form-control-sm" formControlName="olfato" id="olfato">
+                                </div>
+                              </div>
+                            </div>
+    
+                            <div class="py-2 col-12 col-sm-6">
+                              <div class="d-flex justify-content-between border-bottom py-2">
+                                <div>
+                                  <b>Tacto</b>
+                                </div>
+                                <div class="ml-2 w-100">
+                                  <input type="text" class="form-control form-control-sm" formControlName="tacto" id="tacto">
+                                </div>
+                              </div>
+                            </div>
+    
+                            <div class="py-2 col-12">
+                              <div class="d-flex justify-content-between pt-2">
+                                <div>
+                                  <b>Observaciones</b>
+                                </div>
+                              </div>
+                              <textarea class="form-control form-control-sm" formControlName="OSobservaciones" id="CVobservaciones" row="3"></textarea>
+                            </div>
+    
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="text-center pt-3">
+                        <button type="submit" class="btn btn-sm btn-pink">
+                          <i class="fas fa-save"></i> Guardar
+                        </button>
+                      </div>
+                    </form>
+                  </div>
                 </div>
+                
+                <div *ngIf="!mostrarFormularioEFisico" class="text-center pt-3">
+                  <button type="submit" class="btn btn-sm btn-pink" (click)="abrirFormularioEFisico()"><i class="fas fa-plus"></i> Nuevo examen físico</button>
+                </div>
+
               </div>
-              
-              
+            </div>
+            <div>
+              <button class="btn btn-flat text-left border-0" type="button" data-toggle="collapse" data-target="#examenA" aria-expanded="false" aria-controls="collapseExample">
+                <h5 class="pt-2"><i class="fas  fa-circle btn-option"></i> Exámenes de antidoping</h5>
+              </button>
+              <div class="collapse" id="examenA">
+                
+              </div>
             </div>
           </div>
         </div>
