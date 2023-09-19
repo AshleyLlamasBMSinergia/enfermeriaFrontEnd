@@ -8,6 +8,8 @@ import { RouterModule } from '@angular/router';
 import { HistorialesMedicosRoutingModule } from './historiales-medicos-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { NgxSelectModule } from 'ngx-select-ex';
+
 
 @NgModule({
   declarations: [
@@ -23,7 +25,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     HistorialesMedicosRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    NgxSelectModule,
   ],
 })
 export class HistorialesMedicosModule { }

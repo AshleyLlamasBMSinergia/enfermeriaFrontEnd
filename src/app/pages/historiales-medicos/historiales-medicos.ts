@@ -5,6 +5,8 @@ import { AntecedentesHeredofamiliares } from "./antecedentes-heredofamiliares";
 import { Image } from "src/app/interfaces/image";
 import { ExamenesFisicos } from "./examenes-fisicos";
 import { ExamenesAntidopings } from "./examenes-antidoping";
+import { ExamenesEmbarazos } from "./examenes-embarazo";
+import { ExamenesVistas } from "./examenes-vista";
 
 export interface HistorialesMedicos {
     id: number,
@@ -46,4 +48,6 @@ export interface HistorialesMedicos {
 
     examenes_fisicos?: ExamenesFisicos [];
     examenes_antidoping?: ExamenesAntidopings [];
+    examenes_embarazo?: ExamenesEmbarazos [];
+    examenes_vista?: ExamenesVistas [];
   }

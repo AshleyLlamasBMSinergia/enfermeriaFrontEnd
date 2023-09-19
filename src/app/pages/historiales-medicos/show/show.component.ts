@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { HistorialesMedicos } from '../historiales-medicos';
 import { differenceInYears } from 'date-fns';
 import Swal from 'sweetalert2';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ImageService } from 'src/app/services/imagen.service';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -204,13 +204,36 @@ export class HistorialesMedicosShowComponent implements OnInit {
 
   mostrarFormularioEFisico = false;
 
-  formEAntidoping: FormGroup = this.formBuilder.group({
-    tipo: [null],
-    examen: [null],
-    historialMedico_id: [this.historialMedico?.id],
-  })
+  formEAntidoping: any;
 
   mostrarFormularioEAntidoping = false;
+
+  sustancias = [
+    { id: 'Cocaina', text: 'Cocaina' },
+    { id: 'THC', text: 'THC' },
+    { id: 'Anfetaminas', text: 'Anfetaminas' },
+    { id: 'Metanfetaminas', text: 'Metanfetaminas' },
+    { id: 'Heroina', text: 'Heroina' },
+  ];
+
+  formEEmbarazo: FormGroup = this.formBuilder.group({
+    historialMedico_id: [this.historialMedico?.id],
+    tipo: [],
+    resultado: [],
+    comentarios: [],
+  });
+
+  mostrarFormularioEEmbarazo = false;
+
+  formEVista: FormGroup = this.formBuilder.group({
+    historialMedico_id: [this.historialMedico?.id],
+    tipo: [],
+    necesitaLentes: [],
+    usaLentes: [],
+    comentarios: [],
+  });
+
+  mostrarFormularioEVista = false;
 
   espFieldsAPPatologicos: { [key: string]: string } = {
     cirujias: 'espCirujias',
@@ -264,10 +287,17 @@ export class HistorialesMedicosShowComponent implements OnInit {
     private historialesMedicosService: HistorialesMedicosService,
     private route: ActivatedRoute,
     private imageService: ImageService,
-    private sanitizer: DomSanitizer
-  ) { }
+    private sanitizer: DomSanitizer,
+  ) {}
 
   ngOnInit() {
+    this.formEAntidoping = this.formBuilder.group({
+      tipo: [null],
+      examen: [null],
+      historialMedico_id: [this.historialMedico?.id],
+      sustancias: [[]] 
+    });
+
     this.getHistorialMedico();
   }
 
@@ -291,11 +321,21 @@ export class HistorialesMedicosShowComponent implements OnInit {
           this.mostrarFormularioEFisico = true;
         }
 
+        if (historialMedico?.examenes_antidoping?.length == 0) {
+          this.mostrarFormularioEAntidoping = true;
+        }
+
+        if (historialMedico?.examenes_embarazo?.length == 0) {
+          this.mostrarFormularioEEmbarazo = true;
+        }
+
         this.formAPPatologicos.get('historialMedico_id')?.setValue(historialMedico.id);
         this.formAPNPatologicos.get('historialMedico_id')?.setValue(historialMedico.id);
         this.formAHeredofamiliares.get('historialMedico_id')?.setValue(historialMedico.id);
         this.formEFisico.get('historialMedico_id')?.setValue(historialMedico.id);
         this.formEAntidoping.get('historialMedico_id')?.setValue(historialMedico.id);
+        this.formEEmbarazo.get('historialMedico_id')?.setValue(historialMedico.id);
+        this.formEVista.get('historialMedico_id')?.setValue(historialMedico.id);
 
         const imageUrl = historialMedico.pacientable?.image?.url;
 
@@ -694,6 +734,114 @@ export class HistorialesMedicosShowComponent implements OnInit {
           );
         } else if (result.dismiss === Swal.DismissReason.cancel) {
           swalWithBootstrapButtons.fire('Cancelado', 'Examen de antidoping esta seguro :)', 'error');
+        }
+      });
+  }
+
+  storeEEmbarazo() {
+    const formData = this.formEEmbarazo.value;
+
+    this.historialesMedicosService.storeExamenEmbarazo(formData)
+    .subscribe(
+      (response) => {
+        this.mensaje(response);
+      },
+      (error) => {
+        console.error('Error al generar el examen embarazo:', error);
+      }
+    );
+  }
+
+  abrirFormularioEEmbarazo() {
+    this.mostrarFormularioEEmbarazo = !this.mostrarFormularioEEmbarazo;
+  }
+
+  destroyEEmbarazo(EEmbarazoId: number) {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger',
+      },
+      buttonsStyling: false,
+    });
+  
+    swalWithBootstrapButtons
+      .fire({
+        title: '¿Estás seguro de eliminar el examen de embarazo?',
+        text: '¡No podrás revertir esto!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí',
+        cancelButtonText: 'No',
+        reverseButtons: true,
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          this.historialesMedicosService.destroyEEmbarazo(EEmbarazoId).subscribe(
+            (response) => {
+              this.mensaje(response);
+            },
+            (error) => {
+              console.error('Error al eliminar el examen de embarazo:', error);
+              swalWithBootstrapButtons.fire('Error', 'Hubo un error al eliminar el examen de embarazo.', 'error');
+            }
+          );
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          swalWithBootstrapButtons.fire('Cancelado', 'Examen de embarazo esta seguro :)', 'error');
+        }
+      });
+  }
+
+  storeEVista() {
+    const formData = this.formEVista.value;
+
+    this.historialesMedicosService.storeExamenVista(formData)
+    .subscribe(
+      (response) => {
+        this.mensaje(response);
+      },
+      (error) => {
+        console.error('Error al generar el examen de vista:', error);
+      }
+    );
+  }
+
+  abrirFormularioEVista() {
+    this.mostrarFormularioEVista = !this.mostrarFormularioEVista;
+  }
+
+  destroyEVista(EVistaId: number) {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger',
+      },
+      buttonsStyling: false,
+    });
+  
+    swalWithBootstrapButtons
+      .fire({
+        title: '¿Estás seguro de eliminar el examen de vista?',
+        text: '¡No podrás revertir esto!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí',
+        cancelButtonText: 'No',
+        reverseButtons: true,
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          this.historialesMedicosService.destroyEVista(EVistaId).subscribe(
+            (response) => {
+              this.mensaje(response);
+            },
+            (error) => {
+              console.error('Error al eliminar el examen de vista:', error);
+              swalWithBootstrapButtons.fire('Error', 'Hubo un error al eliminar el examen de vista.', 'error');
+            }
+          );
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          swalWithBootstrapButtons.fire('Cancelado', 'Examen de la vista esta seguro :)', 'error');
         }
       });
   }

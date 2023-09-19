@@ -131,4 +131,22 @@ export class HistorialesMedicosService {
     const url = `${API_URL}examen-antidoping/${EAntidopingId}`;
     return this.httpClient.delete(url);
   }
+
+  storeExamenEmbarazo(examenEmbarazo: any): Observable<any> {
+    return this.httpClient.post<any>(API_URL+"examen-embarazo", JSON.stringify(examenEmbarazo), this.httpOptions);
+  }
+
+  destroyEEmbarazo(EEmbarazoId: number): Observable<any> {
+    const url = `${API_URL}examen-embarazo/${EEmbarazoId}`;
+    return this.httpClient.delete(url);
+  }
+
+  storeExamenVista(examenVista: any): Observable<any> {
+    return this.httpClient.post<any>(API_URL+"examen-vista", JSON.stringify(examenVista), this.httpOptions);
+  }
+
+  destroyEVista(EVistaId: number): Observable<any> {
+    const url = `${API_URL}examen-vista/${EVistaId}`;
+    return this.httpClient.delete(url);
+  }
 }
