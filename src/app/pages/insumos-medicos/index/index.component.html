@@ -1,5 +1,6 @@
 <div class="content">
     <div class="container-fluid">
+        
         <div class="card">
             <div class="card-header text-secondary border-0">
               <h3 class="card-title text-center">Todos los insumos médicos</h3>
@@ -34,7 +35,7 @@
                     <th class="text-center">Stock en piezas</th>
                     <th></th>
                     <th></th>
-                    <th></th>
+                    <!-- <th></th> -->
                 </tr>
                 </thead>
                 <tbody *ngIf="insumos.length > 0; else noInsumos">
@@ -66,11 +67,11 @@
                                 <i class="fas fa-edit"></i>
                             </button>
                         </td>
-                        <td width="10px">
-                            <button href="#" class="btn btn-sm btn-danger">
+                        <!-- <td width="10px">
+                            <button href="#" class="btn btn-sm btn-danger" (click)="destroyInsumo(insumo.id)">
                                 <i class="fas fa-trash"></i>
                             </button>
-                        </td>
+                        </td> -->
                     </tr>
                 </tbody>
               </table>

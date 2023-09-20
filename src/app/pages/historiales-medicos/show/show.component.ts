@@ -282,6 +282,15 @@ export class HistorialesMedicosShowComponent implements OnInit {
     probMentales: 'espProbMentales',
   };
 
+  formArchivo: FormGroup = this.formBuilder.group({
+    historialMedico_id: [this.historialMedico?.id],
+    tipo: [null],
+    categoria: [null],
+    descripcion: [null]
+  });
+
+  mostrarFormularioArchivo = false;
+
   constructor(
     private formBuilder: FormBuilder,
     private historialesMedicosService: HistorialesMedicosService,
@@ -327,6 +336,10 @@ export class HistorialesMedicosShowComponent implements OnInit {
 
         if (historialMedico?.examenes_embarazo?.length == 0) {
           this.mostrarFormularioEEmbarazo = true;
+        }
+
+        if (historialMedico?.examenes_vista?.length == 0) {
+          this.mostrarFormularioEVista = true;
         }
 
         this.formAPPatologicos.get('historialMedico_id')?.setValue(historialMedico.id);
@@ -844,6 +857,14 @@ export class HistorialesMedicosShowComponent implements OnInit {
           swalWithBootstrapButtons.fire('Cancelado', 'Examen de la vista esta seguro :)', 'error');
         }
       });
+  }
+
+  abrirFormularioArchivoEFisico(){
+    this.mostrarFormularioArchivo = !this.mostrarFormularioArchivo;
+  }
+
+  storeArchivo(){
+    
   }
 
   mensaje(response: any) {

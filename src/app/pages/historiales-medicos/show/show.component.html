@@ -1371,7 +1371,7 @@
                           </div>
                         </div>
   
-                      </div>
+                      </div> 
                       <div class="text-center pt-3">
                         <button type="submit" class="btn btn-sm btn-pink">Guardar</button>
                       </div>
@@ -2057,18 +2057,49 @@
         <div class="card">
           <div class="card-header text-secondary border-0">
             <h3 class="card-title text-center">Exámenes médicos</h3>
+            <button type="submit" class="btn btn-sm btn-secondary float-right" (click)="abrirFormularioArchivoEFisico()"><i class="fas fa-upload"></i> Subir archivo</button>
           </div>
           <div class="card-body">
             <div>
-              <button class="btn btn-flat text-left border-0" type="button" data-toggle="collapse" data-target="#examenF" aria-expanded="false" aria-controls="collapseExamenF">
-                <h5 class="pt-2"><i class="fas  fa-circle btn-option"></i> Exámenes físicos</h5>
-              </button>
+              <div *ngIf="mostrarFormularioArchivo">
+                <div class="bg-light rounded p-3 mt-3">
+                  <form [formGroup]="formArchivo" (submit)="storeArchivo()">
+
+                    <div class="row">
+                      <div class="py-2 col-12 col-sm-6">
+                        <div class="d-flex justify-content-between border-bottom py-2">
+                          <div>
+                            <b>Tipo de examen</b>
+                          </div>
+                          <div>
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="radio" formControlName="tipo" id="tipo1" value="Externo">
+                              <label class="form-check-label" for="tipo1">Externo</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="radio" formControlName="tipo" id="tipo2" value="Interno">
+                              <label class="form-check-label" for="tipo2">Interno</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div>
+                <button class="btn btn-flat text-left border-0" type="button" data-toggle="collapse" data-target="#examenF" aria-expanded="false" aria-controls="collapseExamenF">
+                  <h5 class="pt-2"><i class="fas  fa-circle btn-option"></i> Exámenes físicos</h5>
+                </button>
+              </div>
 
               <div class="collapse" id="examenF">
                 <div *ngFor="let examen_fisico of historialMedico?.examenes_fisicos; let i = index">
                   <div>
-                    <div class="border-bottom mb-2" [id]="'headingAccordionEFisico' + i">
-                      <h5 class="mb-0">
+                    <div class="pb-2" [id]="'headingAccordionEFisico' + i">
+                      <h5 class="mb-0 bg-light rounded">
                         <button class="btn collapsed btn-none-efects border-0" [attr.data-toggle]="'collapse'" [attr.data-target]="'#collapseEFisico' + i" [attr.aria-expanded]="false" [attr.aria-controls]="'collapseEFisico' + i">
                           <h5 class="text-secondary">
                             <img src="assets/icons/carpeta.svg" alt="Carpeta" width="35px">
@@ -3632,7 +3663,7 @@
                   </div>
                 </div>
                 
-                <div *ngIf="!mostrarFormularioEFisico" class="text-center pt-3">
+                <div *ngIf="!mostrarFormularioEFisico || !mostrarFormularioArchivo" class="text-center pt-3">
                   <button type="submit" class="btn btn-sm btn-pink" (click)="abrirFormularioEFisico()"><i class="fas fa-plus"></i> Nuevo examen físico</button>
                 </div>
 
@@ -4116,6 +4147,15 @@
                   <button type="submit" class="btn btn-sm btn-pink" (click)="abrirFormularioEVista()"><i class="fas fa-plus"></i> Nuevo examen de vista</button>
                 </div>
 
+              </div>
+            </div>
+            <div>
+              <button class="btn btn-flat text-left border-0" type="button" data-toggle="collapse" data-target="#examen" aria-expanded="false" aria-controls="collapseExamen">
+                <h5 class="pt-2"><i class="fas  fa-circle btn-option"></i> Otros exámenes</h5>
+              </button>
+
+              <div class="collapse" id="examen">
+                
               </div>
             </div>
           </div>

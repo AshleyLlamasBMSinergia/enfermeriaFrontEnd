@@ -6,6 +6,7 @@ export interface Insumos {
     piezasPorLote: number,
     descripcion: string,
     requisicion_id: number,
+    precio: number;
 
     // requisicion: Requisicion
     lotes: Lotes[]
