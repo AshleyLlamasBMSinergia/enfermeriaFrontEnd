@@ -15,6 +15,7 @@ const routes: Routes =  [
     canActivate: [AuthGuard]
   },
   { path: 'login', component: LoginComponent },
+  { path: '', component: LoginComponent },
   { path: '404', component: NopageFoundComponent },
   { path: '**', redirectTo: '/404' },
 ]
