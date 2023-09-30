@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import {  Observable } from 'rxjs';
 import { API_URL } from 'src/app/config';
 import { Router } from '@angular/router';
-import { Calendario } from './calendario';
+import { Calendario } from 'src/app/interfaces/calendario';
 
 @Injectable({
   providedIn: 'root'

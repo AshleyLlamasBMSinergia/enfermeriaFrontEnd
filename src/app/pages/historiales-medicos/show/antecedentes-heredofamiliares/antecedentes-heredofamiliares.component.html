@@ -1,0 +1,663 @@
+<div class="p-3 rounded bg-light">
+    <div *ngIf="historialMedico!.antecedentes_heredofamiliares && !editandoAHeredofamiliares">
+      <div>
+        <div class="bg-ligh">
+
+          <div class="py-3">
+            <a class="btn btn-tool btn-sm float-right" (click)="editAntecedentesHeredofamiliares()">
+              <i class="fas fa-edit text-primary"></i>
+            </a>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Padres viven</b>
+              </div>
+              <div class="ml-auto">
+                {{historialMedico!.antecedentes_heredofamiliares.padresViven}}
+              </div>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Hermanos viven</b>
+              </div>
+              <div class="ml-auto">
+                {{historialMedico!.antecedentes_heredofamiliares.hermanosViven}}
+              </div>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Hermanas viven</b>
+              </div>
+              <div class="ml-auto">
+                {{historialMedico!.antecedentes_heredofamiliares.hermanasViven}}
+              </div>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Diabetes</b>
+              </div>
+              <div class="ml-auto">
+                {{historialMedico!.antecedentes_heredofamiliares.diabetes}}
+              </div>
+            </div>
+            <div *ngIf="historialMedico!.antecedentes_heredofamiliares.espDiabetes">
+              <div class="border rounded bg-white p-2">
+                {{ historialMedico!.antecedentes_heredofamiliares.espDiabetes }}
+              </div>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Obesidad</b>
+              </div>
+              <div class="ml-auto">
+                {{historialMedico!.antecedentes_heredofamiliares.obecidad}}
+              </div>
+            </div>
+            <div *ngIf="historialMedico!.antecedentes_heredofamiliares.espObecidad">
+              <div class="border rounded bg-white p-2">
+                {{ historialMedico!.antecedentes_heredofamiliares.espObecidad }}
+              </div>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Hipertensión Arterial</b>
+              </div>
+              <div class="ml-auto">
+                {{historialMedico!.antecedentes_heredofamiliares.hipertensionArterial}}
+              </div>
+            </div>
+            <div *ngIf="historialMedico!.antecedentes_heredofamiliares.espHipertensionArterial">
+              <div class="border rounded bg-white p-2">
+                {{ historialMedico!.antecedentes_heredofamiliares.espHipertensionArterial }}
+              </div>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Psoriasis / Vitiligo</b>
+              </div>
+              <div class="ml-auto">
+                {{historialMedico!.antecedentes_heredofamiliares.psoriasisVitiligo}}
+              </div>
+            </div>
+            <div *ngIf="historialMedico!.antecedentes_heredofamiliares.espPsoriasisVitiligo">
+              <div class="border rounded bg-white p-2">
+                {{ historialMedico!.antecedentes_heredofamiliares.espPsoriasisVitiligo }}
+              </div>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Cardiopatías</b>
+              </div>
+              <div class="ml-auto">
+                {{historialMedico!.antecedentes_heredofamiliares.cardiopatias}}
+              </div>
+            </div>
+            <div *ngIf="historialMedico!.antecedentes_heredofamiliares.espCardiopatias">
+              <div class="border rounded bg-white p-2">
+                {{ historialMedico!.antecedentes_heredofamiliares.espCardiopatias }}
+              </div>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Lepra</b>
+              </div>
+              <div class="ml-auto">
+                {{historialMedico!.antecedentes_heredofamiliares.lepra}}
+              </div>
+            </div>
+            <div *ngIf="historialMedico!.antecedentes_heredofamiliares.espLepra">
+              <div class="border rounded bg-white p-2">
+                {{ historialMedico!.antecedentes_heredofamiliares.espLepra }}
+              </div>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Neoplásicos</b>
+              </div>
+              <div class="ml-auto">
+                {{historialMedico!.antecedentes_heredofamiliares.neoplasicos}}
+              </div>
+            </div>
+            <div *ngIf="historialMedico!.antecedentes_heredofamiliares.espNeoplasicos">
+              <div class="border rounded bg-white p-2">
+                {{ historialMedico!.antecedentes_heredofamiliares.espNeoplasicos }}
+              </div>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Fímicos</b>
+              </div>
+              <div class="ml-auto">
+                {{historialMedico!.antecedentes_heredofamiliares.fimicos}}
+              </div>
+            </div>
+            <div *ngIf="historialMedico!.antecedentes_heredofamiliares.espFimicos">
+              <div class="border rounded bg-white p-2">
+                {{ historialMedico!.antecedentes_heredofamiliares.espFimicos }}
+              </div>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Tiroideos</b>
+              </div>
+              <div class="ml-auto">
+                {{historialMedico!.antecedentes_heredofamiliares.tiroideos}}
+              </div>
+            </div>
+            <div *ngIf="historialMedico!.antecedentes_heredofamiliares.espTiroideos">
+              <div class="border rounded bg-white p-2">
+                {{ historialMedico!.antecedentes_heredofamiliares.espTiroideos }}
+              </div>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Psiquiátricos</b>
+              </div>
+              <div class="ml-auto">
+                {{historialMedico!.antecedentes_heredofamiliares.psiquiatricos}}
+              </div>
+            </div>
+            <div *ngIf="historialMedico!.antecedentes_heredofamiliares.espPsiquiatricos">
+              <div class="border rounded bg-white p-2">
+                {{ historialMedico!.antecedentes_heredofamiliares.espPsiquiatricos }}
+              </div>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Alergias</b>
+              </div>
+              <div class="ml-auto">
+                {{historialMedico!.antecedentes_heredofamiliares.alergias}}
+              </div>
+            </div>
+            <div *ngIf="historialMedico!.antecedentes_heredofamiliares.espAlergias">
+              <div class="border rounded bg-white p-2">
+                {{ historialMedico!.antecedentes_heredofamiliares.espAlergias }}
+              </div>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Colagenopatias</b>
+              </div>
+              <div class="ml-auto">
+                {{historialMedico!.antecedentes_heredofamiliares.colagenopatias}}
+              </div>  
+            </div>
+            <div *ngIf="historialMedico!.antecedentes_heredofamiliares.espColagenopatias">
+              <div class="border rounded bg-white p-2">
+                {{ historialMedico!.antecedentes_heredofamiliares.espColagenopatias }}
+              </div>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Problemas mentales</b>
+              </div>
+              <div class="ml-auto">
+                {{historialMedico!.antecedentes_heredofamiliares.probMentales}}
+              </div>
+            </div>
+            <div *ngIf="historialMedico!.antecedentes_heredofamiliares.espProbMentales">
+              <div class="border rounded bg-white p-2">
+                {{ historialMedico!.antecedentes_heredofamiliares.espProbMentales }}
+              </div>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Otros</b>
+              </div>
+              <div class="ml-auto">
+                {{historialMedico!.antecedentes_heredofamiliares.otros}}
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <ng-template [ngIf]="!historialMedico!.antecedentes_heredofamiliares || editandoAHeredofamiliares">
+      <form [formGroup]="formAHeredofamiliares" (submit)="guardarAHeredofamiliares()">
+        <div class="bg-light w-100">
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Padres viven</b>
+              </div>
+              <div class="ml-auto">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="padresViven" id="padresViven1" value="No">
+                  <label class="form-check-label" for="padresViven1">No</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="padresViven" id="padresViven2" value="Si">
+                  <label class="form-check-label" for="padresViven2">Si</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Hermanos viven</b>
+              </div>
+              <div class="ml-auto">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="hermanosViven" id="hermanosViven1" value="No">
+                  <label class="form-check-label" for="hermanosViven1">No</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="hermanosViven" id="hermanosViven2" value="Si">
+                  <label class="form-check-label" for="hermanosViven2">Si</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="hermanosViven" id="hermanosViven3" value="N/A">
+                  <label class="form-check-label" for="hermanosViven3">N/A</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Hermanos viven</b>
+              </div>
+              <div class="ml-auto">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="hermanasViven" id="hermanasViven1" value="No">
+                  <label class="form-check-label" for="hermanasViven1">No</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="hermanasViven" id="hermanasViven2" value="Si">
+                  <label class="form-check-label" for="hermanasViven2">Si</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="hermanasViven" id="hermanasViven3" value="N/A">
+                  <label class="form-check-label" for="hermanasViven3">N/A</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Diabetes</b>
+              </div>
+              <div class="ml-auto">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="diabetes" id="diabetes1" value="No">
+                  <label class="form-check-label" for="diabetes1">No</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="diabetes" id="diabetes2" value="Si">
+                  <label class="form-check-label" for="diabetes2">Si</label>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="formAHeredofamiliares.get('diabetes')?.value === 'Si'">
+              <label class="text-secondary small">Especifique
+                <span class="text-danger">*</span>
+              </label>
+              <textarea class="form-control" rows="3" formControlName="espDiabetes"></textarea>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Obesidad</b>
+              </div>
+              <div class="ml-auto">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="obecidad" id="obecidad1" value="No">
+                  <label class="form-check-label" for="obecidad1">No</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="obecidad" id="obecidad2" value="Si">
+                  <label class="form-check-label" for="obecidad2">Si</label>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="formAHeredofamiliares.get('obecidad')?.value === 'Si'">
+              <label class="text-secondary small">Especifique
+                <span class="text-danger">*</span>
+              </label>
+              <textarea class="form-control" rows="3" formControlName="espObecidad"></textarea>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Hipertensión arterial</b>
+              </div>
+              <div class="ml-auto">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="hipertensionArterial" id="hipertensionArterial1" value="No">
+                  <label class="form-check-label" for="hipertensionArterial1">No</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="hipertensionArterial" id="hipertensionArterial2" value="Si">
+                  <label class="form-check-label" for="hipertensionArterial2">Si</label>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="formAHeredofamiliares.get('hipertensionArterial')?.value === 'Si'">
+              <label class="text-secondary small">Especifique
+                <span class="text-danger">*</span>
+              </label>
+              <textarea class="form-control" rows="3" formControlName="espHipertensionArterial"></textarea>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Psoriasis / Vitiligo</b>
+              </div>
+              <div class="ml-auto">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="psoriasisVitiligo" id="psoriasisVitiligo1" value="No">
+                  <label class="form-check-label" for="psoriasisVitiligo1">No</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="psoriasisVitiligo" id="psoriasisVitiligo2" value="Si">
+                  <label class="form-check-label" for="psoriasisVitiligo2">Si</label>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="formAHeredofamiliares.get('psoriasisVitiligo')?.value === 'Si'">
+              <label class="text-secondary small">Especifique
+                <span class="text-danger">*</span>
+              </label>
+              <textarea class="form-control" rows="3" formControlName="espPsoriasisVitiligo"></textarea>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Cardiopatias</b>
+              </div>
+              <div class="ml-auto">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="cardiopatias" id="cardiopatias1" value="No">
+                  <label class="form-check-label" for="cardiopatias1">No</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="cardiopatias" id="cardiopatias2" value="Si">
+                  <label class="form-check-label" for="cardiopatias2">Si</label>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="formAHeredofamiliares.get('cardiopatias')?.value === 'Si'">
+              <label class="text-secondary small">Especifique
+                <span class="text-danger">*</span>
+              </label>
+              <textarea class="form-control" rows="3" formControlName="espCardiopatias"></textarea>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Lepra</b>
+              </div>
+              <div class="ml-auto">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="lepra" id="lepra1" value="No">
+                  <label class="form-check-label" for="lepra1">No</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="lepra" id="lepra2" value="Si">
+                  <label class="form-check-label" for="lepra2">Si</label>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="formAHeredofamiliares.get('lepra')?.value === 'Si'">
+              <label class="text-secondary small">Especifique
+                <span class="text-danger">*</span>
+              </label>
+              <textarea class="form-control" rows="3" formControlName="espLepra"></textarea>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Neoplásicos</b>
+              </div>
+              <div class="ml-auto">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="neoplasicos" id="neoplasicos1" value="No">
+                  <label class="form-check-label" for="neoplasicos1">No</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="neoplasicos" id="neoplasicos2" value="Si">
+                  <label class="form-check-label" for="neoplasicos2">Si</label>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="formAHeredofamiliares.get('neoplasicos')?.value === 'Si'">
+              <label class="text-secondary small">Especifique
+                <span class="text-danger">*</span>
+              </label>
+              <textarea class="form-control" rows="3" formControlName="espNeoplasicos"></textarea>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Fimicos</b>
+              </div>
+              <div class="ml-auto">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="fimicos" id="fimicos1" value="No">
+                  <label class="form-check-label" for="fimicos1">No</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="fimicos" id="fimicos2" value="Si">
+                  <label class="form-check-label" for="fimicos2">Si</label>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="formAHeredofamiliares.get('fimicos')?.value === 'Si'">
+              <label class="text-secondary small">Especifique
+                <span class="text-danger">*</span>
+              </label>
+              <textarea class="form-control" rows="3" formControlName="espFimicos"></textarea>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Tiroideos</b>
+              </div>
+              <div class="ml-auto">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="tiroideos" id="tiroideos1" value="No">
+                  <label class="form-check-label" for="tiroideos1">No</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="tiroideos" id="tiroideos2" value="Si">
+                  <label class="form-check-label" for="tiroideos2">Si</label>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="formAHeredofamiliares.get('tiroideos')?.value === 'Si'">
+              <label class="text-secondary small">Especifique
+                <span class="text-danger">*</span>
+              </label>
+              <textarea class="form-control" rows="3" formControlName="espTiroideos"></textarea>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Psiquiátricos</b>
+              </div>
+              <div class="ml-auto">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="psiquiatricos" id="psiquiatricos1" value="No">
+                  <label class="form-check-label" for="psiquiatricos1">No</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="psiquiatricos" id="psiquiatricos2" value="Si">
+                  <label class="form-check-label" for="psiquiatricos2">Si</label>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="formAHeredofamiliares.get('psiquiatricos')?.value === 'Si'">
+              <label class="text-secondary small">Especifique
+                <span class="text-danger">*</span>
+              </label>
+              <textarea class="form-control" rows="3" formControlName="espPsiquiatricos"></textarea>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Alergias</b>
+              </div>
+              <div class="ml-auto">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="alergias" id="alergias1" value="No">
+                  <label class="form-check-label" for="alergias1">No</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="alergias" id="alergias2" value="Si">
+                  <label class="form-check-label" for="alergias2">Si</label>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="formAHeredofamiliares.get('alergias')?.value === 'Si'">
+              <label class="text-secondary small">Especifique
+                <span class="text-danger">*</span>
+              </label>
+              <textarea class="form-control" rows="3" formControlName="espAlergias"></textarea>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Coagulopatías</b>
+              </div>
+              <div class="ml-auto">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="colagenopatias" id="colagenopatias1" value="No">
+                  <label class="form-check-label" for="colagenopatias1">No</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="colagenopatias" id="colagenopatias2" value="Si">
+                  <label class="form-check-label" for="colagenopatias2">Si</label>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="formAHeredofamiliares.get('colagenopatias')?.value === 'Si'">
+              <label class="text-secondary small">Especifique
+                <span class="text-danger">*</span>
+              </label>
+              <textarea class="form-control" rows="3" formControlName="espColagenopatias"></textarea>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Problemas mentales</b>
+              </div>
+              <div class="ml-auto">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="probMentales" id="probMentales1" value="No">
+                  <label class="form-check-label" for="probMentales1">No</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="probMentales" id="probMentales2" value="Si">
+                  <label class="form-check-label" for="probMentales2">Si</label>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="formAHeredofamiliares.get('probMentales')?.value === 'Si'">
+              <label class="text-secondary small">Especifique
+                <span class="text-danger">*</span>
+              </label>
+              <textarea class="form-control" rows="3" formControlName="espProbMentales"></textarea>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Otros</b>
+              </div>
+              <div class="ml-auto">
+                <textarea class="form-control" rows="3" formControlName="otros"></textarea>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="text-center pt-3">
+          <button type="submit" class="btn btn-sm btn-pink">Guardar</button>
+        </div>
+      </form>
+    </ng-template>
+  </div>

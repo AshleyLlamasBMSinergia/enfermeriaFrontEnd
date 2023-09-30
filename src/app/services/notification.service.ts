@@ -1,0 +1,52 @@
+import { Injectable } from '@angular/core';
+import Swal from 'sweetalert2';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class NotificationService {
+
+  mensaje(response: any) {
+    Swal.fire({
+      icon: 'success',
+      title: response.message,
+      showConfirmButton: false,
+      timer: 6500
+    });
+
+    setTimeout(() => {
+      window.location.reload();
+    }, 2000);
+  }
+
+  error(response: any) {
+    Swal.fire({
+      icon: 'error',
+      title: response,
+      showConfirmButton: false,
+      timer: 6500
+    });
+  }
+
+  async confirmarEliminacion(elemento: string): Promise<boolean> {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger',
+      },
+      buttonsStyling: false,
+    });
+
+    const result = await swalWithBootstrapButtons.fire({
+      title: `¿Estás seguro de eliminar este ${elemento}?`,
+      text: '¡No podrás revertir esto!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí',
+      cancelButtonText: 'No',
+      reverseButtons: true,
+    });
+
+    return result.isConfirmed;
+  }
+}

@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import {  Observable } from 'rxjs';
 import { API_URL } from 'src/app/config';
 import { Router } from '@angular/router';
-import { Externos } from './externos';
+import { Externos } from 'src/app/interfaces/externos';
 
 @Injectable({
   providedIn: 'root'

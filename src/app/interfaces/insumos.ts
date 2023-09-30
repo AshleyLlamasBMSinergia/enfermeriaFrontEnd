@@ -1,4 +1,4 @@
-import { Lotes } from "../lotes-medicos/lotes"
+import { Lotes } from "src/app/interfaces/lotes"
 
 export interface Insumos {
     id: number,

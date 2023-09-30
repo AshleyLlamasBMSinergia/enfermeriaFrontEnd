@@ -1,0 +1,164 @@
+<div *ngFor="let examen_vista of historialMedico!.examenes_vista; let i = index">
+    <div>
+        <div class="border-bottom mb-2" [id]="'headingAccordionEV' + i">
+            <h5 class="mb-0">
+                <button class="btn collapsed btn-none-efects border-0" [attr.data-toggle]="'collapse'" [attr.data-target]="'#collapseEVista' + i" [attr.aria-expanded]="false" [attr.aria-controls]="'collapseEVista' + i">
+                    <h5 class="text-secondary">
+                    <img src="assets/icons/carpeta.svg" alt="Carpeta" width="35px">
+                    {{ examen_vista.fecha | date:'dd/MM/yyyy' }}
+                    </h5>
+                </button>
+            </h5>
+        </div>
+        <div [id]="'collapseEVista' + i" class="collapse" [attr.aria-labelledby]="'headingAccordionEVista' + i" data-parent="#examenV">
+            <div class="bg-light rounded p-3">
+                <div class="py-3">
+                    <a class="btn btn-tool btn-sm float-right" (click)="destroyEVista(examen_vista.id)">
+                    <i class="fas fa-trash text-danger"></i>
+                    </a>
+                </div>
+
+                <div class="row">
+                    <div class="py-2 col-12">
+                    <div class="d-flex border-bottom py-2">
+                        <div>
+                        <b>Tipo</b>
+                        </div>
+                        <div class="ml-auto">
+                        {{examen_vista?.tipo}}
+                        </div>
+                    </div>
+                    </div>
+
+                    <div class="py-2 col-12 col-sm-6">
+                    <div class="d-flex border-bottom py-2">
+                        <div>
+                        <b>¿Necesita lentes?</b>
+                        </div>
+                        <div class="ml-auto">
+                        {{examen_vista?.necesitaLentes}}
+                        </div>
+                    </div>
+                    </div>
+
+                    <div class="py-2 col-12 col-sm-6">
+                    <div class="d-flex border-bottom py-2">
+                        <div>
+                        <b>¿Usa lentes?</b>
+                        </div>
+                        <div class="ml-auto">
+                        {{examen_vista?.usaLentes}}
+                        </div>
+                    </div>
+                    </div>
+
+                    <div class="py-2 col-12" *ngIf="examen_vista?.comentarios">
+                    <div class="d-flex py-2">
+                        <div>
+                        <b>Comentarios</b>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="border rounded bg-white p-2">
+                        {{ examen_vista?.comentarios }}
+                        </div>
+                    </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="mostrarFormularioEVista">
+    <div class="bg-light rounded p-3 mt-3">
+    <form [formGroup]="formEVista" (submit)="storeEVista()">
+
+        <div class="row">
+            <div class="py-2 col-12">
+                <div class="py-2 col-12">
+                <div class="d-flex justify-content-between border-bottom py-2">
+                    <div>
+                    <b>Tipo</b>
+                    </div>
+                    <div class="ml-2">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" formControlName="tipo" id="tipo1" value="Reingreso">
+                        <label class="form-check-label" for="tipo1">Reingreso</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" formControlName="tipo" id="tipo2" value="Periodico">
+                        <label class="form-check-label" for="tipo2">Periodico</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" formControlName="tipo" id="tipo3" value="Temporal">
+                        <label class="form-check-label" for="tipo3">Temporal</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" formControlName="tipo" id="tipo4" value="Especial">
+                        <label class="form-check-label" for="tipo4">Especial</label>
+                    </div>
+                    </div>
+                </div>
+                </div>
+                <div class="d-flex justify-content-between border-bottom py-2">
+                <div>
+                    <b>¿Necesita lentes?</b>
+                </div>
+                <div class="ml-2">
+                    <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" formControlName="necesitaLentes" id="necesitaLentes1" value="Si">
+                    <label class="form-check-label" for="necesitaLentes1">Si</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" formControlName="necesitaLentes" id="necesitaLentes2" value="No">
+                    <label class="form-check-label" for="necesitaLentes2">No</label>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="py-2 col-12">
+                <div class="d-flex justify-content-between border-bottom py-2">
+                <div>
+                    <b>¿Usa lentes?</b>
+                </div>
+                <div class="ml-2">
+                    <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" formControlName="usaLentes" id="usaLentes1" value="Si">
+                    <label class="form-check-label" for="usaLentes1">Si</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" formControlName="usaLentes" id="usaLentes2" value="No">
+                    <label class="form-check-label" for="usaLentes2">No</label>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="py-2 col-12">
+                <div class="d-flex justify-content-between pt-2">
+                <div>
+                    <b>Comentarios</b>
+                </div>
+                </div>
+                <div>
+                <div class="ml-2">
+                    <textarea class="form-control form-control-sm" formControlName="comentarios" id="comentarios" row="3"></textarea>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center pt-3">
+            <button type="submit" class="btn btn-sm btn-pink">
+                <i class="fas fa-save"></i> Guardar
+            </button>
+        </div>
+    </form>
+    </div>
+</div>
+
+<div *ngIf="!mostrarFormularioEVista" class="text-center pt-3">
+    <button type="submit" class="btn btn-sm btn-pink" (click)="abrirFormularioEVista()"><i class="fas fa-plus"></i> Nuevo examen de vista</button>
+</div>

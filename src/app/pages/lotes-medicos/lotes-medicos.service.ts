@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import {  Observable } from 'rxjs';
-import { Lotes } from './lotes';
+import { Lotes } from 'src/app/interfaces/lotes';
 import { API_URL } from 'src/app/config';
 import { Router } from '@angular/router';
-import { Insumos } from '../insumos-medicos/insumos';
+import { Insumos } from 'src/app/interfaces/insumos';
 
 @Injectable({
   providedIn: 'root'

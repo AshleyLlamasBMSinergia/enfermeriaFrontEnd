@@ -1,6 +1,6 @@
 import { DecimalPipe } from "@angular/common";
-import { Calendario } from "../calendario/calendario";
-import { Empleados } from "../empleados/empleados";
+import { Calendario } from "src/app/interfaces/calendario";
+import { Empleados } from "src/app/interfaces/empleados";
 
 export interface Consultas {
     id: number,

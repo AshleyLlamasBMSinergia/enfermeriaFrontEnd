@@ -1,0 +1,723 @@
+<div class="p-3 rounded bg-light">
+
+    <div *ngIf="historialMedico!.antecedentes_personales_patologicos && !editandoAPPatologicos">
+      <div class="bg-ligh">
+
+        <div class="py-3">
+          <a class="btn btn-tool btn-sm float-right" (click)="editAntecedentesPersonalesPatologicos()">
+            <i class="fas fa-edit text-primary"></i>
+          </a>
+        </div>
+
+        <div class="py-2 border-bottom">
+          <div class="d-flex py-2">
+            <div>
+              <b>Cirugías</b>
+            </div>
+            <div class="ml-auto">
+              {{historialMedico!.antecedentes_personales_patologicos.cirujias}}
+            </div>
+          </div>
+          <div *ngIf="historialMedico!.antecedentes_personales_patologicos.espCirujias">
+            <div class="border rounded bg-white p-2">
+              {{ historialMedico!.antecedentes_personales_patologicos.espCirujias }}
+            </div>
+          </div>
+        </div>
+
+        <div class="py-2 border-bottom">
+          <div class="d-flex py-2">
+            <div>
+              <b>Contusiones</b>
+            </div>
+            <div class="ml-auto">
+              {{historialMedico!.antecedentes_personales_patologicos.contusiones}}
+            </div>
+          </div>
+          <div *ngIf="historialMedico!.antecedentes_personales_patologicos.espContusiones">
+            <div class="border rounded bg-white p-2">
+              {{ historialMedico!.antecedentes_personales_patologicos.espContusiones }}
+            </div>
+          </div>
+        </div>
+
+        <div class="py-2 border-bottom">
+          <div class="d-flex py-2">
+            <div>
+              <b>Lumbalgias</b>
+            </div>
+            <div class="ml-auto">
+              {{historialMedico!.antecedentes_personales_patologicos.lumbalgias}}
+            </div>
+          </div>
+          <div *ngIf="historialMedico!.antecedentes_personales_patologicos.espLumbalgias">
+            <div class="border rounded bg-white p-2">
+              {{ historialMedico!.antecedentes_personales_patologicos.espLumbalgias }}
+            </div>
+          </div>
+        </div>
+
+        <div class="py-2 border-bottom">
+          <div class="d-flex py-2">
+            <div>
+              <b>Hernias</b>
+            </div>
+            <div class="ml-auto">
+              {{historialMedico!.antecedentes_personales_patologicos.hernias}}
+            </div>
+          </div>
+          <div *ngIf="historialMedico!.antecedentes_personales_patologicos.espHernias">
+            <div class="border rounded bg-white p-2">
+              {{ historialMedico!.antecedentes_personales_patologicos.espHernias }}
+            </div>
+          </div>
+        </div>
+
+        <div class="py-2 border-bottom">
+          <div class="d-flex py-2">
+            <div>
+              <b>Fracturas</b>
+            </div>
+            <div class="ml-auto">
+              {{historialMedico!.antecedentes_personales_patologicos.fracturas}}
+            </div>
+          </div>
+          <div *ngIf="historialMedico!.antecedentes_personales_patologicos.espFracturas">
+            <div class="border rounded bg-white p-2">
+              {{ historialMedico!.antecedentes_personales_patologicos.espFracturas }}
+            </div>
+          </div>
+        </div>
+
+        <div class="py-2 border-bottom">
+          <div class="d-flex py-2">
+            <div>
+              <b>Dorsalgias</b>
+            </div>
+            <div class="ml-auto">
+              {{historialMedico!.antecedentes_personales_patologicos.dorsalgias}}
+            </div>
+          </div>
+          <div *ngIf="historialMedico!.antecedentes_personales_patologicos.espDorsalgias">
+            <div class="border rounded bg-white p-2">
+              {{ historialMedico!.antecedentes_personales_patologicos.espDorsalgias }}
+            </div>
+          </div>
+        </div>
+
+        <div class="py-2 border-bottom">
+          <div class="d-flex py-2">
+            <div>
+              <b>Hospitalizaciones</b>
+            </div>
+            <div class="ml-auto">
+              {{historialMedico!.antecedentes_personales_patologicos.hospitalizaciones}}
+            </div>
+          </div>
+          <div *ngIf="historialMedico!.antecedentes_personales_patologicos.espHospitalizaciones">
+            <div class="border rounded bg-white p-2">
+              {{ historialMedico!.antecedentes_personales_patologicos.espHospitalizaciones }}
+            </div>
+          </div>
+        </div>
+
+        <div class="py-2 border-bottom">
+          <div class="d-flex py-2">
+            <div>
+              <b>Esguinces</b>
+            </div>
+            <div class="ml-auto">
+              {{historialMedico!.antecedentes_personales_patologicos.esguinces}}
+            </div>
+          </div>
+          <div *ngIf="historialMedico!.antecedentes_personales_patologicos.espEsguinces">
+            <div class="border rounded bg-white p-2">
+              {{ historialMedico!.antecedentes_personales_patologicos.espEsguinces }}
+            </div>
+          </div>
+        </div>
+
+        <div class="py-2 border-bottom">
+          <div class="d-flex py-2">
+            <div>
+              <b>Lesiones arteriales</b>
+            </div>
+            <div class="ml-auto">
+              {{historialMedico!.antecedentes_personales_patologicos.lesionesArteriales}}
+            </div>
+          </div>
+          <div *ngIf="historialMedico!.antecedentes_personales_patologicos.espLesionesArteriales">
+            <div class="border rounded bg-white p-2">
+              {{ historialMedico!.antecedentes_personales_patologicos.espLesionesArteriales }}
+            </div>
+          </div>
+        </div>
+
+        <div class="py-2 border-bottom">
+          <div class="d-flex py-2">
+            <div>
+              <b>Transfusiones</b>
+            </div>
+            <div class="ml-auto">
+              {{historialMedico!.antecedentes_personales_patologicos.transfusiones}}
+            </div>
+          </div>
+          <div *ngIf="historialMedico!.antecedentes_personales_patologicos.espTransfusiones">
+            <div class="border rounded bg-white p-2">
+              {{ historialMedico!.antecedentes_personales_patologicos.espTransfusiones }}
+            </div>
+          </div>
+        </div>
+
+        <div class="py-2 border-bottom">
+          <div class="d-flex py-2">
+            <div>
+              <b>Luxaciones</b>
+            </div>
+            <div class="ml-auto">
+              {{historialMedico!.antecedentes_personales_patologicos.luxaciones}}
+            </div>
+          </div>
+          <div *ngIf="historialMedico!.antecedentes_personales_patologicos.espLuxaciones">
+            <div class="border rounded bg-white p-2">
+              {{ historialMedico!.antecedentes_personales_patologicos.espLuxaciones }}
+            </div>
+          </div>
+        </div>
+
+        <div class="py-2 border-bottom">
+          <div class="d-flex py-2">
+            <div>
+              <b>Tetanias</b>
+            </div>
+            <div class="ml-auto">
+              {{historialMedico!.antecedentes_personales_patologicos.tetanias}}
+            </div>
+          </div>
+          <div *ngIf="historialMedico!.antecedentes_personales_patologicos.espTetanias">
+            <div class="border rounded bg-white p-2">
+              {{ historialMedico!.antecedentes_personales_patologicos.espTetanias }}
+            </div>
+          </div>
+        </div>
+
+        <div class="py-2 border-bottom">
+          <div class="d-flex py-2">
+            <div>
+              <b>Alergias</b>
+            </div>
+            <div class="ml-auto">
+              {{historialMedico!.antecedentes_personales_patologicos.alergias}}
+            </div>
+          </div>
+          <div *ngIf="historialMedico!.antecedentes_personales_patologicos.espAlergias">
+            <div class="border rounded bg-white p-2">
+              {{ historialMedico!.antecedentes_personales_patologicos.espAlergias }}
+            </div>
+          </div>
+        </div>
+
+        <div class="py-2 border-bottom">
+          <div class="d-flex py-2">
+            <div>
+              <b>Asma</b>
+            </div>
+            <div class="ml-auto">
+              {{historialMedico!.antecedentes_personales_patologicos.asma}}
+            </div>
+          </div>
+        </div>
+
+        <div class="py-2 border-bottom">
+          <div class="d-flex py-2">
+            <div>
+              <b>Epilepsia</b>
+            </div>
+            <div class="ml-auto">
+              {{historialMedico!.antecedentes_personales_patologicos.epilepsia}}
+            </div>
+          </div>
+        </div>
+
+        <div class="py-2 border-bottom">
+          <div class="d-flex py-2">
+            <div>
+              <b>Enfermedades dentales</b>
+            </div>
+            <div class="ml-auto">
+              {{historialMedico!.antecedentes_personales_patologicos.enfDentales}}
+            </div>
+          </div>
+          <div *ngIf="historialMedico!.antecedentes_personales_patologicos.espEnfDentales">
+            <div class="border rounded bg-white p-2">
+              {{ historialMedico!.antecedentes_personales_patologicos.espEnfDentales }}
+            </div>
+          </div>
+        </div>
+
+        <div class="py-2 border-bottom">
+          <div class="d-flex py-2">
+            <div>
+              <b>Enfermedades ópticas</b>
+            </div>
+            <div class="ml-auto">
+              {{historialMedico!.antecedentes_personales_patologicos.enfOpticas}}
+            </div>
+          </div>
+          <div *ngIf="historialMedico!.antecedentes_personales_patologicos.espEnfOpticas">
+            <div class="border rounded bg-white p-2">
+              {{ historialMedico!.antecedentes_personales_patologicos.espEnfOpticas }}
+            </div>
+          </div>
+        </div>
+
+        <div class="py-2 border-bottom">
+          <div class="d-flex py-2">
+            <div>
+              <b>Alteraciones psicológicas</b>
+            </div>
+            <div class="ml-auto">
+              {{historialMedico!.antecedentes_personales_patologicos.altPsicologicas}}
+            </div>
+          </div>
+          <div *ngIf="historialMedico!.antecedentes_personales_patologicos.espAltPsicologicas">
+            <div class="border rounded bg-white p-2">
+              {{ historialMedico!.antecedentes_personales_patologicos.espAltPsicologicas }}
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <ng-template [ngIf]="!historialMedico!.antecedentes_personales_patologicos || editandoAPPatologicos">
+      <form [formGroup]="formAPPatologicos" (submit)="guardarAPPatologicos()">
+        <div class="bg-light w-100">
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Cirugías</b>
+              </div>
+              <div class="ml-auto">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="cirujias" id="cirujias1" value="No">
+                  <label class="form-check-label" for="cirujias1">No</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="cirujias" id="cirujias2" value="Si">
+                  <label class="form-check-label" for="cirujias2">Si</label>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="formAPPatologicos.get('cirujias')?.value === 'Si'">
+              <label class="text-secondary small">Especifique
+                <span class="text-danger">*</span>
+              </label>
+              <textarea class="form-control" rows="3" formControlName="espCirujias"></textarea>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Contusiones</b>
+              </div>
+              <div class="ml-auto">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="contusiones" id="contusiones1" value="No">
+                  <label class="form-check-label" for="contusiones1">No</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="contusiones" id="contusiones2" value="Si">
+                  <label class="form-check-label" for="contusiones2">Si</label>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="formAPPatologicos.get('contusiones')?.value === 'Si'">
+              <label class="text-secondary small">Especifique
+                <span class="text-danger">*</span>
+              </label>
+              <textarea class="form-control" rows="3" formControlName="espContusiones"></textarea>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Lumbalgias</b>
+              </div>
+              <div class="ml-auto">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="lumbalgias" id="lumbalgias1" value="No">
+                  <label class="form-check-label" for="lumbalgias1">No</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="lumbalgias" id="lumbalgias2" value="Si">
+                  <label class="form-check-label" for="lumbalgias2">Si</label>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="formAPPatologicos.get('lumbalgias')?.value === 'Si'">
+              <label class="text-secondary small">Especifique
+                <span class="text-danger">*</span>
+              </label>
+              <textarea class="form-control" rows="3" formControlName="espLumbalgias"></textarea>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Hernias</b>
+              </div>
+              <div class="ml-auto">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="hernias" id="hernias1" value="No">
+                  <label class="form-check-label" for="hernias1">No</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="hernias" id="hernias2" value="Si">
+                  <label class="form-check-label" for="hernias2">Si</label>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="formAPPatologicos.get('hernias')?.value === 'Si'">
+              <label class="text-secondary small">Especifique
+                <span class="text-danger">*</span>
+              </label>
+              <textarea class="form-control" rows="3" formControlName="espHernias"></textarea>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Fracturas</b>
+              </div>
+              <div class="ml-auto">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="fracturas" id="fracturas1" value="No">
+                  <label class="form-check-label" for="fracturas1">No</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="fracturas" id="fracturas2" value="Si">
+                  <label class="form-check-label" for="fracturas2">Si</label>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="formAPPatologicos.get('fracturas')?.value === 'Si'">
+              <label class="text-secondary small">Especifique
+                <span class="text-danger">*</span>
+              </label>
+              <textarea class="form-control" rows="3" formControlName="espFracturas"></textarea>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Dorsalgias</b>
+              </div>
+              <div class="ml-auto">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="dorsalgias" id="dorsalgias1" value="No">
+                  <label class="form-check-label" for="dorsalgias1">No</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="dorsalgias" id="dorsalgias2" value="Si">
+                  <label class="form-check-label" for="dorsalgias2">Si</label>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="formAPPatologicos.get('dorsalgias')?.value === 'Si'">
+              <label class="text-secondary small">Especifique
+                <span class="text-danger">*</span>
+              </label>
+              <textarea class="form-control" rows="3" formControlName="espDorsalgias"></textarea>
+            </div>
+          </div>
+        
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Hospitalizaciones</b>
+              </div>
+              <div class="ml-auto">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="hospitalizaciones" id="hospitalizaciones1" value="No">
+                  <label class="form-check-label" for="hospitalizaciones1">No</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="hospitalizaciones" id="hospitalizaciones2" value="Si">
+                  <label class="form-check-label" for="hospitalizaciones2">Si</label>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="formAPPatologicos.get('hospitalizaciones')?.value === 'Si'">
+              <label class="text-secondary small">Especifique
+                <span class="text-danger">*</span>
+              </label>
+              <textarea class="form-control" rows="3" formControlName="espHospitalizaciones"></textarea>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Esguiences</b>
+              </div>
+              <div class="ml-auto">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="esguinces" id="esguinces1" value="No">
+                  <label class="form-check-label" for="esguinces1">No</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="esguinces" id="esguinces2" value="Si">
+                  <label class="form-check-label" for="esguinces2">Si</label>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="formAPPatologicos.get('esguinces')?.value === 'Si'">
+              <label class="text-secondary small">Especifique
+                <span class="text-danger">*</span>
+              </label>
+              <textarea class="form-control" rows="3" formControlName="espEsguinces"></textarea>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Lesiones arteriales</b>
+              </div>
+              <div class="ml-auto">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="lesionesArteriales" id="lesionesArteriales1" value="No">
+                  <label class="form-check-label" for="lesionesArteriales1">No</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="lesionesArteriales" id="lesionesArteriales2" value="Si">
+                  <label class="form-check-label" for="lesionesArteriales2">Si</label>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="formAPPatologicos.get('lesionesArteriales')?.value === 'Si'">
+              <label class="text-secondary small">Especifique
+                <span class="text-danger">*</span>
+              </label>
+              <textarea class="form-control" rows="3" formControlName="espLesionesArteriales"></textarea>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Transfuciones</b>
+              </div>
+              <div class="ml-auto">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="transfusiones" id="transfusiones1" value="No">
+                  <label class="form-check-label" for="transfusiones1">No</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="transfusiones" id="transfusiones2" value="Si">
+                  <label class="form-check-label" for="transfusiones2">Si</label>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="formAPPatologicos.get('transfusiones')?.value === 'Si'">
+              <label class="text-secondary small">Especifique
+                <span class="text-danger">*</span>
+              </label>
+              <textarea class="form-control" rows="3" formControlName="espTransfusiones"></textarea>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Luxaciones</b>
+              </div>
+              <div class="ml-auto">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="luxaciones" id="luxaciones1" value="No">
+                  <label class="form-check-label" for="luxaciones1">No</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="luxaciones" id="luxaciones2" value="Si">
+                  <label class="form-check-label" for="luxaciones2">Si</label>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="formAPPatologicos.get('luxaciones')?.value === 'Si'">
+              <label class="text-secondary small">Especifique
+                <span class="text-danger">*</span>
+              </label>
+              <textarea class="form-control" rows="3" formControlName="espLuxaciones"></textarea>
+            </div>
+          </div>
+          
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Tetanias</b>
+              </div>
+              <div class="ml-auto">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="tetanias" id="tetanias1" value="No">
+                  <label class="form-check-label" for="tetanias1">No</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="tetanias" id="tetanias2" value="Si">
+                  <label class="form-check-label" for="tetanias2">Si</label>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="formAPPatologicos.get('tetanias')?.value === 'Si'">
+              <label class="text-secondary small">Especifique
+                <span class="text-danger">*</span>
+              </label>
+              <textarea class="form-control" rows="3" formControlName="espTetanias"></textarea>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Alergias</b>
+              </div>
+              <div class="ml-auto">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="alergias" id="alergias1" value="No">
+                  <label class="form-check-label" for="alergias1">No</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="alergias" id="alergias2" value="Si">
+                  <label class="form-check-label" for="alergias2">Si</label>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="formAPPatologicos.get('alergias')?.value === 'Si'">
+              <label class="text-secondary small">Especifique
+                <span class="text-danger">*</span>
+              </label>
+              <textarea class="form-control" rows="3" formControlName="espAlergias"></textarea>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Asma</b>
+              </div>
+              <div class="ml-auto">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="asma" id="asma1" value="No">
+                  <label class="form-check-label" for="asma1">No</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="asma" id="asma2" value="Si">
+                  <label class="form-check-label" for="asma2">Si</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Epilepsia</b>
+              </div>
+              <div class="ml-auto">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="epilepsia" id="epilepsia1" value="No">
+                  <label class="form-check-label" for="epilepsia1">No</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="epilepsia" id="epilepsia2" value="Si">
+                  <label class="form-check-label" for="epilepsia2">Si</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Enfermedades dentales</b>
+              </div>
+              <div class="ml-auto">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="enfDentales" id="enfDentales1" value="No">
+                  <label class="form-check-label" for="enfDentales1">No</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="enfDentales" id="enfDentales2" value="Si">
+                  <label class="form-check-label" for="enfDentales2">Si</label>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="formAPPatologicos.get('enfDentales')?.value === 'Si'">
+              <label class="text-secondary small">Especifique
+                <span class="text-danger">*</span>
+              </label>
+              <textarea class="form-control" rows="3" formControlName="espEnfDentales"></textarea>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Enfermedades ópticas</b>
+              </div>
+              <div class="ml-auto">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="enfOpticas" id="enfOpticas1" value="No">
+                  <label class="form-check-label" for="enfOpticas1">No</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="enfOpticas" id="enfOpticas2" value="Si">
+                  <label class="form-check-label" for="enfOpticas2">Si</label>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="formAPPatologicos.get('enfOpticas')?.value === 'Si'">
+              <label class="text-secondary small">Especifique
+                <span class="text-danger">*</span>
+              </label>
+              <textarea class="form-control" rows="3" formControlName="espEnfOpticas"></textarea>
+            </div>
+          </div>
+
+          <div class="py-2 border-bottom">
+            <div class="d-flex py-2">
+              <div>
+                <b>Alteraciones psicológicas</b>
+              </div>
+              <div class="ml-auto">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="altPsicologicas" id="altPsicologicas1" value="No">
+                  <label class="form-check-label" for="altPsicologicas1">No</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="altPsicologicas" id="altPsicologicas2" value="Si">
+                  <label class="form-check-label" for="altPsicologicas2">Si</label>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="formAPPatologicos.get('altPsicologicas')?.value === 'Si'">
+              <label class="text-secondary small">Especifique
+                <span class="text-danger">*</span>
+              </label>
+              <textarea class="form-control" rows="3" formControlName="espAltPsicologicas"></textarea>
+            </div>
+          </div>
+
+        </div>
+        <div class="text-center pt-3">
+          <button type="submit" class="btn btn-sm btn-pink">Guardar</button>
+        </div>
+      </form>
+    </ng-template>
+  </div>

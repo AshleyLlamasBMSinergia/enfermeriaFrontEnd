@@ -3,7 +3,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { API_URL } from 'src/app/config';
 import {  Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import { Pendiente } from './pendiente';
 
 @Injectable({
   providedIn: 'root'

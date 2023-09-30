@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ConsultasService } from '../consultas.service';
 import { ActivatedRoute } from '@angular/router';
-import { Consultas } from '../consultas';
+import { Consultas } from 'src/app/interfaces/consultas';
 import { ImageService } from 'src/app/services/imagen.service';
 import { DomSanitizer } from '@angular/platform-browser';
 

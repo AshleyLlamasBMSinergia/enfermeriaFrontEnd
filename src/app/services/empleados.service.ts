@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 
 import {  Observable } from 'rxjs';
 import { API_URL } from 'src/app/config';
-import { Empleados } from './empleados';
+import { Empleados } from 'src/app/interfaces/empleados';
 
 @Injectable({
   providedIn: 'root'

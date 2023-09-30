@@ -85,7 +85,7 @@
                 </div>
                 <div class="card-body">
                     <div class="align-items-center d-flex justify-content-around w-100 pb-3">
-                        <span><i class="fas fa-circle fa-xs px-1"></i><b>Fecha:</b>{{ fechaActual }}</span>
+                        <span><i class="fas fa-circle fa-xs px-1"></i><b>Fecha:</b>{{ fechaActual | date: 'dd/MM/yyyy' }}</span>
                         <span><i class="fas fa-circle fa-xs px-1"></i><b>Hora:</b>{{ horaActual }}</span>
                         <span><i class="fas fa-circle fa-xs px-1"></i><b>Lugar:</b></span>
                     </div>

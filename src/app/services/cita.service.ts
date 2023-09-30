@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { API_URL } from '../config';
 import { Observable } from 'rxjs';
-import { Calendario } from '../pages/calendario/calendario';
+import { Calendario } from 'src/app/interfaces/calendario';
 
 @Injectable({
   providedIn: 'root',

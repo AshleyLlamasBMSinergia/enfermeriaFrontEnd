@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import {  Observable } from 'rxjs';
-import { Insumos } from './insumos';
+import { Insumos } from 'src/app/interfaces/insumos';
 import { API_URL } from 'src/app/config';
 import { Router } from '@angular/router';
 

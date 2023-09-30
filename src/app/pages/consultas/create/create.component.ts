@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { EmpleadosService } from '../../empleados/empleados.service';
-import { ExternosService } from '../../externos/externos.service';
+import { EmpleadosService } from 'src/app/services/empleados.service';
+import { ExternosService } from 'src/app/services/externos.service';
 import { DatePipe } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { differenceInYears } from 'date-fns';
@@ -177,7 +177,7 @@ export class ConsultasCreateComponent implements OnInit {
 
   obtenerFechaHoraActual() {
     const now = new Date();
-    this.fechaActual = this.datePipe.transform(now, 'dd/MM/yyyy');
+    this.fechaActual = this.datePipe.transform(now, 'yyyy-MM-dd');
     this.horaActual = this.datePipe.transform(now, 'HH:mm a');
   }
 
@@ -226,29 +226,33 @@ export class ConsultasCreateComponent implements OnInit {
     this.consultaForm.get('pacientable_id')?.setValue(pacienteSeleccionado?.id);
   }
 
-  guardar(){
-
-    if (!this.consultaForm.invalid) {
-
-      console.log(this.consultaForm.invalid);
+  guardar() {
+    if (this.consultaForm.invalid) {
+      // Obtener los controles del formulario
+      const controls = this.consultaForm.controls;
   
+      // Filtrar los controles que no están válidos
+      const camposNoValidos = Object.keys(controls).filter(controlName => controls[controlName].invalid);
+  
+      // Campos no válidos
+      console.log('Campos no válidos:', camposNoValidos);
+  
+      this.error({ message: 'Faltan campos por llenar' });
+    } else {
       const fechaHoraActual = `${this.fechaActual} ${this.horaActual}`;
       this.consultaForm.get('fecha')?.setValue(fechaHoraActual);
-  
       this.consultaForm.get('profesional_id')?.setValue(this.profesional?.id);
-  
+      
       const consulta = this.consultaForm.value;
   
-      // this.consultasService.storeConsulta(consulta).subscribe(
-      //   (response) => {
-      //     this.mensaje(response);
-      //   },
-      //   (error) => {
-      //     this.error(error);
-      //   }
-      // );
-    }else{
-      this.error({ message: 'Faltan campos por llenar' });
+      this.consultasService.storeConsulta(consulta).subscribe(
+        (response) => {
+          this.mensaje(response);
+        },
+        (error) => {
+          this.error(error);
+        }
+      );
     }
   }
 

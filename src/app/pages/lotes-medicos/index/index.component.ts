@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { Lotes } from '../lotes';
+import { Lotes } from 'src/app/interfaces/lotes';
 import { LotesMedicosService } from '../lotes-medicos.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, debounceTime  } from 'rxjs';
 import { InsumosMedicosService } from '../../insumos-medicos/insumos-medicos.service';
-import { Insumos } from '../../insumos-medicos/insumos';
+import { Insumos } from 'src/app/interfaces/insumos';
 import Swal from 'sweetalert2';
 
 @Component({

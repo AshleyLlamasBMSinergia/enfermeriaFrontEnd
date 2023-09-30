@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import {  Observable } from 'rxjs';
-import { Consultas } from './consultas';
+import { Consultas } from 'src/app/interfaces/consultas';
 import { API_URL } from 'src/app/config';
 import { Router } from '@angular/router';
 

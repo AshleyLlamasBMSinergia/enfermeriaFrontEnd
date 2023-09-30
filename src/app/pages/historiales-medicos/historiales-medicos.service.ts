@@ -5,9 +5,10 @@ import {  Observable } from 'rxjs';
 import { HistorialesMedicos } from './historiales-medicos';
 import { API_URL } from 'src/app/config';
 import { Router } from '@angular/router';
-import { AntecedentesPersonalesPatologicos } from './antecedentes-personales-patologicos';
-import { AntecedentesPersonalesNoPatologicos } from './antecedentes-personales-no-patologicos';
-import { AntecedentesHeredofamiliares } from './antecedentes-heredofamiliares';
+import { AntecedentesPersonalesPatologicos } from 'src/app/interfaces/antecedentes-personales-patologicos';
+import { AntecedentesPersonalesNoPatologicos } from 'src/app/interfaces/antecedentes-personales-no-patologicos';
+import { AntecedentesHeredofamiliares } from 'src/app/interfaces/antecedentes-heredofamiliares';
+import { Examenes } from 'src/app/interfaces/examenes';
 
 @Injectable({
   providedIn: 'root'
@@ -147,6 +148,19 @@ export class HistorialesMedicosService {
 
   destroyEVista(EVistaId: number): Observable<any> {
     const url = `${API_URL}examen-vista/${EVistaId}`;
+    return this.httpClient.delete(url);
+  }
+
+  storeArchivo(examen: any): Observable<Examenes> {
+    return this.httpClient.post<Examenes>(API_URL+"examen", JSON.stringify(examen), this.httpOptions);
+  }
+
+  storeArchivos(examen: any): Observable<Examenes> {
+    return this.httpClient.post<Examenes>(API_URL+"examen", JSON.stringify(examen), this.httpOptions);
+  }
+
+  destroyExamen(ExamenId: number): Observable<any> {
+    const url = `${API_URL}examen/${ExamenId}`;
     return this.httpClient.delete(url);
   }
 }

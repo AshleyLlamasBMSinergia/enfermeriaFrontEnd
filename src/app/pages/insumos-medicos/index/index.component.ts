@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { Insumos } from '../insumos';
+import { Insumos } from 'src/app/interfaces/insumos';
 import { InsumosMedicosService } from '../insumos-medicos.service';
 import { Router } from '@angular/router';
 import { Subject, debounceTime  } from 'rxjs';
-import { Lotes } from '../../lotes-medicos/lotes';
 import Swal from 'sweetalert2';
 
 @Component({

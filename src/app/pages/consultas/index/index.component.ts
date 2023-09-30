@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Consultas } from '../consultas';
+import { Consultas } from 'src/app/interfaces/consultas';
 import { ConsultasService } from '../consultas.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';

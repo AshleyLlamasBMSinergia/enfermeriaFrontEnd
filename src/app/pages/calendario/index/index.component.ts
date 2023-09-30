@@ -6,7 +6,7 @@ import listWeekPlugin from '@fullcalendar/list';
 import interactionPlugin from '@fullcalendar/interaction';
 import { CalendarioService } from '../calendario.service';
 import { DatePipe } from '@angular/common';
-import { Calendario } from '../calendario';
+import { Calendario } from 'src/app/interfaces/calendario';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({

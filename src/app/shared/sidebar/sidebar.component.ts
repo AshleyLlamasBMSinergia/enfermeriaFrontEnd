@@ -32,7 +32,6 @@ export class SidebarComponent implements OnInit {
     this.userService.user$.subscribe(
       (user: any) => {
         this.user = user[0];
-        console.log(user[0]);
       },
       (error) => {
         console.error('Error al obtener los datos del usuario', error);

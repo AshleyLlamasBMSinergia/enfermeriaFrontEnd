@@ -9,7 +9,13 @@ import { HistorialesMedicosRoutingModule } from './historiales-medicos-routing.m
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxSelectModule } from 'ngx-select-ex';
-
+import { AntecedentesPersonalesPatologicosComponent } from './show/antecedentes-personales-patologicos/antecedentes-personales-patologicos.component';
+import { AntecedentesPersonalesNoPatologicosComponent } from './show/antecedentes-personales-no-patologicos/antecedentes-personales-no-patologicos.component';
+import { AntecedentesHeredofamiliaresComponent } from './show/antecedentes-heredofamiliares/antecedentes-heredofamiliares.component';
+import { ExamenesAntidopingComponent } from './show/examenes-antidoping/examenes-antidoping.component';
+import { ExamenesFisicosComponent } from './show/examenes-fisicos/examenes-fisicos.component';
+import { ExamenesEmbarazoComponent } from './show/examenes-embarazo/examenes-embarazo.component';
+import { ExamenesVistaComponent } from './show/examenes-vista/examenes-vista.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +23,13 @@ import { NgxSelectModule } from 'ngx-select-ex';
     HistorialesMedicosShowComponent,
     HistorialesMedicosCreateComponent,
     HistorialesMedicosEditComponent,
-    
+    AntecedentesPersonalesPatologicosComponent,
+    AntecedentesPersonalesNoPatologicosComponent,
+    AntecedentesHeredofamiliaresComponent,
+    ExamenesAntidopingComponent,
+    ExamenesFisicosComponent,
+    ExamenesEmbarazoComponent,
+    ExamenesVistaComponent,
   ],
   imports: [
     CommonModule,
