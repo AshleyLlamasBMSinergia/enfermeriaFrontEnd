@@ -1,219 +1,296 @@
 <div class="content">
     <div class="container-fluid">
+        <div *ngIf="cita" class="card">
+            <div class="card-header text-secondary border-0">
+                <h3 class="card-title text-center">Datos de la cita</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label">
+                                Tipo
+                            </label>
+                            <div class="border rounded p-2">
+                                {{ cita.tipo }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label">
+                                Motivo
+                            </label>
+                            <div class="border rounded p-2">
+                                {{ cita.motivo }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="card">
             <div class="card-header bg-pink1">
-                <p class="font-weight-bold">Profesional asignado</p>
-                <div>
-                    <img [src]="image" alt="Product 1" class="img-circle img-size-32 mr-2">
-                    {{ profesional?.nickname }}
+                <div class="row">
+                    <div class="col">
+                        <p class="font-weight-bold mb-1">Profesional asignado</p>
+                        <div>
+                            <img [src]="imageProfesional" alt="Product 1" class="img-circle img-size-32 mr-2 mb-1">
+                            {{ profesional?.nickname }}
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="align-items-center d-flex justify-content-around w-100 h-100">
+                            <span><i class="fas fa-circle fa-xs px-1"></i><b>Fecha:</b>{{ fechaActual | date: 'dd/MM/yyyy' }}</span>
+                            <span><i class="fas fa-circle fa-xs px-1"></i><b>Hora:</b>{{ horaActual }}</span>
+                            <span><i class="fas fa-circle fa-xs px-1"></i><b>Lugar:</b></span>
+                        </div>
+                    </div>
                 </div>
             </div>
             <form [formGroup]="consultaForm" (ngSubmit)="guardar()">
                 <div class="border-footer px-3 bg-pink2">
                     <div class="row" *ngIf="cita == null && cita == undefined">
-                        <div class="form-group">
-                            <label class="col-form-label">
-                                Tipo de paciente
-                            </label>
-                            <select class="form-control" formControlName="tipoPaciente" (ngModelChange)="cambiarTipoPaciente()">
-                                <option value="Empleado" selected>Empleado</option>
-                                <option value="Externo">Externo</option>
-                            </select>
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label class="col-form-label">
+                                    Tipo de paciente
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <select class="form-control" formControlName="tipoPaciente" (ngModelChange)="cambiarTipoPaciente()">
+                                    <option value="Empleado" selected>Empleado</option>
+                                    <option value="Externo">Externo</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12 col-md-4" *ngIf="cita == null && cita == undefined">
+                        <div class="col-12 col-md-6" *ngIf="cita == null && cita == undefined">
                             <div class="form-group">
                                 <label class="col-form-label">
                                     Paciente
                                     <span class="text-danger">*</span>
                                 </label>
                                 <div class="form-group">
-                                    <ngx-select [items]="opcionesPacientes" formControlName="pacientable_id" (ngModelChange)="cargarDatosPaciente($event)">
+                                    <ngx-select [items]="opcionesPacientes" formControlName="paciente" (ngModelChange)="cargarDatosPaciente($event)">
                                         <ng-content select="value"></ng-content>
                                     </ngx-select>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-md-4" *ngIf="cita !== null && cita !== undefined">
-                            <div class="form-group">
-                                <label class="col-form-label">
-                                    Paciente
-                                </label>
-                                <div class="row border rounded bg-white p-2">
-                                    <div class="col-12 col-md-8">
-                                        {{cita.paciente?.pacientable?.nombre}}
-                                    </div>
-                                    <div class="col-12 col-md-4 bg-info text-center rounded">
-                                        <span [ngSwitch]="cita.paciente?.pacientable_type">
-                                            <span *ngSwitchCase="'App\\Models\\NomEmpleado'">Empleado</span>
-                                            <span *ngSwitchCase="'App\\Models\\Externo'">Externo</span>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-8">
-                            <div class="row">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label class="col-form-label">
-                                            Edad
-                                        </label>
-                                        <input type="number" id="edad" class="form-control" formControlName="edad">
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label class="col-form-label">
-                                            Peso
-                                        </label>
-                                        <input type="number" id="peso" class="form-control" formControlName="peso">
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label class="col-form-label">
-                                            Altura
-                                        </label>
-                                        <input type="number" id="talla" class="form-control" formControlName="talla">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
-                <div class="card-body">
-                    <div class="align-items-center d-flex justify-content-around w-100 pb-3">
-                        <span><i class="fas fa-circle fa-xs px-1"></i><b>Fecha:</b>{{ fechaActual | date: 'dd/MM/yyyy' }}</span>
-                        <span><i class="fas fa-circle fa-xs px-1"></i><b>Hora:</b>{{ horaActual }}</span>
-                        <span><i class="fas fa-circle fa-xs px-1"></i><b>Lugar:</b></span>
-                    </div>
-                    <div class="row">
-                        <div class="col-12 col-md-4">
-                            <div class="form-group">
-                                <label class="col-form-label">
-                                    Clasificación triaje
-                                </label>
-                                <select id="triajeClasificacion" class="form-control text-center" formControlName="triajeClasificacion">
-                                    <option value="5" class="bg-primary">V</option>
-                                    <option value="4" class="bg-success">IV</option>
-                                    <option value="3" class="bg-warning">III</option>
-                                    <option value="2" class="bg-warning">II</option>
-                                    <option value="1" class="bg-danger">I</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <div class="form-group">
-                                <label class="col-form-label">
-                                    Preción diastolica
-                                </label>
-                                <input type="number" id="precionDiastolica" class="form-control" formControlName="precionDiastolica">
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <div class="form-group">
-                                <label class="col-form-label">
-                                    Frecuencia respiratoria
-                                </label>
-                                <input type="number" id="frecuenciaRespiratoria" class="form-control" formControlName="frecuenciaRespiratoria">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12 col-md-4">
-                            <div class="form-group">
-                                <label class="col-form-label">
-                                    Frecuencia cardiaca
-                                </label>
-                                <input type="number" id="frecuenciaCardiaca" class="form-control" formControlName="frecuenciaCardiaca">
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <div class="form-group">
-                                <label class="col-form-label">
-                                    Temperatura
-                                </label>
-                                <input type="number" id="temperatura" class="form-control" formControlName="temperatura">
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <div class="form-group">
-                                <label class="col-form-label">
-                                    Grucemia capilar
-                                </label>
-                                <input type="number" id="grucemiaCapilar" class="form-control" formControlName="grucemiaCapilar">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="py-4">
-                        <table class="table table-borderless">
-                            <tbody>
-                              <tr>
-                                <th class="text-vertical th-pink1 text-white" scope="row">Subjetivo</th>
-                                <td>
-                                    <div class="form-group">
-                                        <label class="col-form-label">
-                                            Lo que dice el paciente
-                                        </label>
-                                        <textarea row="5" id="subjetivo" class="form-control" formControlName="subjetivo"></textarea>
-                                    </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <th class="text-vertical th-pink2 text-white" scope="row">Objetivo</th>
-                                <td>
-                                    <div class="form-group">
-                                        <label class="col-form-label">
-                                            Lo que usted ve
-                                        </label>
-                                        <textarea row="5" id="objetivo" class="form-control" formControlName="objetivo"></textarea>
-                                    </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <th class="text-vertical th-pink3 text-white" scope="row">Análisis</th>
-                                <td>
-                                    <div class="form-group">
-                                        <label class="col-form-label">
-                                            Lo que usted cree que está pasando
-                                        </label>
-                                        <textarea row="5" id="analisis" class="form-control" formControlName="analisis"></textarea>
-                                    </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <th class="text-vertical th-pink4 text-white" scope="row">Plan</th>
-                                <td>
-                                    <div class="form-group">
-                                        <label class="col-form-label">
-                                            Lo que va hacer al respecto
-                                        </label>
-                                        <textarea row="5" id="plan" class="form-control" formControlName="plan"></textarea>
-                                    </div>
-                                </td>
-                              </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                <div *ngIf="paciente" class="card-body">
                     <div>
-                        <div class="form-group">
-                            <label class="col-form-label">
-                                Diagnóstico
-                            </label>
-                            <textarea row="5" id="diagnostico" class="form-control" formControlName="diagnostico"></textarea>
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <div class="d-flex flex-column align-items-center bg-pink2 h-100 shadow">
+                                    <img [src]="imagePaciente" alt="Admin" class="rounded-circle img-border img-circle mt-3"
+                                      width="150">
+                                    <div class="mt-3 text-center">
+                                        <h4>
+                                            {{ paciente?.pacientable?.nombre }} {{ paciente?.pacientable?.paterno}} {{ paciente?.pacientable?.materno}}
+                                        </h4>
+                                        <span class="badge badge-info">
+                                            {{tipoPaciente}}
+                                        </span>
+                                        <p class="py-3">
+                                            <a [routerLink]="['/enfermeria/historiales-medicos', paciente.id]" target="_blank">Ver historial médico</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label class="col-form-label">
+                                                Edad
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="input-group mb-3">
+                                                <input type="number" id="edad" class="form-control" formControlName="edad">
+                                                <div class="input-group-append">
+                                                  <span class="input-group-text">años</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label class="col-form-label">
+                                                Peso
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="input-group mb-3">
+                                                <input type="number" id="peso" class="form-control" formControlName="peso">
+                                                <div class="input-group-append">
+                                                  <span class="input-group-text">Kg</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label class="col-form-label">
+                                                Altura
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="input-group mb-3">
+                                                <input type="number" id="peso" class="form-control" formControlName="talla">
+                                                <div class="input-group-append">
+                                                  <span class="input-group-text">m</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-12 col-md-4">
+                                        <div class="form-group">
+                                            <label class="col-form-label">
+                                                C.T
+                                            </label>
+                                            <select id="triajeClasificacion" class="form-control text-center" formControlName="triajeClasificacion">
+                                                <option value="5" class="text-primary">V</option>
+                                                <option value="4" class="text-success">IV</option>
+                                                <option value="3" class="text-warning">III</option>
+                                                <option value="2" class="text-warning">II</option>
+                                                <option value="1" class="text-danger">I</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="form-group">
+                                            <label class="col-form-label">
+                                                P.D
+                                            </label>
+                                            <input type="number" id="precionDiastolica" class="form-control" formControlName="precionDiastolica">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="form-group">
+                                            <label class="col-form-label">
+                                                F.R
+                                            </label>
+                                            <input type="number" id="frecuenciaRespiratoria" class="form-control" formControlName="frecuenciaRespiratoria">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-md-4">
+                                        <div class="form-group">
+                                            <label class="col-form-label">
+                                                F.C
+                                            </label>
+                                            <input type="number" id="frecuenciaCardiaca" class="form-control" formControlName="frecuenciaCardiaca">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="form-group">
+                                            <label class="col-form-label">
+                                                Temperatura
+                                            </label>
+                                            <div class="input-group mb-3">
+                                                <input type="number" id="temperatura" class="form-control" formControlName="temperatura">
+                                                <div class="input-group-append">
+                                                  <span class="input-group-text">C</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="form-group">
+                                            <label class="col-form-label">
+                                                G.C
+                                            </label>
+                                            <div class="input-group mb-3">
+                                                <input type="text" id="grucemiaCapilar" class="form-control" formControlName="grucemiaCapilar">
+                                                <div class="input-group-append">
+                                                  <span class="input-group-text">mg/dL</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-form-label">
-                                Receta
-                            </label>
-                            <textarea row="5" id="receta" class="form-control" formControlName="receta"></textarea>
+                        <div>
+                            <table class="table table-borderless">
+                                <tbody>
+                                  <tr>
+                                    <th class="text-vertical th-pink1 text-white" scope="row">Subjetivo</th>
+                                    <td>
+                                        <div class="form-group">
+                                            <label class="col-form-label">
+                                                Lo que dice el paciente
+                                            </label>
+                                            <ckeditor [editor]="Editor" [config]="editorConfig" id="subjetivo" formControlName="subjetivo"></ckeditor>
+                                        </div>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <th class="text-vertical th-pink2 text-white" scope="row">Objetivo</th>
+                                    <td>
+                                        <div class="form-group">
+                                            <label class="col-form-label">
+                                                Lo que usted ve
+                                            </label>
+                                            <ckeditor [editor]="Editor" [config]="editorConfig" id="objetivo" formControlName="objetivo"></ckeditor>
+                                        </div>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <th class="text-vertical th-pink3 text-white" scope="row">Análisis</th>
+                                    <td>
+                                        <div class="form-group">
+                                            <label class="col-form-label">
+                                                Lo que usted cree que está pasando
+                                            </label>
+                                            <ckeditor [editor]="Editor" [config]="editorConfig" id="analisis" formControlName="analisis"></ckeditor>
+                                        </div>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <th class="text-vertical th-pink4 text-white" scope="row">Plan</th>
+                                    <td>
+                                        <div class="form-group">
+                                            <label class="col-form-label">
+                                                Lo que va hacer al respecto
+                                            </label>
+                                            <ckeditor [editor]="Editor" [config]="editorConfig" id="plan" formControlName="plan"></ckeditor>
+                                        </div>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <div class="form-group">
+                                <label class="col-form-label">
+                                    Diagnóstico
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <ckeditor [editor]="Editor" [config]="editorConfig" id="diagnostico" formControlName="diagnostico"></ckeditor>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label">
+                                    Receta
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <ckeditor [editor]="Editor" [config]="editorConfig" id="receta" formControlName="receta"></ckeditor>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="card-footer text-center">
-                    <button class="btn bg-pink">Guardar</button>
+                <div class="card-footer">
+                    <div *ngIf="mensajesDeError.length > 0" class="text-danger py-3">
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-danger" *ngFor="let mensaje of mensajesDeError">{{ mensaje }}</li>
+                        </ul>
+                    </div>
+                    <div class="text-center">
+                        <button class="btn bg-pink">Guardar</button>
+                    </div>
                 </div>
             </form>
         </div>

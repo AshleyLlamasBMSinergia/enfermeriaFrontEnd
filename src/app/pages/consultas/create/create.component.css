@@ -3,14 +3,7 @@
 }
 
 .bg-pink2{
-    background: rgb(255, 207, 219);
-}
-
-.img-circle{
-    background-color: white;
-    box-shadow:
-    0 0 0 1px white,
-    0 0 0 2px black;
+    background: rgb(255, 223, 231);
 }
 
 .fa-circle{

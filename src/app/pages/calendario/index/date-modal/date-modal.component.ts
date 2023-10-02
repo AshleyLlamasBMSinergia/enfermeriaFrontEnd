@@ -1,9 +1,12 @@
 import { CalendarioService } from '../../calendario.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
-import { Component, ElementRef, Renderer2, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import 'bootstrap';
 import { formatDate } from '@angular/common';
+import { EmpleadosService } from 'src/app/services/empleados.service';
+import { ExternosService } from 'src/app/services/externos.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-date-modal',
@@ -21,17 +24,35 @@ export class DateModalComponent {
   editedCita: any = null;
 
   horariosDisponibles: any[] = [];
+  opcionesPacientes: any[] = [];
+  profesional: any;
 
   //Formulario
   tipo: string = '';
   motivo: string = '';
   hora: string = '';
+  pacientable_type: string = '';
+  pacientable_id: any = null;
+
 
   constructor(
-    private router: Router, private route: ActivatedRoute,
+    private router: Router, 
     private calendarioService: CalendarioService,
-    private el: ElementRef, private renderer: Renderer2,
+    private empleadosService: EmpleadosService,
+    private externosService: ExternosService,
+    private userService: UserService,
     ) { }
+
+  ngOnInit(): void {
+      this.userService.user$.subscribe(
+        (user: any) => {
+          this.profesional = user[0];
+        },
+        (error) => {
+          console.error('Error al obtener los datos del usuario', error);
+        }
+      );
+  }
 
   cerrarModal(){
     (window as any).$('#dateModal').modal('hide');
@@ -77,6 +98,53 @@ export class DateModalComponent {
     this.showEventInfo = true;
   }
 
+  cambiarTipoPaciente() {
+    this.opcionesPacientes = [];
+    this.pacientable_id = null;
+
+    switch(this.pacientable_type){
+      case 'Empleado':
+        this.cargarOpcionesEmpleados();
+      break;
+      case 'Externo':
+        this.cargarOpcionesExternos();
+      break;
+    }
+  }
+
+  cargarOpcionesEmpleados() {
+    this.empleadosService.getEmpleados().subscribe(
+      (empleados) => {
+        this.opcionesPacientes = empleados.map((empleado: any) => ({
+          id: empleado.id,
+          text: empleado.nombre,
+        }));
+      },
+      (error) => {
+        console.error('Error al obtener empleados:', error);
+      }
+    );
+  }
+
+  cargarOpcionesExternos() {
+    this.externosService.getExternos().subscribe(
+      (externos) => {
+        this.opcionesPacientes = externos.map((externo: any) => ({
+          id: externo.id,
+          text: externo.nombre,
+        }));
+      },
+      (error) => {
+        console.error('Error al obtener externos:', error);
+      }
+    );
+  }
+
+  onPacienteChange(event: any) {
+    const pacienteSeleccionado = this.opcionesPacientes.find(p => p.text === event.value);
+    this.pacientable_id = pacienteSeleccionado?.id;
+  }
+
   createCita() {
     const fechaCalendario = new Date(this.selectedDate);
 
@@ -97,6 +165,9 @@ export class DateModalComponent {
       tipo: this.tipo,
       motivo: this.motivo,
       fecha: fechaHoraLocal,
+      pacientable_type: this.pacientable_type,
+      pacientable_id: this.pacientable_id,
+      profesional_id: this.profesional.id,
     };
 
     this.calendarioService.storeCita(cita).subscribe(

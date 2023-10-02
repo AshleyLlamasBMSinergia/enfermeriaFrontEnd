@@ -8,6 +8,7 @@ import { ConsultasRoutingModule } from './consultas-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSelectModule } from 'ngx-select-ex';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     NgxSelectModule,
     ReactiveFormsModule,
     FormsModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    CKEditorModule
   ],
   providers: [DatePipe],
 })

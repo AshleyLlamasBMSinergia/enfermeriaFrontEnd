@@ -1,6 +1,8 @@
 import { DecimalPipe } from "@angular/common";
 import { Calendario } from "src/app/interfaces/calendario";
 import { Empleados } from "src/app/interfaces/empleados";
+import { Image } from "./image";
+import { HistorialesMedicos } from "./historiales-medicos";
 
 export interface Consultas {
     id: number,
@@ -22,10 +24,13 @@ export interface Consultas {
       nombre: string;
       RFC: string;
       CURP: string;
+
+      image: Image;
+      historial_medico: HistorialesMedicos;
     };
 
     triajeClasificacion: number;
-    pecionDiastolica: number;
+    precionDiastolica: number;
     frecuenciaRespiratoria: number;
     frecuenciaCardiaca: number;
     temperatura: number;
@@ -33,7 +38,7 @@ export interface Consultas {
     peso: DecimalPipe;
     talla: DecimalPipe;
     altura: DecimalPipe;
-    grucemiaCapilar: DecimalPipe;
+    grucemiaCapilar: string;
     subjetivo: string;
     objetivo: string;
     analisis: string;

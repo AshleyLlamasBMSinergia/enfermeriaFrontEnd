@@ -9,8 +9,6 @@ import { Calendario } from 'src/app/interfaces/calendario';
 })
 export class CitasService {
   constructor(private httpClient: HttpClient) {}
-
-    //Calendario = Citas; Olvide cambiar el nombre desde el inicio
     getCita(id: number): Observable<Calendario> {
         return this.httpClient.get<Calendario>(`${API_URL+"citas"}/${id}`);
     }

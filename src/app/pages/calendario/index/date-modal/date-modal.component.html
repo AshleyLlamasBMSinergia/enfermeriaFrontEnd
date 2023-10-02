@@ -74,7 +74,29 @@
             <select class="form-control" id="horario" name="horario" [(ngModel)]="hora">
               <option *ngFor="let horario of horariosDisponibles" [value]="horario">{{ horario }}</option>
             </select>
-        </div>
+          </div>
+          <hr>
+          <div class="form-group">
+            <label class="col-form-label">
+                Tipo de paciente
+                <span class="text-danger">*</span>
+            </label>
+            <select class="form-control" [(ngModel)]="pacientable_type" name="pacientable_id" (ngModelChange)="cambiarTipoPaciente()">
+                <option value="Empleado" selected>Empleado</option>
+                <option value="Externo">Externo</option>
+            </select>
+          </div>
+          <div class="form-group" *ngIf="pacientable_type">
+            <label class="col-form-label">
+                Paciente
+                <span class="text-danger">*</span>
+            </label>
+            <div class="form-group">
+                <ngx-select [items]="opcionesPacientes" [(ngModel)]="pacientable_id" name="pacientable_type">
+                    <ng-content select="value"></ng-content>
+                </ngx-select>
+            </div>
+          </div>
         </div>
         <!-- Botones para guardar o cancelar la cita -->
         <div class="float-right mb-3">

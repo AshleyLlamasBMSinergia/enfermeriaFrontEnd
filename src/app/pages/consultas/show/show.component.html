@@ -1,35 +1,73 @@
 <div class="content">
     <div class="container-fluid">
-        <div class="card">
-            <div class="card-header bg-pink1">
-                <p class="font-weight-bold">Profesional asignado</p>
-                <div class="border rounded bg-white p-2">
-                    <!-- <img [src]="image" alt="Product 1" class="img-circle img-size-32 mr-2">
-                    {{ profesional?.nickname }} -->
-                    {{ consulta?.profesional?.nombre }}
+        <div *ngIf="consulta?.cita" class="card">
+            <div class="card-header text-secondary border-0">
+                <h3 class="card-title text-center">Datos de la cita</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label">
+                                Tipo
+                            </label>
+                            <div class="border rounded p-2">
+                                {{ consulta?.cita?.tipo }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label">
+                                Motivo
+                            </label>
+                            <div class="border rounded p-2">
+                                {{ consulta?.cita?.motivo }}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-                <div class="border-footer px-3 bg-pink2">
+        </div>
+        <div class="card">
+            <div class="card-header bg-pink1">
+                <div class="row">
+                    <div class="col">
+                        <p class="font-weight-bold mb-1">Profesional asignado</p>
+                        <div>
+                            <img [src]="imageProfesional" alt="Product 1" class="img-circle img-size-32 mr-2 mb-1">
+                            {{ consulta?.profesional?.nombre }}
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="align-items-center d-flex justify-content-around w-100 h-100">
+                            <span><i class="fas fa-circle fa-xs px-1"></i><b>Fecha:</b> {{ consulta?.fecha | date:'dd/MM/yyyy' : '-' }}</span>
+                            <span><i class="fas fa-circle fa-xs px-1"></i><b>Hora:</b> {{ consulta?.fecha | date:'hh:mm a' : '-' }}</span>
+                            <span><i class="fas fa-circle fa-xs px-1"></i><b>Lugar:</b> - </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                <div class="card-body">
                     <div class="row">
-                        <div class="col-12 col-md-4">
-                            <div class="form-group">
-                                <label class="col-form-label">
-                                    Paciente
-                                </label>
-                                <div class="row border rounded bg-white p-2">
-                                    <div class="col-12 col-md-8">
-                                        {{consulta?.pacientable?.nombre}} {{consulta?.pacientable?.paterno}} {{consulta?.pacientable?.materno}}
-                                    </div>
-                                    <div class="col-12 col-md-4 bg-info text-center rounded">
-                                        <span [ngSwitch]="consulta?.pacientable_type">
-                                            <span *ngSwitchCase="'App\\Models\\NomEmpleado'">Empleado</span>
-                                            <span *ngSwitchCase="'App\\Models\\Externo'">Externo</span>
-                                        </span>
-                                    </div>
+                        <div class="col-12 col-md-6">
+                            <div class="d-flex flex-column align-items-center bg-pink2 h-100 shadow">
+                                <img [src]="imagePaciente" alt="Admin" class="rounded-circle img-border img-circle mt-3" width="150">
+                                <div class="mt-3 text-center">
+                                    <h4>
+                                        {{ consulta?.pacientable?.nombre }}
+                                    </h4>
+                                    <span class="badge badge-info" [ngSwitch]="consulta?.pacientable_type">
+                                        <span *ngSwitchCase="'App\\Models\\NomEmpleado'">Empleado</span>
+                                        <span *ngSwitchCase="'App\\Models\\Externo'">Externo</span>
+                                    </span>
+                                    <p class="py-3">
+                                        <a [routerLink]="['/enfermeria/historiales-medicos', consulta?.pacientable?.historial_medico?.id]" target="_blank">Ver historial médico</a>
+                                    </p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-md-8">
+                        <div class="col-12 col-md-6">
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
@@ -37,7 +75,7 @@
                                             Edad
                                         </label>
                                         <div class="border rounded bg-white p-2">
-                                            {{ consulta?.edad ? consulta?.peso + ' años' : '-' }}
+                                            {{ consulta?.edad ? consulta?.edad + ' años' : '-' }}
                                         </div>
                                     </div>
                                 </div>
@@ -62,155 +100,151 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="align-items-center d-flex justify-content-around w-100 pb-3">
-                        <span><i class="fas fa-circle fa-xs px-1"></i><b>Fecha:</b> {{ consulta?.fecha | date:'dd/MM/yyyy' : '-' }}</span>
-                        <span><i class="fas fa-circle fa-xs px-1"></i><b>Hora:</b> {{ consulta?.fecha | date:'hh:mm a' : '-' }}</span>
-                        <span><i class="fas fa-circle fa-xs px-1"></i><b>Lugar:</b> - </span>
-                    </div>
-                    <div class="row">
-                        <div class="col-12 col-md-4">
-                            <div class="form-group">
-                                <label class="col-form-label">
-                                    Clasificación triaje
-                                </label>
-                                <div class="border rounded p-2 text-center">
-                                    {{ toRoman(consulta?.triajeClasificacion) || '-' }}
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 col-md-4">
+                                    <div class="form-group">
+                                        <label class="col-form-label">
+                                            C.T
+                                        </label>
+                                        <div class="border rounded p-2 text-center">
+                                            {{ consulta?.triajeClasificacion  || '-' }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <div class="form-group">
+                                        <label class="col-form-label">
+                                            P.D
+                                        </label>
+                                        <div class="border rounded p-2">
+                                            {{consulta?.precionDiastolica || '-'}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <div class="form-group">
+                                        <label class="col-form-label">
+                                            F.R
+                                        </label>
+                                        <div class="border rounded p-2">
+                                            {{consulta?.frecuenciaRespiratoria || '-'}}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <div class="form-group">
-                                <label class="col-form-label">
-                                    Preción diastolica
-                                </label>
-                                <div class="border rounded p-2">
-                                    {{consulta?.pecionDiastolica || '-'}}
+                            <div class="row">
+                                <div class="col-12 col-md-4">
+                                    <div class="form-group">
+                                        <label class="col-form-label">
+                                            F.C
+                                        </label>
+                                        <div class="border rounded p-2">
+                                            {{consulta?.frecuenciaCardiaca || '-'}}
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <div class="form-group">
-                                <label class="col-form-label">
-                                    Frecuencia respiratoria
-                                </label>
-                                <div class="border rounded p-2">
-                                    {{consulta?.frecuenciaRespiratoria || '-'}}
+                                <div class="col-12 col-md-4">
+                                    <div class="form-group">
+                                        <label class="col-form-label">
+                                            Temperatura
+                                        </label>
+                                        <div class="border rounded p-2">
+                                            {{ consulta?.temperatura ? consulta?.temperatura + ' °C' : '-' }}
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12 col-md-4">
-                            <div class="form-group">
-                                <label class="col-form-label">
-                                    Frecuencia cardiaca
-                                </label>
-                                <div class="border rounded p-2">
-                                    {{consulta?.frecuenciaCardiaca || '-'}}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <div class="form-group">
-                                <label class="col-form-label">
-                                    Temperatura
-                                </label>
-                                <div class="border rounded p-2">
-                                    {{ consulta?.temperatura ? consulta?.peso + ' °C' : '-' }}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <div class="form-group">
-                                <label class="col-form-label">
-                                    Grucemia capilar
-                                </label>
-                                <div class="border rounded p-2">
-                                    {{consulta?.grucemiaCapilar || '-'}}
+                                <div class="col-12 col-md-4">
+                                    <div class="form-group">
+                                        <label class="col-form-label">
+                                            G.C
+                                        </label>
+                                        <div class="border rounded p-2">
+                                            {{consulta?.grucemiaCapilar || '-'}}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="py-4">
+                    <div>
                         <table class="table table-borderless">
                             <tbody>
-                              <tr>
-                                <th class="text-vertical th-pink1 text-white" scope="row">Subjetivo</th>
-                                <td>
-                                    <div class="form-group">
-                                        <label class="col-form-label">
-                                            Lo que dice el paciente
-                                        </label>
-                                        <div class="border rounded p-2">
-                                            {{consulta?.subjetivo || '-'}}
-                                        </div>
-                                    </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <th class="text-vertical th-pink2 text-white" scope="row">Objetivo</th>
-                                <td>
-                                    <div class="form-group">
-                                        <label class="col-form-label">
-                                            Lo que usted ve
-                                        </label>
-                                        <div class="border rounded p-2">
-                                            {{consulta?.objetivo || '-'}}
-                                        </div>
-                                    </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <th class="text-vertical th-pink3 text-white" scope="row">Análisis</th>
-                                <td>
-                                    <div class="form-group">
-                                        <label class="col-form-label">
-                                            Lo que usted cree que está pasando
-                                        </label>
-                                        <div class="border rounded p-2">
-                                            {{consulta?.analisis || '-'}}
-                                        </div>
-                                    </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <th class="text-vertical th-pink4 text-white" scope="row">Plan</th>
-                                <td>
-                                    <div class="form-group">
-                                        <label class="col-form-label">
-                                            Lo que va hacer al respecto
-                                        </label>
-                                        <div class="border rounded p-2">
-                                            {{consulta?.plan || '-'}}
-                                        </div>
-                                    </div>
-                                </td>
-                              </tr>
+                                <ng-container *ngIf="consulta?.subjetivo">
+                                    <tr>
+                                        <th class="text-vertical th-pink1 text-white" scope="row">Subjetivo</th>
+                                        <td>
+                                            <div class="form-group">
+                                                <label class="col-form-label">
+                                                    Lo que dice el paciente
+                                                </label>
+                                                <div class="border rounded p-2" [innerHtml]='consulta?.subjetivo'>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                                <ng-container *ngIf="consulta?.objetivo">
+                                    <tr>
+                                        <th class="text-vertical th-pink2 text-white" scope="row">Objetivo</th>
+                                        <td>
+                                            <div class="form-group">
+                                                <label class="col-form-label">
+                                                    Lo que usted ve
+                                                </label>
+                                                <div class="border rounded p-2" [innerHtml]='consulta?.objetivo'>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                                <ng-container *ngIf="consulta?.analisis">
+                                    <tr>
+                                        <th class="text-vertical th-pink3 text-white" scope="row">Análisis</th>
+                                        <td>
+                                            <div class="form-group">
+                                                <label class="col-form-label">
+                                                    Lo que usted cree que está pasando
+                                                </label>
+                                                <div class="border rounded p-2" [innerHtml]='consulta?.analisis'>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                                <ng-container *ngIf="consulta?.plan">
+                                    <tr>
+                                        <th class="text-vertical th-pink4 text-white" scope="row">Plan</th>
+                                        <td>
+                                            <div class="form-group">
+                                                <label class="col-form-label">
+                                                    Lo que va hacer al respecto
+                                                </label>
+                                                <div class="border rounded p-2" [innerHtml]='consulta?.plan'>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </ng-container>
                             </tbody>
                         </table>
                     </div>
-                    <div>
+                    <ng-container *ngIf="consulta?.diagnostico">
                         <div class="form-group">
                             <label class="col-form-label">
                                 Diagnóstico
                             </label>
-                            <div class="border rounded p-2">
-                                {{consulta?.diagnostico || '-'}}
+                            <div class="border rounded p-2" [innerHtml]='consulta?.diagnostico'>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-form-label">
-                                Receta
-                            </label>
-                            <div class="border rounded p-2">
-                                {{consulta?.receta || '-'}}
-                            </div>
+                    </ng-container>
+                    <!-- <div class="form-group">
+                        <label class="col-form-label">
+                            Receta
+                        </label>
+                        <div class="border rounded p-2" [innerHtml]='consulta?.receta'>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
         </div>
     </div>

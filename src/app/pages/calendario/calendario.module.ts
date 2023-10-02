@@ -6,6 +6,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { CalendarioRoutingModule } from './calendario-routing.module';
 import { DateModalComponent } from './index/date-modal/date-modal.component';
 import { FormsModule } from '@angular/forms';
+import { NgxSelectModule } from 'ngx-select-ex';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { FormsModule } from '@angular/forms';
     FullCalendarModule,
     RouterModule,
     CalendarioRoutingModule,
-    FormsModule
+    FormsModule,
+    NgxSelectModule
   ],
   providers: [DatePipe],
 })

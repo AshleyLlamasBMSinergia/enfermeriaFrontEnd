@@ -32,7 +32,8 @@ export class HistorialesMedicosShowComponent implements OnInit {
 
   archivo: string | null = null;
   archivoUrl: string | null = null;
-  archivos: string[] = [];
+  // archivos: string[] = [];
+  archivos: { nombre: string, tamano: string, base64: string }[] = [];
 
   mostrarFormularioArchivo = false;
 
@@ -77,11 +78,11 @@ export class HistorialesMedicosShowComponent implements OnInit {
               this.image = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
             },
             (error) => {
-              console.error('Error al obtener la imagen', error);
+              this.notificationService.error('Error al obtener la imagen');
             }
           );
         } else {
-          console.error('La URL de la imagen es indefinida');
+          this.notificationService.error('La URL de la imagen es indefinida');
         }
       });
   }
@@ -96,14 +97,50 @@ export class HistorialesMedicosShowComponent implements OnInit {
     });
   }
 
+  // archivosSeleccionados(event: any) {
+  //   const archivosSeleccionados = event.target.files;
+  //   for (let i = 0; i < archivosSeleccionados.length; i++) {
+  //   }
+  //   this.convertirArchivos(archivosSeleccionados).subscribe(base64Array => {
+  //     this.archivos = base64Array;
+  //   });
+  // }
+
   archivosSeleccionados(event: any) {
     const archivosSeleccionados = event.target.files;
-    console.log(`Número de archivos seleccionados: ${archivosSeleccionados.length}`);
+  
     for (let i = 0; i < archivosSeleccionados.length; i++) {
+      const archivo = archivosSeleccionados[i];
+      const archivoInfo = {
+        nombre: archivo.name,
+        tamano: this.formatBytes(archivo.size),
+        base64: ''
+      };
+      this.archivos.push(archivoInfo);
     }
+  
     this.convertirArchivos(archivosSeleccionados).subscribe(base64Array => {
-      this.archivos = base64Array;
+      this.archivos = this.archivos.map((archivo, index) => ({
+        ...archivo,
+        base64: base64Array[index]
+      }));
     });
+  }
+
+  formatBytes(bytes: number): string {
+    if (bytes === 0) return '0 Bytes';
+
+    const k = 1024;
+    const dm = 2;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+  }
+
+  eliminarArchivo(index: number) {
+    this.archivos.splice(index, 1); // Elimina el archivo en el índice especificado
   }
 
   convertirArchivo(file: File): Observable<string> {
@@ -150,10 +187,11 @@ export class HistorialesMedicosShowComponent implements OnInit {
         const urlBlob = URL.createObjectURL(archivoBlob);
         window.open(urlBlob, '_blank');
       } else {
-        console.error('El archivo está vacío o no se pudo obtener.');
+        this.notificationService.error('El archivo está vacío o no se pudo obtener');
       }
     } catch (error) {
       console.error('Error al abrir el archivo:', error);
+      this.notificationService.error('Error al abrir el archivo: '+error);
     }
   }
 
@@ -169,7 +207,7 @@ export class HistorialesMedicosShowComponent implements OnInit {
             this.notificationService.mensaje(response);
           },
           (error) => {
-            console.error('Error al subir el examen');
+            this.notificationService.error(error.error);
           }
       );
     }else{
@@ -178,18 +216,18 @@ export class HistorialesMedicosShowComponent implements OnInit {
   }
 
   storeArchivos() {
-    const formData = this.formArchivo.value;
-
     if (this.archivos.length > 0) {
-      formData.archivos = this.archivos;
-  
+      const formData = this.formArchivo.value;
+      formData.archivos = this.archivos.map(archivo => archivo.base64);
+    
       this.historialesMedicosService.storeArchivos(formData)
         .subscribe(
           (response) => {
             this.notificationService.mensaje(response);
           },
           (error) => {
-            console.error('Error al subir los exámenes');
+            this.notificationService.error(error.error.error);
+            console.log(error);
           }
         );
     } else {
