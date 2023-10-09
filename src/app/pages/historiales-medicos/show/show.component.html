@@ -9,11 +9,11 @@
                 width="150">
               <div class="mt-3 text-center">
                 <h4>
-                  {{historialMedico!.pacientable?.nombre }} {{historialMedico!.pacientable?.paterno}} {{historialMedico!.pacientable?.materno}}
+                  {{historialMedico!.pacientable?.nombre }}
                 </h4>
-                <!-- <p class="text-secondary mb-1">
-                  {{historialMedico!.pacientable?.puesto?.Nombre }}
-                </p> -->
+                <p class="text-secondary mb-1">
+                  {{historialMedico!.pacientable?.puesto?.nombre }}
+                </p>
               </div>
               <div>
                 <div class="text-center pt-3">
@@ -25,24 +25,48 @@
                   <div class="p-3 table-responsive">
                     <table class="table">
                       <tbody>
-                        <tr>
+                        <tr *ngIf="edad">
                           <th scope="row">Edad</th>
                           <td class="text-center">{{edad}} años</td>
                         </tr>
-                        <tr>
+                        <tr *ngIf="historialMedico!.pacientable?.sexo">
                           <th scope="row">Sexo</th>
                           <td class="text-center">{{historialMedico!.pacientable?.sexo}}</td>
                         </tr>
-                        <tr>
+                        <tr *ngIf="historialMedico!.pacientable?.fechaNacimiento">
                           <th scope="row">Fecha de nacimiento</th>
                           <td class="text-center">
                             {{ historialMedico!.pacientable?.fechaNacimiento | date:'dd/MM/yyyy' }}
                           </td>
                         </tr>
-                        <tr>
+                        <tr *ngIf="historialMedico!.pacientable?.estadoCivil">
                           <th scope="row">Estado civil</th>
                           <td class="text-center">{{historialMedico!.pacientable?.estadoCivil}}</td>
                         </tr>
+                        <tr *ngIf="historialMedico!.pacientable?.telefono">
+                          <th scope="row">Teléfono</th>
+                          <td class="text-center">
+                            {{ historialMedico!.pacientable?.telefono }}
+                          </td>
+                        </tr>
+                        <tr *ngIf="historialMedico!.pacientable?.correo">
+                          <th scope="row">Correo eléctronico</th>
+                          <td class="text-center">
+                            {{ historialMedico!.pacientable?.correo }}
+                          </td>
+                        </tr>
+                        <!-- <tr *ngIf="historialMedico?.talla">
+                          <th scope="row">Altura</th>
+                          <td class="text-center">
+                            {{ historialMedico?.talla }}
+                          </td>
+                        </tr>
+                        <tr *ngIf="historialMedico?.peso">
+                          <th scope="row">Peso</th>
+                          <td class="text-center">
+                            {{ historialMedico?.peso }}
+                          </td>
+                        </tr> -->
                         <!-- <tr>
                           <th scope="row"  width="10px">Dirección</th>
                           <td>{{historialMedico!.pacientable?.Calle}}, {{historialMedico!.pacientable?.Exterior}}, {{historialMedico!.pacientable?.Interior}}, {{historialMedico!.pacientable?.Colonia}}, {{historialMedico!.pacientable?.Localidad}}</td>
@@ -55,6 +79,7 @@
             </div>
           </div>
         </div>
+        <app-dependientes *ngIf="historialMedico !== null" [historialMedico]="historialMedico"></app-dependientes>
       </div>
       <div class="col-md-8">
         <div class="card">
@@ -94,7 +119,10 @@
         <div class="card">
           <div class="card-header text-secondary border-0">
             <h3 class="card-title text-center">Exámenes médicos</h3>
-            <button type="submit" class="btn btn-sm btn-secondary float-right" (click)="abrirFormularioArchivo()"><i class="fas fa-upload"></i> Subir archivo</button>
+            <button type="submit" class="btn btn-sm btn-secondary float-right" (click)="abrirFormularioArchivo()">
+              <i class="fas fa-upload"></i>
+              {{ mostrarFormularioArchivo ? 'Cancelar' : 'Subir archivo' }}
+            </button>
           </div>
           <div class="card-body">
             <div *ngIf="mostrarFormularioArchivo">

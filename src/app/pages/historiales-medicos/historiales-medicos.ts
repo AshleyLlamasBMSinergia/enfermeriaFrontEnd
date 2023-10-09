@@ -8,6 +8,8 @@ import { ExamenesAntidopings } from "src/app/interfaces/examenes-antidoping";
 import { ExamenesEmbarazos } from "src/app/interfaces/examenes-embarazo";
 import { ExamenesVistas } from "src/app/interfaces/examenes-vista";
 import { Examenes } from "src/app/interfaces/examenes";
+import { Dependientes } from "src/app/interfaces/dependientes";
+import { Puestos } from "src/app/interfaces/puestos";
 
 export interface HistorialesMedicos {
     id: number,
@@ -17,8 +19,6 @@ export interface HistorialesMedicos {
     user?: User;
 
     pacientable?: {
-      paterno: string
-      materno: string
       nombre: string
       RFC: string
       curp: string
@@ -37,6 +37,10 @@ export interface HistorialesMedicos {
       updated_at: Date;
 
       image: Image
+
+      dependientes?: Dependientes [];
+
+      puesto?: Puestos;
     };
 
     APPatologicos_id: number;

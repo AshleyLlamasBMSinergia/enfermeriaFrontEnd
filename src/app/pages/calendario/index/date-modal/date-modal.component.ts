@@ -7,6 +7,7 @@ import { formatDate } from '@angular/common';
 import { EmpleadosService } from 'src/app/services/empleados.service';
 import { ExternosService } from 'src/app/services/externos.service';
 import { UserService } from 'src/app/services/user.service';
+import { HistorialesMedicosService } from 'src/app/pages/historiales-medicos/historiales-medicos.service';
 
 @Component({
   selector: 'app-date-modal',
@@ -41,6 +42,7 @@ export class DateModalComponent {
     private empleadosService: EmpleadosService,
     private externosService: ExternosService,
     private userService: UserService,
+    private historialesMedicosService: HistorialesMedicosService,
     ) { }
 
   ngOnInit(): void {
@@ -56,6 +58,8 @@ export class DateModalComponent {
 
   cerrarModal(){
     (window as any).$('#dateModal').modal('hide');
+    this.horariosDisponibles = [];
+    console.log(this.horariosDisponibles);
   }
 
   iniciarConsulta(cita: number) {
@@ -109,6 +113,9 @@ export class DateModalComponent {
       case 'Externo':
         this.cargarOpcionesExternos();
       break;
+      case 'Dependiente':
+        this.cargarOpcionesDependientes();
+      break;
     }
   }
 
@@ -136,6 +143,20 @@ export class DateModalComponent {
       },
       (error) => {
         console.error('Error al obtener externos:', error);
+      }
+    );
+  }
+
+  cargarOpcionesDependientes() {
+    this.historialesMedicosService.getDependientes().subscribe(
+      (dependientes) => {
+        this.opcionesPacientes = dependientes.map((externo: any) => ({
+          id: externo.id,
+          text: externo.nombre,
+        }));
+      },
+      (error) => {
+        console.error('Error al obtener dependientes:', error);
       }
     );
   }

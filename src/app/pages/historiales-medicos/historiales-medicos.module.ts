@@ -16,6 +16,7 @@ import { ExamenesAntidopingComponent } from './show/examenes-antidoping/examenes
 import { ExamenesFisicosComponent } from './show/examenes-fisicos/examenes-fisicos.component';
 import { ExamenesEmbarazoComponent } from './show/examenes-embarazo/examenes-embarazo.component';
 import { ExamenesVistaComponent } from './show/examenes-vista/examenes-vista.component';
+import { DependientesComponent } from './show/dependientes/dependientes.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { ExamenesVistaComponent } from './show/examenes-vista/examenes-vista.com
     ExamenesFisicosComponent,
     ExamenesEmbarazoComponent,
     ExamenesVistaComponent,
+    DependientesComponent,
   ],
   imports: [
     CommonModule,

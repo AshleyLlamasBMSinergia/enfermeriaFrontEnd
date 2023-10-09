@@ -40,12 +40,16 @@ export class ConsultasShowComponent {
           this.obtenerImagen(consulta.profesional?.image.url).subscribe((imagen) => {
             this.imageProfesional = imagen;
           });
+        }else{
+          this.imageProfesional = '/assets/dist/img/user.png';
         }
 
         if (consulta.pacientable?.image?.url) {
           this.obtenerImagen(consulta.pacientable?.image?.url).subscribe((imagen) => {
             this.imagePaciente = imagen;
           });
+        }else{
+          this.imagePaciente = '/assets/dist/img/user.png';
         }
       }
     );

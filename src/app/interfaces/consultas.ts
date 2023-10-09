@@ -19,8 +19,6 @@ export interface Consultas {
 
     pacientable?: {
       id: number;
-      paterno: string;
-      materno: string;
       nombre: string;
       RFC: string;
       CURP: string;

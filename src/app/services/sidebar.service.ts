@@ -30,11 +30,11 @@ export class SidebarService {
       icono: 'assets/icons/insumosMedicos.svg',
       url: 'insumos-medicos'
     },
-    {
-      titulo: 'Requisiciones',
-      icono: 'assets/icons/requisiciones.svg',
-      url: 'requisiciones'
-    },
+    // {
+    //   titulo: 'Requisiciones',
+    //   icono: 'assets/icons/requisiciones.svg',
+    //   url: 'requisiciones'
+    // },
     {
       titulo: 'Estadisticas',
       icono: 'assets/icons/estadisticas.svg',

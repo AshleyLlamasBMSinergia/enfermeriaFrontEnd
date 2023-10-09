@@ -32,14 +32,14 @@
         <div class="card">
             <div class="card-header bg-pink1">
                 <div class="row">
-                    <div class="col">
+                    <div class="col-12 col-md-6">
                         <p class="font-weight-bold mb-1">Profesional asignado</p>
                         <div>
                             <img [src]="imageProfesional" alt="Product 1" class="img-circle img-size-32 mr-2 mb-1">
                             {{ consulta?.profesional?.nombre }}
                         </div>
                     </div>
-                    <div class="col">
+                    <div class="col-12 col-md-6">
                         <div class="align-items-center d-flex justify-content-around w-100 h-100">
                             <span><i class="fas fa-circle fa-xs px-1"></i><b>Fecha:</b> {{ consulta?.fecha | date:'dd/MM/yyyy' : '-' }}</span>
                             <span><i class="fas fa-circle fa-xs px-1"></i><b>Hora:</b> {{ consulta?.fecha | date:'hh:mm a' : '-' }}</span>

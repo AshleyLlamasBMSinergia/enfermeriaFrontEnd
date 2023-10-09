@@ -35,6 +35,7 @@ export class ConsultasCreateComponent implements OnInit {
 
   tipoPaciente: string = 'Empleado';
   paciente: any = null;
+  nombre: string = '';
   edad: number | null = null;
 
   opcionesPacientes: any[] = [];
@@ -150,6 +151,8 @@ export class ConsultasCreateComponent implements OnInit {
       this.obtenerImagen(this.profesional.image.url).subscribe((imagen) => {
         this.imageProfesional = imagen;
       });
+    }else{
+      this.imagePaciente = '/assets/dist/img/user.png';
     }
 
     this.obtenerFechaHoraActual();
@@ -193,10 +196,22 @@ export class ConsultasCreateComponent implements OnInit {
     const tipoPacienteControl = this.consultaForm.get('tipoPaciente');
     if (tipoPacienteControl) {
       const tipoPaciente = tipoPacienteControl.value;
-      if (tipoPaciente === 'Empleado') {
-        this.cargarOpcionesEmpleados();
-      } else if (tipoPaciente === 'Externo') {
-        this.cargarOpcionesExternos();
+      // if (tipoPaciente === 'Empleado') {
+      //   this.cargarOpcionesEmpleados();
+      // } else if (tipoPaciente === 'Externo') {
+      //   this.cargarOpcionesExternos();
+      // }
+
+      switch(tipoPaciente){
+        case 'Empleado':
+          this.cargarOpcionesEmpleados();
+        break;
+        case 'Externo':
+          this.cargarOpcionesExternos();
+        break;
+        case 'Dependiente':
+          this.cargarOpcionesDependientes();
+        break;
       }
     }
   }
@@ -229,6 +244,20 @@ export class ConsultasCreateComponent implements OnInit {
     );
   }
 
+  cargarOpcionesDependientes() {
+    this.historialesMedicosService.getDependientes().subscribe(
+      (dependientes) => {
+        this.opcionesPacientes = dependientes.map((externo: any) => ({
+          id: externo.id,
+          text: externo.nombre,
+        }));
+      },
+      (error) => {
+        console.error('Error al obtener dependientes:', error);
+      }
+    );
+  }
+
   obtenerFechaHoraActual() {
     const now = new Date();
     this.fechaActual = this.datePipe.transform(now, 'yyyy-MM-dd');
@@ -246,6 +275,7 @@ export class ConsultasCreateComponent implements OnInit {
 
   llenarFormularioEnAutomatico(paciente: any){
     this.paciente = paciente?.pacientable;
+    this.nombre = paciente?.pacientable?.nombre;
 
     switch(paciente?.pacientable_type){
       case 'App\\Models\\NomEmpleado':
@@ -254,9 +284,16 @@ export class ConsultasCreateComponent implements OnInit {
       case 'App\\Models\\Externo':
         this.tipoPaciente = 'Externo';
       break;
+      case 'App\\Models\\RHDependiente':
+        this.tipoPaciente = 'Dependiente';
+      break;
       default:
         this.tipoPaciente = '';
       break;
+    }
+
+    if(paciente?.pacientable_id){
+      this.consultaForm.get('paciente')?.setValue(paciente?.pacientable_id);
     }
 
     if (paciente?.pacientable?.fechaNacimiento) {
@@ -278,6 +315,8 @@ export class ConsultasCreateComponent implements OnInit {
       this.obtenerImagen(paciente?.pacientable?.image?.url).subscribe((imagen) => {
         this.imagePaciente = imagen;
       });
+    }else{
+      this.imagePaciente = '/assets/dist/img/user.png';
     }
   }
 
@@ -298,6 +337,9 @@ export class ConsultasCreateComponent implements OnInit {
       });
   
       this.mensajesDeError = mensajes;
+
+      console.log(this.consultaForm.value);
+
     } else {
       const fechaHoraActual = `${this.fechaActual} ${this.horaActual}`;
       this.consultaForm.get('fecha')?.setValue(fechaHoraActual);

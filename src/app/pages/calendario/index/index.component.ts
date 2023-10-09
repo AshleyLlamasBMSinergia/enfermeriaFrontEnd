@@ -52,7 +52,7 @@ export class CalendarioIndexComponent implements OnInit {
     this.calendarioService.getCalendarioEventos().subscribe(
       (calendarioEventos: Calendario[]) => {
         this.events = calendarioEventos.map((evento) => ({
-          title: `${evento.tipo} - ${evento.paciente?.pacientable?.nombre} ${evento.paciente?.pacientable?.paterno}`,
+          title: `${evento.tipo} - ${evento.paciente?.pacientable?.nombre}`,
           start: this.datePipe.transform(evento.fecha, 'yyyy-MM-ddTHH:mm:ss'),
           end: this.datePipe.transform(evento.fecha, 'yyyy-MM-ddTHH:mm:ss'),
           color: evento.color,

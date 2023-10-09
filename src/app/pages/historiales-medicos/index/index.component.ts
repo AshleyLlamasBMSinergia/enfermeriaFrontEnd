@@ -3,6 +3,7 @@ import { HistorialesMedicos } from '../historiales-medicos';
 import { HistorialesMedicosService } from '../historiales-medicos.service';
 import { Router } from '@angular/router';
 import { Subject, debounceTime  } from 'rxjs';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-index',
@@ -22,6 +23,7 @@ export class HistorialesMedicosIndexComponent {
   
     constructor(
       private historialesMedicosService: HistorialesMedicosService,
+      private notificationService: NotificationService,
       private router: Router,
     ) { }
   
@@ -70,5 +72,25 @@ export class HistorialesMedicosIndexComponent {
 
     editHistorialMedico(id: number) {
       this.router.navigate(['/enfermeria/historiales-medicos/edit', id]);
+    }
+
+    async destroyHistorialMedico(id: number | undefined) {
+      if (id !== undefined) {
+        const confirmacion = await this.notificationService.confirmarEliminacion('historial médico junto sus citas');
+    
+        if (confirmacion) {
+          this.historialesMedicosService.destroyHistorialMedico(id).subscribe(
+            (response) => {
+              this.notificationService.mensaje(response);
+            },
+            (error) => {
+              console.error('Error al eliminar el historial médico:', error);
+              this.notificationService.error('Hubo un error al eliminar el historial médico');
+            }
+          );
+        }
+      } else {
+        this.notificationService.error('No se encontró el historial médico');
+      }
     }
 }

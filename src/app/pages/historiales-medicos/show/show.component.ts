@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { HistorialesMedicosService } from '../historiales-medicos.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HistorialesMedicos } from '../historiales-medicos';
 import { differenceInYears } from 'date-fns';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ImageService } from 'src/app/services/imagen.service';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Observable, ReplaySubject, forkJoin } from 'rxjs';
+import { Observable, of, ReplaySubject, forkJoin } from 'rxjs';
 import { NotificationService } from 'src/app/services/notification.service';
 import { ArchivoService } from 'src/app/services/archivo.service';
+import { catchError, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-show',
@@ -45,6 +46,7 @@ export class HistorialesMedicosShowComponent implements OnInit {
     private notificationService: NotificationService,
     private archivoService: ArchivoService,
     private sanitizer: DomSanitizer,
+    private router: Router,
   ) {}
 
   ngOnInit() {
@@ -69,22 +71,27 @@ export class HistorialesMedicosShowComponent implements OnInit {
 
         this.formArchivo.get('historialMedico_id')?.setValue(historialMedico.id);
 
-        const imageUrl = historialMedico.pacientable?.image?.url;
-
-        if (imageUrl) {
-          this.imageService.getImagen(imageUrl).subscribe(
-            (response: any) => {
-              const blob = new Blob([response], { type: 'image/jpeg' });
-              this.image = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
-            },
-            (error) => {
-              this.notificationService.error('Error al obtener la imagen');
-            }
-          );
-        } else {
-          this.notificationService.error('La URL de la imagen es indefinida');
+        if (historialMedico.pacientable?.image?.url) {
+          this.obtenerImagen(historialMedico.pacientable?.image?.url).subscribe((imagen) => {
+            this.image = imagen;
+          });
+        }else{
+            this.image = '/assets/dist/img/user.png';
         }
+
       });
+  }
+
+  obtenerImagen(url: string): Observable<any> {
+    return this.imageService.getImagen(url).pipe(
+      map((response: any) => {
+        const blob = new Blob([response], { type: 'image/jpeg' });
+        return this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
+      }),
+      catchError((error) => {
+        return of('/assets/dist/img/user.png');
+      })
+    );
   }
 
   abrirFormularioArchivo(){

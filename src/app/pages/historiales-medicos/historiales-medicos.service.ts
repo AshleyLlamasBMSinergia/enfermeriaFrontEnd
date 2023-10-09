@@ -9,6 +9,7 @@ import { AntecedentesPersonalesPatologicos } from 'src/app/interfaces/antecedent
 import { AntecedentesPersonalesNoPatologicos } from 'src/app/interfaces/antecedentes-personales-no-patologicos';
 import { AntecedentesHeredofamiliares } from 'src/app/interfaces/antecedentes-heredofamiliares';
 import { Examenes } from 'src/app/interfaces/examenes';
+import { Dependientes } from 'src/app/interfaces/dependientes';
 
 @Injectable({
   providedIn: 'root'
@@ -51,6 +52,59 @@ export class HistorialesMedicosService {
         historialMedico.imagen = imagenBase64;
   
         this.httpClient.post<HistorialesMedicos>(API_URL + "historiales-medicos", historialMedico, this.httpOptions)
+          .subscribe(
+            (response) => {
+              observer.next(response);
+              observer.complete();
+            },
+            (error) => {
+              observer.error(error);
+            }
+          );
+      };
+    });
+  }
+
+  destroyHistorialMedico(historialMedico: number): Observable<any> {
+    const url = `${API_URL}historiales-medicos/${historialMedico}`;
+    return this.httpClient.delete(url);
+  }
+
+  storeDependientes(dependiente: any, imagen: File): Observable<Dependientes> {
+    return new Observable<Dependientes>((observer) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(imagen);
+  
+      reader.onload = (event) => {
+        const imagenBase64 = (event.target as FileReader).result as string;
+        dependiente.imagen = imagenBase64;
+  
+        this.httpClient.post<Dependientes>(API_URL + "dependientes", dependiente, this.httpOptions)
+          .subscribe(
+            (response) => {
+              observer.next(response);
+              observer.complete();
+            },
+            (error) => {
+              observer.error(error);
+            }
+          );
+      };
+    });
+  }
+
+  updateDependiente(id: number, dependiente: any, imagen: File): Observable<Dependientes> {
+    return new Observable<Dependientes>((observer) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(imagen);
+  
+      reader.onload = (event) => {
+        const imagenBase64 = (event.target as FileReader).result as string;
+        dependiente.imagen = imagenBase64;
+  
+        const url = `${API_URL}dependientes/edit/${id}`;
+
+        this.httpClient.put<Dependientes>(url, dependiente, this.httpOptions)
           .subscribe(
             (response) => {
               observer.next(response);
@@ -162,5 +216,8 @@ export class HistorialesMedicosService {
   destroyExamen(ExamenId: number): Observable<any> {
     const url = `${API_URL}examen/${ExamenId}`;
     return this.httpClient.delete(url);
+  }
+  getDependientes(): Observable<any> {
+    return this.httpClient.get<Dependientes[]>(`${API_URL}dependientes`);
   }
 }

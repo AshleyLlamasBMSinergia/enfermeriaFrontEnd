@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HistorialesMedicosService } from '../historiales-medicos.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-create',
@@ -29,8 +28,7 @@ export class HistorialesMedicosCreateComponent {
       email: [null],
       paciente: [''],
       nombre: [null],
-      materno: [null],
-      paterno: [null],
+
       RFC: [null],
       CURP: [null],
       IMSS: [null],

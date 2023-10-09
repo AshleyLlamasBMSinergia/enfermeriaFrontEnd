@@ -1,0 +1,126 @@
+<div class="card" *ngIf="historialMedico?.pacientable?.dependientes">
+    <div class="card-header text-secondary border-0">
+      <h3 class="card-title text-center">Dependientes</h3>
+      <button (click)="crearDependiente()" type="button" class="btn btn-sm btn-pink float-right" data-toggle="modal" data-target="#dependienteModal">
+        <i class="fas fa-plus"></i> Dar alta
+      </button>
+    </div>
+    <div class="card-body table-responsive" *ngIf="historialMedico?.pacientable?.dependientes !== undefined && historialMedico?.pacientable?.dependientes!.length > 0">
+      <table class="table table-sm table-valign-middle">
+          <tbody>
+              <tr *ngFor="let dependiente of historialMedico?.pacientable?.dependientes">
+                  <td>
+                      {{ dependiente?.nombre }}
+                  </td>
+                  <td width="10px" *ngIf="dependiente.historial_medico">
+                    <a (click)="showHistorialMedico(dependiente?.historial_medico?.id)" class="btn btn-sm btn-secondary">
+                      <i class="fas fa-eye"></i>
+                    </a>
+                  </td>
+                  <td width="10px">
+                    <button (click)="editarDependiente(dependiente)" class="btn btn-sm btn-primary"  data-toggle="modal" data-target="#dependienteModal">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                  </td>
+                  <td width="10px">
+                      <button href="#" class="btn btn-sm btn-danger" (click)="destroyHistorialMedico(dependiente?.historial_medico?.id)">
+                          <i class="fas fa-trash"></i>
+                      </button>
+                  </td>
+              </tr>
+          </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="modal fade" id="dependienteModal" tabindex="-1" role="dialog" aria-labelledby="dependienteModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header border-0">
+            <h5 class="modal-title" id="dependienteModalLabel">
+                {{ modoEdicion ? 'Editar' : 'Nuevo' }} dependiente
+            </h5>
+          <button (click)="cerrarModal()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="dependienteForm" (submit)="guardar()">
+                <div>
+                    <div class="border rounded bg-light p-3 h-100">
+                        <div class="form-group">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" formControlName="imagen" id="imagen" required (change)="imagenSeleccionada($event)">
+                                <label class="custom-file-label">Fotografía</label>
+                            </div>
+                        </div>
+                        
+                        <div class="pb-3">
+                            <ng-container *ngIf="url; else elseBlock">
+                                <img [src]="url" alt="Imagen seleccionada" class="img-thumbnail mx-auto d-block">
+                            </ng-container>
+                            <ng-template #elseBlock>
+                                <ng-container *ngIf="image; else defaultImage">
+                                    <img [src]="image" alt="Imagen seleccionada" class="img-thumbnail mx-auto d-block">
+                                </ng-container>
+                            </ng-template>
+                            <ng-template #defaultImage>
+                                <img src="/assets/dist/img/user.png" alt="Imagen seleccionada" class="img-thumbnail mx-auto d-block">
+                            </ng-template>
+                        </div>
+                        <div class="form-group">
+                            <label>Nombre</label>
+                            <input type="text" class="form-control" id="nombre" formControlName="nombre">
+                        </div>
+                        <div class="form-group">
+                            <label>Sexo</label>
+                            <select class="form-control text-center" id="sexo" formControlName="sexo">
+                              <option value="" selected>-- Seleccione una opción --</option>
+                              <option>F</option>
+                              <option>M</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Fecha de nacimiento</label>
+                            <input type="date" class="form-control" id="fechaNacimiento" formControlName="fechaNacimiento">
+                        </div>
+                        <div class="form-group">
+                            <label>Teléfono</label>
+                            <div class="input-group">
+                                <select class="custom-select" id="prefijoInternacional" style="width: 25%;" formControlName="prefijoInternacional">
+                                  <option selected>+52</option>
+                                </select>
+                                <input type="tel" class="form-control" id="telefono" style="width: 75%;" formControlName="telefono">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Correo electrónico</label>
+                            <input type="email" class="form-control" id="email" formControlName="email">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Parentesco de {{historialMedico.pacientable?.nombre}}</label>
+                            <select class="form-control text-center" id="parentesco" formControlName="parentesco">
+                              <option value="" selected>-- Seleccione una opción --</option>
+                              <option>Padre</option>
+                              <option>Hermano</option>
+                              <option>Hijo</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="mensajesDeError.length > 0" class="text-danger pt-3">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-danger" *ngFor="let mensaje of mensajesDeError">{{ mensaje }}</li>
+                    </ul>
+                </div>
+                <div class="text-center pt-3">
+                    <button class="btn btn-pink">Guardar</button>
+                </div>
+            </form>
+        </div>
+        <!-- <div class="modal-footer">
+          <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-sm btn-pink">Guardar</button>
+        </div> -->
+      </div>
+    </div>
+  </div>
