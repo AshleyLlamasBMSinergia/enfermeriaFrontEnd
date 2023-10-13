@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HistorialesMedicosService } from '../historiales-medicos.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
@@ -16,6 +16,22 @@ export class HistorialesMedicosCreateComponent {
   imagen: File | null = null;
   url: string | null = null;
 
+  mensajesDeError: string[] = [];
+
+  nombresDescriptivos: { [key: string]: string } = {
+    email: 'correo electrónico',
+    paciente: 'tipo de paciente',
+    nombre: 'nombre',
+    RFC: 'RFC',
+    CURP: 'CURP',
+    IMSS: 'IMSS',
+    sexo: 'sexo',
+    fechaNacimiento: 'fecha de nacimiento',
+    estadoCivil: 'estado civil',
+    prefijoInternacional: 'prefijo internacional',
+    telefono: 'teléfono',
+  };
+
   constructor
   (
     private router: Router,
@@ -24,20 +40,48 @@ export class HistorialesMedicosCreateComponent {
   ) 
   {
     this.historialMedicoForm = this.formBuilder.group({
-      nickname: [null],
       email: [null],
       paciente: [''],
       nombre: [null],
-
-      RFC: [null],
-      CURP: [null],
-      IMSS: [null],
       sexo: [''],
       fechaNacimiento: [null],
-      estadoCivil: [''],
       prefijoInternacional: ['+52'],
       telefono: [null],
+      CURP: [null],
+      IMSS: [null],
+      RFC: [''],
+      estadoCivil: [''],
     });
+  }
+
+
+  cambiarValidaciones(tipoPaciente: string) {
+    if (tipoPaciente === 'Empleado') {
+      this.historialMedicoForm.get('RFC')!.setValidators([Validators.required, Validators.maxLength(254)]);
+      this.historialMedicoForm.get('CURP')!.setValidators([Validators.required, Validators.maxLength(254)]);
+      this.historialMedicoForm.get('IMSS')!.setValidators([Validators.required, Validators.maxLength(254)]);
+      this.historialMedicoForm.get('estadoCivil')!.setValidators([Validators.required]);
+      this.historialMedicoForm.get('prefijoInternacional')!.setValidators([Validators.required]);
+      this.historialMedicoForm.get('telefono')!.setValidators([Validators.required, Validators.maxLength(10)]);
+      this.historialMedicoForm.get('email')!.setValidators([Validators.required, Validators.email]);
+    } else {
+      this.historialMedicoForm.get('RFC')!.clearValidators();
+      this.historialMedicoForm.get('CURP')!.clearValidators();
+      this.historialMedicoForm.get('IMSS')!.clearValidators();
+      this.historialMedicoForm.get('estadoCivil')!.clearValidators();
+      this.historialMedicoForm.get('prefijoInternacional')!.clearValidators();
+      this.historialMedicoForm.get('telefono')!.clearValidators();
+      this.historialMedicoForm.get('email')!.clearValidators();
+    }
+  
+    // Actualiza las validaciones
+    this.historialMedicoForm.get('RFC')!.updateValueAndValidity();
+    this.historialMedicoForm.get('CURP')!.updateValueAndValidity();
+    this.historialMedicoForm.get('IMSS')!.updateValueAndValidity();
+    this.historialMedicoForm.get('estadoCivil')!.updateValueAndValidity();
+    this.historialMedicoForm.get('prefijoInternacional')!.updateValueAndValidity();
+    this.historialMedicoForm.get('telefono')!.updateValueAndValidity();
+    this.historialMedicoForm.get('email')!.updateValueAndValidity();
   }
 
   imagenSeleccionada(event: any) {
@@ -71,6 +115,7 @@ export class HistorialesMedicosCreateComponent {
   }
 
   guardar() {
+    this.cambiarValidaciones(this.historialMedicoForm.get('paciente')!.value);
     if (!this.historialMedicoForm.invalid) {
       const historialMedico = this.historialMedicoForm.value;
   
@@ -89,9 +134,16 @@ export class HistorialesMedicosCreateComponent {
         this.error({ message: 'Debes seleccionar una imagen.' });
       }
     } else {
-      const invalidControls = this.findInvalidControls(this.historialMedicoForm);
-      console.log('Campos inválidos:', invalidControls);
-      this.error({ message: 'Faltan campos por llenar'});
+      const camposNoValidos = Object.keys(this.historialMedicoForm.controls).filter(controlName => this.historialMedicoForm.get(controlName)?.invalid);
+      const mensajes: string[] = [];
+  
+      camposNoValidos.forEach(controlName => {
+        const control = this.historialMedicoForm.get(controlName)!;
+        const errores = this.obtenerMensajesDeError(control).join(', ');
+        mensajes.push(`El campo ${this.nombresDescriptivos[controlName]} ${errores}`);
+      });
+  
+      this.mensajesDeError = mensajes;
     }
   }  
 
@@ -116,5 +168,36 @@ export class HistorialesMedicosCreateComponent {
       showConfirmButton: false,
       timer: 6500 
     });
+  }
+
+  obtenerMensajesDeError(control: AbstractControl): string[] {
+    const mensajes: string[] = [];
+
+    if (control.errors) {
+      for (const errorKey in control.errors) {
+        switch (errorKey) {
+          case 'required':
+            mensajes.push(' es obligatorio');
+            break;
+          case 'maxlength':
+            mensajes.push(' excede el límite de longitud permitido');
+            break;
+          case 'email':
+            mensajes.push(' no es valido');
+            break;
+          default:
+            mensajes.push(`Error: ${errorKey}`);
+            break;
+        }
+      }
+    }
+
+    if (control instanceof FormGroup) {
+      Object.keys(control.controls).forEach(key => {
+        mensajes.push(...this.obtenerMensajesDeError(control.get(key)!));
+      });
+    }
+
+    return mensajes;
   }
 }

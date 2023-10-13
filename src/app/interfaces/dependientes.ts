@@ -8,8 +8,6 @@ export interface Dependientes {
     empleado_id: number;
     sexo: string;
     fechaNacimiento: Date;
-    telefono: string;
-    correo: string;
     parentesco: string;
     estatus: string;
 

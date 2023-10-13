@@ -5,95 +5,109 @@
                 <h3 class="card-title text-center">Editar historial médico</h3>
             </div>
             <div class="card-body">
-                <!-- <form [formGroup]="form" (submit)="guardar()"> -->
-                    <div class="row">
-                        <div class="col-12 col-md-6">
-                            <div class="border rounded bg-light p-3 h-100">
+                <form [formGroup]="historialMedicoForm" (submit)="guardar()">
+                    <div>
+                        <div class="form-group">
+                            <label>Tipo de paciente</label>
+                            <select class="form-control text-center" id="paciente" formControlName="paciente">
+                            <option value="" selected>-- Seleccione una opción --</option>
+                            <option>Empleado</option>
+                            <option>Externo</option>
+                            </select>
+                        </div>
+                        <div class="row" *ngIf="historialMedicoForm.get('paciente')?.value === 'Empleado' || historialMedicoForm.get('paciente')?.value === 'Externo'">
+                            <div class="col-12 col-md-3">
                                 <div class="form-group">
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="imagen" required>
+                                        <input type="file" class="custom-file-input" id="imagen" required (change)="imagenSeleccionada($event)">
                                         <label class="custom-file-label">Fotografía</label>
                                     </div>
                                 </div>
                                 <div class="pb-3">
-                                    <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="..." class="img-thumbnail mx-auto d-block">
-                                </div>
-                                <div class="form-group">
-                                    <label for="nick">Nickname</label>
-                                    <input type="text" class="form-control" id="nickname" formControlName="nickname">
-                                </div>
-                                <div class="form-group">
-                                    <label for="email">Correo electrónico</label>
-                                    <input type="text" class="form-control" id="email" formControlName="email">
-                                </div>
-                                <div class="form-group">
-                                    <label>Tipo de paciente</label>
-                                    <select class="form-control text-center" id="paciente" formControlName="paciente">
-                                      <option class="">-- Seleccione una opción --</option>
-                                      <option>Empleado</option>
-                                      <option>Dependiente</option>
-                                      <option>Externo</option>
-                                    </select>
+                                    <ng-container *ngIf="url; else elseBlock">
+                                        <img [src]="url" alt="Imagen seleccionada" class="img-thumbnail mx-auto d-block">
+                                    </ng-container>
+                                    <ng-template #elseBlock>
+                                        <ng-container *ngIf="image; else defaultImage">
+                                            <img [src]="image" alt="Imagen seleccionada" class="img-thumbnail mx-auto d-block">
+                                        </ng-container>
+                                    </ng-template>
+                                    <ng-template #defaultImage>
+                                        <img src="/assets/dist/img/user.png" alt="Imagen seleccionada" class="img-thumbnail mx-auto d-block">
+                                    </ng-template>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-12 col-md-6">
-                            <div class="border rounded bg-light p-3 h-100">
-                                <div class="form-group">
-                                    <label>Nombre (s)</label>
-                                    <input type="text" class="form-control" id="nombre" formControlName="nombre">
-                                </div>
-                                <div class="form-group">
-                                    <label>RFC</label>
-                                    <input type="text" class="form-control" id="RFC" formControlName="RFC">
-                                </div>
-                                <div class="form-group">
-                                    <label>CURP</label>
-                                    <input type="text" class="form-control" id="CURP" formControlName="CURP">
-                                </div>
-                                <div class="form-group">
-                                    <label>IMSS</label>
-                                    <input type="text" class="form-control" id="IMSS" formControlName="IMSS">
-                                </div>
-                                <div class="form-group">
-                                    <label>Sexo</label>
-                                    <select class="form-control text-center" id="sexo" formControlName="sexo">
-                                      <option class="">-- Seleccione una opción --</option>
-                                      <option>F</option>
-                                      <option>M</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>Fecha de nacimiento</label>
-                                    <input type="date" class="form-control" id="fechaNacimiento" formControlName="fechaNacimiento">
-                                </div>
-                                <div class="form-group">
-                                    <label>Estado civil</label>
-                                    <select class="form-control text-center" id="estadoCivil" formControlName="estadoCivil">
-                                      <option class="">-- Seleccione una opción --</option>
-                                      <option>Soltero</option>
-                                      <option>Casado por lo civil</option>
-                                      <option>Divorciado legalmente</option>
-                                      <option>Separado legalmente</option>
-                                      <option>Viudo de matrimonio civil</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>Teléfono</label>
-                                    <div class="input-group">
-                                        <select class="custom-select" id="prefijoInternacional" style="width: 25%;" formControlName="prefijoInternacional">
-                                          <option selected>+52</option>
-                                        </select>
-                                        <input type="text" class="form-control" id="telefono" style="width: 75%;" formControlName="telefono">
+                            <div class="col-12 col-md-9">
+                                <div class="row">
+                                    <div class="col-12 col-md-6" [ngClass]="{'col-md-12': historialMedicoForm.get('paciente')?.value === 'Externo'}">
+                                        <div class="form-group">
+                                            <label>Nombre (s)</label>
+                                            <input type="text" class="form-control" id="nombre" formControlName="nombre">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="email">Correo electrónico</label>
+                                            <input type="text" class="form-control" id="email" formControlName="email">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Teléfono</label>
+                                            <div class="input-group">
+                                                <select class="custom-select" id="prefijoInternacional" style="width: 25%;" formControlName="prefijoInternacional">
+                                                <option selected>+52</option>
+                                                </select>
+                                                <input type="tel" class="form-control" id="telefono" style="width: 75%;" formControlName="telefono">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Sexo</label>
+                                            <select class="form-control text-center" id="sexo" formControlName="sexo">
+                                            <option value="" selected>-- Seleccione una opción --</option>
+                                            <option>F</option>
+                                            <option>M</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Fecha de nacimiento</label>
+                                            <input type="date" class="form-control" id="fechaNacimiento" formControlName="fechaNacimiento">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6" [hidden]="historialMedicoForm.get('paciente')?.value === 'Externo'">
+                                        <div class="form-group">
+                                            <label>RFC</label>
+                                            <input type="text" class="form-control" id="RFC" formControlName="RFC">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>CURP</label>
+                                            <input type="text" class="form-control" id="CURP" formControlName="CURP">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>IMSS</label>
+                                            <input type="text" class="form-control" id="IMSS" formControlName="IMSS">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Estado civil</label>
+                                            <select class="form-control text-center" id="estadoCivil" formControlName="estadoCivil">
+                                            <option value="" selected>-- Seleccione una opción --</option>
+                                            <option>Soltero</option>
+                                            <option>Casado por lo civil</option>
+                                            <option>Divorciado legalmente</option>
+                                            <option>Separado legalmente</option>
+                                            <option>Viudo de matrimonio civil</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="text-center pt-3">
-                            <button class="btn btn-pink">Guardar</button>
+                            <div *ngIf="mensajesDeError.length > 0" class="text-danger pt-3">
+                                <ul class="list-group">
+                                    <li class="list-group-item list-group-item-danger" *ngFor="let mensaje of mensajesDeError">{{ mensaje }}</li>
+                                </ul>
+                            </div>
+                            <div class="text-center pt-3">
+                                <button class="btn bg-pink">Guardar</button>
+                            </div>
                         </div>
                     </div>
-                <!-- </form> -->
+                </form>
             </div>
         </div>
     </div>

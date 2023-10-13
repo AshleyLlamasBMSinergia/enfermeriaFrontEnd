@@ -35,8 +35,6 @@ export class DependientesComponent {
     nombre: 'nombre',
     sexo: 'sexo',
     fechaNacimiento: 'fecha de nacimiento',
-    prefijoInternacional: 'prefijo internacional',
-    telefono: 'teléfono',
     parentesco: 'parentesco',
     imagen: 'fotografía'
   };
@@ -56,8 +54,6 @@ export class DependientesComponent {
       nombre: [null, [Validators.required, Validators.maxLength(255)]],
       sexo: ['', [Validators.required]],
       fechaNacimiento: [null,  [Validators.required]],
-      prefijoInternacional: ['+52', [Validators.required, Validators.maxLength(3)]],
-      telefono: [null, [Validators.required, Validators.maxLength(10)]],
       parentesco: ['', [Validators.required, Validators.maxLength(255)]],
     });
   }
@@ -181,16 +177,13 @@ export class DependientesComponent {
         this.image = '/assets/dist/img/user.png';
     }
 
-    const telefonoCompleto = dependiente.telefono;
     this.dependienteForm.setValue({
       imagen: null,
       historialMedico_id: dependiente.historial_medico.id,
-      email: dependiente.correo,
       nombre: dependiente.nombre,
       sexo: dependiente.sexo,
       fechaNacimiento: dependiente.fechaNacimiento,
-      prefijoInternacional: telefonoCompleto.substring(0, telefonoCompleto.length - 10),
-      telefono: telefonoCompleto.substring(telefonoCompleto.length - 10),
+
       parentesco: dependiente.parentesco,
     });
   }
@@ -206,8 +199,6 @@ export class DependientesComponent {
       nombre: null,
       sexo: '',
       fechaNacimiento: null,
-      prefijoInternacional: '',
-      telefono: null,
       parentesco: '',
     });
   }

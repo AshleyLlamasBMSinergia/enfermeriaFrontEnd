@@ -4,7 +4,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { InsumosMedicosIndexComponent } from './index/index.component';
 import { LotesMedicosIndexComponent } from '../lotes-medicos/index/index.component';
-
+import { InsumosMedicosEditComponent } from './edit/edit.component';
+import { InsumosMedicosCreateComponent } from './create/create.component';
 const routes: Routes = [
   {
     path: '',
@@ -20,6 +21,20 @@ const routes: Routes = [
       subtitulo: 'Ver Insumo',
     },
   },
+  {
+    path: 'create',
+    component: InsumosMedicosCreateComponent,
+    data: {
+      subtitulo: 'Crear Insumo',
+    },
+  },
+  {
+    path: 'edit/:id',
+    component: InsumosMedicosEditComponent,
+    data: {
+      subtitulo: 'Editar Insumo',
+    }
+  }
 ];
 
 @NgModule({

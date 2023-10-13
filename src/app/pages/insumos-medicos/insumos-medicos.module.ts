@@ -6,11 +6,14 @@ import { InsumosMedicosRoutingModule } from './insumos-medicos-routing.module';
 import { InsumosMedicosIndexComponent } from './index/index.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { LotesMedicosIndexComponent } from '../lotes-medicos/index/index.component';
-
+import { InsumosMedicosEditComponent } from './edit/edit.component';
+import { InsumosMedicosCreateComponent } from './create/create.component';
 @NgModule({
   declarations: [
     InsumosMedicosIndexComponent,
-    LotesMedicosIndexComponent
+    LotesMedicosIndexComponent,
+    InsumosMedicosEditComponent,
+    InsumosMedicosCreateComponent,
   ],
   imports: [
     CommonModule,

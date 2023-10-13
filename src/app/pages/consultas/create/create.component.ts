@@ -338,8 +338,6 @@ export class ConsultasCreateComponent implements OnInit {
   
       this.mensajesDeError = mensajes;
 
-      console.log(this.consultaForm.value);
-
     } else {
       const fechaHoraActual = `${this.fechaActual} ${this.horaActual}`;
       this.consultaForm.get('fecha')?.setValue(fechaHoraActual);

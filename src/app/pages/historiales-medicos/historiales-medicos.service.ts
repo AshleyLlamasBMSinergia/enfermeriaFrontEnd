@@ -65,6 +65,43 @@ export class HistorialesMedicosService {
     });
   }
 
+  updateHistorialMedico(id: number, historialMedico: any, imagen?: File): Observable<HistorialesMedicos> {
+    return new Observable<HistorialesMedicos>((observer) => {
+      const processImage = () => {
+        if (imagen) {
+          const reader = new FileReader();
+          reader.readAsDataURL(imagen);
+  
+          reader.onload = (event) => {
+            const imagenBase64 = (event.target as FileReader).result as string;
+            historialMedico.imagen = imagenBase64;
+            sendRequest();
+          };
+        } else {
+          sendRequest();
+        }
+      };
+  
+      const sendRequest = () => {
+        const url = `${API_URL}historiales-medicos/edit/${id}`;
+  
+        this.httpClient.put<HistorialesMedicos>(url, historialMedico, this.httpOptions)
+          .subscribe(
+            (response) => {
+              observer.next(response);
+              observer.complete();
+            },
+            (error) => {
+              observer.error(error);
+            }
+          );
+      };
+  
+      processImage();
+    });
+  }
+  
+
   destroyHistorialMedico(historialMedico: number): Observable<any> {
     const url = `${API_URL}historiales-medicos/${historialMedico}`;
     return this.httpClient.delete(url);
