@@ -322,9 +322,9 @@
                                                         <div>
                                                             <div class="list-group-item d-flex justify-content-between align-items-center">
                                                                 <p class="text-pink"><b><small>{{ insumoSeleccionado.value.nombre }} <pre>
-                                                                    {{ insumoSeleccionado.value | json }}
+                                                                    
                                                                   </pre>
-                                                                  d</small></b></p>
+                                                                  </small></b></p>
                                                                 <div class="btn-group" role="group" aria-label="Basic example">
                                                                     <button type="button" class="btn btn-secondary" (click)="addItemLote(insIndex)">+</button>
                                                                     <button type="button" class="btn btn-secondary" (click)="removeLote(insIndex, insumoSeleccionado.value.id)">-</button>
@@ -349,7 +349,7 @@
                                                                             optionValueField="id"
                                                                             optionTextField="nombre"
                                                                             placeholder="Select..."
-                                                                            [items]="inventarios">
+                                                                            [items]="this.getLotesSelect(insumoSeleccionado.value.id)">
                                                                         </ngx-select>
                                                                     </td>
                                                                     <td width="30%">

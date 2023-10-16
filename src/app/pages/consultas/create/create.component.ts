@@ -95,7 +95,7 @@ export class ConsultasCreateComponent implements OnInit {
       toolbar: ['imageTextAlternative']
     }
   };
-
+lotesSelect =[];
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -206,12 +206,32 @@ export class ConsultasCreateComponent implements OnInit {
     );
   }
 
+  getLotesSelect(id:any){
+    const insumoIdBuscado = id;
+const lotes = [];
+for (const elemento of this.inventarios) {
+  for (const insumo of elemento.insumos) {
+    if (insumo.id === insumoIdBuscado) {
+      lotes.push(...insumo.lotes);
+    }
+  }
+}
+console.log(lotes, id)
+return lotes
+  }
+
    formInsumos!:FormGroup;
    inventarios: any;
 
   getInsumosPorInventario(inventarioId: number) {
+
+    if (this.isUpdating) {
+      return;
+    }
+    
+    this.isUpdating = true;
     const inventarioSeleccionado = this.inventarios.find((inventario:any) => inventario.id === inventarioId);
-    console.log(inventarioSeleccionado ? inventarioSeleccionado.insumos: []);
+    this.isUpdating = false;
     return inventarioSeleccionado ? inventarioSeleccionado.insumos : [];
   }
 
@@ -231,12 +251,14 @@ export class ConsultasCreateComponent implements OnInit {
   }
 
   newLote(value?: any): FormGroup {
+    console.log(value.lotes);
     return this.formBuilder.group({
       id: value ? value.id : null,
       nombre: value ? value.nombre : '',
+      arrayLotes:this.lotesSelect,
       lotes: this.formBuilder.array([])
     });
-    console.log(value);
+   
   }
 
   addItemInsumos($event?:any) {
@@ -249,10 +271,42 @@ export class ConsultasCreateComponent implements OnInit {
 
       let lotes = this.insumosForm().controls;
 
-      const obj = this.inventarios[0].insumos.find((item:any) => item.id === $event[$event.length - 1]);
+      // const obj = this.inventarios[0].insumos.find((item:any) => item.id === $event[$event.length - 1]);
+      /* let obj = this.inventarios.filter((item:any) => {
+         item.id ==
+      }) */
+      const extraerInsumos = (arreglo:any)=> {
+        const insumosExtraidos:any = [];
+      
+        // Recorremos el arreglo principal
+        arreglo.forEach((elemento:any) => {
+          // Recorremos el arreglo de insumos dentro de cada elemento
+          elemento.insumos.forEach((insumo:any) => {
+            // Agregamos cada insumo a nuestro arreglo de insumos extraídos
+            insumosExtraidos.push(insumo);
+          });
+        });
+      
+        return insumosExtraidos;
+      }
+      
+      const insumosExtraidos = extraerInsumos(this.inventarios);
+      //console.log(insumosExtraidos)
+      const obj = insumosExtraidos.find((item:any) => item.id === $event[$event.length - 1]);
+      console.log('aqui', obj.lotes);
+      this.lotesSelect = [];
+      this.lotesSelect = obj.lotes;
       ($event.length>0)? this.insumosForm().push(this.newLote(obj)):false;
+         
 
+      
       this.isUpdating = false;
+
+
+      console.log($event);
+      console.log(lotes);
+
+      
     }
   }
 
