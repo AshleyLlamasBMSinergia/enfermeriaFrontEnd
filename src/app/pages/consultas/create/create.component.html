@@ -321,7 +321,10 @@
                                                     <div formArrayName="lotes">
                                                         <div>
                                                             <div class="list-group-item d-flex justify-content-between align-items-center">
-                                                                <p class="text-pink"><b><small>{{ insumoSeleccionado.value.nombre }}</small></b></p>
+                                                                <p class="text-pink"><b><small>{{ insumoSeleccionado.value.nombre }} <pre>
+                                                                    {{ insumoSeleccionado.value | json }}
+                                                                  </pre>
+                                                                  d</small></b></p>
                                                                 <div class="btn-group" role="group" aria-label="Basic example">
                                                                     <button type="button" class="btn btn-secondary" (click)="addItemLote(insIndex)">+</button>
                                                                     <button type="button" class="btn btn-secondary" (click)="removeLote(insIndex, insumoSeleccionado.value.id)">-</button>

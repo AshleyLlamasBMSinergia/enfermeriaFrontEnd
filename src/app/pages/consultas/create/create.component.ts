@@ -207,177 +207,20 @@ export class ConsultasCreateComponent implements OnInit {
   }
 
    formInsumos!:FormGroup;
-   inventarios = [{
-        "id": 1,
-        "nombre": "Ansel",
-        "created_at": "2023-10-14T11:29:52.017000Z",
-        "updated_at": "2023-10-14T11:29:52.017000Z",
-        "pivot": {
-            "profesionales_id": "1",
-            "inventario_id": "1"
-        },
-        "insumos": [
-            {
-                "id": 8,
-                "nombre": "Rick Heathcote",
-                "precio": "5.00",
-                "piezasPorLote": "1",
-                "descripcion": "Libero error sunt vel. Dolor aut sint quia nesciunt magni ad ad nam. Fugit sint est at.",
-                "inventario_id": "1",
-                "created_at": "2023-10-14T11:29:52.057000Z",
-                "updated_at": "2023-10-14T11:29:52.057000Z",
-                "lotes": [
-                    {
-                        "id": 12,
-                        "lote": "427",
-                        "fechaCaducidad": "2023-12-25",
-                        "fechaIngreso": "2024-05-07",
-                        "insumo_id": "8",
-                        "piezasDisponibles": "9",
-                        "created_at": "2023-10-14T11:29:52.167000Z",
-                        "updated_at": "2023-10-14T11:29:52.167000Z"
-                    },
-                    {
-                        "id": 30,
-                        "lote": "286",
-                        "fechaCaducidad": "2024-04-23",
-                        "fechaIngreso": "2023-10-23",
-                        "insumo_id": "8",
-                        "piezasDisponibles": "9",
-                        "created_at": "2023-10-14T11:29:52.177000Z",
-                        "updated_at": "2023-10-14T11:29:52.177000Z"
-                    },
-                    {
-                        "id": 44,
-                        "lote": "592",
-                        "fechaCaducidad": "2024-01-24",
-                        "fechaIngreso": "2024-02-04",
-                        "insumo_id": "8",
-                        "piezasDisponibles": "9",
-                        "created_at": "2023-10-14T11:29:52.187000Z",
-                        "updated_at": "2023-10-14T11:29:52.187000Z"
-                    },
-                    {
-                        "id": 55,
-                        "lote": "273",
-                        "fechaCaducidad": "2024-01-26",
-                        "fechaIngreso": "2023-11-12",
-                        "insumo_id": "8",
-                        "piezasDisponibles": "3",
-                        "created_at": "2023-10-14T11:29:52.197000Z",
-                        "updated_at": "2023-10-14T11:29:52.197000Z"
-                    },
-                    {
-                        "id": 61,
-                        "lote": "915",
-                        "fechaCaducidad": "2023-09-12",
-                        "fechaIngreso": "2024-04-02",
-                        "insumo_id": "8",
-                        "piezasDisponibles": "7",
-                        "created_at": "2023-10-14T11:29:52.200000Z",
-                        "updated_at": "2023-10-14T11:29:52.200000Z"
-                    },
-                    {
-                        "id": 81,
-                        "lote": "923",
-                        "fechaCaducidad": "2024-03-17",
-                        "fechaIngreso": "2024-04-24",
-                        "insumo_id": "8",
-                        "piezasDisponibles": "8",
-                        "created_at": "2023-10-14T11:29:52.217000Z",
-                        "updated_at": "2023-10-14T11:29:52.217000Z"
-                    },
-                    {
-                        "id": 87,
-                        "lote": "075",
-                        "fechaCaducidad": "2024-04-27",
-                        "fechaIngreso": "2024-01-19",
-                        "insumo_id": "8",
-                        "piezasDisponibles": "5",
-                        "created_at": "2023-10-14T11:29:52.223000Z",
-                        "updated_at": "2023-10-14T11:29:52.223000Z"
-                    },
-                    {
-                        "id": 94,
-                        "lote": "193",
-                        "fechaCaducidad": "2024-06-09",
-                        "fechaIngreso": "2024-01-22",
-                        "insumo_id": "8",
-                        "piezasDisponibles": "9",
-                        "created_at": "2023-10-14T11:29:52.227000Z",
-                        "updated_at": "2023-10-14T11:29:52.227000Z"
-                    },
-                    {
-                        "id": 96,
-                        "lote": "698",
-                        "fechaCaducidad": "2023-10-01",
-                        "fechaIngreso": "2023-11-19",
-                        "insumo_id": "8",
-                        "piezasDisponibles": "8",
-                        "created_at": "2023-10-14T11:29:52.227000Z",
-                        "updated_at": "2023-10-14T11:29:52.227000Z"
-                    }
-                ]
-            },
-            {
-                "id": 12,
-                "nombre": "Anthony Simonis",
-                "precio": "3.00",
-                "piezasPorLote": "9",
-                "descripcion": "Est autem molestiae quae voluptas et. At saepe non dolorum consectetur ut.",
-                "inventario_id": "1",
-                "created_at": "2023-10-14T11:29:52.060000Z",
-                "updated_at": "2023-10-14T11:29:52.060000Z",
-                "lotes": [
-                    {
-                        "id": 16,
-                        "lote": "110",
-                        "fechaCaducidad": "2024-04-01",
-                        "fechaIngreso": "2023-11-25",
-                        "insumo_id": "12",
-                        "piezasDisponibles": "2",
-                        "created_at": "2023-10-14T11:29:52.167000Z",
-                        "updated_at": "2023-10-14T11:29:52.167000Z"
-                    },
-                    {
-                        "id": 21,
-                        "lote": "254",
-                        "fechaCaducidad": "2023-11-21",
-                        "fechaIngreso": "2023-12-15",
-                        "insumo_id": "12",
-                        "piezasDisponibles": "3",
-                        "created_at": "2023-10-14T11:29:52.170000Z",
-                        "updated_at": "2023-10-14T11:29:52.170000Z"
-                    },
-                    {
-                        "id": 37,
-                        "lote": "720",
-                        "fechaCaducidad": "2023-10-13",
-                        "fechaIngreso": "2024-04-04",
-                        "insumo_id": "12",
-                        "piezasDisponibles": "2",
-                        "created_at": "2023-10-14T11:29:52.183000Z",
-                        "updated_at": "2023-10-14T11:29:52.183000Z"
-                    },
-                    {
-                        "id": 57,
-                        "lote": "239",
-                        "fechaCaducidad": "2024-03-10",
-                        "fechaIngreso": "2024-05-22",
-                        "insumo_id": "12",
-                        "piezasDisponibles": "2",
-                        "created_at": "2023-10-14T11:29:52.197000Z",
-                        "updated_at": "2023-10-14T11:29:52.197000Z"
-                    }
-                ]
-            },
-        ]
-    }];
+   inventarios: any;
 
   getInsumosPorInventario(inventarioId: number) {
-    const inventarioSeleccionado = this.inventarios.find(inventario => inventario.id === inventarioId);
+    const inventarioSeleccionado = this.inventarios.find((inventario:any) => inventario.id === inventarioId);
+    console.log(inventarioSeleccionado ? inventarioSeleccionado.insumos: []);
     return inventarioSeleccionado ? inventarioSeleccionado.insumos : [];
   }
+
+
+  // getLotesPorInsumo(insumoId: number) {
+  //   const insumos = this.getInsumosPorInventario;
+  //   const insumoSeleccionado = insumos.find(insumo => insumo.id === insumoId);
+  //   return loteSeleccionado ? loteSeleccionado.insumos.lotes : [];
+  // }
 
   cargarInsumos($event:any){
     console.log($event)
@@ -393,6 +236,7 @@ export class ConsultasCreateComponent implements OnInit {
       nombre: value ? value.nombre : '',
       lotes: this.formBuilder.array([])
     });
+    console.log(value);
   }
 
   addItemInsumos($event?:any) {
@@ -405,7 +249,7 @@ export class ConsultasCreateComponent implements OnInit {
 
       let lotes = this.insumosForm().controls;
 
-      const obj = this.inventarios[0].insumos.find(item => item.id === $event[$event.length - 1]);
+      const obj = this.inventarios[0].insumos.find((item:any) => item.id === $event[$event.length - 1]);
       ($event.length>0)? this.insumosForm().push(this.newLote(obj)):false;
 
       this.isUpdating = false;
