@@ -30,7 +30,7 @@ export class AuthService {
   handleLoginResponse(response: any) {
     if (response.status) {
       this.userService.setUser(response.data.user);
-      // console.log(this.userService.getUser());
+      console.log(this.userService.getUser());
       this.router.navigate(['/enfermeria/inicio']);
     }
   }

@@ -8,6 +8,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { LotesMedicosIndexComponent } from '../lotes-medicos/index/index.component';
 import { InsumosMedicosEditComponent } from './edit/edit.component';
 import { InsumosMedicosCreateComponent } from './create/create.component';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { FullCalendarModule } from '@fullcalendar/angular';
 @NgModule({
   declarations: [
     InsumosMedicosIndexComponent,
@@ -21,7 +23,9 @@ import { InsumosMedicosCreateComponent } from './create/create.component';
     InsumosMedicosRoutingModule,
     ReactiveFormsModule,
     FormsModule,
+    CKEditorModule,
     NgxPaginationModule,
+    FullCalendarModule,
   ],
 })
 export class InsumosMedicosModule { }

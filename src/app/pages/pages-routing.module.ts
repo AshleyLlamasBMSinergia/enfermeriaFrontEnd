@@ -54,6 +54,15 @@ const routes:Routes = [
         canActivate: [AuthGuard,]
       },
       {
+        path: 'inventarios',
+        loadChildren: () =>
+          import('./inventarios/inventarios.module').then((m) => m.InventariosModule),
+        data: {
+          titulo: 'Inventarios',
+        },
+        canActivate: [AuthGuard,]
+      },
+      {
         path: 'insumos-medicos',
         loadChildren: () =>
           import('./insumos-medicos/insumos-medicos.module').then((m) => m.InsumosMedicosModule),
@@ -63,14 +72,14 @@ const routes:Routes = [
         },
         canActivate: [AuthGuard,]
       },
-      // {
-      //   path: 'lotes-medicos',
-      //   loadChildren: () =>
-      //     import('./lotes-medicos/lotes-medicos.module').then((m) => m.LotesMedicosModule),
-      //   data: {
-      //     titulo: 'Lotes médicos',
-      //   },
-      // },
+      {
+        path: 'lotes-medicos',
+        loadChildren: () =>
+          import('./lotes-medicos/lotes-medicos.module').then((m) => m.LotesMedicosModule),
+        data: {
+          titulo: 'Lotes médicos',
+        },
+      },
       {
         path: 'requisiciones',
         loadChildren: () =>

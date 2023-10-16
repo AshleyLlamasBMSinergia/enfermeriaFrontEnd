@@ -15,17 +15,17 @@ const routes: Routes = [
     },
   },
   {
+    path: 'create', 
+    component: InsumosMedicosCreateComponent,
+    data: {
+      subtitulo: 'Crear Insumo',
+    },
+  },
+  {
     path: ':id',
     component: LotesMedicosIndexComponent,
     data: {
       subtitulo: 'Ver Insumo',
-    },
-  },
-  {
-    path: 'create',
-    component: InsumosMedicosCreateComponent,
-    data: {
-      subtitulo: 'Crear Insumo',
     },
   },
   {

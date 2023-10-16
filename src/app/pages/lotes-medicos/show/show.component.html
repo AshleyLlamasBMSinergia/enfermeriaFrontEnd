@@ -1,0 +1,87 @@
+<div class="content">
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-header text-secondary border-0">
+        <h3 class="card-title text-center">Información del medicamento</h3>
+        <div class="card-tools">
+            <!-- <a class="btn btn-tool btn-sm">
+            <i class="fas fa-download"></i>
+            </a> -->
+        </div>
+      </div>
+      <div class="card-body">
+          <div class="row">
+              <div class="col-12 col-sm-4">
+                <div class="pb-2">
+                  <div class="d-flex border-bottom py-2">
+                    <div>
+                      <b>Nombre</b>
+                    </div>
+                    <div class="ml-auto">
+                      {{lote?.insumo?.nombre}}
+                    </div>
+                  </div>
+                </div>
+                <div class="position-relative d-inline-block">
+                  <img [src]="image" alt="..." class="img-thumbnail img-fluid">
+                  <div class="position-absolute top-0 end-0 p-2">
+                    Piezas: 
+                    <span class="badge badge-pill badge-info">{{lote?.piezasDisponibles}}/{{lote?.insumo?.piezasPorLote}}</span>
+                  </div>
+                </div>
+                <div>
+                  <div class="py-2">
+                    <div class="d-flex border-bottom py-2">
+                      <div>
+                        <b>Lote</b>
+                      </div>
+                      <div class="ml-auto">
+                        {{lote?.lote}}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="py-2">
+                    <div class="d-flex border-bottom py-2">
+                      <div>
+                        <b>Precio</b>
+                      </div>
+                      <div class="ml-auto">
+                        {{lote?.insumo?.precio}} $
+                      </div>
+                    </div>
+                  </div>
+                  <div class="py-2" *ngIf="lote?.insumo?.descripcion">
+                      <div class="d-flex py-2">
+                        <div>
+                          <b>Descripción</b>
+                        </div>
+                      </div>
+                      <div>
+                        <div class="border rounded bg-white p-2" [innerHtml]='lote?.insumo?.descripcion'>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-sm-8">
+                <div class="timeline" *ngFor="let movimiento of lote?.movimientos">
+                  <div class="time-label">
+                    <span class="bg-green">{{ movimiento.fecha }}</span>
+                  </div>
+                  <div>
+                    <i class="fas fa-clock bg-blue"></i>
+                    <div class="timeline-item">
+                      <span class="time"><i class="fas fa-clock"></i> 12:05</span>
+                      <h3 class="timeline-header"><a href="#">Support Team</a> sent you an email</h3>
+                      <div class="timeline-body">
+                        {{movimiento?.typable?.detalles}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>

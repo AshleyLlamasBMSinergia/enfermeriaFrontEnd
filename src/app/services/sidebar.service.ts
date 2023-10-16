@@ -25,16 +25,21 @@ export class SidebarService {
       icono: 'assets/icons/historialesMedicos.svg',
       url: 'historiales-medicos'
     },
-    {
-      titulo: 'Insumos médicos',
-      icono: 'assets/icons/insumosMedicos.svg',
-      url: 'insumos-medicos'
-    },
+    // {
+    //   titulo: 'Insumos médicos',
+    //   icono: 'assets/icons/insumosMedicos.svg',
+    //   url: 'insumos-medicos'
+    // },
     // {
     //   titulo: 'Requisiciones',
     //   icono: 'assets/icons/requisiciones.svg',
     //   url: 'requisiciones'
     // },
+    {
+      titulo: 'Inventarios',
+      icono: 'assets/icons/insumosMedicos.svg',
+      url: 'inventarios'
+    },
     {
       titulo: 'Estadisticas',
       icono: 'assets/icons/estadisticas.svg',

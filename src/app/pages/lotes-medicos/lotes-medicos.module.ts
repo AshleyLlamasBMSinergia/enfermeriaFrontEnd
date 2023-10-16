@@ -4,15 +4,14 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LotesMedicosRoutingModule } from './lotes-medicos-routing.module';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { EditComponent } from './edit/edit.component';
-import { CreateComponent } from './create/create.component';
+import { LotesMedicosCreateComponent } from './create/create.component';
+import { LotesMedicosShowComponent } from './show/show.component';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 @NgModule({
   declarations: [
-
-  
-    EditComponent,
-         CreateComponent
+    LotesMedicosCreateComponent,
+    LotesMedicosShowComponent
   ],
   imports: [
     CommonModule,
@@ -21,6 +20,7 @@ import { CreateComponent } from './create/create.component';
     ReactiveFormsModule,
     FormsModule,
     NgxPaginationModule,
+    CKEditorModule
   ],
 })
 export class LotesMedicosModule { }

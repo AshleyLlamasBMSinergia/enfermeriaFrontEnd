@@ -1,1 +1,50 @@
-<p>create works!</p>
+<div class="content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header text-secondary border-0">
+                <h3 class="card-title text-center">Ingresar lote médico</h3>
+            </div>
+            <div class="card-body">
+                <form [formGroup]="lotesMedicosForm" (submit)="guardar()">
+                    <div class="row">
+                        <div class="form-group col-12 col-md-4">
+                            <label>Folio</label>
+                            <input type="text" class="form-control" id="folio" formControlName="folio">
+                        </div>
+                        <div class="form-group col-6 col-md-4">
+                            <label>Lote</label>
+                            <input type="text" class="form-control" id="lote" formControlName="lote">
+                        </div>
+                        <div class="form-group col-6 col-md-4 border-left">
+                            <label>Fecha de ingreso</label>
+                            <input type="date" class="form-control" id="fechaIngreso" formControlName="fechaIngreso">
+                        </div>
+                        <div class="form-group col-12 pt-3">
+                            <label>motivo</label>
+                            <input type="text" class="form-control" id="motivo" formControlName="motivo">
+                        </div>
+                        <div class="form-group col-12">
+                            <ckeditor [editor]="Editor" [config]="editorConfig" id="detalles" formControlName="detalles"></ckeditor>
+                        </div>
+                        <div class="form-group col-12 col-md-4">
+                            <label>Piezas disponibles</label>
+                            <input type="number" class="form-control" id="piezasDisponibles" formControlName="piezasDisponibles">
+                        </div>
+                        <div class="form-group col-12 col-md-8">
+                            <label>Fecha de caducidad</label>
+                            <input type="date" class="form-control" id="fechaCaducidad" formControlName="fechaCaducidad">
+                        </div>
+                        <div *ngIf="mensajesDeError.length > 0" class="text-danger pt-3">
+                            <ul class="list-group">
+                                <li class="list-group-item list-group-item-danger" *ngFor="let mensaje of mensajesDeError">{{ mensaje }}</li>
+                            </ul>
+                        </div>
+                        <div class="text-center pt-3">
+                            <button class="btn bg-pink">Guardar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

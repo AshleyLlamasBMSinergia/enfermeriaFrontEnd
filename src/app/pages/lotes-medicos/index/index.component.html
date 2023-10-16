@@ -1,146 +1,155 @@
 <div class="content">
     <div class="container-fluid">
         <div class="card">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-12 col-sm-4">
-                        <img src="https://sumerlabs.com/sumer-app-90b8f.appspot.com/product_photos%2F27e0c6859a41e5961a5d93d320c824bb%2Fdc23eea0-374b-11ec-9ca4-7bb42db05140?alt=media&token=390f11ea-22c4-4c88-8204-15ee4ec485a3" alt="..." class="img-thumbnail img-fluid">
-                    </div>
-                    <div class="col-12 col-sm-8">
-                        <div class="row">
-                            <div class="py-2 col-12">
-                              <div class="d-flex border-bottom py-2">
-                                <div>
-                                  <b>Nombre</b>
-                                </div>
-                                <div class="ml-auto">
-                                  {{insumo?.nombre}}
-                                </div>
+          <div class="card-header text-secondary border-0">
+            <h3 class="card-title text-center">Información del insumo</h3>
+            <div class="card-tools">
+                <!-- <a class="btn btn-tool btn-sm">
+                <i class="fas fa-download"></i>
+                </a> -->
+            </div>
+          </div>
+          <div class="card-body">
+              <div class="row">
+                  <div class="col-12 col-sm-4">
+                      <div class="pb-2">
+                        <div class="d-flex border-bottom py-2">
+                          <div>
+                            <b>Nombre</b>
+                          </div>
+                          <div class="ml-auto">
+                            {{insumo?.nombre}}
+                          </div>
+                        </div>
+                      </div>
+                      <img [src]="image" alt="..." class="img-thumbnail img-fluid">
+                      <div>
+                        <div class="py-2">
+                            <div class="d-flex border-bottom py-2">
+                              <div>
+                                <b>Precio</b>
+                              </div>
+                              <div class="ml-auto">
+                                {{insumo?.precio}} $
                               </div>
                             </div>
-                            <div class="py-2 col-12 col-sm-6">
-                                <div class="d-flex border-bottom py-2">
-                                  <div>
-                                    <b>Precio</b>
-                                  </div>
-                                  <div class="ml-auto">
-                                    {{insumo?.precio}} $
-                                  </div>
-                                </div>
+                          </div>
+                        <div class="py-2">
+                            <div class="d-flex border-bottom py-2">
+                              <div>
+                                <b>Piezas por lote</b>
                               </div>
-                            <div class="py-2 col-12 col-sm-6">
-                                <div class="d-flex border-bottom py-2">
-                                  <div>
-                                    <b>Piezas por lote</b>
-                                  </div>
-                                  <div class="ml-auto">
-                                    {{insumo?.piezasPorLote}}
-                                  </div>
-                                </div>
+                              <div class="ml-auto">
+                                {{insumo?.piezasPorLote}}
+                              </div>
                             </div>
-                            <div class="py-2 col-12" *ngIf="insumo?.descripcion">
-                                <div class="d-flex py-2">
-                                  <div>
-                                    <b>Descripción</b>
-                                  </div>
-                                </div>
-                                <div>
-                                  <div class="border rounded bg-white p-2">
-                                    {{ insumo?.descripcion }}
-                                  </div>
-                                </div>
+                        </div>
+                        <div class="py-2" *ngIf="insumo?.descripcion">
+                            <div class="d-flex py-2">
+                              <div>
+                                <b>Descripción</b>
                               </div>
-                              <div class="py-2 col-12">
-                                <div class="d-flex border-bottom py-2">
-                                  <div>
-                                    <b>Numero de lotes</b>
-                                  </div>
-                                  <div class="ml-auto">
-                                    <span class="badge badge-info">{{insumo?.lotes?.length}}</span>
-                                  </div>
-                                </div>
+                            </div>
+                            <div>
+                              <div class="border rounded bg-white p-2" [innerHtml]='insumo?.descripcion'>
+                                {{ insumo?.descripcion }}
+                              </div>
+                            </div>
+                          </div>
+                          <div class="py-2">
+                            <div class="d-flex border-bottom py-2">
+                              <div>
+                                <b>Numero de lotes</b>
+                              </div>
+                              <div class="ml-auto">
+                                <span class="badge badge-info">{{insumo?.lotes?.length}}</span>
+                              </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                  </div>
+                  <div class="col-12 col-sm-8">
+                    <!-- <full-calendar class="my-custom-calendar"></full-calendar> -->
+                  </div>
+              </div>
+          </div>
         </div>
         <div class="card">
-            <div class="card-header text-secondary border-0">
-              <h3 class="card-title text-center">Todos los lotes médicos de</h3>
-              <div class="card-tools">
-                <a href="#" class="btn btn-tool btn-sm">
-                  <i class="fas fa-download"></i>
-                </a>
+          <div class="card-header text-secondary border-0">
+            <h3 class="card-title text-center">Todos los lotes médicos de {{insumo?.nombre}}</h3>
+            <div class="card-tools">
+              <a href="#" class="btn btn-tool btn-sm">
+                <i class="fas fa-download"></i>
+              </a>
+            </div>
+          </div>
+          <div class="card-header border-0">
+              <div class="row">
+                  <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8">
+                      <!-- <div class="input-group my-2">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text"><i class="fas fa-search"></i></div>
+                          </div>
+                          <input [(ngModel)]="search" class="form-control form-control-sm" placeholder="Ingrese el lote" (keyup)="buscarLote()">
+                      </div> -->
+                  </div>
+                  <div class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
+                    <a class="btn btn-sm btn-pink btn-block  my-2" (click)="crearLote(insumo!.id)"><i class="fas fa-plus"></i> Agregar lote</a>
+                  </div>
+              </div>   
+          </div>
+          <div class="card-body table-responsive p-0">
+            <table class="table table-striped table-valign-middle">
+              <thead>
+              <tr>
+                  <th>Lote</th>
+                  <th class="text-center">Fecha de caducidad</th>
+                  <th class="text-center">Piezas disponibles</th>
+                  <th></th>
+                  <!-- <th></th> -->
+                  <!-- <th></th> -->
+              </tr>
+              </thead>
+              <tbody *ngIf="lotes.length > 0; else nolotes">
+                <tr *ngFor="let lote of lotes | paginate: {itemsPerPage: elementosPorPagina, currentPage: paginaActual}">
+                      <td>
+                          {{ lote.lote }}
+                      </td>
+                      <td class="text-center">
+                          {{ lote.fechaCaducidad | date:'dd/MM/yyyy' }}
+                      </td>
+                      <td class="text-center">
+                          {{ lote.piezasDisponibles }}/{{ insumo?.piezasPorLote }}
+                      </td>
+                      <td width="10px">
+                        <button href="#" class="btn btn-sm btn-secondary" (click)="showLote(lote.id)">
+                          <i class="fas fa-eye"></i>
+                      </button>
+                      </td>
+                      <!-- <td width="10px">
+                          <button href="#" class="btn btn-sm btn-primary">
+                              <i class="fas fa-edit"></i>
+                          </button>
+                      </td> -->
+                      <!-- <td width="10px">
+                          <button href="#" class="btn btn-sm btn-danger" (click)="destroyLote(lote.id)">
+                              <i class="fas fa-trash"></i>
+                          </button>
+                      </td> -->
+                  </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="card-footer">
+              <div class="d-flex justify-content-center">
+                  <pagination-controls (pageChange)="paginaActual = $event"></pagination-controls>
               </div>
-            </div>
-            <div class="card-header border-0">
-                <div class="row">
-                    <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8">
-                        <div class="input-group my-2">
-                            <div class="input-group-prepend">
-                              <div class="input-group-text"><i class="fas fa-search"></i></div>
-                            </div>
-                            <input [(ngModel)]="search" class="form-control form-control-sm" placeholder="Ingrese el lote" (keyup)="buscarLote()">
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
-                        <a class="btn btn-sm btn-pink btn-block  my-2" routerLink=""><i class="fas fa-plus"></i> Agregar lote</a>
-                    </div>
-                </div>   
-            </div>
-            <div class="card-body table-responsive p-0">
-              <table class="table table-striped table-valign-middle">
-                <thead>
-                <tr>
-                    <th>Lote</th>
-                    <th class="text-center">Fecha de caducidad</th>
-                    <th class="text-center">Piezas disponibles</th>
-                    <th></th>
-                    <th></th>
-                    <!-- <th></th> -->
-                </tr>
-                </thead>
-                <tbody *ngIf="lotes.length > 0; else nolotes">
-                    <tr *ngFor="let lote of lotes | paginate: {itemsPerPage: elementosPorPagina, currentPage: paginaActual}">
-                        <td>
-                            {{ lote.lote }}
-                        </td>
-                        <td class="text-center">
-                            {{ lote.fechaCaducidad }}
-                        </td>
-                        <td class="text-center">
-                            {{ lote.piezasDisponibles }}/{{ insumo?.piezasPorLote }}
-                        </td>
-                        <td width="10px">
-                            <button href="#" class="btn btn-sm btn-secondary">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </td>
-                        <td width="10px">
-                            <button href="#" class="btn btn-sm btn-primary">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                        </td>
-                        <!-- <td width="10px">
-                            <button href="#" class="btn btn-sm btn-danger" (click)="destroyLote(lote.id)">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </td> -->
-                    </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="card-footer">
-                <div class="d-flex justify-content-center">
-                    <pagination-controls (pageChange)="paginaActual = $event"></pagination-controls>
-                </div>
-            </div>
-            <ng-template #nolotes>
-                <tr>
-                    <td colspan="5" class="text-center">Sin lotes</td>
-                </tr>
-            </ng-template>
+          </div>
+          <ng-template #nolotes>
+              <tr>
+                  <td colspan="5" class="text-center">Sin lotes</td>
+              </tr>
+          </ng-template>
         </div>
     </div>
 </div>

@@ -273,11 +273,102 @@
                                 </label>
                                 <ckeditor [editor]="Editor" [config]="editorConfig" id="diagnostico" formControlName="diagnostico"></ckeditor>
                             </div>
-                            <!-- <div>
-                                <ngx-select [items]="inventarios" formControlName="iventario" (ngModelChange)="cargarInsumos($event)">
-                                    <ng-content select="value"></ng-content>
-                                </ngx-select>
-                            </div> -->
+
+                            <div>
+                                <label class="col-form-label">
+                                    Retirar lotes
+                                </label>
+                                <form [formGroup]="formInsumos">
+                                    <div class="card shadow-none">
+                                      <div class="card-body">
+                                        <div class="form-group">
+                                            <label class="col-form-label">
+                                                Inventario
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <ngx-select
+                                                [formControlName]="'inventario'"
+                                                [allowClear]="true"
+                                                [items]="inventarios"
+                                                optionValueField="id"
+                                                optionTextField="nombre"
+                                                placeholder="Select...">
+                                            </ngx-select>
+                                        </div>
+                                        <div class="form-group" [hidden]="!formInsumos.get('insumosVisible')?.value">
+                                            <label class="col-form-label">
+                                                Insumos
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <ngx-select
+                                                [multiple]="true"
+                                                [formControlName]="'insumos'"
+                                                [allowClear]="true"
+                                                [items]="getInsumosPorInventario(formInsumos.get('inventario')?.value)"
+                                                optionValueField="id"
+                                                optionTextField="nombre"
+                                                placeholder="Select..."
+                                                (ngModelChange)="addItemInsumos($event)">
+                                            </ngx-select>
+                                        </div>
+                                        <div formArrayName="itemInsumo">
+                                            <label class="col-form-label">
+                                                Lotes
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <div *ngFor="let insumoSeleccionado of insumosForm().controls; let insIndex=index">
+                                                <div class="mb-1" [formGroupName]="insIndex">
+                                                    <div formArrayName="lotes">
+                                                        <div>
+                                                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                                <p class="text-pink"><b><small>{{ insumoSeleccionado.value.nombre }}</small></b></p>
+                                                                <div class="btn-group" role="group" aria-label="Basic example">
+                                                                    <button type="button" class="btn btn-secondary" (click)="addItemLote(insIndex)">+</button>
+                                                                    <button type="button" class="btn btn-secondary" (click)="removeLote(insIndex, insumoSeleccionado.value.id)">-</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div formArrayName="lotes">
+                                                        <table class="table table-sm table-borderless" *ngIf="insumoSeleccionado.value.lotes.length>0">
+                                                            <thead>
+                                                                <tr class="text-center">
+                                                                    <th scope="col">Lote</th>
+                                                                    <th scope="col">Cantidad</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody *ngFor="let lote of itemLotes(insIndex).controls; let loteIndex=index">
+                                                                <tr [formGroupName]="loteIndex">
+                                                                    <td width="70%">
+                                                                        <ngx-select
+                                                                            [formControlName]="'lote'"
+                                                                            [allowClear]="true"
+                                                                            optionValueField="id"
+                                                                            optionTextField="nombre"
+                                                                            placeholder="Select..."
+                                                                            [items]="inventarios">
+                                                                        </ngx-select>
+                                                                    </td>
+                                                                    <td width="30%">
+                                                                        <input type="number" class="form-control" formControlName="cantidad"/>
+                                                                    </td>
+                                                                    <td width="10px">
+                                                                        <button type="button" class="btn-close d-flex align-items-center mt-2" (click)="removeItemLote(insIndex,loteIndex)">
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                            </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                </form>
+                            </div>
+
                             <div class="form-group">
                                 <label class="col-form-label">
                                     Receta

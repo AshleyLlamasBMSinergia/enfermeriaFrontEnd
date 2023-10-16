@@ -31,8 +31,27 @@ export class InsumosMedicosService {
     return this.httpClient.get<Insumos[]>(this.apiURL);
   }
 
-  storeInsumo(consulta: any): Observable<Insumos> {
-    return this.httpClient.post<Insumos>(this.apiURL, consulta, this.httpOptions);
+  storeInsumo(insumo: any, imagen: File): Observable<Insumos> {
+    return new Observable<Insumos>((observer) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(imagen);
+  
+      reader.onload = (event) => {
+        const imagenBase64 = (event.target as FileReader).result as string;
+        insumo.imagen = imagenBase64;
+  
+        this.httpClient.post<Insumos>(this.apiURL, insumo, this.httpOptions)
+          .subscribe(
+            (response) => {
+              observer.next(response);
+              observer.complete();
+            },
+            (error) => {
+              observer.error(error);
+            }
+          );
+      };
+    });
   }
 
   getInsumo(id: number): Observable<Insumos> {
