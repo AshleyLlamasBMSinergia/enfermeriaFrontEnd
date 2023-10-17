@@ -72,6 +72,7 @@ export class HistorialesMedicosShowComponent implements OnInit {
         this.formArchivo.get('historialMedico_id')?.setValue(historialMedico.id);
 
         if (historialMedico.pacientable?.image?.url) {
+          
           this.obtenerImagen(historialMedico.pacientable?.image?.url).subscribe((imagen) => {
             this.image = imagen;
           });

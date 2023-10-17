@@ -7,11 +7,13 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { LotesMedicosCreateComponent } from './create/create.component';
 import { LotesMedicosShowComponent } from './show/show.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { MovimientoComponent } from './show/movimiento/movimiento.component';
 
 @NgModule({
   declarations: [
     LotesMedicosCreateComponent,
-    LotesMedicosShowComponent
+    LotesMedicosShowComponent,
+    MovimientoComponent
   ],
   imports: [
     CommonModule,

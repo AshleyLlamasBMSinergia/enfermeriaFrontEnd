@@ -31,7 +31,6 @@ export class DependientesComponent {
 
   mensajesDeError: string[] = [];
   nombresDescriptivos: { [key: string]: string } = {
-    email: 'correo electrónico',
     nombre: 'nombre',
     sexo: 'sexo',
     fechaNacimiento: 'fecha de nacimiento',
@@ -50,7 +49,6 @@ export class DependientesComponent {
     this.dependienteForm = this.formBuilder.group({
       historialMedico_id: [this.historialMedico?.id],
       imagen: [null, Validators.required],
-      email: [null, [Validators.required, Validators.maxLength(255)]],
       nombre: [null, [Validators.required, Validators.maxLength(255)]],
       sexo: ['', [Validators.required]],
       fechaNacimiento: [null,  [Validators.required]],

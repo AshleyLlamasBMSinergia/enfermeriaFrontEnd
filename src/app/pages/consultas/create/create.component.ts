@@ -6,19 +6,16 @@ import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '
 import { differenceInYears } from 'date-fns';
 import { ConsultasService } from '../consultas.service';
 import { UserService } from 'src/app/services/user.service';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ImageService } from 'src/app/services/imagen.service';
 import { CitasService } from 'src/app/services/cita.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { HistorialesMedicosService } from '../../historiales-medicos/historiales-medicos.service';
-import { Inventarios } from 'src/app/interfaces/inventarios';
 import { InventariosService } from '../../inventarios/inventarios.service';
-import { Insumos } from 'src/app/interfaces/insumos';
-import { event } from 'jquery';
 
 @Component({
   selector: 'app-create',
@@ -157,19 +154,18 @@ lotesSelect =[];
     this.userService.user$.subscribe(
       (user: any) => {
         this.profesional = user[0];
+        if (user[0].useable.image.url) {
+          this.obtenerImagen(user[0].useable.image.url).subscribe((imagen) => {
+            this.imageProfesional = imagen;
+          });
+        }else{
+          this.imagePaciente = '/assets/dist/img/user.png';
+        }
       },
       (error) => {
         console.error('Error al obtener los datos del usuario', error);
       }
     );
-
-    if (this.profesional.image.url) {
-      this.obtenerImagen(this.profesional.image.url).subscribe((imagen) => {
-        this.imageProfesional = imagen;
-      });
-    }else{
-      this.imagePaciente = '/assets/dist/img/user.png';
-    }
 
     this.obtenerFechaHoraActual();
     this.cargarOpcionesEmpleados();
@@ -208,16 +204,15 @@ lotesSelect =[];
 
   getLotesSelect(id:any){
     const insumoIdBuscado = id;
-const lotes = [];
-for (const elemento of this.inventarios) {
-  for (const insumo of elemento.insumos) {
-    if (insumo.id === insumoIdBuscado) {
-      lotes.push(...insumo.lotes);
+    const lotes = [];
+    for (const elemento of this.inventarios) {
+      for (const insumo of elemento.insumos) {
+        if (insumo.id === insumoIdBuscado) {
+          lotes.push(...insumo.lotes);
+        }
+      }
     }
-  }
-}
-console.log(lotes, id)
-return lotes
+    return lotes
   }
 
    formInsumos!:FormGroup;
@@ -235,23 +230,11 @@ return lotes
     return inventarioSeleccionado ? inventarioSeleccionado.insumos : [];
   }
 
-
-  // getLotesPorInsumo(insumoId: number) {
-  //   const insumos = this.getInsumosPorInventario;
-  //   const insumoSeleccionado = insumos.find(insumo => insumo.id === insumoId);
-  //   return loteSeleccionado ? loteSeleccionado.insumos.lotes : [];
-  // }
-
-  cargarInsumos($event:any){
-    console.log($event)
-  }
-
   insumosForm(): FormArray {
     return this.formInsumos.get('itemInsumo') as FormArray;
   }
 
   newLote(value?: any): FormGroup {
-    console.log(value.lotes);
     return this.formBuilder.group({
       id: value ? value.id : null,
       nombre: value ? value.nombre : '',
@@ -271,18 +254,11 @@ return lotes
 
       let lotes = this.insumosForm().controls;
 
-      // const obj = this.inventarios[0].insumos.find((item:any) => item.id === $event[$event.length - 1]);
-      /* let obj = this.inventarios.filter((item:any) => {
-         item.id ==
-      }) */
       const extraerInsumos = (arreglo:any)=> {
         const insumosExtraidos:any = [];
       
-        // Recorremos el arreglo principal
         arreglo.forEach((elemento:any) => {
-          // Recorremos el arreglo de insumos dentro de cada elemento
           elemento.insumos.forEach((insumo:any) => {
-            // Agregamos cada insumo a nuestro arreglo de insumos extraídos
             insumosExtraidos.push(insumo);
           });
         });
@@ -291,23 +267,16 @@ return lotes
       }
       
       const insumosExtraidos = extraerInsumos(this.inventarios);
-      //console.log(insumosExtraidos)
       const obj = insumosExtraidos.find((item:any) => item.id === $event[$event.length - 1]);
-      console.log('aqui', obj.lotes);
       this.lotesSelect = [];
       this.lotesSelect = obj.lotes;
       ($event.length>0)? this.insumosForm().push(this.newLote(obj)):false;
-         
-
-      
       this.isUpdating = false;
-
-
-      console.log($event);
-      console.log(lotes);
-
-      
     }
+  }
+
+  onRemoveItem(event: any) {
+    console.log('funcionó');
   }
 
   removeLote(loteIndex: number, id?:any) {
@@ -376,7 +345,6 @@ return lotes
           break;
         }
       }
-      console.log('.');
       this.isUpdating = false;
     }else{
       return;
@@ -384,45 +352,63 @@ return lotes
   }
 
   cargarOpcionesEmpleados() {
-    this.empleadosService.getEmpleados().subscribe(
-      (empleados) => {
-        this.opcionesPacientes = empleados.map((empleado: any) => ({
-          id: empleado.id,
-          text: empleado.nombre,
-        }));
-      },
-      (error) => {
-        console.error('Error al obtener empleados:', error);
-      }
-    );
+    if (!this.isUpdating) {
+      this.isUpdating = true;
+      this.empleadosService.getEmpleados().subscribe(
+        (empleados) => {
+          this.opcionesPacientes = empleados.map((empleado: any) => ({
+            id: empleado.id,
+            text: empleado.nombre,
+          }));
+        },
+        (error) => {
+          console.error('Error al obtener empleados:', error);
+        }
+      );
+      this.isUpdating = false;
+    }else{
+      return;
+    }
   }
 
   cargarOpcionesExternos() {
-    this.externosService.getExternos().subscribe(
-      (externos) => {
-        this.opcionesPacientes = externos.map((externo: any) => ({
-          id: externo.id,
-          text: externo.nombre,
-        }));
-      },
-      (error) => {
-        console.error('Error al obtener externos:', error);
-      }
-    );
+    if (!this.isUpdating) {
+      this.isUpdating = true;
+      this.externosService.getExternos().subscribe(
+        (externos) => {
+          this.opcionesPacientes = externos.map((externo: any) => ({
+            id: externo.id,
+            text: externo.nombre,
+          }));
+        },
+        (error) => {
+          console.error('Error al obtener externos:', error);
+        }
+      );
+      this.isUpdating = false;
+    }else{
+      return;
+    }
   }
 
   cargarOpcionesDependientes() {
-    this.historialesMedicosService.getDependientes().subscribe(
-      (dependientes) => {
-        this.opcionesPacientes = dependientes.map((externo: any) => ({
-          id: externo.id,
-          text: externo.nombre,
-        }));
-      },
-      (error) => {
-        console.error('Error al obtener dependientes:', error);
-      }
-    );
+    if (!this.isUpdating) {
+      this.isUpdating = true;
+      this.historialesMedicosService.getDependientes().subscribe(
+        (dependientes) => {
+          this.opcionesPacientes = dependientes.map((externo: any) => ({
+            id: externo.id,
+            text: externo.nombre,
+          }));
+        },
+        (error) => {
+          console.error('Error al obtener dependientes:', error);
+        }
+      );
+      this.isUpdating = false;
+    }else{
+      return;
+    }
   }
 
   obtenerFechaHoraActual() {
@@ -445,49 +431,55 @@ return lotes
   }
 
   llenarFormularioEnAutomatico(paciente: any){
-    this.paciente = paciente?.pacientable;
-    this.nombre = paciente?.pacientable?.nombre;
-
-    switch(paciente?.pacientable_type){
-      case 'App\\Models\\NomEmpleado':
-        this.tipoPaciente = 'Empleado';
-      break;
-      case 'App\\Models\\Externo':
-        this.tipoPaciente = 'Externo';
-      break;
-      case 'App\\Models\\RHDependiente':
-        this.tipoPaciente = 'Dependiente';
-      break;
-      default:
-        this.tipoPaciente = '';
-      break;
-    }
-
-    if(paciente?.pacientable_id){
-      this.consultaForm.get('paciente')?.setValue(paciente?.pacientable_id);
-    }
-
-    if (paciente?.pacientable?.fechaNacimiento) {
-      const fechaNacimiento = new Date(paciente?.pacientable?.fechaNacimiento);
-      const edad = differenceInYears(new Date(), fechaNacimiento);
-
-      this.consultaForm.get('edad')?.setValue(edad);
-    }
-
-    if(paciente?.talla){
-      this.consultaForm.get('talla')?.setValue(paciente?.talla);
-    }
-
-    if(paciente?.peso){
-      this.consultaForm.get('peso')?.setValue(paciente?.peso);
-    }
-
-    if (paciente?.pacientable?.image?.url) {
-      this.obtenerImagen(paciente?.pacientable?.image?.url).subscribe((imagen) => {
-        this.imagePaciente = imagen;
-      });
+    if(!this.isUpdating){
+      this.isUpdating = true;
+      this.paciente = paciente?.pacientable;
+      this.nombre = paciente?.pacientable?.nombre;
+  
+      switch(paciente?.pacientable_type){
+        case 'App\\Models\\NomEmpleado':
+          this.tipoPaciente = 'Empleado';
+        break;
+        case 'App\\Models\\Externo':
+          this.tipoPaciente = 'Externo';
+        break;
+        case 'App\\Models\\RHDependiente':
+          this.tipoPaciente = 'Dependiente';
+        break;
+        default:
+          this.tipoPaciente = '';
+        break;
+      }
+  
+      if(paciente?.pacientable_id){
+        this.consultaForm.get('paciente')?.setValue(paciente?.pacientable_id);
+      }
+  
+      if (paciente?.pacientable?.fechaNacimiento) {
+        const fechaNacimiento = new Date(paciente?.pacientable?.fechaNacimiento);
+        const edad = differenceInYears(new Date(), fechaNacimiento);
+  
+        this.consultaForm.get('edad')?.setValue(edad);
+      }
+  
+      if(paciente?.talla){
+        this.consultaForm.get('talla')?.setValue(paciente?.talla);
+      }
+  
+      if(paciente?.peso){
+        this.consultaForm.get('peso')?.setValue(paciente?.peso);
+      }
+  
+      if (paciente?.pacientable?.image?.url) {
+        this.obtenerImagen(paciente?.pacientable?.image?.url).subscribe((imagen) => {
+          this.imagePaciente = imagen;
+        });
+      }else{
+        this.imagePaciente = '/assets/dist/img/user.png';
+      }
+      this.isUpdating = false;
     }else{
-      this.imagePaciente = '/assets/dist/img/user.png';
+      return;
     }
   }
 

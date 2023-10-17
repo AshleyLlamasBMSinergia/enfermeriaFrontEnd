@@ -32,22 +32,25 @@ export class SidebarComponent implements OnInit {
     this.userService.user$.subscribe(
       (user: any) => {
         this.user = user[0];
+        if(user[0].useable.image.url){
+          this.imageService.getImagen(user[0].useable.image.url).subscribe(
+            (response: any) => {
+              const blob = new Blob([response], { type: 'image/jpeg' });
+              this.image = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
+            },
+            (error) => {
+              console.error('Error al obtener la imagen', error);
+              this.image = '/assets/dist/img/user.png';
+            }
+          );
+        }else{
+          this.image = '/assets/dist/img/user.png';
+        }
       },
       (error) => {
         console.error('Error al obtener los datos del usuario', error);
       }
     );
-
-    this.imageService.getImagen(this.user.image.url).subscribe(
-      (response: any) => {
-        const blob = new Blob([response], { type: 'image/jpeg' });
-        this.image = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
-      },
-      (error) => {
-        console.error('Error al obtener la imagen', error);
-      }
-    );
-    
   }
 
   logout() {

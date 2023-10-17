@@ -1,31 +1,31 @@
+import { Lotes } from 'src/app/interfaces/lotes';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserService } from 'src/app/services/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from 'src/app/services/notification.service';
-import { Component, Output, EventEmitter } from '@angular/core';
-import { InsumoDataService } from '../../insumos-medicos/insumo-data.service';
-import { LotesMedicosService } from '../lotes-medicos.service';
-import { UserService } from 'src/app/services/user.service';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { Component, Input } from '@angular/core';
+import { MovimientosService } from 'src/app/services/movimientos.service';
 
 @Component({
-  selector: 'app-create',
-  templateUrl: './create.component.html',
-  styleUrls: ['./create.component.css']
+  selector: 'app-movimiento',
+  templateUrl: './movimiento.component.html',
+  styleUrls: ['./movimiento.component.css']
 })
-export class LotesMedicosCreateComponent {
-  lotesMedicosForm: FormGroup;
+export class MovimientoComponent {
+  movimientoForm: FormGroup;
+  @Input() lote?: Lotes;
 
   public Editor = ClassicEditor;
 
   nombresDescriptivos: { [key: string]: string } = {
     folio: 'folio',
-    lote: 'lote',
-    fechaCaducidad: 'fecha de caducidad',
-    piezasDisponibles: 'piezas disponibles',
-    insumo_id: 'insumo',
-    profesional_id:'profesional_id',
-    motivo: 'motivo', 
-    detalles: 'detalles'
+    profesional_id: 'profesional',
+    lote_id: 'lote',
+    motivo: 'motivo',
+    detalles: 'detalles',
+    tipo: 'tipo de movimiento',
+    piezasDescontables: 'piezas a descontar',
   };
 
   public editorConfig = {
@@ -56,49 +56,53 @@ export class LotesMedicosCreateComponent {
     private formBuilder: FormBuilder,
     private notificationService: NotificationService,
     private route: ActivatedRoute,
-    private insumoDataService: InsumoDataService,
-    private lotesMedicosService: LotesMedicosService,
+    private movimientosService: MovimientosService,
     private userService: UserService,
   ) 
   {
-    this.lotesMedicosForm = this.formBuilder.group({
+    this.movimientoForm = this.formBuilder.group({
       folio: [null, [Validators.required, Validators.maxLength(254)]],
-      lote: [null, [Validators.required, Validators.maxLength(254)]],
-      fechaCaducidad: [null, [Validators.required]],
-      piezasDisponibles: [null, [Validators.required]],
-      insumo_id:  [null, [Validators.required]],
-      profesional_id:  [null, [Validators.required]],
+      profesional_id: [null, [Validators.required]],
+      lote_id: [null, [Validators.required]],
       motivo: [null, [Validators.required, Validators.maxLength(254)]],
-      detalles: [null, [Validators.required, Validators.maxLength(254)]],
+      detalles: [null, [Validators.required, Validators.maxLength(4000)]],
+      tipo: ['', [Validators.required]],
+      piezasDescontables: [null],
     });
   }
 
   ngOnInit() {
-    this.insumoDataService.insumoId$.subscribe(id => {
-      this.lotesMedicosForm.get('insumo_id')?.setValue(id);
-    });
-
     this.userService.user$.subscribe(
       (user: any) => {
-        this.lotesMedicosForm.get('profesional_id')?.setValue(user[0].useable_id);
+        this.movimientoForm.get('profesional_id')?.setValue(user[0].useable_id);
       },
       (error) => {
         console.error('Error al obtener los datos del usuario', error);
       }
     );
+
+    this.movimientoForm.get('tipo')?.valueChanges.subscribe((tipo) => {
+      const piezasDescontablesControl = this.movimientoForm.get('piezasDescontables');
+      if (tipo === 'Salida de piezas') {
+        // Si el tipo es 'Salida de piezas', hacer el campo requerido
+        piezasDescontablesControl?.setValidators([Validators.required]);
+      } else {
+        // En otros casos, eliminar las validaciones requeridas
+        piezasDescontablesControl?.setValidators([]);
+      }
+      // Actualizar el control
+      piezasDescontablesControl?.updateValueAndValidity();
+    });
+    
   }
 
   guardar() {
-    if (!this.lotesMedicosForm.invalid) {
-      const lotesMedicos = this.lotesMedicosForm.value;
+    if (!this.movimientoForm.invalid) {
+      const movimiento = this.movimientoForm.value;
   
-      this.lotesMedicosService.storeLote(lotesMedicos).subscribe(
+      this.movimientosService.storeMovimiento(movimiento).subscribe(
         (response) => {
           this.notificationService.mensaje(response);
-          const insumoId = this.lotesMedicosForm.value.insumo_id;
-          this.router.navigate(['/enfermeria/insumos-medicos/', insumoId]);
-
-          console.log(insumoId);
         },
         (error) => {
           this.notificationService.error(error.error);
@@ -106,18 +110,18 @@ export class LotesMedicosCreateComponent {
         }
       );
     } else {
-      const camposNoValidos = Object.keys(this.lotesMedicosForm.controls).filter(controlName => this.lotesMedicosForm.get(controlName)?.invalid);
+      const camposNoValidos = Object.keys(this.movimientoForm.controls).filter(controlName => this.movimientoForm.get(controlName)?.invalid);
       const mensajes: string[] = [];
   
       camposNoValidos.forEach(controlName => {
-        const control = this.lotesMedicosForm.get(controlName)!;
+        const control = this.movimientoForm.get(controlName)!;
         const errores = this.obtenerMensajesDeError(control).join(', ');
         mensajes.push(`El campo ${this.nombresDescriptivos[controlName]} ${errores}`);
       });
   
       this.mensajesDeError = mensajes;
     }
-  }  
+  } 
 
   obtenerMensajesDeError(control: AbstractControl): string[] {
     const mensajes: string[] = [];

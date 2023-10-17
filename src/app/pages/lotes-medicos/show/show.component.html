@@ -10,77 +10,102 @@
         </div>
       </div>
       <div class="card-body">
-          <div class="row">
-              <div class="col-12 col-sm-4">
-                <div class="pb-2">
-                  <div class="d-flex border-bottom py-2">
-                    <div>
-                      <b>Nombre</b>
-                    </div>
-                    <div class="ml-auto">
-                      {{lote?.insumo?.nombre}}
-                    </div>
-                  </div>
-                </div>
-                <div class="position-relative d-inline-block">
-                  <img [src]="image" alt="..." class="img-thumbnail img-fluid">
-                  <div class="position-absolute top-0 end-0 p-2">
-                    Piezas: 
-                    <span class="badge badge-pill badge-info">{{lote?.piezasDisponibles}}/{{lote?.insumo?.piezasPorLote}}</span>
-                  </div>
-                </div>
+        <div class="row">
+          <div class="col-12 col-sm-4">
+            <div class="pb-2">
+              <div class="d-flex border-bottom py-2">
                 <div>
-                  <div class="py-2">
-                    <div class="d-flex border-bottom py-2">
-                      <div>
-                        <b>Lote</b>
-                      </div>
-                      <div class="ml-auto">
-                        {{lote?.lote}}
-                      </div>
-                    </div>
+                  <b>Nombre</b>
+                </div>
+                <div class="ml-auto">
+                  {{lote?.insumo?.nombre}}
+                </div>
+              </div>
+            </div>
+            <div class="position-relative d-inline-block">
+              <img [src]="image" alt="..." class="img-thumbnail img-fluid">
+              <div class="position-absolute top-0 end-0 p-2">
+                <span class="badge badge-pill badge-info">Piezas:  {{lote?.piezasDisponibles}}/{{lote?.insumo?.piezasPorLote}}</span>
+              </div>
+            </div>
+            <div>
+              <div class="py-2">
+                <div class="d-flex border-bottom py-2">
+                  <div>
+                    <b>Lote</b>
                   </div>
-                  <div class="py-2">
-                    <div class="d-flex border-bottom py-2">
-                      <div>
-                        <b>Precio</b>
-                      </div>
-                      <div class="ml-auto">
-                        {{lote?.insumo?.precio}} $
-                      </div>
-                    </div>
-                  </div>
-                  <div class="py-2" *ngIf="lote?.insumo?.descripcion">
-                      <div class="d-flex py-2">
-                        <div>
-                          <b>Descripción</b>
-                        </div>
-                      </div>
-                      <div>
-                        <div class="border rounded bg-white p-2" [innerHtml]='lote?.insumo?.descripcion'>
-                        </div>
-                      </div>
+                  <div class="ml-auto">
+                    {{lote?.lote}}
                   </div>
                 </div>
               </div>
-              <div class="col-12 col-sm-8">
-                <div class="timeline" *ngFor="let movimiento of lote?.movimientos">
-                  <div class="time-label">
-                    <span class="bg-green">{{ movimiento.fecha }}</span>
+              <div class="py-2">
+                <div class="d-flex border-bottom py-2">
+                  <div>
+                    <b>Precio</b>
+                  </div>
+                  <div class="ml-auto">
+                    {{lote?.insumo?.precio}} $
+                  </div>
+                </div>
+              </div>
+              <div class="py-2" *ngIf="lote?.insumo?.descripcion">
+                  <div class="d-flex py-2">
+                    <div>
+                      <b>Descripción</b>
+                    </div>
                   </div>
                   <div>
-                    <i class="fas fa-clock bg-blue"></i>
-                    <div class="timeline-item">
-                      <span class="time"><i class="fas fa-clock"></i> 12:05</span>
-                      <h3 class="timeline-header"><a href="#">Support Team</a> sent you an email</h3>
-                      <div class="timeline-body">
-                        {{movimiento?.typable?.detalles}}
+                    <div class="border rounded bg-white p-2" [innerHtml]='lote?.insumo?.descripcion'>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-8">
+            <div class="border rounded p-3">
+              <div class="timeline" *ngFor="let movimiento of lote?.movimientos">
+                <div class="time-label">
+                  <span class="bg-pink"><small>{{ movimiento.fecha | date:'dd/MM/yyyy' }}</small></span>
+                </div>
+                <div>
+                  <i class="fas fa-clock bg-info"></i>
+                  <div class="timeline-item shadow-none bg-light">
+                    <span class="time"><i class="fas fa-clock"></i> {{ movimiento.created_at | date:'h:m a' }}</span>
+                    <h1 class="timeline-header border-0 text-pink">
+                      <span *ngIf="movimiento?.typable_type === 'App\\Models\\Entrada'">Entrada</span>
+                      <span *ngIf="movimiento?.typable_type === 'App\\Models\\Salida'">Salida</span>
+                    </h1>
+                    <div>
+                      <div class="p-2">
+                        <div class="d-flex border-bottom px-2">
+                          <div>
+                            <b>Motivo</b>
+                          </div>
+                          <div class="ml-auto">
+                            {{movimiento?.typable?.motivo}}
+                          </div>
+                        </div>
+                        <div class="p-2" *ngIf="movimiento?.typable?.detalles">
+                            <div class="d-flex py-2">
+                              <div>
+                                <b>Detalles</b>
+                              </div>
+                            </div>
+                            <div>
+                              <div class="border rounded bg-white p-2" [innerHTML]="movimiento?.typable?.detalles">
+                              </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+              <app-movimiento *ngIf="lote !== null" [lote]="lote"></app-movimiento>
+            </div>
           </div>
+        </div>
       </div>
     </div>
   </div>

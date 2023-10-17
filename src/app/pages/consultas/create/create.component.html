@@ -303,12 +303,12 @@
                                             <ngx-select
                                                 [multiple]="true"
                                                 [formControlName]="'insumos'"
-                                                [allowClear]="true"
                                                 [items]="getInsumosPorInventario(formInsumos.get('inventario')?.value)"
                                                 optionValueField="id"
                                                 optionTextField="nombre"
                                                 placeholder="Select..."
                                                 (ngModelChange)="addItemInsumos($event)">
+                                                (remove)="onRemoveItem($event)"
                                             </ngx-select>
                                         </div>
                                         <div formArrayName="itemInsumo">
