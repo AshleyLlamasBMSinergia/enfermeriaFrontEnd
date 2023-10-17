@@ -95,7 +95,7 @@ export class ConsultasCreateComponent implements OnInit {
       toolbar: ['imageTextAlternative']
     }
   };
-lotesSelect =[];
+  lotesSelect = [];
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -110,8 +110,7 @@ lotesSelect =[];
     private datePipe: DatePipe,
     private sanitizer: DomSanitizer,
     private inventariosService: InventariosService
-  ) 
-  {
+  ) {
     this.consultaForm = this.formBuilder.group({
       cita_id: [null],
       profesional_id: [null],
@@ -132,14 +131,14 @@ lotesSelect =[];
       analisis: [null, [Validators.maxLength(2294967295)]],
       plan: [null, [Validators.maxLength(2294967295)]],
       diagnostico: [null, [Validators.required, Validators.maxLength(2294967295)]],
-      receta: [null,[Validators.required, Validators.maxLength(2294967295)]]
+      receta: [null, [Validators.required, Validators.maxLength(2294967295)]]
     });
 
     this.formInsumos = this.formBuilder.group({
-      inventario:'',
-      insumos:'',
+      inventario: '',
+      insumos: '',
       insumosVisible: [false],
-      itemInsumo: this.formBuilder.array([]) , 
+      itemInsumo: this.formBuilder.array([]),
     });
 
     this.formInsumos.get('inventario')?.valueChanges.subscribe(value => {
@@ -167,7 +166,7 @@ lotesSelect =[];
       this.obtenerImagen(this.profesional.image.url).subscribe((imagen) => {
         this.imageProfesional = imagen;
       });
-    }else{
+    } else {
       this.imagePaciente = '/assets/dist/img/user.png';
     }
 
@@ -175,9 +174,9 @@ lotesSelect =[];
     this.cargarOpcionesEmpleados();
   }
 
-  getCita(){
-    if(this.citaId !== null && this.citaId !== undefined){
-    
+  getCita() {
+    if (this.citaId !== null && this.citaId !== undefined) {
+
       this.citasService.getCita(this.citaId)
         .subscribe(cita => {
           this.cita = cita;
@@ -188,11 +187,11 @@ lotesSelect =[];
           this.consultaForm.get('paciente')?.setValue(cita?.paciente?.pacientable_id);
           this.consultaForm.get('tipoPaciente')?.setValue(cita?.paciente?.pacientable_type);
         }
-      );
+        );
     }
   }
 
-  getInventarios(){
+  getInventarios() {
     this.userService.user$.subscribe(
       (user: any) => {
         this.inventariosService.getInventariosDelProfesional(user[0].useable_id).subscribe(
@@ -206,31 +205,31 @@ lotesSelect =[];
     );
   }
 
-  getLotesSelect(id:any){
+  getLotesSelect(id: any) {
     const insumoIdBuscado = id;
-const lotes = [];
-for (const elemento of this.inventarios) {
-  for (const insumo of elemento.insumos) {
-    if (insumo.id === insumoIdBuscado) {
-      lotes.push(...insumo.lotes);
+    const lotes = [];
+    for (const elemento of this.inventarios) {
+      for (const insumo of elemento.insumos) {
+        if (insumo.id === insumoIdBuscado) {
+          lotes.push(...insumo.lotes);
+        }
+      }
     }
-  }
-}
-console.log(lotes, id)
-return lotes
+    console.log(lotes, id)
+    return lotes
   }
 
-   formInsumos!:FormGroup;
-   inventarios: any;
+  formInsumos!: FormGroup;
+  inventarios: any;
 
   getInsumosPorInventario(inventarioId: number) {
 
     if (this.isUpdating) {
       return;
     }
-    
+
     this.isUpdating = true;
-    const inventarioSeleccionado = this.inventarios.find((inventario:any) => inventario.id === inventarioId);
+    const inventarioSeleccionado = this.inventarios.find((inventario: any) => inventario.id === inventarioId);
     this.isUpdating = false;
     return inventarioSeleccionado ? inventarioSeleccionado.insumos : [];
   }
@@ -242,7 +241,7 @@ return lotes
   //   return loteSeleccionado ? loteSeleccionado.insumos.lotes : [];
   // }
 
-  cargarInsumos($event:any){
+  cargarInsumos($event: any) {
     console.log($event)
   }
 
@@ -255,66 +254,53 @@ return lotes
     return this.formBuilder.group({
       id: value ? value.id : null,
       nombre: value ? value.nombre : '',
-      arrayLotes:this.lotesSelect,
+      arrayLotes: this.lotesSelect,
       lotes: this.formBuilder.array([])
     });
-   
+
   }
 
-  addItemInsumos($event?:any) {
-    if (this.isUpdating) {
-      return;
-    }
-
-    if ($event && $event.length > 0) {
+  addItemInsumo($event?: any) {
+    if (this.isUpdating) { return; }
+    if ($event) {
       this.isUpdating = true;
-
-      let lotes = this.insumosForm().controls;
-
-      // const obj = this.inventarios[0].insumos.find((item:any) => item.id === $event[$event.length - 1]);
-      /* let obj = this.inventarios.filter((item:any) => {
-         item.id ==
-      }) */
-      const extraerInsumos = (arreglo:any)=> {
-        const insumosExtraidos:any = [];
-      
-        // Recorremos el arreglo principal
-        arreglo.forEach((elemento:any) => {
-          // Recorremos el arreglo de insumos dentro de cada elemento
-          elemento.insumos.forEach((insumo:any) => {
-            // Agregamos cada insumo a nuestro arreglo de insumos extraídos
-            insumosExtraidos.push(insumo);
-          });
-        });
-      
-        return insumosExtraidos;
-      }
-      
-      const insumosExtraidos = extraerInsumos(this.inventarios);
-      //console.log(insumosExtraidos)
-      const obj = insumosExtraidos.find((item:any) => item.id === $event[$event.length - 1]);
-      console.log('aqui', obj.lotes);
-      this.lotesSelect = [];
-      this.lotesSelect = obj.lotes;
-      ($event.length>0)? this.insumosForm().push(this.newLote(obj)):false;
-         
-
-      
+      let insumos = this.getInsumos(this.inventarios);
+      let insumo = insumos.find((item: any) => item.id === $event);
+      this.insumosForm().push( this.crearLoteGroup(insumo) );
       this.isUpdating = false;
-
-
-      console.log($event);
-      console.log(lotes);
-
-      
     }
   }
 
-  removeLote(loteIndex: number, id?:any) {
+  crearLoteGroup(insumo?: any): FormGroup {
+    console.log(insumo.lotes);
+    return this.formBuilder.group({
+      id: insumo ? insumo.id : null,
+      nombre: insumo ? insumo.nombre : '',
+      arrayLotes: insumo.lotes,
+      lotes: this.formBuilder.array([])
+    });
+  }
+
+  private getInsumos(allInventarios: any[]) {
+    let insumos: any = [];
+    allInventarios.forEach((inventario: any) => {
+      inventario.insumos.forEach((insumo: any) => {
+        insumos.push(insumo);
+      });
+    });
+    return insumos;
+  }
+
+  deleteInsumo($event: any) {
+    let insumoIndex = this.insumosForm().controls.findIndex(insumoControl => insumoControl.value.id === $event);
+    this.insumosForm().removeAt(insumoIndex);
+  }
+
+  removeLote(loteIndex: number, id?: any) {
 
     this.insumosForm().removeAt(loteIndex);
     let i = this.formInsumos.get('insumos')!.value;
-    let mutar = i.filter((item:any) => item != id);
+    let mutar = i.filter((item: any) => item != id);
     this.formInsumos.get('insumos')?.setValue(mutar)
     return
   }
@@ -359,26 +345,26 @@ return lotes
       this.opcionesPacientes = [];
       this.paciente = null;
       this.consultaForm.get('paciente')?.setValue(null);
-  
+
       const tipoPacienteControl = this.consultaForm.get('tipoPaciente');
       if (tipoPacienteControl) {
         const tipoPaciente = tipoPacienteControl.value;
-  
-        switch(tipoPaciente){
+
+        switch (tipoPaciente) {
           case 'Empleado':
             this.cargarOpcionesEmpleados();
-          break;
+            break;
           case 'Externo':
             this.cargarOpcionesExternos();
-          break;
+            break;
           case 'Dependiente':
             this.cargarOpcionesDependientes();
-          break;
+            break;
         }
       }
       console.log('.');
       this.isUpdating = false;
-    }else{
+    } else {
       return;
     }
   }
@@ -428,7 +414,7 @@ return lotes
   obtenerFechaHoraActual() {
     const now = new Date();
     this.fechaActual = this.datePipe.transform(now, 'yyyy-MM-dd');
-    this.horaActual = this.datePipe.transform(now, 'HH:mm a');
+    this.horaActual = this.datePipe.transform(now, 'HH:mm');
   }
 
   cargarDatosPaciente($id: number) {
@@ -437,33 +423,33 @@ return lotes
       this.historialesMedicosService.getHistorialMedico($id)
         .subscribe(historialMedico => {
           this.llenarFormularioEnAutomatico(historialMedico);
-      });
+        });
       this.isUpdating = false;
-    }else{
+    } else {
       return;
     }
   }
 
-  llenarFormularioEnAutomatico(paciente: any){
+  llenarFormularioEnAutomatico(paciente: any) {
     this.paciente = paciente?.pacientable;
     this.nombre = paciente?.pacientable?.nombre;
 
-    switch(paciente?.pacientable_type){
+    switch (paciente?.pacientable_type) {
       case 'App\\Models\\NomEmpleado':
         this.tipoPaciente = 'Empleado';
-      break;
+        break;
       case 'App\\Models\\Externo':
         this.tipoPaciente = 'Externo';
-      break;
+        break;
       case 'App\\Models\\RHDependiente':
         this.tipoPaciente = 'Dependiente';
-      break;
+        break;
       default:
         this.tipoPaciente = '';
-      break;
+        break;
     }
 
-    if(paciente?.pacientable_id){
+    if (paciente?.pacientable_id) {
       this.consultaForm.get('paciente')?.setValue(paciente?.pacientable_id);
     }
 
@@ -474,11 +460,11 @@ return lotes
       this.consultaForm.get('edad')?.setValue(edad);
     }
 
-    if(paciente?.talla){
+    if (paciente?.talla) {
       this.consultaForm.get('talla')?.setValue(paciente?.talla);
     }
 
-    if(paciente?.peso){
+    if (paciente?.peso) {
       this.consultaForm.get('peso')?.setValue(paciente?.peso);
     }
 
@@ -486,7 +472,7 @@ return lotes
       this.obtenerImagen(paciente?.pacientable?.image?.url).subscribe((imagen) => {
         this.imagePaciente = imagen;
       });
-    }else{
+    } else {
       this.imagePaciente = '/assets/dist/img/user.png';
     }
   }
@@ -500,32 +486,35 @@ return lotes
     if (this.consultaForm.invalid) {
       const camposNoValidos = Object.keys(this.consultaForm.controls).filter(controlName => this.consultaForm.get(controlName)?.invalid);
       const mensajes: string[] = [];
-  
+
       camposNoValidos.forEach(controlName => {
         const control = this.consultaForm.get(controlName)!;
         const errores = this.obtenerMensajesDeError(control).join(', ');
         mensajes.push(`El campo ${this.nombresDescriptivos[controlName]} ${errores}`);
       });
-  
+
       this.mensajesDeError = mensajes;
 
     } else {
       const fechaHoraActual = `${this.fechaActual} ${this.horaActual}`;
       this.consultaForm.get('fecha')?.setValue(fechaHoraActual);
       this.consultaForm.get('profesional_id')?.setValue(this.profesional?.id);
-  
+
       const consulta = this.consultaForm.value;
-  
-      this.consultasService.storeConsulta(consulta).subscribe(
-        (response) => {
-          this.mensaje(response);
-        },
-        (error) => {
-          this.error(error);
-        }
-      );
+      console.log('Guardar', consulta);
+
+      // this.consultasService.storeConsulta(consulta).subscribe(
+      //   (response) => {
+      //     this.mensaje(response);
+      //   },
+      //   (error) => {
+      //     this.error(error);
+      //   }
+      // );
     }
   }
+
+
 
   mensaje(response: any) {
 
@@ -546,7 +535,7 @@ return lotes
       icon: 'error',
       title: response.message,
       showConfirmButton: false,
-      timer: 6500 
+      timer: 6500
     });
   }
 

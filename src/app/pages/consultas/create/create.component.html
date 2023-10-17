@@ -308,26 +308,26 @@
                                                 optionValueField="id"
                                                 optionTextField="nombre"
                                                 placeholder="Select..."
-                                                (ngModelChange)="addItemInsumos($event)">
+                                                (select)="addItemInsumo($event)"
+                                                (remove)="deleteInsumo($event)">
                                             </ngx-select>
                                         </div>
                                         <div formArrayName="itemInsumo">
-                                            <label class="col-form-label">
+                                            <!-- <label class="col-form-label">
                                                 Lotes
                                                 <span class="text-danger">*</span>
-                                            </label>
+                                            </label> -->
                                             <div *ngFor="let insumoSeleccionado of insumosForm().controls; let insIndex=index">
                                                 <div class="mb-1" [formGroupName]="insIndex">
                                                     <div formArrayName="lotes">
                                                         <div>
                                                             <div class="list-group-item d-flex justify-content-between align-items-center">
-                                                                <p class="text-pink"><b><small>{{ insumoSeleccionado.value.nombre }} <pre>
-                                                                    
-                                                                  </pre>
+                                                                <p class="text-pink">
+                                                                    <b><small><strong>Insumo:</strong> {{ insumoSeleccionado.value.nombre }} 
                                                                   </small></b></p>
                                                                 <div class="btn-group" role="group" aria-label="Basic example">
-                                                                    <button type="button" class="btn btn-secondary" (click)="addItemLote(insIndex)">+</button>
-                                                                    <button type="button" class="btn btn-secondary" (click)="removeLote(insIndex, insumoSeleccionado.value.id)">-</button>
+                                                                    <button type="button" class="btn btn-secondary" (click)="addItemLote(insIndex)">Agregar Lote +</button>
+                                                                    <!-- <button type="button" class="btn btn-secondary" (click)="removeLote(insIndex, insumoSeleccionado.value.id)">-</button> -->
                                                                 </div>
                                                             </div>
                                                         </div>
