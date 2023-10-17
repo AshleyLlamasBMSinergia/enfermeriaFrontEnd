@@ -292,7 +292,8 @@
                                                 [items]="inventarios"
                                                 optionValueField="id"
                                                 optionTextField="nombre"
-                                                placeholder="Select...">
+                                                placeholder="Select..."
+                                                (select)="getInsumosPorInventario(formInsumos.get('inventario')?.value)">
                                             </ngx-select>
                                         </div>
                                         <div class="form-group" [hidden]="!formInsumos.get('insumosVisible')?.value">
@@ -304,7 +305,7 @@
                                                 [multiple]="true"
                                                 [formControlName]="'insumos'"
                                                 [allowClear]="true"
-                                                [items]="getInsumosPorInventario(formInsumos.get('inventario')?.value)"
+                                                [items]="insumosSelect"
                                                 optionValueField="id"
                                                 optionTextField="nombre"
                                                 placeholder="Select..."

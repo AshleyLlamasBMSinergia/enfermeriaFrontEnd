@@ -96,6 +96,8 @@ export class ConsultasCreateComponent implements OnInit {
     }
   };
   lotesSelect = [];
+  insumosSelect: any[] = [];
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -172,6 +174,8 @@ export class ConsultasCreateComponent implements OnInit {
 
     this.obtenerFechaHoraActual();
     this.cargarOpcionesEmpleados();
+
+    this.insumosSelect = [];
   }
 
   getCita() {
@@ -223,15 +227,13 @@ export class ConsultasCreateComponent implements OnInit {
   inventarios: any;
 
   getInsumosPorInventario(inventarioId: number) {
+    if (this.isUpdating) { return; }
+    let inventarioSeleccionado = this.inventarios.find((inventario: any) => inventario.id === inventarioId);
 
-    if (this.isUpdating) {
-      return;
+    while (this.insumosForm().length !== 0) {
+      this.insumosForm().removeAt(0);
     }
-
-    this.isUpdating = true;
-    const inventarioSeleccionado = this.inventarios.find((inventario: any) => inventario.id === inventarioId);
-    this.isUpdating = false;
-    return inventarioSeleccionado ? inventarioSeleccionado.insumos : [];
+    this.insumosSelect = inventarioSeleccionado.insumos;
   }
 
 
@@ -503,14 +505,14 @@ export class ConsultasCreateComponent implements OnInit {
       const consulta = this.consultaForm.value;
       console.log('Guardar', consulta);
 
-      // this.consultasService.storeConsulta(consulta).subscribe(
-      //   (response) => {
-      //     this.mensaje(response);
-      //   },
-      //   (error) => {
-      //     this.error(error);
-      //   }
-      // );
+      this.consultasService.storeConsulta(consulta).subscribe(
+        (response) => {
+          this.mensaje(response);
+        },
+        (error) => {
+          this.error(error);
+        }
+      );
     }
   }
 
