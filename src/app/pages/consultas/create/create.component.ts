@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EmpleadosService } from 'src/app/services/empleados.service';
 import { ExternosService } from 'src/app/services/externos.service';
 import { DatePipe } from '@angular/common';
-import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormControlName, FormGroup, Validators } from '@angular/forms';
 import { differenceInYears } from 'date-fns';
 import { ConsultasService } from '../consultas.service';
 import { UserService } from 'src/app/services/user.service';
@@ -113,6 +113,13 @@ export class ConsultasCreateComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private inventariosService: InventariosService
   ) {
+    this.formInsumos = this.formBuilder.group({
+      inventario: '',
+      insumos: '',
+      insumosVisible: [false],
+      itemInsumo: this.formBuilder.array([]),
+    });
+
     this.consultaForm = this.formBuilder.group({
       cita_id: [null],
       profesional_id: [null],
@@ -133,15 +140,10 @@ export class ConsultasCreateComponent implements OnInit {
       analisis: [null, [Validators.maxLength(2294967295)]],
       plan: [null, [Validators.maxLength(2294967295)]],
       diagnostico: [null, [Validators.required, Validators.maxLength(2294967295)]],
-      receta: [null, [Validators.required, Validators.maxLength(2294967295)]]
+      receta: [null, [Validators.required, Validators.maxLength(2294967295)]],
+      formInsumos: this.formInsumos
     });
 
-    this.formInsumos = this.formBuilder.group({
-      inventario: '',
-      insumos: '',
-      insumosVisible: [false],
-      itemInsumo: this.formBuilder.array([]),
-    });
 
     this.formInsumos.get('inventario')?.valueChanges.subscribe(value => {
       this.formInsumos.get('insumosVisible')?.setValue(value !== ''); // Actualiza la visibilidad
@@ -268,7 +270,7 @@ export class ConsultasCreateComponent implements OnInit {
       this.isUpdating = true;
       let insumos = this.getInsumos(this.inventarios);
       let insumo = insumos.find((item: any) => item.id === $event);
-      this.insumosForm().push( this.crearLoteGroup(insumo) );
+      this.insumosForm().push(this.crearLoteGroup(insumo));
       this.isUpdating = false;
     }
   }
@@ -314,10 +316,12 @@ export class ConsultasCreateComponent implements OnInit {
   }
 
   newItemLote(): FormGroup {
-    return this.formBuilder.group({
-      lote: '',
-      cantidad: ''
+    let loteGroup = this.formBuilder.group({
+      lote: new FormControl('', [Validators.required]),
+      cantidad: new FormControl('', [Validators.required]),
     });
+    console.log('New Lote', loteGroup);
+    return loteGroup;
   }
 
   addItemLote(itemLoteIndex: number) {
@@ -326,6 +330,25 @@ export class ConsultasCreateComponent implements OnInit {
 
   removeItemLote(itemLoteIndex: number, loteIndex: number) {
     this.itemLotes(itemLoteIndex).removeAt(loteIndex);
+  }
+
+  onFocusOutCantidad(insumoIndex: number, insumo: any, loteIndex: number) {
+    let lotes = this.getLotesSelect(insumo.value.id);
+    let inputLote = insumo.value.lotes[loteIndex];
+    let dataLote = lotes.find(l => l.id == inputLote.lote);
+    console.log('Data Lote', dataLote);
+    console.log('Select Input Lote', inputLote);
+    console.log('Piezas', Number(dataLote.piezasDisponibles));
+    let inputCantidad = this.itemLotes(insumoIndex).controls[loteIndex]?.get('cantidad') as FormControl;
+
+    console.log('valor cantidad', inputCantidad.value);
+    if (inputCantidad.value == '') { }
+    else {
+      if (inputCantidad.value > Number(dataLote.piezasDisponibles)) {
+        inputCantidad.setValue('');
+        Swal.fire('Invalido, no puede ser mayor a: ' + dataLote.piezasDisponibles + ' piezas disponibles');
+      }
+    }
   }
 
 
@@ -485,7 +508,10 @@ export class ConsultasCreateComponent implements OnInit {
   }
 
   guardar() {
+    console.log('Consulta form', this.consultaForm);
+
     if (this.consultaForm.invalid) {
+      console.log('Invalid, no guarda');
       const camposNoValidos = Object.keys(this.consultaForm.controls).filter(controlName => this.consultaForm.get(controlName)?.invalid);
       const mensajes: string[] = [];
 
@@ -498,6 +524,7 @@ export class ConsultasCreateComponent implements OnInit {
       this.mensajesDeError = mensajes;
 
     } else {
+      console.log('Guarda');
       const fechaHoraActual = `${this.fechaActual} ${this.horaActual}`;
       this.consultaForm.get('fecha')?.setValue(fechaHoraActual);
       this.consultaForm.get('profesional_id')?.setValue(this.profesional?.id);
