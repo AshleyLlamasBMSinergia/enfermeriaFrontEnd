@@ -6,6 +6,7 @@ import { ImageService } from 'src/app/services/imagen.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { catchError, map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-show',
@@ -22,7 +23,8 @@ export class ConsultasShowComponent {
     private imageService: ImageService,
     private consultasService: ConsultasService,
     private route: ActivatedRoute,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private notificationService: NotificationService
   ) { }
 
   ngOnInit() {
@@ -53,6 +55,22 @@ export class ConsultasShowComponent {
         }
       }
     );
+  }
+
+  async abrirReceta(consultaId: any) {
+    try {
+      const archivoBlob = await this.consultasService.getReceta(consultaId).toPromise();
+  
+      if (archivoBlob) {
+        const urlBlob = URL.createObjectURL(archivoBlob);
+        window.open(urlBlob, '_blank');
+      } else {
+        this.notificationService.error('El archivo está vacío o no se pudo obtener');
+      }
+    } catch (error) {
+      console.error('Error al abrir el archivo:', error);
+      this.notificationService.error('Error al abrir el archivo: '+error);
+    }
   }
 
   obtenerImagen(url: string): Observable<any> {

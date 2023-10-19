@@ -43,4 +43,8 @@ export class ConsultasService {
     const url = `${API_URL}consultas/${consulta}`;
     return this.httpClient.delete(url);
   }
+
+  getReceta(consultaId: number): Observable<Blob> {
+    return this.httpClient.get(API_URL + "recetas/" + consultaId, { responseType: 'blob' });
+  }
 }

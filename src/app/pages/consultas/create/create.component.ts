@@ -2,20 +2,23 @@ import { Component, OnInit } from '@angular/core';
 import { EmpleadosService } from 'src/app/services/empleados.service';
 import { ExternosService } from 'src/app/services/externos.service';
 import { DatePipe } from '@angular/common';
-import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormControlName, FormGroup, Validators } from '@angular/forms';
 import { differenceInYears } from 'date-fns';
 import { ConsultasService } from '../consultas.service';
 import { UserService } from 'src/app/services/user.service';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ImageService } from 'src/app/services/imagen.service';
 import { CitasService } from 'src/app/services/cita.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { HistorialesMedicosService } from '../../historiales-medicos/historiales-medicos.service';
+import { Inventarios } from 'src/app/interfaces/inventarios';
 import { InventariosService } from '../../inventarios/inventarios.service';
+import { Insumos } from 'src/app/interfaces/insumos';
+import { event } from 'jquery';
 
 @Component({
   selector: 'app-create',
@@ -92,7 +95,9 @@ export class ConsultasCreateComponent implements OnInit {
       toolbar: ['imageTextAlternative']
     }
   };
-lotesSelect =[];
+  lotesSelect = [];
+  insumosSelect: any[] = [];
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -107,8 +112,14 @@ lotesSelect =[];
     private datePipe: DatePipe,
     private sanitizer: DomSanitizer,
     private inventariosService: InventariosService
-  ) 
-  {
+  ) {
+    this.formInsumos = this.formBuilder.group({
+      inventario: '',
+      insumos: '',
+      insumosVisible: [false],
+      itemInsumo: this.formBuilder.array([]),
+    });
+
     this.consultaForm = this.formBuilder.group({
       cita_id: [null],
       profesional_id: [null],
@@ -129,15 +140,10 @@ lotesSelect =[];
       analisis: [null, [Validators.maxLength(2294967295)]],
       plan: [null, [Validators.maxLength(2294967295)]],
       diagnostico: [null, [Validators.required, Validators.maxLength(2294967295)]],
-      receta: [null,[Validators.required, Validators.maxLength(2294967295)]]
+      receta: [null, [Validators.required, Validators.maxLength(2294967295)]],
+      formInsumos: this.formInsumos
     });
 
-    this.formInsumos = this.formBuilder.group({
-      inventario:'',
-      insumos:'',
-      insumosVisible: [false],
-      itemInsumo: this.formBuilder.array([]) , 
-    });
 
     this.formInsumos.get('inventario')?.valueChanges.subscribe(value => {
       this.formInsumos.get('insumosVisible')?.setValue(value !== ''); // Actualiza la visibilidad
@@ -154,26 +160,29 @@ lotesSelect =[];
     this.userService.user$.subscribe(
       (user: any) => {
         this.profesional = user[0];
-        if (user[0].useable.image.url) {
-          this.obtenerImagen(user[0].useable.image.url).subscribe((imagen) => {
-            this.imageProfesional = imagen;
-          });
-        }else{
-          this.imagePaciente = '/assets/dist/img/user.png';
-        }
       },
       (error) => {
         console.error('Error al obtener los datos del usuario', error);
       }
     );
 
+    if (this.profesional.image.url) {
+      this.obtenerImagen(this.profesional.image.url).subscribe((imagen) => {
+        this.imageProfesional = imagen;
+      });
+    } else {
+      this.imagePaciente = '/assets/dist/img/user.png';
+    }
+
     this.obtenerFechaHoraActual();
     this.cargarOpcionesEmpleados();
+
+    this.insumosSelect = [];
   }
 
-  getCita(){
-    if(this.citaId !== null && this.citaId !== undefined){
-    
+  getCita() {
+    if (this.citaId !== null && this.citaId !== undefined) {
+
       this.citasService.getCita(this.citaId)
         .subscribe(cita => {
           this.cita = cita;
@@ -184,11 +193,11 @@ lotesSelect =[];
           this.consultaForm.get('paciente')?.setValue(cita?.paciente?.pacientable_id);
           this.consultaForm.get('tipoPaciente')?.setValue(cita?.paciente?.pacientable_type);
         }
-      );
+        );
     }
   }
 
-  getInventarios(){
+  getInventarios() {
     this.userService.user$.subscribe(
       (user: any) => {
         this.inventariosService.getInventariosDelProfesional(user[0].useable_id).subscribe(
@@ -202,7 +211,7 @@ lotesSelect =[];
     );
   }
 
-  getLotesSelect(id:any){
+  getLotesSelect(id: any) {
     const insumoIdBuscado = id;
     const lotes = [];
     for (const elemento of this.inventarios) {
@@ -212,22 +221,32 @@ lotesSelect =[];
         }
       }
     }
+    console.log(lotes, id)
     return lotes
   }
 
-   formInsumos!:FormGroup;
-   inventarios: any;
+  formInsumos!: FormGroup;
+  inventarios: any;
 
   getInsumosPorInventario(inventarioId: number) {
+    if (this.isUpdating) { return; }
+    let inventarioSeleccionado = this.inventarios.find((inventario: any) => inventario.id === inventarioId);
 
-    if (this.isUpdating) {
-      return;
+    while (this.insumosForm().length !== 0) {
+      this.insumosForm().removeAt(0);
     }
-    
-    this.isUpdating = true;
-    const inventarioSeleccionado = this.inventarios.find((inventario:any) => inventario.id === inventarioId);
-    this.isUpdating = false;
-    return inventarioSeleccionado ? inventarioSeleccionado.insumos : [];
+    this.insumosSelect = inventarioSeleccionado.insumos;
+  }
+
+
+  // getLotesPorInsumo(insumoId: number) {
+  //   const insumos = this.getInsumosPorInventario;
+  //   const insumoSeleccionado = insumos.find(insumo => insumo.id === insumoId);
+  //   return loteSeleccionado ? loteSeleccionado.insumos.lotes : [];
+  // }
+
+  cargarInsumos($event: any) {
+    console.log($event)
   }
 
   insumosForm(): FormArray {
@@ -235,55 +254,57 @@ lotesSelect =[];
   }
 
   newLote(value?: any): FormGroup {
+    console.log(value.lotes);
     return this.formBuilder.group({
       id: value ? value.id : null,
       nombre: value ? value.nombre : '',
-      arrayLotes:this.lotesSelect,
+      arrayLotes: this.lotesSelect,
       lotes: this.formBuilder.array([])
     });
-   
+
   }
 
-  addItemInsumos($event?:any) {
-    if (this.isUpdating) {
-      return;
-    }
-
-    if ($event && $event.length > 0) {
+  addItemInsumo($event?: any) {
+    if (this.isUpdating) { return; }
+    if ($event) {
       this.isUpdating = true;
-
-      let lotes = this.insumosForm().controls;
-
-      const extraerInsumos = (arreglo:any)=> {
-        const insumosExtraidos:any = [];
-      
-        arreglo.forEach((elemento:any) => {
-          elemento.insumos.forEach((insumo:any) => {
-            insumosExtraidos.push(insumo);
-          });
-        });
-      
-        return insumosExtraidos;
-      }
-      
-      const insumosExtraidos = extraerInsumos(this.inventarios);
-      const obj = insumosExtraidos.find((item:any) => item.id === $event[$event.length - 1]);
-      this.lotesSelect = [];
-      this.lotesSelect = obj.lotes;
-      ($event.length>0)? this.insumosForm().push(this.newLote(obj)):false;
+      let insumos = this.getInsumos(this.inventarios);
+      let insumo = insumos.find((item: any) => item.id === $event);
+      this.insumosForm().push(this.crearLoteGroup(insumo));
       this.isUpdating = false;
     }
   }
 
-  onRemoveItem(event: any) {
-    console.log('funcionó');
+  crearLoteGroup(insumo?: any): FormGroup {
+    console.log(insumo.lotes);
+    return this.formBuilder.group({
+      id: insumo ? insumo.id : null,
+      nombre: insumo ? insumo.nombre : '',
+      arrayLotes: insumo.lotes,
+      lotes: this.formBuilder.array([])
+    });
   }
 
-  removeLote(loteIndex: number, id?:any) {
+  private getInsumos(allInventarios: any[]) {
+    let insumos: any = [];
+    allInventarios.forEach((inventario: any) => {
+      inventario.insumos.forEach((insumo: any) => {
+        insumos.push(insumo);
+      });
+    });
+    return insumos;
+  }
+
+  deleteInsumo($event: any) {
+    let insumoIndex = this.insumosForm().controls.findIndex(insumoControl => insumoControl.value.id === $event);
+    this.insumosForm().removeAt(insumoIndex);
+  }
+
+  removeLote(loteIndex: number, id?: any) {
 
     this.insumosForm().removeAt(loteIndex);
     let i = this.formInsumos.get('insumos')!.value;
-    let mutar = i.filter((item:any) => item != id);
+    let mutar = i.filter((item: any) => item != id);
     this.formInsumos.get('insumos')?.setValue(mutar)
     return
   }
@@ -295,10 +316,12 @@ lotesSelect =[];
   }
 
   newItemLote(): FormGroup {
-    return this.formBuilder.group({
-      lote: '',
-      cantidad: ''
+    let loteGroup = this.formBuilder.group({
+      lote: new FormControl('', [Validators.required]),
+      cantidad: new FormControl('', [Validators.required]),
     });
+    console.log('New Lote', loteGroup);
+    return loteGroup;
   }
 
   addItemLote(itemLoteIndex: number) {
@@ -307,6 +330,25 @@ lotesSelect =[];
 
   removeItemLote(itemLoteIndex: number, loteIndex: number) {
     this.itemLotes(itemLoteIndex).removeAt(loteIndex);
+  }
+
+  onFocusOutCantidad(insumoIndex: number, insumo: any, loteIndex: number) {
+    let lotes = this.getLotesSelect(insumo.value.id);
+    let inputLote = insumo.value.lotes[loteIndex];
+    let dataLote = lotes.find(l => l.id == inputLote.lote);
+    console.log('Data Lote', dataLote);
+    console.log('Select Input Lote', inputLote);
+    console.log('Piezas', Number(dataLote.piezasDisponibles));
+    let inputCantidad = this.itemLotes(insumoIndex).controls[loteIndex]?.get('cantidad') as FormControl;
+
+    console.log('valor cantidad', inputCantidad.value);
+    if (inputCantidad.value == '') { }
+    else {
+      if (inputCantidad.value > Number(dataLote.piezasDisponibles)) {
+        inputCantidad.setValue('');
+        Swal.fire('Invalido, no puede ser mayor a: ' + dataLote.piezasDisponibles + ' piezas disponibles');
+      }
+    }
   }
 
 
@@ -328,93 +370,76 @@ lotesSelect =[];
       this.opcionesPacientes = [];
       this.paciente = null;
       this.consultaForm.get('paciente')?.setValue(null);
-  
+
       const tipoPacienteControl = this.consultaForm.get('tipoPaciente');
       if (tipoPacienteControl) {
         const tipoPaciente = tipoPacienteControl.value;
-  
-        switch(tipoPaciente){
+
+        switch (tipoPaciente) {
           case 'Empleado':
             this.cargarOpcionesEmpleados();
-          break;
+            break;
           case 'Externo':
             this.cargarOpcionesExternos();
-          break;
+            break;
           case 'Dependiente':
             this.cargarOpcionesDependientes();
-          break;
+            break;
         }
       }
+      console.log('.');
       this.isUpdating = false;
-    }else{
+    } else {
       return;
     }
   }
 
   cargarOpcionesEmpleados() {
-    if (!this.isUpdating) {
-      this.isUpdating = true;
-      this.empleadosService.getEmpleados().subscribe(
-        (empleados) => {
-          this.opcionesPacientes = empleados.map((empleado: any) => ({
-            id: empleado.id,
-            text: empleado.nombre,
-          }));
-        },
-        (error) => {
-          console.error('Error al obtener empleados:', error);
-        }
-      );
-      this.isUpdating = false;
-    }else{
-      return;
-    }
+    this.empleadosService.getEmpleados().subscribe(
+      (empleados) => {
+        this.opcionesPacientes = empleados.map((empleado: any) => ({
+          id: empleado.id,
+          text: empleado.nombre,
+        }));
+      },
+      (error) => {
+        console.error('Error al obtener empleados:', error);
+      }
+    );
   }
 
   cargarOpcionesExternos() {
-    if (!this.isUpdating) {
-      this.isUpdating = true;
-      this.externosService.getExternos().subscribe(
-        (externos) => {
-          this.opcionesPacientes = externos.map((externo: any) => ({
-            id: externo.id,
-            text: externo.nombre,
-          }));
-        },
-        (error) => {
-          console.error('Error al obtener externos:', error);
-        }
-      );
-      this.isUpdating = false;
-    }else{
-      return;
-    }
+    this.externosService.getExternos().subscribe(
+      (externos) => {
+        this.opcionesPacientes = externos.map((externo: any) => ({
+          id: externo.id,
+          text: externo.nombre,
+        }));
+      },
+      (error) => {
+        console.error('Error al obtener externos:', error);
+      }
+    );
   }
 
   cargarOpcionesDependientes() {
-    if (!this.isUpdating) {
-      this.isUpdating = true;
-      this.historialesMedicosService.getDependientes().subscribe(
-        (dependientes) => {
-          this.opcionesPacientes = dependientes.map((externo: any) => ({
-            id: externo.id,
-            text: externo.nombre,
-          }));
-        },
-        (error) => {
-          console.error('Error al obtener dependientes:', error);
-        }
-      );
-      this.isUpdating = false;
-    }else{
-      return;
-    }
+    this.historialesMedicosService.getDependientes().subscribe(
+      (dependientes) => {
+        this.opcionesPacientes = dependientes.map((externo: any) => ({
+          id: externo.id,
+          text: externo.nombre,
+        }));
+      },
+      (error) => {
+        console.error('Error al obtener dependientes:', error);
+      }
+    );
   }
 
   obtenerFechaHoraActual() {
     const now = new Date();
     this.fechaActual = this.datePipe.transform(now, 'yyyy-MM-dd');
-    this.horaActual = this.datePipe.transform(now, 'HH:mm a');
+    this.horaActual = this.datePipe.transform(now, 'HH:mm');
   }
 
   cargarDatosPaciente($id: number) {
@@ -423,63 +448,57 @@ lotesSelect =[];
       this.historialesMedicosService.getHistorialMedico($id)
         .subscribe(historialMedico => {
           this.llenarFormularioEnAutomatico(historialMedico);
-      });
+        });
       this.isUpdating = false;
-    }else{
+    } else {
       return;
     }
   }
 
-  llenarFormularioEnAutomatico(paciente: any){
-    if(!this.isUpdating){
-      this.isUpdating = true;
-      this.paciente = paciente?.pacientable;
-      this.nombre = paciente?.pacientable?.nombre;
-  
-      switch(paciente?.pacientable_type){
-        case 'App\\Models\\NomEmpleado':
-          this.tipoPaciente = 'Empleado';
+  llenarFormularioEnAutomatico(paciente: any) {
+    this.paciente = paciente?.pacientable;
+    this.nombre = paciente?.pacientable?.nombre;
+
+    switch (paciente?.pacientable_type) {
+      case 'App\\Models\\NomEmpleado':
+        this.tipoPaciente = 'Empleado';
         break;
-        case 'App\\Models\\Externo':
-          this.tipoPaciente = 'Externo';
+      case 'App\\Models\\Externo':
+        this.tipoPaciente = 'Externo';
         break;
-        case 'App\\Models\\RHDependiente':
-          this.tipoPaciente = 'Dependiente';
+      case 'App\\Models\\RHDependiente':
+        this.tipoPaciente = 'Dependiente';
         break;
-        default:
-          this.tipoPaciente = '';
+      default:
+        this.tipoPaciente = '';
         break;
-      }
-  
-      if(paciente?.pacientable_id){
-        this.consultaForm.get('paciente')?.setValue(paciente?.pacientable_id);
-      }
-  
-      if (paciente?.pacientable?.fechaNacimiento) {
-        const fechaNacimiento = new Date(paciente?.pacientable?.fechaNacimiento);
-        const edad = differenceInYears(new Date(), fechaNacimiento);
-  
-        this.consultaForm.get('edad')?.setValue(edad);
-      }
-  
-      if(paciente?.talla){
-        this.consultaForm.get('talla')?.setValue(paciente?.talla);
-      }
-  
-      if(paciente?.peso){
-        this.consultaForm.get('peso')?.setValue(paciente?.peso);
-      }
-  
-      if (paciente?.pacientable?.image?.url) {
-        this.obtenerImagen(paciente?.pacientable?.image?.url).subscribe((imagen) => {
-          this.imagePaciente = imagen;
-        });
-      }else{
-        this.imagePaciente = '/assets/dist/img/user.png';
-      }
-      this.isUpdating = false;
-    }else{
-      return;
+    }
+
+    if (paciente?.pacientable_id) {
+      this.consultaForm.get('paciente')?.setValue(paciente?.pacientable_id);
+    }
+
+    if (paciente?.pacientable?.fechaNacimiento) {
+      const fechaNacimiento = new Date(paciente?.pacientable?.fechaNacimiento);
+      const edad = differenceInYears(new Date(), fechaNacimiento);
+
+      this.consultaForm.get('edad')?.setValue(edad);
+    }
+
+    if (paciente?.talla) {
+      this.consultaForm.get('talla')?.setValue(paciente?.talla);
+    }
+
+    if (paciente?.peso) {
+      this.consultaForm.get('peso')?.setValue(paciente?.peso);
+    }
+
+    if (paciente?.pacientable?.image?.url) {
+      this.obtenerImagen(paciente?.pacientable?.image?.url).subscribe((imagen) => {
+        this.imagePaciente = imagen;
+      });
+    } else {
+      this.imagePaciente = '/assets/dist/img/user.png';
     }
   }
 
@@ -489,25 +508,30 @@ lotesSelect =[];
   }
 
   guardar() {
+    console.log('Consulta form', this.consultaForm);
+
     if (this.consultaForm.invalid) {
+      console.log('Invalid, no guarda');
       const camposNoValidos = Object.keys(this.consultaForm.controls).filter(controlName => this.consultaForm.get(controlName)?.invalid);
       const mensajes: string[] = [];
-  
+
       camposNoValidos.forEach(controlName => {
         const control = this.consultaForm.get(controlName)!;
         const errores = this.obtenerMensajesDeError(control).join(', ');
         mensajes.push(`El campo ${this.nombresDescriptivos[controlName]} ${errores}`);
       });
-  
+
       this.mensajesDeError = mensajes;
 
     } else {
+      console.log('Guarda');
       const fechaHoraActual = `${this.fechaActual} ${this.horaActual}`;
       this.consultaForm.get('fecha')?.setValue(fechaHoraActual);
       this.consultaForm.get('profesional_id')?.setValue(this.profesional?.id);
-  
+
       const consulta = this.consultaForm.value;
-  
+      console.log('Guardar', consulta);
+
       this.consultasService.storeConsulta(consulta).subscribe(
         (response) => {
           this.mensaje(response);
@@ -518,6 +542,8 @@ lotesSelect =[];
       );
     }
   }
+
+
 
   mensaje(response: any) {
 
@@ -538,7 +564,7 @@ lotesSelect =[];
       icon: 'error',
       title: response.message,
       showConfirmButton: false,
-      timer: 6500 
+      timer: 6500
     });
   }
 

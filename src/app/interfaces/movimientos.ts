@@ -2,6 +2,7 @@
 
 export interface Movimientos {
     id: number,
+    tipo: string,
     folio: string,
     fecha: Date,
     profesional_id: number,

@@ -64,37 +64,39 @@
           </div>
           <div class="col-12 col-sm-8">
             <div class="border rounded p-3">
-              <div class="timeline" *ngFor="let movimiento of lote?.movimientos">
-                <div class="time-label">
-                  <span class="bg-pink"><small>{{ movimiento.fecha | date:'dd/MM/yyyy' }}</small></span>
-                </div>
-                <div>
-                  <i class="fas fa-clock bg-info"></i>
-                  <div class="timeline-item shadow-none bg-light">
-                    <span class="time"><i class="fas fa-clock"></i> {{ movimiento.created_at | date:'h:m a' }}</span>
-                    <h1 class="timeline-header border-0 text-pink">
-                      <span *ngIf="movimiento?.typable_type === 'App\\Models\\Entrada'">Entrada</span>
-                      <span *ngIf="movimiento?.typable_type === 'App\\Models\\Salida'">Salida</span>
-                    </h1>
-                    <div>
-                      <div class="p-2">
-                        <div class="d-flex border-bottom px-2">
-                          <div>
-                            <b>Motivo</b>
-                          </div>
-                          <div class="ml-auto">
-                            {{movimiento?.typable?.motivo}}
-                          </div>
-                        </div>
-                        <div class="p-2" *ngIf="movimiento?.typable?.detalles">
-                            <div class="d-flex py-2">
-                              <div>
-                                <b>Detalles</b>
-                              </div>
-                            </div>
+              <div *ngFor="let movimiento of lote?.movimientos">
+                <div class="timeline">
+                  <div class="time-label">
+                    <span class="bg-pink"><small>{{ movimiento.fecha | date:'dd/MM/yyyy' }}</small></span>
+                  </div>
+                  <div>
+                    <i class="fas fa-clock bg-info"></i>
+                    <div class="timeline-item shadow-none bg-light">
+                      <span class="time"><i class="fas fa-clock"></i> {{ movimiento.created_at | date:'h:m a' }}</span>
+                      <h1 class="timeline-header border-0 text-pink">
+                        <span *ngIf="movimiento?.typable_type === 'App\\Models\\Entrada'">Entrada</span>
+                        <span *ngIf="movimiento?.typable_type === 'App\\Models\\Salida'">Salida</span>
+                      </h1>
+                      <div>
+                        <div class="p-2">
+                          <div class="d-flex border-bottom px-2">
                             <div>
-                              <div class="border rounded bg-white p-2" [innerHTML]="movimiento?.typable?.detalles">
+                              <b>Motivo</b>
+                            </div>
+                            <div class="ml-auto">
+                              {{movimiento?.typable?.motivo}}
+                            </div>
+                          </div>
+                          <div class="p-2" *ngIf="movimiento?.typable?.detalles">
+                              <div class="d-flex py-2">
+                                <div>
+                                  <b>Detalles</b>
+                                </div>
                               </div>
+                              <div>
+                                <div class="border rounded bg-white p-2" [innerHTML]="movimiento?.typable?.detalles">
+                                </div>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -102,7 +104,75 @@
                   </div>
                 </div>
               </div>
-              <app-movimiento *ngIf="lote !== null" [lote]="lote"></app-movimiento>
+              <div class="text-center">
+                <button type="button" class="btn btn-pink btn-sm" data-toggle="modal" data-target="#movimientoModal">
+                  Agregar movimiento
+                </button>
+              </div>
+              <div class="modal fade" id="movimientoModal" tabindex="-1" aria-labelledby="movimientoModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="movimientoModalLabel">Generar movimiento</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <form [formGroup]="movimientoForm" (submit)="guardar()">
+                        <div class="row">
+                            <div class="form-group">
+                                <label>Tipo de movimiento</label>
+                                <select class="form-control" id="tipo" formControlName="tipo">
+                                    <option> -- Seleccione una opción -- </option>
+                                    <option>Salida completa del lote</option>
+                                    <option *ngIf="lote && lote.piezasDisponibles > 0">Salida de piezas</option>
+                                    <option>Cambiar de inventario</option>
+                                </select>
+                            </div>
+                        </div>
+                        <label>Movimiento del lote</label>
+                        <div class="card shadow-none">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="form-group col-6 col-md-4">
+                                        <label>Folio de entrada</label>
+                                        <input type="text" class="form-control" id="folio" formControlName="folio">
+                                    </div>
+                                    <div class="form-group col-6 col-md-8">
+                                        <label>Motivo</label>
+                                        <input type="text" class="form-control" id="motivo" formControlName="motivo">
+                                    </div>
+                                    <div class="form-group col-12">
+                                        <label>Detalles</label>
+                                        <ckeditor [editor]="Editor" [config]="editorConfig" id="detalles" formControlName="detalles"></ckeditor>
+                                    </div>
+                                    <div class="form-group col-12" *ngIf="movimientoForm.get('tipo')?.value === 'Salida de piezas'">
+                                        <label>Piezas a descontar</label>
+                                        <input type="number" class="form-control" id="piezasDescontables" formControlName="piezasDescontables">
+                                    </div>
+                                    <div class="form-group col-12" *ngIf="movimientoForm.get('tipo')?.value === 'Cambiar de inventario'">
+                                      <label>Inventario</label>
+                                      <ngx-select [items]="inventarios" formControlName="inventario_id">
+                                        <ng-content select="value"></ng-content>
+                                      </ngx-select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="mensajesDeError.length > 0" class="text-danger pb-3">
+                            <ul class="list-group">
+                                <li class="list-group-item list-group-item-danger" *ngFor="let mensaje of mensajesDeError">{{ mensaje }}</li>
+                            </ul>
+                        </div>
+                        <div class="text-center">
+                            <button class="btn bg-pink">Guardar</button>
+                        </div>
+                    </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
