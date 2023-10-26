@@ -9,5 +9,6 @@ export interface User {
     useable_type: string;
     useable:{
         image: Image;
+        
     }
 }

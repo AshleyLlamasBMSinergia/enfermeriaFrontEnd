@@ -5,6 +5,7 @@ import {  Observable } from 'rxjs';
 import { Consultas } from 'src/app/interfaces/consultas';
 import { API_URL } from 'src/app/config';
 import { Router } from '@angular/router';
+import { Diagnosticos } from 'src/app/interfaces/diagnosticos';
 
 @Injectable({
   providedIn: 'root'
@@ -27,8 +28,12 @@ export class ConsultasService {
     return consultas;
   }
 
-  getConsultas(): Observable<Consultas[]> {
-    return this.httpClient.get<Consultas[]>(this.apiURL);
+  getConsultas(profesionalId: number): Observable<Consultas[]> {
+    return this.httpClient.get<Consultas[]>(this.apiURL+'/profesional/'+profesionalId);
+  }
+
+  getDiagnosticos(): Observable<Diagnosticos[]> {
+    return this.httpClient.get<Diagnosticos[]>(API_URL+'diagnosticos');
   }
 
   storeConsulta(consulta: any): Observable<Consultas> {

@@ -15,6 +15,9 @@ export interface HistorialesMedicos {
     id: number,
     pacientable_id: number;
     pacientable_type: string;
+
+    talla: number;
+    peso: number;
     
     user?: User;
 

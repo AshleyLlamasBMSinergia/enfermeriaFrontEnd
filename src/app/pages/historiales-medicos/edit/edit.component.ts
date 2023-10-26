@@ -38,6 +38,8 @@ export class HistorialesMedicosEditComponent implements OnInit {
     estadoCivil: 'estado civil',
     prefijoInternacional: 'prefijo internacional',
     telefono: 'teléfono',
+    talla: 'talla',
+    peso: 'peso',
   };
 
   constructor(
@@ -61,6 +63,8 @@ export class HistorialesMedicosEditComponent implements OnInit {
       IMSS: ['', [Validators.required, Validators.maxLength(254)]],
       RFC: ['', [Validators.required, Validators.maxLength(254)]],
       estadoCivil: ['', [Validators.required, Validators.maxLength(254)]],
+      peso: [null],
+      talla: [null],
     });
   }
 
@@ -97,6 +101,8 @@ export class HistorialesMedicosEditComponent implements OnInit {
           IMSS: historialMedico.pacientable?.IMSS,
           RFC: historialMedico.pacientable?.RFC,
           estadoCivil: historialMedico.pacientable?.estadoCivil,
+          talla: historialMedico.talla,
+          peso: historialMedico.peso,
         });
 
         if (historialMedico.pacientable?.image?.url) {

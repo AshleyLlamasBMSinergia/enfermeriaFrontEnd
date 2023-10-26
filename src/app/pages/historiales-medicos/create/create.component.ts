@@ -30,6 +30,8 @@ export class HistorialesMedicosCreateComponent {
     estadoCivil: 'estado civil',
     prefijoInternacional: 'prefijo internacional',
     telefono: 'teléfono',
+    peso: 'peso',
+    talla: 'talla',
   };
 
   constructor
@@ -51,6 +53,8 @@ export class HistorialesMedicosCreateComponent {
       IMSS: [null],
       RFC: [''],
       estadoCivil: [''],
+      talla: [null],
+      peso: [null],
     });
   }
 
@@ -72,6 +76,8 @@ export class HistorialesMedicosCreateComponent {
       this.historialMedicoForm.get('prefijoInternacional')!.clearValidators();
       this.historialMedicoForm.get('telefono')!.clearValidators();
       this.historialMedicoForm.get('email')!.clearValidators();
+      this.historialMedicoForm.get('talla')!.clearValidators();
+      this.historialMedicoForm.get('peso')!.clearValidators();
     }
   
     // Actualiza las validaciones
@@ -82,6 +88,8 @@ export class HistorialesMedicosCreateComponent {
     this.historialMedicoForm.get('prefijoInternacional')!.updateValueAndValidity();
     this.historialMedicoForm.get('telefono')!.updateValueAndValidity();
     this.historialMedicoForm.get('email')!.updateValueAndValidity();
+    this.historialMedicoForm.get('talla')!.updateValueAndValidity();
+    this.historialMedicoForm.get('peso')!.updateValueAndValidity();
   }
 
   imagenSeleccionada(event: any) {

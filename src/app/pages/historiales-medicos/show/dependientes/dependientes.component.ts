@@ -29,6 +29,8 @@ export class DependientesComponent {
   modoEdicion = false;
   id: number | null = null;
 
+  dependientes!: any;
+
   mensajesDeError: string[] = [];
   nombresDescriptivos: { [key: string]: string } = {
     nombre: 'nombre',
@@ -47,7 +49,7 @@ export class DependientesComponent {
     private sanitizer: DomSanitizer,
   ) {
     this.dependienteForm = this.formBuilder.group({
-      historialMedico_id: [this.historialMedico?.id],
+      empleado_id: [null],
       imagen: [null, Validators.required],
       nombre: [null, [Validators.required, Validators.maxLength(255)]],
       sexo: ['', [Validators.required]],
@@ -57,8 +59,21 @@ export class DependientesComponent {
   }
 
   ngOnInit() {
-    this.dependienteForm.get('historialMedico_id')?.setValue(this.historialMedico.id);
-  }
+
+    this.historialesMedicosService.getDependientesDelEmpleado(this.historialMedico.pacientable_id).subscribe(
+      (dependientes: any) => {
+        this.dependientes = dependientes;
+        console.log(this.dependientes);
+        console.log(dependientes);
+
+      },
+      (error) => {
+        console.error('Error al obtener dependientes:', error);
+      }
+    );
+
+    this.dependienteForm.get('empleado_id')?.setValue(this.historialMedico.pacientable_id);
+  }  
 
   imagenSeleccionada(event: any) {
     this.imagen = event.target.files[0] as File;
@@ -177,7 +192,7 @@ export class DependientesComponent {
 
     this.dependienteForm.setValue({
       imagen: null,
-      historialMedico_id: dependiente.historial_medico.id,
+      empleado_id: dependiente.empleado_id,
       nombre: dependiente.nombre,
       sexo: dependiente.sexo,
       fechaNacimiento: dependiente.fechaNacimiento,
@@ -192,7 +207,7 @@ export class DependientesComponent {
 
     this.dependienteForm.setValue({
       imagen: null,
-      historialMedico_id: null,
+      empleado_id: null,
       email: null,
       nombre: null,
       sexo: '',

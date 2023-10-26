@@ -15,10 +15,9 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { HistorialesMedicosService } from '../../historiales-medicos/historiales-medicos.service';
-import { Inventarios } from 'src/app/interfaces/inventarios';
 import { InventariosService } from '../../inventarios/inventarios.service';
-import { Insumos } from 'src/app/interfaces/insumos';
-import { event } from 'jquery';
+import { NotificationService } from 'src/app/services/notification.service';
+import { HistorialesMedicos } from 'src/app/interfaces/historiales-medicos';
 
 @Component({
   selector: 'app-create',
@@ -33,13 +32,15 @@ export class ConsultasCreateComponent implements OnInit {
   citaId: number | null = null;
   cita: any;
 
+  color: string | null = null;
+
   profesional: any;
   imageProfesional: any;
   imagePaciente: any;
 
-  tipoPaciente: string = 'Empleado';
-  paciente: any = null;
-  nombre: string = '';
+  paciente?: any;
+  historialMedico?: HistorialesMedicos;
+  
   edad: number | null = null;
 
   opcionesPacientes: any[] = [];
@@ -47,6 +48,12 @@ export class ConsultasCreateComponent implements OnInit {
 
   fechaActual: string | null = null;
   horaActual: string | null = null;
+
+  imc: number = 0;
+  imcSignificado: string = '';
+  imcColor: string = '';
+
+  diagnosticos: any[] = [];
 
   public Editor = ClassicEditor;
   mensajesDeError: string[] = [];
@@ -73,7 +80,10 @@ export class ConsultasCreateComponent implements OnInit {
     analisis: 'análisis',
     plan: 'plan',
     diagnostico: 'diagnóstico',
-    receta: 'receta'
+    complemento: 'complemento',
+    receta: 'receta',
+    lote: 'lote',
+    cantidad: 'cantidad'
   };
 
   public editorConfig = {
@@ -95,6 +105,7 @@ export class ConsultasCreateComponent implements OnInit {
       toolbar: ['imageTextAlternative']
     }
   };
+
   lotesSelect = [];
   insumosSelect: any[] = [];
 
@@ -111,7 +122,8 @@ export class ConsultasCreateComponent implements OnInit {
     private citasService: CitasService,
     private datePipe: DatePipe,
     private sanitizer: DomSanitizer,
-    private inventariosService: InventariosService
+    private inventariosService: InventariosService,
+    private notificationService: NotificationService
   ) {
     this.formInsumos = this.formBuilder.group({
       inventario: '',
@@ -139,15 +151,27 @@ export class ConsultasCreateComponent implements OnInit {
       objetivo: [null, [Validators.maxLength(2294967295)]],
       analisis: [null, [Validators.maxLength(2294967295)]],
       plan: [null, [Validators.maxLength(2294967295)]],
-      diagnostico: [null, [Validators.required, Validators.maxLength(2294967295)]],
+      diagnostico: [null, [Validators.required]],
+      complemento: [null, [Validators.required, Validators.maxLength(2294967295)]],
       receta: [null, [Validators.required, Validators.maxLength(2294967295)]],
       formInsumos: this.formInsumos
     });
 
-
     this.formInsumos.get('inventario')?.valueChanges.subscribe(value => {
       this.formInsumos.get('insumosVisible')?.setValue(value !== ''); // Actualiza la visibilidad
     });
+
+    this.consultasService.getDiagnosticos().subscribe(
+      (diagnosticos) => {
+        this.diagnosticos = diagnosticos.map((diagnostico: any) => ({
+          id: diagnostico.id,
+          text: diagnostico.nombre,
+        }));
+      },
+      (error) => {
+        console.error('Error al obtener diagnosticos:', error);
+      }
+    );
   }
 
   ngOnInit(): void {
@@ -166,14 +190,6 @@ export class ConsultasCreateComponent implements OnInit {
       }
     );
 
-    if (this.profesional.image.url) {
-      this.obtenerImagen(this.profesional.image.url).subscribe((imagen) => {
-        this.imageProfesional = imagen;
-      });
-    } else {
-      this.imagePaciente = '/assets/dist/img/user.png';
-    }
-
     this.obtenerFechaHoraActual();
     this.cargarOpcionesEmpleados();
 
@@ -191,9 +207,44 @@ export class ConsultasCreateComponent implements OnInit {
           this.llenarFormularioEnAutomatico(cita?.paciente);
 
           this.consultaForm.get('paciente')?.setValue(cita?.paciente?.pacientable_id);
-          this.consultaForm.get('tipoPaciente')?.setValue(cita?.paciente?.pacientable_type);
+
+          let tipo = '';
+
+          switch (cita?.paciente?.pacientable_type) {
+            case 'App\\Models\\NomEmpleado':
+              tipo = 'Empleado';
+              break;
+            case 'App\\Models\\Externo':
+              tipo = 'Externo';
+              break;
+            case 'App\\Models\\RHDependiente':
+              tipo = 'Dependiente';
+              break;
+          }
+
+          this.consultaForm.get('tipoPaciente')?.setValue(tipo);
         }
         );
+    }
+  }
+
+  seleccionarColor() {
+    switch(this.consultaForm.value.triajeClasificacion){
+      case '1':
+        this.color = '#dd4b39';
+      break;
+      case '2':
+        this.color = '#FF851B';
+      break;
+      case '3':
+        this.color = '#f39c12';
+      break;
+      case '4':
+        this.color = '#198754';
+      break;
+      case '5':
+        this.color = '#0d6efd';
+      break;
     }
   }
 
@@ -204,6 +255,14 @@ export class ConsultasCreateComponent implements OnInit {
           data => this.inventarios = data,
           error => console.error('Error al obtener inventarios', error)
         );
+
+        if (user[0].useable.image.url) {
+          this.obtenerImagen(user[0].useable.image.url).subscribe((imagen) => {
+            this.imageProfesional = imagen;
+          });
+        } else {
+          this.imagePaciente = '/assets/dist/img/user.png';
+        }
       },
       (error) => {
         console.error('Error al obtener los datos del usuario', error);
@@ -221,7 +280,6 @@ export class ConsultasCreateComponent implements OnInit {
         }
       }
     }
-    console.log(lotes, id)
     return lotes
   }
 
@@ -238,23 +296,11 @@ export class ConsultasCreateComponent implements OnInit {
     this.insumosSelect = inventarioSeleccionado.insumos;
   }
 
-
-  // getLotesPorInsumo(insumoId: number) {
-  //   const insumos = this.getInsumosPorInventario;
-  //   const insumoSeleccionado = insumos.find(insumo => insumo.id === insumoId);
-  //   return loteSeleccionado ? loteSeleccionado.insumos.lotes : [];
-  // }
-
-  cargarInsumos($event: any) {
-    console.log($event)
-  }
-
   insumosForm(): FormArray {
     return this.formInsumos.get('itemInsumo') as FormArray;
   }
 
   newLote(value?: any): FormGroup {
-    console.log(value.lotes);
     return this.formBuilder.group({
       id: value ? value.id : null,
       nombre: value ? value.nombre : '',
@@ -276,7 +322,6 @@ export class ConsultasCreateComponent implements OnInit {
   }
 
   crearLoteGroup(insumo?: any): FormGroup {
-    console.log(insumo.lotes);
     return this.formBuilder.group({
       id: insumo ? insumo.id : null,
       nombre: insumo ? insumo.nombre : '',
@@ -301,7 +346,6 @@ export class ConsultasCreateComponent implements OnInit {
   }
 
   removeLote(loteIndex: number, id?: any) {
-
     this.insumosForm().removeAt(loteIndex);
     let i = this.formInsumos.get('insumos')!.value;
     let mutar = i.filter((item: any) => item != id);
@@ -320,7 +364,6 @@ export class ConsultasCreateComponent implements OnInit {
       lote: new FormControl('', [Validators.required]),
       cantidad: new FormControl('', [Validators.required]),
     });
-    console.log('New Lote', loteGroup);
     return loteGroup;
   }
 
@@ -336,12 +379,8 @@ export class ConsultasCreateComponent implements OnInit {
     let lotes = this.getLotesSelect(insumo.value.id);
     let inputLote = insumo.value.lotes[loteIndex];
     let dataLote = lotes.find(l => l.id == inputLote.lote);
-    console.log('Data Lote', dataLote);
-    console.log('Select Input Lote', inputLote);
-    console.log('Piezas', Number(dataLote.piezasDisponibles));
     let inputCantidad = this.itemLotes(insumoIndex).controls[loteIndex]?.get('cantidad') as FormControl;
 
-    console.log('valor cantidad', inputCantidad.value);
     if (inputCantidad.value == '') { }
     else {
       if (inputCantidad.value > Number(dataLote.piezasDisponibles)) {
@@ -350,7 +389,6 @@ export class ConsultasCreateComponent implements OnInit {
       }
     }
   }
-
 
   obtenerImagen(url: string): Observable<any> {
     return this.imageService.getImagen(url).pipe(
@@ -365,32 +403,19 @@ export class ConsultasCreateComponent implements OnInit {
   }
 
   cambiarTipoPaciente() {
-    if (!this.isUpdating) {
-      this.isUpdating = true;
-      this.opcionesPacientes = [];
-      this.paciente = null;
-      this.consultaForm.get('paciente')?.setValue(null);
+    this.opcionesPacientes = [];
+    this.paciente = null;
 
-      const tipoPacienteControl = this.consultaForm.get('tipoPaciente');
-      if (tipoPacienteControl) {
-        const tipoPaciente = tipoPacienteControl.value;
-
-        switch (tipoPaciente) {
-          case 'Empleado':
-            this.cargarOpcionesEmpleados();
-            break;
-          case 'Externo':
-            this.cargarOpcionesExternos();
-            break;
-          case 'Dependiente':
-            this.cargarOpcionesDependientes();
-            break;
-        }
-      }
-      console.log('.');
-      this.isUpdating = false;
-    } else {
-      return;
+    switch (this.consultaForm.get('tipoPaciente')?.value) {
+      case 'Empleado':
+        this.cargarOpcionesEmpleados();
+        break;
+      case 'Externo':
+        this.cargarOpcionesExternos();
+        break;
+      case 'Dependiente':
+        this.cargarOpcionesDependientes();
+      break;
     }
   }
 
@@ -445,7 +470,8 @@ export class ConsultasCreateComponent implements OnInit {
   cargarDatosPaciente($id: number) {
     if (!this.isUpdating) {
       this.isUpdating = true;
-      this.historialesMedicosService.getHistorialMedico($id)
+      this.consultaForm.get('paciente')?.setValue($id);
+      this.historialesMedicosService.getHistorialMedicoPorPaciente(this.consultaForm.get('tipoPaciente')?.value.toLowerCase(), $id)
         .subscribe(historialMedico => {
           this.llenarFormularioEnAutomatico(historialMedico);
         });
@@ -455,50 +481,86 @@ export class ConsultasCreateComponent implements OnInit {
     }
   }
 
-  llenarFormularioEnAutomatico(paciente: any) {
-    this.paciente = paciente?.pacientable;
-    this.nombre = paciente?.pacientable?.nombre;
+  llenarFormularioEnAutomatico(historialMedico: any) {
+    this.paciente = historialMedico.pacientable;
+    this.historialMedico = historialMedico;
 
-    switch (paciente?.pacientable_type) {
-      case 'App\\Models\\NomEmpleado':
-        this.tipoPaciente = 'Empleado';
-        break;
-      case 'App\\Models\\Externo':
-        this.tipoPaciente = 'Externo';
-        break;
-      case 'App\\Models\\RHDependiente':
-        this.tipoPaciente = 'Dependiente';
-        break;
-      default:
-        this.tipoPaciente = '';
-        break;
-    }
+    console.log('paciente'+this.paciente);
 
-    if (paciente?.pacientable_id) {
-      this.consultaForm.get('paciente')?.setValue(paciente?.pacientable_id);
-    }
-
-    if (paciente?.pacientable?.fechaNacimiento) {
-      const fechaNacimiento = new Date(paciente?.pacientable?.fechaNacimiento);
+    if (historialMedico?.pacientable?.fechaNacimiento) {
+      const fechaNacimiento = new Date(historialMedico?.pacientable?.fechaNacimiento);
       const edad = differenceInYears(new Date(), fechaNacimiento);
 
       this.consultaForm.get('edad')?.setValue(edad);
     }
 
-    if (paciente?.talla) {
-      this.consultaForm.get('talla')?.setValue(paciente?.talla);
+    if (historialMedico?.talla) {
+      this.consultaForm.get('talla')?.setValue(historialMedico?.talla);
     }
 
-    if (paciente?.peso) {
-      this.consultaForm.get('peso')?.setValue(paciente?.peso);
+    if (historialMedico?.peso) {
+      this.consultaForm.get('peso')?.setValue(historialMedico?.peso);
     }
 
-    if (paciente?.pacientable?.image?.url) {
-      this.obtenerImagen(paciente?.pacientable?.image?.url).subscribe((imagen) => {
+    if(historialMedico?.talla && historialMedico?.peso){
+      this.calcularIMC(historialMedico?.peso, historialMedico?.talla);
+    }
+
+    if (historialMedico?.pacientable?.image?.url) {
+      this.obtenerImagen(historialMedico?.pacientable?.image?.url).subscribe((imagen) => {
         this.imagePaciente = imagen;
       });
     } else {
       this.imagePaciente = '/assets/dist/img/user.png';
+    }
+
+    if (historialMedico?.antecedentes_personales_patologicos?.alergias) {
+      this.notificationService.info('Este paciente padece de las siguientes alergías: ', historialMedico?.antecedentes_personales_patologicos?.espAlergias);
+    }
+  }
+
+  obtenerIMC() {
+    this.calcularIMC(this.consultaForm.get('peso')?.value, this.consultaForm.get('talla')?.value);
+  }
+
+  calcularIMC(peso: number, talla: number){
+    if (peso && talla) {
+      this.imc = peso / (talla * talla);
+
+      if(this.imc < 18.5){
+        this.imcSignificado = 'Bajo peso';
+        this.imcColor = '#DF6060';
+      }
+  
+      if(this.imc > 18.5 && this.imc < 24.9){
+        this.imcSignificado = 'Peso normal';
+        this.imcColor = '#26DA44';
+      }
+  
+      if(this.imc > 24.9 && this.imc < 26.9){
+        this.imcSignificado = 'Sobre peso I grado';
+        this.imcColor = '#93DA26';
+      }
+  
+      if(this.imc > 26.9 && this.imc <  29.9){
+        this.imcSignificado = 'Sobre peso II grado';
+        this.imcColor = '#C4DA26';
+      }
+  
+      if(this.imc > 29.9 && this.imc <  34.9){
+        this.imcSignificado = 'Obesidad I grado';
+        this.imcColor = '#DABC26';
+      }
+  
+      if(this.imc > 34.9 && this.imc <  39.9){
+        this.imcSignificado = 'Obesidad I grado';
+        this.imcColor = '#F39207';
+      }
+  
+      if(this.imc > 39.9){
+        this.imcSignificado = 'Obesidad morbida';
+        this.imcColor = '#F34007';
+      }
     }
   }
 
@@ -508,14 +570,12 @@ export class ConsultasCreateComponent implements OnInit {
   }
 
   guardar() {
-    console.log('Consulta form', this.consultaForm);
-
     if (this.consultaForm.invalid) {
-      console.log('Invalid, no guarda');
       const camposNoValidos = Object.keys(this.consultaForm.controls).filter(controlName => this.consultaForm.get(controlName)?.invalid);
       const mensajes: string[] = [];
 
       camposNoValidos.forEach(controlName => {
+        this.formInsumos.get(controlName)!;
         const control = this.consultaForm.get(controlName)!;
         const errores = this.obtenerMensajesDeError(control).join(', ');
         mensajes.push(`El campo ${this.nombresDescriptivos[controlName]} ${errores}`);
@@ -524,48 +584,21 @@ export class ConsultasCreateComponent implements OnInit {
       this.mensajesDeError = mensajes;
 
     } else {
-      console.log('Guarda');
       const fechaHoraActual = `${this.fechaActual} ${this.horaActual}`;
       this.consultaForm.get('fecha')?.setValue(fechaHoraActual);
       this.consultaForm.get('profesional_id')?.setValue(this.profesional?.id);
 
       const consulta = this.consultaForm.value;
-      console.log('Guardar', consulta);
 
       this.consultasService.storeConsulta(consulta).subscribe(
         (response) => {
-          this.mensaje(response);
+          this.notificationService.mensaje(response);
         },
         (error) => {
-          this.error(error);
+          this.notificationService.error(error);
         }
       );
     }
-  }
-
-
-
-  mensaje(response: any) {
-
-    Swal.fire({
-      icon: 'success',
-      title: response.message,
-      showConfirmButton: false,
-      timer: 6500
-    });
-
-    setTimeout(() => {
-      this.router.navigate(['/enfermeria/consultas']);
-    }, 2000);
-  }
-
-  error(response: any) {
-    Swal.fire({
-      icon: 'error',
-      title: response.message,
-      showConfirmButton: false,
-      timer: 6500
-    });
   }
 
   obtenerMensajesDeError(control: AbstractControl): string[] {
@@ -582,7 +615,7 @@ export class ConsultasCreateComponent implements OnInit {
             break;
           default:
             mensajes.push(`Error: ${errorKey}`);
-            break;
+          break;
         }
       }
     }
@@ -595,5 +628,4 @@ export class ConsultasCreateComponent implements OnInit {
 
     return mensajes;
   }
-
 }

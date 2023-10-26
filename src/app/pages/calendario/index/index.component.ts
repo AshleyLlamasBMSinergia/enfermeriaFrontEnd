@@ -8,6 +8,7 @@ import { CalendarioService } from '../calendario.service';
 import { DatePipe } from '@angular/common';
 import { Calendario } from 'src/app/interfaces/calendario';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-index',
@@ -21,6 +22,8 @@ export class CalendarioIndexComponent implements OnInit {
   relatedEvents: any[] = [];
   selectedDate: Date = new Date();
   selectedEvent: any;
+
+  profesional: any;
 
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin, listWeekPlugin],
@@ -46,10 +49,25 @@ export class CalendarioIndexComponent implements OnInit {
     events: [],
   };
 
-  constructor(private calendarioService: CalendarioService, private datePipe: DatePipe, private router: Router, private route: ActivatedRoute) {}
+  constructor(
+    private calendarioService: CalendarioService,
+    private datePipe: DatePipe,
+    private router: Router,
+    private route: ActivatedRoute,
+    private userService: UserService,
+  ) {}
 
   ngOnInit() {
-    this.calendarioService.getCalendarioEventos().subscribe(
+    this.userService.user$.subscribe(
+      (user: any) => {
+        this.profesional = user[0];
+      },
+      (error) => {
+        console.error('Error al obtener los datos del usuario', error);
+      }
+    );
+
+    this.calendarioService.getCalendarioEventos(this.profesional.id).subscribe(
       (calendarioEventos: Calendario[]) => {
         this.events = calendarioEventos.map((evento) => ({
           title: `${evento.tipo} - ${evento.paciente?.pacientable?.nombre}`,
@@ -89,16 +107,4 @@ export class CalendarioIndexComponent implements OnInit {
       (window as any).$('#dateModal').modal({ backdrop: 'static', keyboard: false });
     }
   }
-
-  // openDateModal(): void {
-  //   const modalElement = document.getElementById('dateModal');
-  //   if (modalElement) {
-  //     modalElement.setAttribute('data-bs-date', this.selectedDate.toISOString());
-  //     const modal = new (window as any).bootstrap.Modal(modalElement, {
-  //       backdrop: 'static',
-  //       keyboard: false
-  //     });
-  //     modal.show();
-  //   }
-  // }
 }

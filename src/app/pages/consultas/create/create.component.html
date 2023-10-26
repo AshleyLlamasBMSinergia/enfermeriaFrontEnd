@@ -71,7 +71,7 @@
                                     <span class="text-danger">*</span>
                                 </label>
                                 <div class="form-group">
-                                    <ngx-select [items]="opcionesPacientes" formControlName="paciente" (ngModelChange)="cargarDatosPaciente($event)">
+                                    <ngx-select [items]="opcionesPacientes" formControlName="paciente" (select)="cargarDatosPaciente($event)">
                                         <ng-content select="value"></ng-content>
                                     </ngx-select>
                                 </div>
@@ -79,8 +79,8 @@
                         </div>
                     </div>
                 </div>
-                <div *ngIf="paciente" class="card-body">
-                    <div>
+                <div class="card-body">
+                    <div *ngIf="historialMedico?.pacientable">
                         <div class="row">
                             <div class="col-12 col-md-6">
                                 <div class="d-flex flex-column align-items-center bg-pink2 h-100 shadow">
@@ -88,14 +88,22 @@
                                       width="150">
                                     <div class="mt-3 text-center">
                                         <h4>
-                                            {{ nombre }}
+                                            {{ historialMedico?.pacientable?.nombre }}
                                         </h4>
                                         <span class="badge badge-info">
-                                            {{tipoPaciente}}
+                                            {{consultaForm.get('tipoPaciente')!.value}}
                                         </span>
                                         <p class="py-3">
-                                            <a [routerLink]="['/enfermeria/historiales-medicos', paciente.id]" target="_blank">Ver historial médico</a>
+                                            <a [routerLink]="['/enfermeria/historiales-medicos', historialMedico?.id]" target="_blank">Ver historial médico</a>
                                         </p>
+                                        <div *ngIf="imc">
+                                            <div class="rounded p-2 bg-white">
+                                                <p class="m-0">IMC = {{imc | number:'1.2-2'}}</p> 
+                                                <p class="m-0"><b>
+                                                    {{imcSignificado}}
+                                                </b></p>
+                                            </div>                                    
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -108,7 +116,7 @@
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <div class="input-group mb-3">
-                                                <input type="number" id="edad" class="form-control" formControlName="edad">
+                                                <input type="number" id="edad" class="form-control text-center" formControlName="edad">
                                                 <div class="input-group-append">
                                                   <span class="input-group-text">años</span>
                                                 </div>
@@ -122,7 +130,7 @@
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <div class="input-group mb-3">
-                                                <input type="number" id="peso" class="form-control" formControlName="peso">
+                                                <input type="number" id="peso" class="form-control text-center" formControlName="peso" (input)="obtenerIMC()">
                                                 <div class="input-group-append">
                                                   <span class="input-group-text">Kg</span>
                                                 </div>
@@ -136,7 +144,7 @@
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <div class="input-group mb-3">
-                                                <input type="number" id="peso" class="form-control" formControlName="talla">
+                                                <input type="number" id="talla" class="form-control text-center" formControlName="talla" (input)="obtenerIMC()">
                                                 <div class="input-group-append">
                                                   <span class="input-group-text">m</span>
                                                 </div>
@@ -144,70 +152,83 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div *ngIf="imc">
+                                    <div [style.background-color]="imcColor" class="rounded p-2 d-flex justify-content-between text-white">
+                                        <p class="m-0">IMC = {{imc}}</p>
+                                        <p class="m-0"><b>
+                                            {{imcSignificado}}
+                                        </b></p>
+                                    </div>                                    
+                                </div>
                                 <hr>
                                 <div class="row">
-                                    <div class="col-12 col-md-4">
+                                    <div class="col-12 col-md-6">
                                         <div class="form-group">
                                             <label class="col-form-label">
-                                                C.T
+                                                T.A (DBP/SBP)
                                             </label>
-                                            <select id="triajeClasificacion" class="form-control text-center" formControlName="triajeClasificacion">
-                                                <option value="5" class="text-primary">V</option>
-                                                <option value="4" class="text-success">IV</option>
-                                                <option value="3" class="text-warning">III</option>
-                                                <option value="2" class="text-warning">II</option>
-                                                <option value="1" class="text-danger">I</option>
-                                            </select>
+                                            <div class="border rounded">
+                                                <input type="number" id="precionDiastolica" class="form-control border-0 text-center" formControlName="precionDiastolica">
+                                                <hr class="my-0 mx-2">
+                                                <input type="number" id="precionDiastolica" class="form-control border-0 text-center" formControlName="precionDiastolica">
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-12 col-md-4">
+                                    <div class="col-12 col-md-6">
                                         <div class="form-group">
                                             <label class="col-form-label">
-                                                P.D
+                                                Gluc. (mg/dL)
                                             </label>
-                                            <input type="number" id="precionDiastolica" class="form-control" formControlName="precionDiastolica">
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-md-4">
-                                        <div class="form-group">
-                                            <label class="col-form-label">
-                                                F.R
-                                            </label>
-                                            <input type="number" id="frecuenciaRespiratoria" class="form-control" formControlName="frecuenciaRespiratoria">
+                                            <div class="border rounded">
+                                                <input type="number" id="grucemiaCapilar" class="form-control border-0 text-center" formControlName="precionDiastolica">
+                                                <hr class="my-0 mx-2">
+                                                <input type="number" id="grucemiaCapilar" class="form-control border-0 text-center" formControlName="precionDiastolica">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-12 col-md-4">
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <label class="col-form-label">
+                                                Triage
+                                            </label>
+                                            <select [style.background-color]="color" id="triajeClasificacion" class="form-control text-center" formControlName="triajeClasificacion" (change)="seleccionarColor()">
+                                                <option class="bg-primary" value="5">V</option>
+                                                <option class="bg-success" value="4">IV</option>
+                                                <option class="bg-yellow" value="3">III</option>
+                                                <option class="bg-orange" value="2">II</option>
+                                                <option class="bg-red" value="1">I</option>
+                                              </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <label class="col-form-label">
+                                                F.R
+                                            </label>
+                                            <input type="number" id="frecuenciaRespiratoria" class="form-control text-center" formControlName="frecuenciaRespiratoria">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-md-6">
                                         <div class="form-group">
                                             <label class="col-form-label">
                                                 F.C
                                             </label>
-                                            <input type="number" id="frecuenciaCardiaca" class="form-control" formControlName="frecuenciaCardiaca">
+                                            <input type="number" id="frecuenciaCardiaca" class="form-control text-center" formControlName="frecuenciaCardiaca">
                                         </div>
                                     </div>
-                                    <div class="col-12 col-md-4">
+                                    <div class="col-12 col-md-6">
                                         <div class="form-group">
                                             <label class="col-form-label">
                                                 Temperatura
                                             </label>
                                             <div class="input-group mb-3">
-                                                <input type="number" id="temperatura" class="form-control" formControlName="temperatura">
+                                                <input type="number" id="temperatura" class="form-control text-center" formControlName="temperatura">
                                                 <div class="input-group-append">
                                                   <span class="input-group-text">C</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-md-4">
-                                        <div class="form-group">
-                                            <label class="col-form-label">
-                                                G.C
-                                            </label>
-                                            <div class="input-group mb-3">
-                                                <input type="text" id="grucemiaCapilar" class="form-control" formControlName="grucemiaCapilar">
-                                                <div class="input-group-append">
-                                                  <span class="input-group-text">mg/dL</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -271,7 +292,16 @@
                                     Diagnóstico
                                     <span class="text-danger">*</span>
                                 </label>
-                                <ckeditor [editor]="Editor" [config]="editorConfig" id="diagnostico" formControlName="diagnostico"></ckeditor>
+                                <ngx-select [items]="diagnosticos" formControlName="diagnostico">
+                                    <ng-content select="value"></ng-content>
+                                </ngx-select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-form-label">
+                                    Complemento
+                                </label>
+                                <ckeditor [editor]="Editor" [config]="editorConfig" id="complemento" formControlName="complemento"></ckeditor>
                             </div>
 
                             <div>

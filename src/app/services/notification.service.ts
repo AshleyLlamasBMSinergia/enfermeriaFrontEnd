@@ -19,6 +19,15 @@ export class NotificationService {
     }, 2000);
   }
 
+  info(title: any, text: any) {
+    Swal.fire({
+      icon: 'warning',
+      title: title,
+      text: text,
+      showConfirmButton: false,
+    });
+  }
+
   error(response: any) {
     Swal.fire({
       icon: 'error',

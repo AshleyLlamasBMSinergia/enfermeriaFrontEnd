@@ -31,7 +31,6 @@ export class LotesMedicosShowComponent {
   nombresDescriptivos: { [key: string]: string } = {
     folio: 'folio',
     profesional_id: 'profesional',
-    lote_id: 'lote',
     inventario_id: 'inventario',
     motivo: 'motivo',
     detalles: 'detalles',
@@ -73,7 +72,6 @@ export class LotesMedicosShowComponent {
     private inventariosService: InventariosService
   ) {
     this.movimientoForm = this.formBuilder.group({
-      folio: [null, [Validators.required, Validators.maxLength(254)]],
       profesional_id: [null, [Validators.required]],
       lote_id: [null, [Validators.required]],
       inventario_id: [null],

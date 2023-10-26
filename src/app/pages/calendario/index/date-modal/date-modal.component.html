@@ -43,12 +43,10 @@
       <ng-template #noEvents>
         <p>No hay citas relacionados para esta fecha.</p>
       </ng-template>
-      <button class="btn btn-pink btn-block mt-3" (click)="openAppointmentForm()">Agendar cita</button>
+      <button class="btn btn-pink btn-block mt-3" (click)="abrirFormulario()">Agendar cita</button>
     </div>
-    <!-- Formulario para agendar cita -->
     <div *ngIf="showAppointmentForm">
       <form (submit)="isEditing ? updateCita() : createCita()">
-        <!-- Campos del formulario -->
         <div>
           <div class="form-group">
             <label class="col-form-label">
@@ -68,20 +66,36 @@
               <textarea class="form-control" name="motivo" id="motivo" cols="30" rows="8" [(ngModel)]="motivo"></textarea>
           </div>
           <div class="form-group">
-            <label class="col-form-label">
-                Hora
-            </label>
-            <select class="form-control" id="horario" name="horario" [(ngModel)]="hora">
-              <option *ngFor="let horario of horariosDisponibles" [value]="horario">{{ horario }}</option>
-            </select>
+            <label class="col-form-label">Hora</label>
+            <div class="d-flex flex-wrap justify-content-center">
+              <!-- Verificar si hay horarios disponibles -->
+              <ng-container *ngIf="horariosDisponibles && horariosDisponibles.length > 0; else sinHorarios">
+                <!-- Mostrar los botones si hay horarios -->
+                <button 
+                  type="button"
+                  class="btn btn-sm border rounded-circle m-1 d-flex align-items-center justify-content-center btn-circle" 
+                  *ngFor="let horario of horariosDisponibles"
+                  [ngClass]="{'bg-pink border-0 shadow': hora === horario}"
+                  (click)="seleccionarHora(horario)"
+                >
+                  {{ horario }}
+                </button>
+              </ng-container>
+          
+              <!-- Template para mostrar cuando no hay horarios -->
+              <ng-template #sinHorarios>
+                <p class="text-danger">¡Sin horarios disponibles! :(</p>
+              </ng-template>
+            </div>
           </div>
+             
           <hr>
           <div class="form-group">
             <label class="col-form-label">
                 Tipo de paciente
                 <span class="text-danger">*</span>
             </label>
-            <select class="form-control" [(ngModel)]="pacientable_type" name="pacientable_id" (ngModelChange)="cambiarTipoPaciente()">
+            <select class="form-control" [(ngModel)]="pacientable_type" name="pacientable_type" (click)="cambiarTipoPaciente()">
                 <option value="Empleado" selected>Empleado</option>
                 <option value="Externo">Externo</option>
                 <option value="Dependiente">Dependiente</option>
@@ -93,7 +107,7 @@
                 <span class="text-danger">*</span>
             </label>
             <div class="form-group">
-                <ngx-select [items]="opcionesPacientes" [(ngModel)]="pacientable_id" name="pacientable_type">
+                <ngx-select [items]="opcionesPacientes" [(ngModel)]="pacientable_id" name="pacientable_id">
                     <ng-content select="value"></ng-content>
                 </ngx-select>
             </div>

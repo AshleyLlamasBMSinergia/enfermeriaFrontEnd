@@ -24,6 +24,8 @@ export class HistorialesMedicosShowComponent implements OnInit {
 
   image: any;
 
+  fecha: any;
+
   formArchivo: FormGroup = this.formBuilder.group({
     historialMedico_id: [this.historialMedico?.id],
     tipo: [null],
@@ -57,6 +59,22 @@ export class HistorialesMedicosShowComponent implements OnInit {
     if (this.historialMedico!.pacientable?.fechaNacimiento) {
       const fechaNacimiento = new Date(this.historialMedico!.pacientable?.fechaNacimiento);
       this.edad = differenceInYears(new Date(), fechaNacimiento);
+    }
+  }
+
+  async buscarYAbrirPDF(historialMedicoId: number) {
+    try {
+      const archivoBlob = await this.historialesMedicosService.getPDF(historialMedicoId, this.fecha).toPromise();
+  
+      if (archivoBlob) {
+        const urlBlob = URL.createObjectURL(archivoBlob);
+        window.open(urlBlob, '_blank');
+      } else {
+        this.notificationService.error('El archivo está vacío o no se pudo obtener');
+      }
+    } catch (error) {
+      console.error('Error al abrir el archivo:', error);
+      this.notificationService.error('Error al abrir el archivo: '+error);
     }
   }
 

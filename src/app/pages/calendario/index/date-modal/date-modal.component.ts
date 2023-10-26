@@ -56,10 +56,15 @@ export class DateModalComponent {
       );
   }
 
+  seleccionarHora(horario: string) {
+    this.hora = horario;
+  }
+
+
   cerrarModal(){
     (window as any).$('#dateModal').modal('hide');
-    this.horariosDisponibles = [];
-    console.log(this.horariosDisponibles);
+
+    this.closeAppointmentForm();
   }
 
   iniciarConsulta(cita: number) {
@@ -71,24 +76,25 @@ export class DateModalComponent {
     return event?.calendario?.color || '#000000';
   }
 
-  openAppointmentForm(isEditing: boolean = false) {
-
-    if(this.isEditing == true){
-      this.tipo = '';
-      this.motivo = '';
-      this.hora = '';
-    }
-
+  abrirFormulario(isEditing: boolean = false) {
     this.showAppointmentForm = true;
     this.showEventInfo = false;
     this.isEditing = isEditing;
     
+    this.getHorariosDisponibles();
+  }
+
+  getHorariosDisponibles(){
     const selectedDate = new Date(this.selectedDate); // Convertir a objeto Date
     const formattedDate = formatDate(selectedDate, 'yyyy-MM-dd', 'en-US');
   
-    this.calendarioService.getHorariosDisponibles(1, formattedDate).subscribe(
+    this.calendarioService.getHorariosDisponibles(this.profesional.id, formattedDate).subscribe(
       (horariosDisponibles: string[]) => {
+        console.log(this.profesional.id);
         this.horariosDisponibles = horariosDisponibles;
+        if(this.isEditing){
+          this.horariosDisponibles.push(this.hora);
+        }
       },
       (error) => {
         console.error('Error al obtener los horarios disponibles', error);
@@ -202,29 +208,65 @@ export class DateModalComponent {
   }
 
   editCita(event: any) {
+    this.editedCita = event;
+    this.hora = new Date(event.calendario.fecha).toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
+
+    this.abrirFormulario(true);
+
     this.tipo = event.calendario.tipo;
     this.motivo = event.calendario.motivo;
-    this.hora = new Date(event.calendario.fecha).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    switch (event.calendario.paciente.pacientable_type) {
+      case 'App\\Models\\NomEmpleado':
+        this.pacientable_type = 'Empleado';
+        break;
+      case 'App\\Models\\RHDependiente':
+        this.pacientable_type = 'Dependiente';
+        break;
+      case 'App\\Models\\Externo':
+        this.pacientable_type = 'Externo';
+        break;
+    }
 
-    // Almacena la cita que se está editando en la propiedad editedCita
-    this.editedCita = event;
+    this.pacientable_id = event.calendario.paciente.pacientable_id;
 
-    this.openAppointmentForm(true);
+    switch(this.pacientable_type){
+      case 'Empleado':
+        this.cargarOpcionesEmpleados();
+      break;
+      case 'Externo':
+        this.cargarOpcionesExternos();
+      break;
+      case 'Dependiente':
+        this.cargarOpcionesDependientes();
+      break;
+    }
   }
 
   updateCita() {
     if (this.editedCita && this.editedCita.calendario) {
-      // Combina la fecha del calendario con la hora ingresada en el formulario
-      const fechaHora = new Date(this.selectedDate);
-      const horasMinutos = this.hora.split(':');
-        
-      fechaHora.setHours(Number(horasMinutos[0]), Number(horasMinutos[1]));
-        
+      const fechaCalendario = new Date(this.selectedDate);
+
+      const [horas, minutos] = this.hora.split(':').map(Number);
+  
+      const fechaHora = new Date(
+        fechaCalendario.getFullYear(),
+        fechaCalendario.getMonth(),
+        fechaCalendario.getDate(),
+        horas,
+        minutos
+      );
+  
+      // Convertir a la hora local
+      const fechaHoraLocal = fechaHora.toISOString();
+
       // Construir el objeto de la cita actualizada con los datos del formulario
       const citaActualizada = {
         tipo: this.tipo,
         motivo: this.motivo,
-        fecha: fechaHora.toISOString(), // Usar la fecha actualizada con la hora
+        fecha: fechaHoraLocal,
+        pacientable_type: this.pacientable_type,
+        pacientable_id: this.pacientable_id,
+        profesional_id: this.profesional.id,
       };
     
       // Llamar al servicio para actualizar la cita en el backend

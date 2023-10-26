@@ -1,16 +1,16 @@
-<div class="card" *ngIf="historialMedico?.pacientable?.dependientes">
+<div class="card" *ngIf="dependientes">
     <div class="card-header text-secondary border-0">
       <h3 class="card-title text-center">Dependientes</h3>
       <button (click)="crearDependiente()" type="button" class="btn btn-sm btn-pink float-right" data-toggle="modal" data-target="#dependienteModal">
         <i class="fas fa-plus"></i> Dar alta
       </button>
     </div>
-    <div class="card-body table-responsive" *ngIf="historialMedico?.pacientable?.dependientes !== undefined && historialMedico?.pacientable?.dependientes!.length > 0">
+    <div class="card-body table-responsive" *ngIf="dependientes !== undefined && dependientes!.length > 0">
       <table class="table table-sm table-valign-middle">
           <tbody>
-              <tr *ngFor="let dependiente of historialMedico?.pacientable?.dependientes">
+              <tr *ngFor="let dependiente of dependientes">
                   <td>
-                      {{ dependiente?.nombre }}
+                      {{ dependiente.nombre }}
                   </td>
                   <td width="10px" *ngIf="dependiente.historial_medico">
                     <a (click)="showHistorialMedico(dependiente?.historial_medico?.id)" class="btn btn-sm btn-secondary">

@@ -20,8 +20,8 @@ export class CalendarioService {
 
   constructor( private httpClient: HttpClient, private router: Router ) { }
 
-  getCalendarioEventos(): Observable<any[]> {
-    return this.httpClient.get<any[]>(this.apiURL+"calendario");
+  getCalendarioEventos(profesionalId: number): Observable<any[]> {
+    return this.httpClient.get<any[]>(this.apiURL+"calendario/profesional/"+profesionalId);
   }
 
   storeCita(cita: any): Observable<Calendario> {

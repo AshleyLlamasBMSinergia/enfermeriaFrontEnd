@@ -3,6 +3,7 @@ import { Consultas } from 'src/app/interfaces/consultas';
 import { ConsultasService } from '../consultas.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-index',
@@ -16,17 +17,30 @@ export class ConsultasIndexComponent implements OnInit{
   paginaActual = 1;
   elementosPorPagina = 10;
 
+  profesional: any;
+
     constructor(
       private consultasService: ConsultasService,
       private router: Router,
+      private userService: UserService,
     ) { }
   
     ngOnInit(): void {
+
+      this.userService.user$.subscribe(
+        (user: any) => {
+          this.profesional = user[0];
+        },
+        (error) => {
+          console.error('Error al obtener los datos del usuario', error);
+        }
+      );
+
       this.getConsultas();
     }
   
     getConsultas(): void {
-      this.consultasService.getConsultas().subscribe(
+      this.consultasService.getConsultas(this.profesional.id).subscribe(
         (consultas: Consultas[]) => {
           this.consultas = consultas.map((consulta) => {
             return this.consultasService.pacientable(consulta);

@@ -38,8 +38,16 @@ export class HistorialesMedicosService {
     return this.httpClient.get<HistorialesMedicos[]>(API_URL+"historiales-medicos");
   }
 
+  getDependientesDelEmpleado(empleadoId: number):Observable<Dependientes[]> {
+    return this.httpClient.get<Dependientes[]>(API_URL+"dependientes/"+empleadoId);
+  }
+
   getHistorialMedico(id: number): Observable<HistorialesMedicos> {
     return this.httpClient.get<HistorialesMedicos>(`${API_URL+"historiales-medicos"}/${id}`);
+  }
+
+  getPDF(recetaId: number, fecha: Date): Observable<Blob> {
+    return this.httpClient.get(API_URL + "historial-medico/pdf/" + recetaId + '/' + fecha, { responseType: 'blob' });
   }
 
   storeHistorialMedico(historialMedico: any, imagen: File): Observable<HistorialesMedicos> {
@@ -256,5 +264,9 @@ export class HistorialesMedicosService {
   }
   getDependientes(): Observable<any> {
     return this.httpClient.get<Dependientes[]>(`${API_URL}dependientes`);
+  }
+
+  getHistorialMedicoPorPaciente(pacienteType: string, pacienteId: number):Observable<any>{
+    return this.httpClient.get<HistorialesMedicos>(API_URL+"historiales-medicos/"+pacienteType+"/"+pacienteId);
   }
 }
