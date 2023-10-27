@@ -20,25 +20,6 @@
                             <input type="date" class="form-control" id="fechaCaducidad" formControlName="fechaCaducidad">
                         </div>
                     </div>
-                    <label>Entrada del lote</label>
-                    <div class="card shadow-none">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="form-group col-6 col-md-4">
-                                    <label>Folio de entrada</label>
-                                    <input type="text" class="form-control" id="folio" formControlName="folio">
-                                </div>
-                                <div class="form-group col-12 col-md-8">
-                                    <label>Motivo</label>
-                                    <input type="text" class="form-control" id="motivo" formControlName="motivo">
-                                </div>
-                                <div class="form-group col-12">
-                                    <label>Detalles</label>
-                                    <ckeditor [editor]="Editor" [config]="editorConfig" id="detalles" formControlName="detalles"></ckeditor>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div *ngIf="mensajesDeError.length > 0" class="text-danger pt-3">
                         <ul class="list-group">
                             <li class="list-group-item list-group-item-danger" *ngFor="let mensaje of mensajesDeError">{{ mensaje }}</li>

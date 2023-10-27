@@ -3,7 +3,7 @@
         
         <div class="card">
             <div class="card-header text-secondary border-0">
-              <h3 class="card-title text-center">Todos los insumos médicos de {{inventario.nombre}}</h3>
+              <h3 class="card-title text-center">Todos los insumos médicos de {{inventario?.nombre}}</h3>
               <div class="card-tools">
                 <a href="#" class="btn btn-tool btn-sm">
                   <i class="fas fa-download"></i>
@@ -34,12 +34,11 @@
                     <th class="text-center">Stock en cajas</th>
                     <th class="text-center">Stock en piezas</th>
                     <th></th>
-                    <th></th>
                     <!-- <th></th> -->
                 </tr>
                 </thead>
-                <tbody *ngIf="inventario.insumos.length > 0; else noInsumos">
-                    <tr *ngFor="let insumo of inventario.insumos | paginate: {itemsPerPage: elementosPorPagina, currentPage: paginaActual}">
+                <tbody *ngIf="inventario?.insumos.length > 0; else noInsumos">
+                    <tr *ngFor="let insumo of inventario?.insumos | paginate: {itemsPerPage: elementosPorPagina, currentPage: paginaActual}">
                         <td>
                             <i class="fas fa-circle" [ngClass]="{
                                 'text-success': insumo.lotes.length > 10,
@@ -49,29 +48,19 @@
                             }"></i>
                         </td>
                         <td>
-                            {{ insumo.nombre }}
+                            {{ insumo?.nombre }}
                         </td>
                         <td class="text-center">
                             {{ insumo?.lotes?.length || 0 }}
                         </td>
                         <td class="text-center">
-                            {{ obtenerSumatoriaPiezasDisponibles(insumo.lotes) }}
+                            {{ obtenerSumatoriaPiezasDisponibles(insumo?.lotes) }}
                         </td>
                         <td width="10px">
-                            <button href="#" class="btn btn-sm btn-secondary" (click)="showInsumoMedico(insumo.id)">
+                            <button href="#" class="btn btn-sm btn-secondary" (click)="showInsumoMedico(insumo?.id)">
                                 <i class="fas fa-list"></i>
                             </button>
                         </td>
-                        <td width="10px">
-                            <!-- <button (click)="editInsumoMedico(insumo.id)" class="btn btn-sm btn-primary">
-                                <i class="fas fa-edit"></i>
-                            </button> -->
-                        </td>
-                        <!-- <td width="10px">
-                            <button href="#" class="btn btn-sm btn-danger" (click)="destroyInsumo(insumo.id)">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </td> -->
                     </tr>
                 </tbody>
               </table>

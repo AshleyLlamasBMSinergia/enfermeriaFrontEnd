@@ -3,80 +3,57 @@
         <div class="card">
           <div class="card-header text-secondary border-0">
             <h3 class="card-title text-center">Información del insumo</h3>
-            <div class="card-tools">
-                <!-- <a class="btn btn-tool btn-sm">
-                <i class="fas fa-download"></i>
-                </a> -->
-            </div>
           </div>
           <div class="card-body">
               <div class="row">
-                  <div class="col-12 col-sm-4">
-                      <div class="pb-2">
-                        <div class="d-flex border-bottom py-2">
-                          <div>
-                            <b>Nombre</b>
-                          </div>
-                          <div class="ml-auto">
-                            {{insumo?.nombre}}
-                          </div>
-                        </div>
-                      </div>
-                      <img [src]="image" alt="..." class="img-thumbnail img-fluid">
+                <div class="col-12 col-md-4">
+                  <img [src]="image" alt="..." class="img-thumbnail img-fluid">
+                </div>
+                <div class="col-12 col-md-8">
+                  <div class="pb-2">
+                    <div class="d-flex border-bottom py-2">
                       <div>
-                        <div class="py-2">
-                            <div class="d-flex border-bottom py-2">
-                              <div>
-                                <b>Precio</b>
-                              </div>
-                              <div class="ml-auto">
-                                {{insumo?.precio}} $
-                              </div>
-                            </div>
-                          </div>
-                        <div class="py-2">
-                            <div class="d-flex border-bottom py-2">
-                              <div>
-                                <b>Piezas por lote</b>
-                              </div>
-                              <div class="ml-auto">
-                                {{insumo?.piezasPorLote}}
-                              </div>
-                            </div>
-                        </div>
-                        <div class="py-2" *ngIf="insumo?.descripcion">
-                            <div class="d-flex py-2">
-                              <div>
-                                <b>Descripción</b>
-                              </div>
-                            </div>
-                            <div>
-                              <div class="border rounded bg-white p-2" [innerHtml]='insumo?.descripcion'>
-                                {{ insumo?.descripcion }}
-                              </div>
-                            </div>
-                          </div>
-                          <div class="py-2">
-                            <div class="d-flex border-bottom py-2">
-                              <div>
-                                <b>Numero de lotes</b>
-                              </div>
-                              <div class="ml-auto">
-                                <span class="badge badge-info">{{insumo?.lotes?.length}}</span>
-                              </div>
-                            </div>
-                        </div>
+                        <b>Nombre</b>
+                      </div>
+                      <div class="ml-auto">
+                        {{insumo?.nombre}}
+                      </div>
                     </div>
                   </div>
-                  <div class="col-12 col-sm-8">
-                    <!-- <full-calendar class="my-custom-calendar"></full-calendar> -->
+                  <div class="pb-2">
+                    <div class="border rounded bg-white p-2" [innerHtml]='insumo?.descripcion'>
+                      {{ insumo?.descripcion }}
+                    </div>
                   </div>
+                  <div class="row">
+                    <div class="col-12 col-md-6">
+                      <div class="d-flex border-bottom py-2">
+                        <div>
+                          <b>Precio</b>
+                        </div>
+                        <div class="ml-auto">
+                          {{insumo?.precio}} $
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                      <div class="d-flex border-bottom py-2">
+                        <div>
+                          <b>Piezas por lote</b>
+                        </div>
+                        <div class="ml-auto">
+                          {{insumo?.piezasPorLote}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
           </div>
         </div>
         <div class="card">
           <div class="card-header text-secondary border-0">
-            <h3 class="card-title text-center">Todos los lotes médicos de {{insumo?.nombre}}</h3>
+            <h3 class="card-title text-center">Todos los lotes médicos de {{insumo?.nombre}} <span class="badge badge-info">{{insumo?.lotes?.length}}</span></h3>
             <div class="card-tools">
               <a href="#" class="btn btn-tool btn-sm">
                 <i class="fas fa-download"></i>
@@ -106,8 +83,6 @@
                   <th class="text-center">Fecha de caducidad</th>
                   <th class="text-center">Piezas disponibles</th>
                   <th></th>
-                  <!-- <th></th> -->
-                  <!-- <th></th> -->
               </tr>
               </thead>
               <tbody *ngIf="lotes.length > 0; else nolotes">
@@ -124,18 +99,8 @@
                       <td width="10px">
                         <button href="#" class="btn btn-sm btn-secondary" (click)="showLote(lote.id)">
                           <i class="fas fa-eye"></i>
-                      </button>
+                        </button>
                       </td>
-                      <!-- <td width="10px">
-                          <button href="#" class="btn btn-sm btn-primary">
-                              <i class="fas fa-edit"></i>
-                          </button>
-                      </td> -->
-                      <!-- <td width="10px">
-                          <button href="#" class="btn btn-sm btn-danger" (click)="destroyLote(lote.id)">
-                              <i class="fas fa-trash"></i>
-                          </button>
-                      </td> -->
                   </tr>
               </tbody>
             </table>

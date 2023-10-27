@@ -168,9 +168,9 @@
                                                 T.A (DBP/SBP)
                                             </label>
                                             <div class="border rounded">
-                                                <input type="number" id="precionDiastolica" class="form-control border-0 text-center" formControlName="precionDiastolica">
+                                                <input type="number" id="presionSistolica" class="form-control border-0 text-center" formControlName="presionSistolica">
                                                 <hr class="my-0 mx-2">
-                                                <input type="number" id="precionDiastolica" class="form-control border-0 text-center" formControlName="precionDiastolica">
+                                                <input type="number" id="presionDiastolica" class="form-control border-0 text-center" formControlName="presionDiastolica">
                                             </div>
                                         </div>
                                     </div>
@@ -180,9 +180,9 @@
                                                 Gluc. (mg/dL)
                                             </label>
                                             <div class="border rounded">
-                                                <input type="number" id="grucemiaCapilar" class="form-control border-0 text-center" formControlName="precionDiastolica">
+                                                <input type="number" id="mg" class="form-control border-0 text-center" formControlName="mg">
                                                 <hr class="my-0 mx-2">
-                                                <input type="number" id="grucemiaCapilar" class="form-control border-0 text-center" formControlName="precionDiastolica">
+                                                <input type="number" id="dl" class="form-control border-0 text-center" formControlName="dl">
                                             </div>
                                         </div>
                                     </div>
@@ -292,7 +292,7 @@
                                     Diagnóstico
                                     <span class="text-danger">*</span>
                                 </label>
-                                <ngx-select [items]="diagnosticos" formControlName="diagnostico">
+                                <ngx-select [items]="diagnosticos" formControlName="diagnostico_id">
                                     <ng-content select="value"></ng-content>
                                 </ngx-select>
                             </div>

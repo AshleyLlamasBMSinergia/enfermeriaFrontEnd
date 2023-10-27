@@ -11,7 +11,7 @@ import { InventarioDataService } from '../inventario-data.service';
   styleUrls: ['./show.component.css']
 })
 export class InventarioShowComponent {
-  inventario!: Inventarios;
+  inventario?: any;
   loading: boolean = false;
 
   paginaActual = 1;
@@ -28,7 +28,11 @@ export class InventarioShowComponent {
   ) { }
 
   ngOnInit(): void {
-    this.getInventario();
+    const inventarioId = +this.route.snapshot.paramMap.get('id')!;
+    this.inventariosService.getInventario(inventarioId)
+      .subscribe(inventario => {
+        this.inventario = inventario;
+      });
 
     this.searchTerms.pipe(
       debounceTime(500)
@@ -56,14 +60,6 @@ export class InventarioShowComponent {
   crearInsumo(inventarioId: number) {
     this.inventarioDataService.setInventarioId(inventarioId);
     this.router.navigate(['/enfermeria/insumos-medicos/create']);
-  }
-
-  getInventario() {
-    const inventarioId = +this.route.snapshot.paramMap.get('id')!;
-    this.inventariosService.getInventario(inventarioId)
-      .subscribe(inventario => {
-        this.inventario = inventario;
-      });
   }
 
   showInsumoMedico(id: number) {

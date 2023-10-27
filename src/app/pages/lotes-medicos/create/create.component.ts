@@ -18,14 +18,11 @@ export class LotesMedicosCreateComponent {
   public Editor = ClassicEditor;
 
   nombresDescriptivos: { [key: string]: string } = {
-    folio: 'folio',
     lote: 'lote',
     fechaCaducidad: 'fecha de caducidad',
     piezasDisponibles: 'piezas disponibles',
     insumo_id: 'insumo',
     profesional_id:'profesional_id',
-    motivo: 'motivo', 
-    detalles: 'detalles'
   };
 
   public editorConfig = {
@@ -62,14 +59,11 @@ export class LotesMedicosCreateComponent {
   ) 
   {
     this.lotesMedicosForm = this.formBuilder.group({
-      folio: [null, [Validators.required, Validators.maxLength(254)]],
       lote: [null, [Validators.required, Validators.maxLength(254)]],
       fechaCaducidad: [null, [Validators.required]],
       piezasDisponibles: [null, [Validators.required]],
       insumo_id:  [null, [Validators.required]],
       profesional_id:  [null, [Validators.required]],
-      motivo: [null, [Validators.required, Validators.maxLength(254)]],
-      detalles: [null, [Validators.required, Validators.maxLength(254)]],
     });
   }
 
