@@ -92,6 +92,7 @@
                 <th>Profesional</th>
             </tr>
             </thead>
+
             <tbody *ngIf="lote?.movimientos!.length > 0; else nolotes">
               <tr *ngFor="let movimiento of lote!.movimientos | paginate: {itemsPerPage: elementosPorPagina, currentPage: paginaActual}">
                     <td>
@@ -132,45 +133,47 @@
           </button>
         </div>
         <div class="modal-body">
-          <form [formGroup]="movimientoForm" (submit)="guardar()">
-            <div class="row">
-              <div class="form-group">
-                <label class="col-form-label">
-                  Tipo de movimiento
-                  <span class="text-danger">*</span>
-                </label>
-                <ngx-select [items]="movimientoTipos" [formControlName]="'movimientoTipo'" [id]="'movimientoTipo'" name="movimientoTipo">
-                    <ng-content select="value"></ng-content>
-                </ngx-select>
-              </div>
-              <div class="form-group col-12" *ngIf="movimientoForm.get('movimientoTipo')?.value != 3">
-                <label>Piezas a descontar</label>
-                <div class="input-group mb-3">
-                  <input type="number" class="form-control" id="piezasDescontables" formControlName="piezasDescontables">
-                  <div class="input-group-append">
-                    <span class="input-group-text">{{lote?.insumo?.piezasPorLote}}</span>
+          <div>
+            <form [formGroup]="movimientoForm" (submit)="guardar()">
+              <div class="row">
+                <div class="form-group">
+                  <label class="col-form-label">
+                    Tipo de movimiento
+                    <span class="text-danger">*</span>
+                  </label>
+                  <ngx-select [items]="movimientoTipos" [formControlName]="'movimientoTipo'" [id]="'movimientoTipo'" name="movimientoTipo">
+                      <ng-content select="value"></ng-content>
+                  </ngx-select>
+                </div>
+                <div class="form-group col-12">
+                  <label>Piezas a descontar</label>
+                  <div class="input-group mb-3">
+                    <input type="number" class="form-control" id="piezasDescontables" formControlName="piezasDescontables" name="piezasDescontables">
+                    <div class="input-group-append">
+                      <span class="input-group-text">{{lote?.insumo?.piezasPorLote}}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="form-group col-12" *ngIf="movimientoForm.get('movimientoTipo')?.value == 3">
-                <label>Piezas a ingresar</label>
-                <div class="input-group mb-3">
-                  <input type="number" class="form-control" id="piezasIngresables" formControlName="piezasIngresables">
-                  <div class="input-group-append">
-                    <span class="input-group-text">{{lote?.insumo?.piezasPorLote}}</span>
+                <!-- <div class="form-group col-12" *ngIf="movimientoForm.get('movimientoTipo')?.value == 3">
+                  <label>Piezas a ingresar</label>
+                  <div class="input-group mb-3">
+                    <input type="number" class="form-control" id="piezasIngresables" formControlName="piezasIngresables" name="piezasIngresables">
+                    <div class="input-group-append">
+                      <span class="input-group-text">{{lote?.insumo?.piezasPorLote}}</span>
+                    </div>
                   </div>
-                </div>
+                </div> -->
               </div>
-            </div>
-            <div *ngIf="mensajesDeError.length > 0" class="text-danger pb-3">
-                <ul class="list-group">
-                    <li class="list-group-item list-group-item-danger" *ngFor="let mensaje of mensajesDeError">{{ mensaje }}</li>
-                </ul>
-            </div>
-            <div class="text-center">
-                <button class="btn bg-pink">Guardar</button>
-            </div>
-        </form>
+              <div *ngIf="mensajesDeError.length > 0" class="text-danger pb-3">
+                  <ul class="list-group">
+                      <li class="list-group-item list-group-item-danger" *ngFor="let mensaje of mensajesDeError">{{ mensaje }}</li>
+                  </ul>
+              </div>
+              <div class="text-center">
+                  <button class="btn bg-pink">Guardar</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>

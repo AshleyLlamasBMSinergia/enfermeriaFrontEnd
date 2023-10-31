@@ -18,7 +18,7 @@ import { MovimientosService } from 'src/app/services/movimientos.service';
 export class LotesShowComponent {
   lote?: Lotes | null;
 
-  movimientoForm: FormGroup ;
+  movimientoForm!: FormGroup ;
 
   paginaActual = 1;
   elementosPorPagina = 10;
@@ -50,38 +50,9 @@ export class LotesShowComponent {
     private movimientosService: MovimientosService
   )
   {
-    this.route.params.subscribe(params => {
-      const inventarioId = params['inventarioId']; // Obtén el ID del inventario
-      const insumoId = params['insumoId']; // Obtén el ID del insumo
-      const loteId = params['loteId']; // Obtén el ID del insumo
-
-      this.lotesMedicosService.getLotesPorInventario(inventarioId, loteId)
-        .subscribe(lote => {
-          
-          this.lote = lote;
-        
-          if (lote.insumo.image?.url) {
-            this.obtenerImagen(lote.insumo.image?.url).subscribe((imagen) => {
-              this.image = imagen;
-            });
-          }else{
-            this.image = '/assets/dist/img/image.jpg';
-          }
-      });
-    });
-
-    this.movimientoForm = this.formBuilder.group({
-      profesional_id: [null, [Validators.required]],
-      lote_id: [null, [Validators.required]],
-      inventario_id: [null],
-      movimientoTipo: ['', [Validators.required]],
-      // piezasDescontables: [null, [Validators.max(this.lote!.insumo.piezasPorLote)]],
-      // piezasIngresables: [null, [Validators.max(this.lote!.piezasDisponibles)]]
-    });
-
     this.userService.user$.subscribe(
       (user: any) => {
-        this.movimientoForm.get('profesional_id')?.setValue(user[0].useable_id);
+        // this.movimientoForm.get('profesional_id')?.setValue(user[0].useable_id);
       },
       (error) => {
         console.error('Error al obtener los datos del usuario', error);
@@ -99,36 +70,59 @@ export class LotesShowComponent {
         console.error('Error al obtener externos:', error);
       }
     );
+
+    // this.movimientoForm = this.formBuilder.group({
+    //   profesional_id: [null, [Validators.required]],
+    //   lote_id: [null, [Validators.required]],
+    //   inventario_id: [null, [Validators.required]],
+    //   movimientoTipo: ['', [Validators.required]],
+    //   piezasDescontables: [null, [Validators.required, Validators.max(this.lote!.piezasDisponibles)]],
+    //   piezasIngresables: [null, [Validators.required, Validators.max(this.lote!.insumo.piezasPorLote)]]
+    // });
   }
 
-  // ngOnInit(): void {
-  //   this.getLote();
-  // }
+  ngOnInit(): void {
+    this.getLote();
+  }
   
-  // getLote() {
-  //   this.route.params.subscribe(params => {
-  //     const inventarioId = params['inventarioId']; // Obtén el ID del inventario
-  //     const insumoId = params['insumoId']; // Obtén el ID del insumo
-  //     const loteId = params['loteId']; // Obtén el ID del insumo
+  getLote() {
+    this.route.params.subscribe(params => {
+      const inventarioId = params['inventarioId']; // Obtén el ID del inventario
+      const insumoId = params['insumoId']; // Obtén el ID del insumo
+      const loteId = params['loteId']; // Obtén el ID del insumo
 
-  //     this.lotesMedicosService.getLotesPorInventario(inventarioId, loteId)
-  //       .subscribe(lote => {
+      // this.movimientoForm.get('inventario_id')?.setValue(inventarioId);
+      // this.movimientoForm.get('lote_id')?.setValue(loteId);
+
+      this.construirFormulario();
+
+      this.lotesMedicosService.getLotesPorInventario(inventarioId, loteId)
+        .subscribe(lote => {
           
-  //         this.lote = lote;
-        
-  //         this.movimientoForm.addControl('piezasIngresables', this.formBuilder.control(null, [Validators.required, Validators.max(lote.insumo.piezasPorLote)]));
-  //         this.movimientoForm.addControl('piezasDescontables', this.formBuilder.control(null, [Validators.required, Validators.max(lote.piezasDisponibles)]));
-  
-  //         if (lote.insumo.image?.url) {
-  //           this.obtenerImagen(lote.insumo.image?.url).subscribe((imagen) => {
-  //             this.image = imagen;
-  //           });
-  //         }else{
-  //           this.image = '/assets/dist/img/image.jpg';
-  //         }
-  //     });
-  //   });
-  // }
+          this.lote = lote;
+          console.log('El Lote from api', lote);
+
+          if (lote.insumo.image?.url) {
+            this.obtenerImagen(lote.insumo.image?.url).subscribe((imagen) => {
+              this.image = imagen;
+            });
+          }else{
+            this.image = '/assets/dist/img/image.jpg';
+          }
+      });
+    });
+  }
+
+  construirFormulario(){
+    this.movimientoForm = this.formBuilder.group({
+        // profesional_id: [null, [Validators.required]],
+        // lote_id: [null, [Validators.required]],
+        // inventario_id: [null, [Validators.required]],
+        movimientoTipo: ['', [Validators.required]],
+        piezasDescontables: [null, [Validators.required, Validators.max(this.lote!.piezasDisponibles)]],
+        // piezasIngresables: [null, [Validators.required, Validators.max(this.lote!.insumo.piezasPorLote)]]
+      });
+  }
 
   obtenerImagen(url: string): Observable<any> {
     return this.imageService.getImagen(url).pipe(
