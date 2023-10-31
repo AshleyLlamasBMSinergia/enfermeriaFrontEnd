@@ -260,12 +260,12 @@ export class ConsultasCreateComponent implements OnInit {
           error => console.error('Error al obtener inventarios', error)
         );
 
-        if (user[0].useable.image.url) {
+        if (user[0].useable.image) {
           this.obtenerImagen(user[0].useable.image.url).subscribe((imagen) => {
             this.imageProfesional = imagen;
           });
         } else {
-          this.imagePaciente = '/assets/dist/img/user.png';
+          this.imageProfesional = '/assets/dist/img/user.png';
         }
       },
       (error) => {
@@ -510,7 +510,7 @@ export class ConsultasCreateComponent implements OnInit {
       this.calcularIMC(historialMedico?.peso, historialMedico?.talla);
     }
 
-    if (historialMedico?.pacientable?.image?.url) {
+    if (historialMedico?.pacientable?.image) {
       this.obtenerImagen(historialMedico?.pacientable?.image?.url).subscribe((imagen) => {
         this.imagePaciente = imagen;
       });

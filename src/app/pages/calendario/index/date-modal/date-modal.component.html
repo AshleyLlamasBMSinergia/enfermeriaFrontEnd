@@ -101,12 +101,12 @@
                 <option value="Dependiente">Dependiente</option>
             </select>
           </div>
-          <div class="form-group" *ngIf="pacientable_type">
-            <label class="col-form-label">
-                Paciente
-                <span class="text-danger">*</span>
-            </label>
+          <div *ngIf="pacientable_type">
             <div class="form-group">
+                <label class="col-form-label">
+                  Paciente
+                  <span class="text-danger">*</span>
+                </label>
                 <ngx-select [items]="opcionesPacientes" [(ngModel)]="pacientable_id" name="pacientable_id">
                     <ng-content select="value"></ng-content>
                 </ngx-select>

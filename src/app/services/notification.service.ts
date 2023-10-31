@@ -19,6 +19,15 @@ export class NotificationService {
     }, 2000);
   }
 
+  success(response: any) {
+    Swal.fire({
+      icon: 'success',
+      title: response.message,
+      showConfirmButton: false,
+      timer: 6500
+    });
+  }
+
   info(title: any, text: any) {
     Swal.fire({
       icon: 'warning',

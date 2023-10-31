@@ -42,6 +42,15 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div>
+                                    <label>Reactivos</label>
+                                    <ngx-select
+                                        [items]="reactivos"
+                                        [multiple]="true"
+                                        placeholder="Seleccione todos los medicamentos asociados al insumo"
+                                        [formControlName]="'reactivos'"
+                                    ></ngx-select>
+                                </div>
                                 <ckeditor [editor]="Editor" [config]="editorConfig" id="descripcion" formControlName="descripcion"></ckeditor>
                                 <div *ngIf="mensajesDeError.length > 0" class="text-danger pt-3">
                                     <ul class="list-group">

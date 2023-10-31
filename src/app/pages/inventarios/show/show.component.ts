@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { InventariosService } from '../inventarios.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, debounceTime  } from 'rxjs';
-import { Inventarios } from 'src/app/interfaces/inventarios';
 import { InventarioDataService } from '../inventario-data.service';
 
 @Component({
@@ -59,12 +58,12 @@ export class InventarioShowComponent {
 
   crearInsumo(inventarioId: number) {
     this.inventarioDataService.setInventarioId(inventarioId);
-    this.router.navigate(['/enfermeria/insumos-medicos/create']);
+    this.router.navigate(['/enfermeria/inventarios', inventarioId, 'insumos', 'create']);
   }
 
-  showInsumoMedico(id: number) {
-    this.router.navigate(['/enfermeria/insumos-medicos', id]);
-  }
+  showInsumoMedico(inventarioId: number, insumoId: number) {
+    this.router.navigate(['/enfermeria/inventarios', inventarioId, 'insumos', insumoId]);
+  }  
 
   obtenerSumatoriaPiezasDisponibles(lotes: any[]): number {
     return lotes.reduce((total, lote) => total + parseInt(lote.piezasDisponibles, 10), 0);

@@ -32,6 +32,11 @@ export class LotesMedicosService {
   //   return this.httpClient.get<Lotes[]>(this.apiURL);
   // }
 
+
+  getLotesPorInventario(inventarioId:number, LoteId:number){
+    return this.httpClient.get<Lotes>(`${API_URL}inventarios/${inventarioId}/lotes/${LoteId}`);
+  }
+
   getInsumo(id: number): Observable<Insumos> {
     return this.httpClient.get<Insumos>(`${API_URL}insumos-medicos/${id}`);
   }

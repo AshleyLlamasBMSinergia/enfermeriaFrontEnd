@@ -5,6 +5,7 @@ import {  Observable } from 'rxjs';
 import { Insumos } from 'src/app/interfaces/insumos';
 import { API_URL } from 'src/app/config';
 import { Router } from '@angular/router';
+import { Reactivos } from 'src/app/interfaces/reactivos';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,14 @@ export class InsumosMedicosService {
     return this.httpClient.get<Insumos[]>(this.apiURL);
   }
 
+  getReactivos(): Observable<Reactivos[]> {
+    return this.httpClient.get<Reactivos[]>(API_URL+'reactivos');
+  }
+
+  getInsumosQueNoTieneInventario(inventarioId: any): Observable<Insumos[]> {
+    return this.httpClient.get<Insumos[]>(`${API_URL}insumos/no-inventario/${inventarioId}`);
+  }
+
   storeInsumo(insumo: any, imagen: File): Observable<Insumos> {
     return new Observable<Insumos>((observer) => {
       const reader = new FileReader();
@@ -54,8 +63,16 @@ export class InsumosMedicosService {
     });
   }
 
+  addInsumo(insumo: any){
+    return this.httpClient.post<Insumos>(`${API_URL}inventarios/add-insumos`, insumo, this.httpOptions);
+  }
+
   getInsumo(id: number): Observable<Insumos> {
-    return this.httpClient.get<Insumos>(`${this.apiURL}/${id}`);
+    return this.httpClient.get<Insumos>(`${API_URL}insumos-medicos/${id}`);
+  }
+
+  getInsumoPorInventario(inventarioId: number, insumoId: number): Observable<Insumos> {
+    return this.httpClient.get<Insumos>(`${API_URL}inventarios/${inventarioId}/insumos/${insumoId}`);
   }
 
   destroyInsumo(insumos: number): Observable<any> {

@@ -32,7 +32,7 @@ export class SidebarComponent implements OnInit {
     this.userService.user$.subscribe(
       (user: any) => {
         this.user = user[0];
-        if(user[0].useable.image.url){
+        if(user[0].useable.image){
           this.imageService.getImagen(user[0].useable.image.url).subscribe(
             (response: any) => {
               const blob = new Blob([response], { type: 'image/jpeg' });

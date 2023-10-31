@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { InventarioIndexComponent } from './index/index.component';
-import { InventarioCreateComponent } from './create/create.component';
-import { InventarioEditComponent } from './edit/edit.component';
 import { InventarioShowComponent } from './show/show.component';
+import { InsumoShowComponent } from './show/insumos/show/show.component';
+import { InsumoCreateComponent } from './show/insumos/create/create.component';
+import { LotesShowComponent } from './show/insumos/lotes/show/show.component';
+import { LotesCreateComponent } from './show/insumos/lotes/create/create.component';
 
 const routes: Routes = [
   {
@@ -14,27 +16,42 @@ const routes: Routes = [
     },
   },
   {
-    path: 'create',
-    component: InventarioCreateComponent,
-    data: {
-      subtitulo: 'Crear Inventario',
-    },
-  },
-  {
-    path: 'edit/:edit',
-    component: InventarioEditComponent,
-    data: {
-      subtitulo: 'Editar Inventario',
-    },
-  },
-  {
     path: ':id',
     component: InventarioShowComponent,
     data: {
-      subtitulo: 'Ver Inventario',
+      subtitulo: 'Ver Inventario', 
+    },
+  },
+  {
+    path: ':inventarioId/insumos/create',
+    component: InsumoCreateComponent,
+    data: {
+      subtitulo: 'Ingresar Insumo',
+    },
+  },
+  {
+    path: ':inventarioId/insumos/:insumoId',
+    component: InsumoShowComponent,
+    data: {
+      subtitulo: 'Ver Insumo',
+    },
+  },
+  {
+    path: ':inventarioId/insumos/:insumoId/lotes/create',
+    component: LotesCreateComponent,
+    data: {
+      subtitulo: 'Ingresar Lote',
+    },
+  },
+  {
+    path: ':inventarioId/insumos/:insumoId/lotes/:loteId',
+    component: LotesShowComponent,
+    data: {
+      subtitulo: 'Ver Lote',
     },
   },
 ];
+
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

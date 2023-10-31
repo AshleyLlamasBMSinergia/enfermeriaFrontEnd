@@ -18,6 +18,8 @@ export class InsumosMedicosCreateComponent {
   imagen: File | null = null;
   url: string | null = null;
 
+  reactivos: any[] = [];
+
   public Editor = ClassicEditor;
 
   nombresDescriptivos: { [key: string]: string } = {
@@ -67,6 +69,7 @@ export class InsumosMedicosCreateComponent {
       descripcion: [null, [Validators.required, Validators.maxLength(40000)]],
       precio: [null, [Validators.required]],
       inventario_id: [inventarioId, Validators.required],
+      reactivos: [[]]
     });
   }
 
@@ -74,6 +77,22 @@ export class InsumosMedicosCreateComponent {
     this.inventarioDataService.inventarioId$.subscribe(id => {
       this.insumosMedicosForm.get('inventario_id')?.setValue(id);
     });
+
+    this.getReactivos();
+  }
+
+  getReactivos(){
+    this.insumosMedicosService.getReactivos().subscribe(
+      (reactivos) => {
+        this.reactivos = reactivos.map((reactivo: any) => ({
+          id: reactivo.id,
+          text: reactivo.nombre,
+        }));
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
   imagenSeleccionada(event: any) {

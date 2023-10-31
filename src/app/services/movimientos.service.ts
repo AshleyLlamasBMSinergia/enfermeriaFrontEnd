@@ -20,6 +20,10 @@ export class MovimientosService {
 
   private apiURL = API_URL+"movimientos";
 
+  getMoviemientoTipos(): Observable<any> {
+    return this.httpClient.get<Movimientos[]>(API_URL+'tipos-de-movimientos');
+  }
+
   storeMovimiento(movimiento: any): Observable<Movimientos> {
     return this.httpClient.post<Movimientos>(this.apiURL, movimiento, this.httpOptions);
   }

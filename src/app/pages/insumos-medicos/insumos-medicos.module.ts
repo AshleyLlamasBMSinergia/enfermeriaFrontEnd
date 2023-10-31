@@ -10,6 +10,7 @@ import { InsumosMedicosEditComponent } from './edit/edit.component';
 import { InsumosMedicosCreateComponent } from './create/create.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { NgxSelectModule } from 'ngx-select-ex';
 @NgModule({
   declarations: [
     InsumosMedicosIndexComponent,
@@ -26,6 +27,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     CKEditorModule,
     NgxPaginationModule,
     FullCalendarModule,
+    NgxSelectModule
   ],
 })
 export class InsumosMedicosModule { }

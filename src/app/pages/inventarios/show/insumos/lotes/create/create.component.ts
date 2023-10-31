@@ -1,9 +1,8 @@
+import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { LotesMedicosService } from 'src/app/pages/lotes-medicos/lotes-medicos.service';
 import { NotificationService } from 'src/app/services/notification.service';
-import { Component, Output, EventEmitter } from '@angular/core';
-import { InsumoDataService } from '../../insumos-medicos/insumo-data.service';
-import { LotesMedicosService } from '../lotes-medicos.service';
 import { UserService } from 'src/app/services/user.service';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
@@ -12,7 +11,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.css']
 })
-export class LotesMedicosCreateComponent {
+export class LotesCreateComponent {
   lotesMedicosForm: FormGroup;
 
   public Editor = ClassicEditor;
@@ -53,7 +52,6 @@ export class LotesMedicosCreateComponent {
     private formBuilder: FormBuilder,
     private notificationService: NotificationService,
     private route: ActivatedRoute,
-    private insumoDataService: InsumoDataService,
     private lotesMedicosService: LotesMedicosService,
     private userService: UserService,
   ) 
@@ -64,12 +62,17 @@ export class LotesMedicosCreateComponent {
       piezasDisponibles: [null, [Validators.required]],
       insumo_id:  [null, [Validators.required]],
       profesional_id:  [null, [Validators.required]],
+      inventario_id:  [null, [Validators.required]],
     });
   }
 
   ngOnInit() {
-    this.insumoDataService.insumoId$.subscribe(id => {
-      this.lotesMedicosForm.get('insumo_id')?.setValue(id);
+    this.route.params.subscribe(params => {
+      const inventarioId = params['inventarioId']; // Obtén el ID del inventario
+      const insumoId = params['insumoId']; // Obtén el ID del insumo
+
+      this.lotesMedicosForm.get('inventario_id')?.setValue(inventarioId);
+      this.lotesMedicosForm.get('insumo_id')?.setValue(insumoId);
     });
 
     this.userService.user$.subscribe(
@@ -89,9 +92,13 @@ export class LotesMedicosCreateComponent {
       this.lotesMedicosService.storeLote(lotesMedicos).subscribe(
         (response) => {
           this.notificationService.mensaje(response);
-
-          this.router.navigate(['/enfermeria/inventarios', this.lotesMedicosForm.value('inventario_id'), 'insumos', this.lotesMedicosForm.value('insumo_id')]);
-
+          this.router.navigate([
+            '/enfermeria/inventarios', 
+            this.lotesMedicosForm.get('inventario_id')?.value, 
+            'insumos', 
+            this.lotesMedicosForm.get('insumo_id')?.value
+          ]);
+          
         },
         (error) => {
           this.notificationService.error(error.error);

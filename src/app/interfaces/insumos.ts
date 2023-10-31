@@ -1,5 +1,6 @@
 import { Lotes } from "src/app/interfaces/lotes"
 import { Image } from "./image";
+import { Reactivos } from "./reactivos";
 
 export interface Insumos {
     id: number;
@@ -11,5 +12,6 @@ export interface Insumos {
 
     // requisicion: Requisicion
     lotes: Lotes[];
+    reactivos: Reactivos[];
     image: Image;
 }

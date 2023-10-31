@@ -62,33 +62,23 @@ const routes:Routes = [
         },
         canActivate: [AuthGuard,]
       },
-      {
-        path: 'insumos-medicos',
-        loadChildren: () =>
-          import('./insumos-medicos/insumos-medicos.module').then((m) => m.InsumosMedicosModule),
-        data: {
-          titulo: 'Insumos médicos',
+      // {
+      //   path: 'insumos-medicos',
+      //   loadChildren: () =>
+      //     import('./insumos-medicos/insumos-medicos.module').then((m) => m.InsumosMedicosModule),
+      //   data: {
+      //     titulo: 'Insumos médicos',
 
-        },
-        canActivate: [AuthGuard,]
-      },
-      {
-        path: 'lotes-medicos',
-        loadChildren: () =>
-          import('./lotes-medicos/lotes-medicos.module').then((m) => m.LotesMedicosModule),
-        data: {
-          titulo: 'Lotes médicos',
-        },
-      },
-      {
-        path: 'requisiciones',
-        loadChildren: () =>
-          import('./requisiciones/requisiciones.module').then((m) => m.RequisicionesModule),
-        data: {
-          titulo: 'Requisiciones',
-        },
-        canActivate: [AuthGuard,]
-      },
+      //   },
+      //   canActivate: [AuthGuard,]
+      // },
+      // {
+      //   path: 'lotes-medicos',
+      //   loadChildren: () =>
+      //     import('./lotes-medicos/lotes-medicos.module').then((m) => m.LotesMedicosModule),
+      //   data: {
+      //     titulo: 'Lotes médicos',
+      //   },
       {
         path: 'estadisticas',
         loadChildren: () =>
