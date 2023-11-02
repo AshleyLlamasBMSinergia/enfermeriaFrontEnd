@@ -40,6 +40,18 @@ a {
     color: #fff;
 }
 
+.btn-pink-light {
+    background-color: #eb7ca1;
+    color: #fff;
+    border-color: #eb7ca1;
+}
+  
+.btn-pink-light:hover {
+    background-color: #be4a71;
+    border-color: #be4a71;
+    color: #fff;
+}
+
 .text-pink{
     color: #c72158;
 }

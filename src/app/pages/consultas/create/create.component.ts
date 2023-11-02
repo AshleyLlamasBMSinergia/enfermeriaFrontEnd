@@ -6,13 +6,13 @@ import { AbstractControl, FormArray, FormBuilder, FormControl, FormControlName, 
 import { differenceInYears } from 'date-fns';
 import { ConsultasService } from '../consultas.service';
 import { UserService } from 'src/app/services/user.service';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ImageService } from 'src/app/services/imagen.service';
 import { CitasService } from 'src/app/services/cita.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { HistorialesMedicosService } from '../../historiales-medicos/historiales-medicos.service';
 import { InventariosService } from '../../inventarios/inventarios.service';

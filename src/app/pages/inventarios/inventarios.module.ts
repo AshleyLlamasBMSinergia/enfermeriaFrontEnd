@@ -12,6 +12,8 @@ import { InsumoCreateComponent } from './show/insumos/create/create.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { LotesShowComponent } from './show/insumos/lotes/show/show.component';
 import { LotesCreateComponent } from './show/insumos/lotes/create/create.component';
+import { MovimientosComponent } from './show/movimientos/movimientos.component';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,7 @@ import { LotesCreateComponent } from './show/insumos/lotes/create/create.compone
     InsumoCreateComponent,
     LotesShowComponent,
     LotesCreateComponent,
+    MovimientosComponent,
   ],
   imports: [
     CommonModule,
@@ -30,7 +33,8 @@ import { LotesCreateComponent } from './show/insumos/lotes/create/create.compone
     ReactiveFormsModule,
     NgxPaginationModule,
     NgxSelectModule,
-    CKEditorModule
+    CKEditorModule,
+    DatePipe
   ],
 })
 export class InventariosModule { }

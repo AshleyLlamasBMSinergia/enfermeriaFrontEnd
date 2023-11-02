@@ -6,6 +6,7 @@ import { InsumoShowComponent } from './show/insumos/show/show.component';
 import { InsumoCreateComponent } from './show/insumos/create/create.component';
 import { LotesShowComponent } from './show/insumos/lotes/show/show.component';
 import { LotesCreateComponent } from './show/insumos/lotes/create/create.component';
+import { MovimientosComponent } from './show/movimientos/movimientos.component';
 
 const routes: Routes = [
   {
@@ -48,6 +49,13 @@ const routes: Routes = [
     component: LotesShowComponent,
     data: {
       subtitulo: 'Ver Lote',
+    },
+  },
+  {
+    path: ':inventarioId/movimientos/create',
+    component: MovimientosComponent,
+    data: {
+      subtitulo: 'Generar movimiento de lotes',
     },
   },
 ];

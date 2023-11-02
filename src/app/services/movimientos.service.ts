@@ -27,4 +27,8 @@ export class MovimientosService {
   storeMovimiento(movimiento: any): Observable<Movimientos> {
     return this.httpClient.post<Movimientos>(this.apiURL, movimiento, this.httpOptions);
   }
+
+  storeMovimientos(movimientos: any): Observable<any> {
+    return this.httpClient.post<any>(this.apiURL, movimientos, this.httpOptions);
+  }
 }

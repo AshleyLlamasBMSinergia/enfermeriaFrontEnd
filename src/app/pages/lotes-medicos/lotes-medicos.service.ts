@@ -33,7 +33,7 @@ export class LotesMedicosService {
   // }
 
 
-  getLotesPorInventario(inventarioId:number, LoteId:number){
+  getLotePorInventario(inventarioId:number, LoteId:number){
     return this.httpClient.get<Lotes>(`${API_URL}inventarios/${inventarioId}/lotes/${LoteId}`);
   }
 

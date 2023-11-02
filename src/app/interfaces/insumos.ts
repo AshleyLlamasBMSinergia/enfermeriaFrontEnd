@@ -10,7 +10,6 @@ export interface Insumos {
     requisicion_id: number;
     precio: number;
 
-    // requisicion: Requisicion
     lotes: Lotes[];
     reactivos: Reactivos[];
     image: Image;

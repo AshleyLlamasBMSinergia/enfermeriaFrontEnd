@@ -3,6 +3,7 @@ import { InventariosService } from '../inventarios.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, debounceTime  } from 'rxjs';
 import { InventarioDataService } from '../inventario-data.service';
+import { Inventarios } from 'src/app/interfaces/inventarios';
 
 @Component({
   selector: 'app-show',
@@ -10,8 +11,7 @@ import { InventarioDataService } from '../inventario-data.service';
   styleUrls: ['./show.component.css']
 })
 export class InventarioShowComponent {
-  inventario?: any;
-  loading: boolean = false;
+  inventario?: Inventarios;
 
   paginaActual = 1;
   elementosPorPagina = 10;
@@ -24,19 +24,21 @@ export class InventarioShowComponent {
     private router: Router,
     private route: ActivatedRoute,
     private inventarioDataService: InventarioDataService
-  ) { }
+  ) 
+  {
+  }
 
   ngOnInit(): void {
+    // this.searchTerms.pipe(
+    //   debounceTime(500)
+    // ).subscribe(() => {
+    //   this.realizarBusqueda();
+    // });
+
     const inventarioId = +this.route.snapshot.paramMap.get('id')!;
     this.inventariosService.getInventario(inventarioId)
       .subscribe(inventario => {
         this.inventario = inventario;
-      });
-
-    this.searchTerms.pipe(
-      debounceTime(500)
-    ).subscribe(() => {
-      this.realizarBusqueda();
     });
   }
 
@@ -59,6 +61,10 @@ export class InventarioShowComponent {
   crearInsumo(inventarioId: number) {
     this.inventarioDataService.setInventarioId(inventarioId);
     this.router.navigate(['/enfermeria/inventarios', inventarioId, 'insumos', 'create']);
+  }
+
+  generarMovimiento(inventarioId: number) {
+    this.router.navigate(['/enfermeria/inventarios', inventarioId, 'movimientos', 'create']);
   }
 
   showInsumoMedico(inventarioId: number, insumoId: number) {
