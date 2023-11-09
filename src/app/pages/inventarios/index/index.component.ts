@@ -70,10 +70,10 @@ export class InventarioIndexComponent {
   }
 
   showInventario(id: number) {
-    this.router.navigate(['/enfermeria/inventarios', id]);
+    this.router.navigate(['/enfermeria/almacenes', id]);
   }
 
   editInventario(id: number) {
-    this.router.navigate(['/enfermeria/inventarios/edit', id]);
+    this.router.navigate(['/enfermeria/almacenes/edit', id]);
   }
 }

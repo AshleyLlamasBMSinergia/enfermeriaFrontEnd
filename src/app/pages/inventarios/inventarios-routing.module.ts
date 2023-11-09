@@ -6,21 +6,22 @@ import { InsumoShowComponent } from './show/insumos/show/show.component';
 import { InsumoCreateComponent } from './show/insumos/create/create.component';
 import { LotesShowComponent } from './show/insumos/lotes/show/show.component';
 import { LotesCreateComponent } from './show/insumos/lotes/create/create.component';
-import { MovimientosComponent } from './show/movimientos/movimientos.component';
+import { MovimientosCreateComponent } from './show/movimientos/create/create.component';
+import { MovimientosShowComponent } from './show/movimientos/show/show.component';
 
 const routes: Routes = [
   {
     path: '',
     component: InventarioIndexComponent,
     data: {
-      subtitulo: 'Inventarios',
+      subtitulo: 'Almacenes',
     },
   },
   {
     path: ':id',
     component: InventarioShowComponent,
     data: {
-      subtitulo: 'Ver Inventario', 
+      subtitulo: 'Ver almacén', 
     },
   },
   {
@@ -53,9 +54,16 @@ const routes: Routes = [
   },
   {
     path: ':inventarioId/movimientos/create',
-    component: MovimientosComponent,
+    component: MovimientosCreateComponent,
     data: {
       subtitulo: 'Generar movimiento de lotes',
+    },
+  },
+  {
+    path: ':inventarioId/movimientos/:movimientoId',
+    component: MovimientosShowComponent,
+    data: {
+      subtitulo: 'Reporte del movimiento',
     },
   },
 ];

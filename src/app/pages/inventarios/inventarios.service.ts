@@ -35,6 +35,11 @@ export class InventariosService {
     return this.httpClient.get(url);
   }
 
+  inventariosDelProfesionalParaConsulta(profesionalId: number): Observable<any> {
+    const url = `${this.apiURL}/consulta/profesional/${profesionalId}`;
+    return this.httpClient.get(url);
+  }
+
   getInventario(id: number): Observable<Inventarios> {
     return this.httpClient.get<Inventarios>(`${this.apiURL}/${id}`);
   }

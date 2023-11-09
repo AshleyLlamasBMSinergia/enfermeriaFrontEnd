@@ -21,14 +21,26 @@ export class MovimientosService {
   private apiURL = API_URL+"movimientos";
 
   getMoviemientoTipos(): Observable<any> {
-    return this.httpClient.get<Movimientos[]>(API_URL+'tipos-de-movimientos');
+    return this.httpClient.get<any[]>(API_URL+'tipos-de-movimientos');
   }
 
-  storeMovimiento(movimiento: any): Observable<Movimientos> {
-    return this.httpClient.post<Movimientos>(this.apiURL, movimiento, this.httpOptions);
+  getMovimientosPorInventario(inventarioId: number): Observable <any> {
+    return this.httpClient.get<Movimientos[]>(this.apiURL+'/inventarios/'+inventarioId, this.httpOptions);
+  }
+
+  getMovimiento(movimientoId: number): Observable <Movimientos> {
+    return this.httpClient.get<Movimientos>(this.apiURL+'/'+movimientoId, this.httpOptions);
   }
 
   storeMovimientos(movimientos: any): Observable<any> {
     return this.httpClient.post<any>(this.apiURL, movimientos, this.httpOptions);
+  }
+
+  buscarPDF(buscarPDF: any) {
+    return this.httpClient.post(this.apiURL+'/pdfs', buscarPDF, { responseType: 'blob' });
+  }
+
+  storeArchivos(archivos: any): Observable<any> {
+    return this.httpClient.post<any>(API_URL+"movimientos/archivos", JSON.stringify(archivos), this.httpOptions);
   }
 }

@@ -93,7 +93,7 @@ export class LotesCreateComponent {
         (response) => {
           this.notificationService.mensaje(response);
           this.router.navigate([
-            '/enfermeria/inventarios', 
+            '/enfermeria/almacenes', 
             this.lotesMedicosForm.get('inventario_id')?.value, 
             'insumos', 
             this.lotesMedicosForm.get('insumo_id')?.value

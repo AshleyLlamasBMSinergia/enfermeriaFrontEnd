@@ -1,0 +1,195 @@
+<div class="content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header bg-pink1">
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <p class="font-weight-bold mb-1">Profesional</p>
+                        <div>
+                            <img [src]="imageProfesional" alt="Product 1" class="img-circle img-size-32 mr-2 mb-1">
+                            {{ movimiento?.profesional?.nombre }}
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="align-items-center d-flex justify-content-around w-100 h-100">
+                            <span><i class="fas fa-circle fa-xs px-1 text-pink"></i><b>Fecha:</b> {{ movimiento?.fecha | date:'dd/MM/yyyy' : '-' }}</span>
+                            <span><i class="fas fa-circle fa-xs px-1 text-pink"></i><b>Hora:</b> {{ movimiento?.fecha | date:'hh:mm a' : '-' }}</span>
+                            <span><i class="fas fa-circle fa-xs px-1 text-pink"></i><b>Almacén:</b> {{ movimiento?.inventario?.nombre }} </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-sm table-borderless">
+                      <thead>
+                        <tr class="text-center">
+                          <th colspan="4">
+                            <h3>{{movimiento?.tipo_de_movimiento?.tipoDeMovimiento}}</h3>
+                          </th>
+                        </tr>
+                      </thead>
+                        <thead>
+                          <tr class="text-center border-top border-bottom">
+                            <th scope="col">Lote</th>
+                            <th scope="col">Unidades</th>
+                            <th scope="col">Precio</th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let grupo of gruposMovimientos | keyvalue">
+                              <tr>
+                                <td colspan="4" class="group-header">
+                                    <h5>
+                                      <b class="text-pink">{{ grupo.key }} </b>
+                                      <small> {{ movimiento?.tipo_de_movimiento?.clave}}</small>
+                                    </h5>
+                                </td>
+                              </tr>
+                              <ng-container *ngFor="let mov of grupo.value">
+                                <tr>
+                                  <td class="pl-4">
+                                    {{ mov.lote.lote }}
+                                  </td>
+                                  <td class="text-center">
+                                    {{ mov.unidades }}
+                                  </td>
+                                  <td class="text-center">
+                                    ${{ mov?.precio ?? '-'}}
+                                  </td>
+                                </tr>
+                              </ng-container>
+                              <tr>
+                                <td class="text-right">
+                                    <small><b>Total:</b></small>
+                                </td>
+                                <td class="border-top text-center">
+                                  {{ sumarUnidades(grupo.value) }}
+                                </td>
+                                <td class="border-top text-center text-pin">
+                                  ${{ sumarPrecios(grupo.value) }} MXN
+                                </td>
+                              </tr>
+                              <br>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+          <div class="card-header text-secondary border-0">
+            <h3 class="card-title text-center">Archivos</h3>
+            <button type="submit" class="btn btn-sm btn-secondary float-right" (click)="abrirFormularioArchivo()">
+              <i class="fas fa-upload"></i>
+              {{ mostrarFormularioArchivo ? 'Cancelar' : 'Subir archivo' }}
+            </button>
+          </div>
+          <div class="card-body">
+            <div *ngIf="mostrarFormularioArchivo">
+              <form [formGroup]="formArchivo" (submit)="storeArchivos()">
+      
+                <div class="row">
+                  <div class="py-2 col-12 col-sm-12">
+                    <div class="d-flex justify-content-between border-bottom py-2">
+                      <div>
+                        <b>Categoría</b>
+                      </div>
+                      <div class="ml-2">
+                        <div class="form-group">
+                          <ng-container *ngIf="showInput; else showSelect">
+                            <div class="input-group w-100">
+                              <input type="text" class="form-control" formControlName="categoria" name="categoria" id="categoria">
+                              <div class="input-group-append">
+                                <button class="btn btn-secondary" type="button" (click)="toggleCategoryInput()"><i class="fas fa-undo"></i></button>
+                              </div>
+                            </div>
+                          </ng-container>
+                          <ng-template #showSelect>
+                            <select class="form-control w-100" formControlName="categoria" name="categoria" id="categoria" (change)="checkForOther()">
+                              <option>Manifiesto</option>
+                              <option>Facturas</option>
+                              <option>Otro</option>
+                            </select>
+                          </ng-template>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="py-2 col-12">
+                    <div class="d-flex justify-content-between py-2">
+                      <div class="text-center mx-auto pt-1">
+                        <input type="file" id="archivoInput" (change)="archivosSeleccionados($event)" formControlName="archivos" accept="image/png, image/jpeg, application/pdf" multiple style="display: none">
+      
+                        <label for="archivoInput" class="custom-file-upload">
+                          <i class="fa fa-file"></i> Seleccione los archivos
+                        </label>
+                      </div>
+                    </div>
+                    <div class="border-bottom py-2">
+                      <div class="table-responsive" *ngIf="archivos.length > 0">
+                        <table class="table table-sm table-white rounded">
+                          <thead class="thead-light">
+                            <tr>
+                              <th scope="col" class="text-secondary">Archivos</th>
+                              <th scope="col" class="text-secondary">Tamaño</th>
+                              <th scope="col"></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <ng-container *ngFor="let archivo of archivos; let i = index">
+                              <tr>
+                                <td class="align-middle">{{ archivo.nombre }}</td>
+                                <td class="align-middle">{{ archivo.tamano }}</td>
+                                <td width="10px">
+                                  <button type="button" class="btn-close d-flex align-items-center mt-2" (click)="eliminarArchivo(i)">
+                                  </button>
+                                </td>
+                              </tr>
+                            </ng-container>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="text-center pt-3">
+                    <button type="submit" class="btn btn-sm btn-pink">
+                      <i class="fas fa-save"></i> Guardar
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div *ngIf="!mostrarFormularioArchivo">
+              <div *ngFor="let categoria of movimiento?.archivosPorCategoria | keyvalue; let i = index">
+                <div>
+                  <div class="border-bottom mb-2" [id]="'headingAccordionEV' + i">
+                    <h5 class="mb-0">
+                      <button class="btn btn-none-efects border-0" [attr.data-bs-toggle]="'collapse'" [attr.data-bs-target]="'#collapseArchivo' + i" [attr.aria-expanded]="false" [attr.aria-controls]="'collapseArchivo' + i">
+                        <h5 class="text-secondary">
+                          <img src="assets/icons/carpeta.svg" alt="Carpeta" width="35px">
+                          {{ categoria.key }}
+                        </h5>
+                      </button>
+                    </h5>
+                  </div>
+                  <div [id]="'collapseArchivo' + i" class="collapse" [attr.aria-labelledby]="'headingAccordionArchivo' + i" data-parent="#examenV">
+                    <div class="bg-light rounded p-3">
+                      <div class="py-3">
+                        <div class="d-inline-block m-1" *ngFor="let archivo of categoria.value">
+                          <button class="btn btn-info py-3" (click)="abrirArchivo(archivo.url)">
+                            <img src="assets/icons/archivoMedico.svg" alt="Carpeta" width="35px">
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+    </div>
+</div>

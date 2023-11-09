@@ -62,3 +62,57 @@ a {
     0 0 0 1px white,
     0 0 0 2px black;
 }
+
+.bg-pink1{
+    background: rgb(255, 245, 246);
+}
+
+.bg-pink2{
+    background: rgb(255, 223, 231);
+}
+
+.text-vertical{
+    writing-mode: vertical-lr;
+    transform: rotate(180deg);
+    text-align:center;
+    width: 10px;
+}
+
+/* Estilo para el primer th */
+.th-pink1 {
+    background: rgb(255, 197, 211) !important;
+}
+  
+/* Estilo para el segundo th */
+.th-pink2 {
+    background: rgb(255, 157, 181) !important;
+}
+  
+/* Estilo para el tercer th */
+.th-pink3 {
+    background: rgb(255, 109, 146) !important;
+}
+
+/* Estilo para el cuarto th */
+.th-pink4 {
+    background: rgb(255, 64, 112) !important;
+}
+
+.pink-d {
+    background: rgb(255, 40, 94) !important;
+}
+
+.custom-file-upload {
+    border: 1px solid hsl(340, 100%, 58%);
+    display: inline-block;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    background-color: #fff;
+    color: #ff2970;
+  }
+  
+  .custom-file-upload:hover {
+    background-color: #ff2970;
+    color: #fff;
+  }

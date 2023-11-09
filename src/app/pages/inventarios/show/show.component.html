@@ -3,15 +3,10 @@
         <div class="card">
             <div class="card-header text-secondary border-0">
               <h3 class="card-title text-center">Todos los insumos médicos de {{inventario?.nombre}}</h3>
-              <div class="card-tools">
-                <a href="#" class="btn btn-tool btn-sm">
-                  <i class="fas fa-download"></i>
-                </a>
-              </div>
             </div>
             <div class="card-header border-0">
                 <div class="row">
-                    <div class="col-xl-6 col-lg-4 col-md-4 col-sm-4">
+                    <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8">
                         <!-- <div class="input-group my-2">
                             <div class="input-group-prepend">
                               <div class="input-group-text"><i class="fas fa-search"></i></div>
@@ -20,14 +15,10 @@
                         </div> -->
                     </div>
                     <div class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
-                        <a class="btn btn-sm btn-pink-light btn-block  my-2" (click)="generarMovimiento(inventario!.id)"><i class="fas fa-plus"></i> Generar movimiento de lotes</a>
-                    </div>
-                    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
                         <a class="btn btn-sm btn-pink btn-block  my-2" (click)="crearInsumo(inventario!.id)"><i class="fas fa-plus"></i> Agregar insumo</a>
                     </div>
                 </div>   
             </div>
-            <!-- {{ inventario?.insumos | json }} -->
             <div class="card-body table-responsive p-0">
               <table class="table table-striped table-valign-middle">
                 <thead>
@@ -37,7 +28,6 @@
                     <th class="text-center">Stock en cajas</th>
                     <th class="text-center">Stock en piezas</th>
                     <th></th>
-                    <!-- <th></th> -->
                 </tr>
                 </thead>
                 <tbody *ngIf="inventario?.insumos!.length > 0; else noInsumos">
@@ -60,7 +50,7 @@
                             {{ obtenerSumatoriaPiezasDisponibles(insumo!.lotes) }}
                         </td>
                         <td width="10px">
-                            <button href="#" class="btn btn-sm btn-secondary" (click)="showInsumoMedico(inventario!.id, insumo.id)">
+                            <button href="#" class="btn btn-sm btn-secondary" (click)="showInsumoMedico(insumo.id)">
                                 <i class="fas fa-list"></i>
                             </button>
                         </td>
@@ -79,5 +69,132 @@
                 </tr>
             </ng-template>
         </div>
+        <div class="card">
+            <div class="card-header text-secondary border-0">
+              <h3 class="card-title text-center">Todos los movimientos de {{inventario?.nombre}}</h3>
+              <div class="card-tools">
+                <a href="#" class="btn btn-tool btn-sm">
+                  <i class="fas fa-download"></i>
+                </a>
+              </div>
+            </div>
+            <div class="card-header border-0">
+                <div class="row">
+                    <div class="col-xl-6 col-lg-4 col-md-4 col-sm-4">
+
+                    </div>
+                    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
+                        <button type="button" class="btn btn-sm btn-pink btn-block  my-2" data-toggle="modal" data-target="#movimientoPDFModal"><i class="fas fa-file-pdf"></i> Buscar PDF del movimiento</button>
+                    </div>
+                    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
+                        <a class="btn btn-sm btn-pink btn-block  my-2" (click)="generarMovimiento(inventario!.id)"><i class="fas fa-plus"></i> Generar movimiento de lotes</a>
+                    </div>
+                </div>   
+            </div>
+            <div class="card-body table-responsive p-0">
+              <table class="table table-striped table-valign-middle text-center">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>Folio</th>
+                    <th class="text-center">Movimiento</th>
+                    <th class="text-center">Fecha</th>
+                    <th>Profesional</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody *ngIf="movimientos.length > 0; else noMovimientos">
+                    <tr *ngFor="let movimiento of movimientos | paginate: {itemsPerPage: movimientosElementosPorPagina, currentPage: movimientosPaginaActual}">
+                        <td>
+                            <ng-container *ngIf="movimiento.movimientoTipo_id == 3 || movimiento.movimientoTipo_id >= 11; else elseBlock">
+                                <i class="fas fa-arrow-up text-success"></i>
+                            </ng-container>
+                            <ng-template #elseBlock>
+                                <i class="fas fa-arrow-down text-danger"></i>
+                            </ng-template> 
+                        </td>
+                        <td>
+                            {{ movimiento.id }}
+                        </td>
+                        <td>
+                            {{ movimiento.tipo_de_movimiento.tipoDeMovimiento }} <span class="text-pink">{{ movimiento.tipo_de_movimiento.clave }}</span>
+                        </td>
+                        <td class="text-center">
+                            {{ movimiento.fecha | date: 'dd/MM/yyyy' }}
+                        </td>
+                        <td class="text-center">
+                            {{ movimiento.profesional.nombre }}
+                        </td>
+                        <td width="10px">
+                            <button href="#" class="btn btn-sm btn-secondary" (click)="showMovimiento(movimiento!.id)">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="card-footer">
+                <div class="d-flex justify-content-center">
+                    <pagination-controls (pageChange)="movimientosPaginaActual = $event"></pagination-controls>
+                </div>
+            </div>
+            <ng-template #noMovimientos>
+                <tr>
+                    <td colspan="5" class="text-center">Sin movimientos</td>
+                </tr>
+            </ng-template>
+        </div>
     </div>
+</div>
+
+<div class="modal fade" id="movimientoPDFModal" tabindex="-1" role="dialog" aria-labelledby="movimientoPDFModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header border-0 text-pink">
+        <h5 class="modal-title" id="movimientoPDFModalLabel"><i class="fas fa-file-pdf"></i> Buscar PDF del movimiento</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form [formGroup]="pdfMovimientoForm" (ngSubmit)="buscarPDF()">
+        <div class="modal-body">
+            <div class="row">
+              <div class="col-12">
+                  <div class="form-group">
+                      <label>
+                          Clave
+                          <span class="text-danger">*</span>
+                      </label>
+                      <input type="number" class="form-control" id="clave" formControlName="clave">
+                  </div>
+              </div>
+              <div class="col-12">
+                  <div class="form-group">
+                      <label>
+                          Fechas
+                          <span class="text-danger">*</span>
+                      </label>
+                      <div class="input-group">
+                          <input type="date" class="form-control" id="fechaInicial" formControlName="fechaInicial">
+                          <div class="input-group-append">
+                              <label class="input-group-text">al</label>
+                          </div>
+                          <input type="date" class="form-control" id="fechaFinal" formControlName="fechaFinal">
+                      </div>
+                  </div>
+              </div>
+            </div>
+            <div *ngIf="mensajesDeError.length > 0" class="text-danger pt-3">
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-danger" *ngFor="let mensaje of mensajesDeError">{{ mensaje }}</li>
+                </ul>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-pink"><i class="fas fa-search"></i> Buscar</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>

@@ -32,18 +32,39 @@
         <div class="card">
             <div class="card-header bg-pink1">
                 <div class="row">
-                    <div class="col-12 col-md-6">
+                    <div class="col-12 col-md-4">
                         <p class="font-weight-bold mb-1">Profesional asignado</p>
                         <div>
                             <img [src]="imageProfesional" alt="Product 1" class="img-circle img-size-32 mr-2 mb-1">
                             {{ profesional?.nickname }}
                         </div>
                     </div>
-                    <div class="col-12 col-md-6">
+                    <div class="col-12 col-md-8">
                         <div class="align-items-center d-flex justify-content-around w-100 h-100">
-                            <span><i class="fas fa-circle fa-xs px-1"></i><b>Fecha:</b>{{ fechaActual | date: 'dd/MM/yyyy' }}</span>
-                            <span><i class="fas fa-circle fa-xs px-1"></i><b>Hora:</b>{{ horaActual }}</span>
-                            <span><i class="fas fa-circle fa-xs px-1"></i><b>Lugar:</b></span>
+                            <span><i class="fas fa-circle fa-xs px-1 text-pink"></i><b>Fecha:</b>{{ fechaActual | date: 'dd/MM/yyyy' }}</span>
+                            <span><i class="fas fa-circle fa-xs px-1 text-pink"></i><b>Hora:</b>{{ horaActual }}</span>
+                            <span *ngIf="profesional?.direccion">
+                                <i class="fas fa-circle fa-xs px-1 text-pink"></i>
+                                <b>Lugar:</b>
+                                <span *ngIf="profesional?.direccion?.calle">
+                                    {{profesional?.direccion?.calle}}
+                                </span>
+                                <span *ngIf="profesional?.direccion?.exterior">
+                                    , {{profesional?.direccion?.exterior}}
+                                </span>
+                                <span *ngIf="profesional?.direccion?.interior">
+                                    , {{profesional?.direccion?.interior}}
+                                </span>
+                                <span *ngIf="profesional?.direccion?.colonia">
+                                    , {{profesional?.direccion?.colonia}}
+                                </span>
+                                <span *ngIf="profesional?.direccion?.CP">
+                                    , {{profesional?.direccion?.CP}}
+                                </span>
+                                <span *ngIf="profesional?.direccion?.localidad">
+                                    , {{profesional?.direccion?.localidad}}
+                                </span>
+                            </span>  
                         </div>
                     </div>
                 </div>
@@ -96,7 +117,7 @@
                                         <p class="py-3">
                                             <a [routerLink]="['/enfermeria/historiales-medicos', historialMedico?.id]" target="_blank">Ver historial médico</a>
                                         </p>
-                                        <div *ngIf="imc">
+                                        <div class="pb-3" *ngIf="imc">
                                             <div class="rounded p-2 bg-white">
                                                 <p class="m-0">IMC = {{imc | number:'1.2-2'}}</p> 
                                                 <p class="m-0"><b>
@@ -154,7 +175,7 @@
                                 </div>
                                 <div *ngIf="imc">
                                     <div [style.background-color]="imcColor" class="rounded p-2 d-flex justify-content-between text-white">
-                                        <p class="m-0">IMC = {{imc}}</p>
+                                        <p class="m-0">IMC = {{imc | number:'1.2-2'}}</p>
                                         <p class="m-0"><b>
                                             {{imcSignificado}}
                                         </b></p>
@@ -191,7 +212,7 @@
                                     <div class="col-12 col-md-6">
                                         <div class="form-group">
                                             <label class="col-form-label">
-                                                Triage
+                                                Triaje
                                             </label>
                                             <select [style.background-color]="color" id="triajeClasificacion" class="form-control text-center" formControlName="triajeClasificacion" (change)="seleccionarColor()">
                                                 <option class="bg-primary" value="5">V</option>
@@ -300,6 +321,7 @@
                             <div class="form-group">
                                 <label class="col-form-label">
                                     Complemento
+                                    <span class="text-danger">*</span>
                                 </label>
                                 <ckeditor [editor]="Editor" [config]="editorConfig" id="complemento" formControlName="complemento"></ckeditor>
                             </div>
@@ -313,7 +335,7 @@
                                       <div class="card-body">
                                         <div class="form-group">
                                             <label class="col-form-label">
-                                                Inventario
+                                                Almacén
                                                 <span class="text-danger">Opcional</span>
                                             </label>
                                             <ngx-select
@@ -339,7 +361,7 @@
                                                 [items]="insumosSelect"
                                                 optionValueField="id"
                                                 optionTextField="nombre"
-                                                placeholder="Select..."
+                                                placeholder="Seleccione los insumos"
                                                 (select)="addItemInsumo($event)"
                                                 (remove)="deleteInsumo($event)">
                                             </ngx-select>
@@ -354,10 +376,6 @@
                                                                 <p class="text-pink">
                                                                     <b><small><strong>Insumo:</strong> {{ insumoSeleccionado.value.nombre }} 
                                                                   </small></b></p>
-                                                                <div class="btn-group" role="group" aria-label="Basic example">
-                                                                    <button type="button" class="btn btn-secondary" (click)="addItemLote(insIndex)">Agregar Lote +</button>
-                                                                 
-                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -377,13 +395,20 @@
                                                                             [allowClear]="true"
                                                                             optionValueField="id"
                                                                             optionTextField="id"
-                                                                            placeholder="Select..."
+                                                                            placeholder="Seleccione el lote"
                                                                             [items]="this.getLotesSelect(insumoSeleccionado.value.id)"
                                                                             >
                                                                         </ngx-select>
                                                                     </td>
                                                                     <td width="30%">
-                                                                        <input type="number" class="form-control" formControlName="cantidad" (focusout)="onFocusOutCantidad(insIndex, insumoSeleccionado, loteIndex)"/>
+                                                                        <div class="input-group">
+                                                                            <input type="number" class="form-control" formControlName="cantidad" min="1" required (focusout)="onFocusOutCantidad(insIndex, insumoSeleccionado, loteIndex)"/>
+                                                                            <div class="input-group-append">
+                                                                                <label class="input-group-text">
+                                                                                    <span *ngIf="getPiezasDisponibles(insumoSeleccionado, loteIndex)">{{ getPiezasDisponibles(insumoSeleccionado, loteIndex) }}</span>
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
                                                                     </td>
                                                                     <td width="10px">
                                                                         <button type="button" class="btn-close d-flex align-items-center mt-2" (click)="removeItemLote(insIndex,loteIndex)">
@@ -392,6 +417,9 @@
                                                                 </tr>
                                                             </tbody>
                                                         </table>
+                                                    </div>
+                                                    <div>
+                                                        <button type="button" class="btn btn-secondary btn-block" (click)="addItemLote(insIndex)">Agregar lote de {{ insumoSeleccionado.value.nombre }}</button>
                                                     </div>
                                                 </div>
                                                 <hr>
@@ -403,6 +431,9 @@
                             </div>
 
                             <div class="form-group">
+                                <div class="alert alert-warning" role="alert" *ngIf="alergias">
+                                    Paciente alergico a: <span class="text-danger">{{alergias}}</span>
+                                </div>
                                 <label class="col-form-label">
                                     Receta
                                     <span class="text-danger">*</span>

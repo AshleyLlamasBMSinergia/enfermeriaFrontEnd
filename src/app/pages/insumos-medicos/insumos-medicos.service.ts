@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import {  Observable } from 'rxjs';
+import {  Observable, switchMap } from 'rxjs';
 import { Insumos } from 'src/app/interfaces/insumos';
 import { API_URL } from 'src/app/config';
 import { Router } from '@angular/router';
@@ -40,28 +40,36 @@ export class InsumosMedicosService {
     return this.httpClient.get<Insumos[]>(`${API_URL}insumos/no-inventario/${inventarioId}`);
   }
 
-  storeInsumo(insumo: any, imagen: File): Observable<Insumos> {
-    return new Observable<Insumos>((observer) => {
+  storeInsumo(insumo: any, imagen: File | null): Observable<Insumos> {
+    if (imagen) {
+      return this.procesarImagen(imagen).pipe(
+        switchMap(imagenBase64 => {
+          insumo.imagen = imagenBase64;
+          return this.enviarInsumo(insumo);
+        })
+      );
+    } else {
+      return this.enviarInsumo(insumo);
+    }
+  }
+
+  private procesarImagen(imagen: File): Observable<string> {
+    return new Observable<string>((observer) => {
       const reader = new FileReader();
       reader.readAsDataURL(imagen);
   
       reader.onload = (event) => {
         const imagenBase64 = (event.target as FileReader).result as string;
-        insumo.imagen = imagenBase64;
-  
-        this.httpClient.post<Insumos>(this.apiURL, insumo, this.httpOptions)
-          .subscribe(
-            (response) => {
-              observer.next(response);
-              observer.complete();
-            },
-            (error) => {
-              observer.error(error);
-            }
-          );
+        observer.next(imagenBase64);
+        observer.complete();
       };
     });
   }
+  
+  private enviarInsumo(insumo: any): Observable<Insumos> {
+    return this.httpClient.post<Insumos>(this.apiURL, insumo, this.httpOptions);
+  }
+  
 
   addInsumo(insumo: any){
     return this.httpClient.post<Insumos>(`${API_URL}inventarios/add-insumos`, insumo, this.httpOptions);

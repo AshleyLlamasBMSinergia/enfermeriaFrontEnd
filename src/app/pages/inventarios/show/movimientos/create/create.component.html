@@ -36,7 +36,7 @@
                                         [items]="insumos"
                                         optionValueField="id"
                                         optionTextField="nombre"
-                                        placeholder="Select..."
+                                        placeholder="Seleccione los insumos"
                                         (select)="addItemInsumo($event)"
                                         (remove)="deleteInsumo($event)">
                                     </ngx-select>
@@ -70,7 +70,7 @@
                                                                         [allowClear]="true"
                                                                         optionValueField="id"
                                                                         optionTextField="id"
-                                                                        placeholder="Select..."
+                                                                        placeholder="Seleccione el lote"
                                                                         [items]="this.getLotesSelect(insumoSeleccionado.value.id)"
                                                                         >
                                                                     </ngx-select>

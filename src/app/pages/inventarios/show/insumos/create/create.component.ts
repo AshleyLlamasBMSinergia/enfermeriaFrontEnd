@@ -9,7 +9,7 @@ import { Observable, of } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import { catchError, map } from 'rxjs/operators';
 import { ImageService } from 'src/app/services/imagen.service';
-import { Reactivos } from 'src/app/interfaces/reactivos';
+import { imagenValidator } from '../../../../../imagenValidator.component';
 
 @Component({
   selector: 'app-create',
@@ -39,6 +39,7 @@ export class InsumoCreateComponent {
     piezasPorLote: 'piezas por lote',
     descripcion: 'descripción',
     precio: 'precio',
+    imagen: 'imagen',
   };
 
   mensajesDeError: string[] = [];
@@ -84,6 +85,7 @@ export class InsumoCreateComponent {
       descripcion: [null, [Validators.maxLength(40000)]],
       precio: [null, [Validators.required]],
       inventario_id: [inventarioId, Validators.required],
+      imagen: [null],
       reactivos: [[]]
     });
 
@@ -176,21 +178,17 @@ export class InsumoCreateComponent {
     if (!this.generarInsumoMedicoForm.invalid) {
       const insumosMedicos = this.generarInsumoMedicoForm.value;
   
-      if (this.imagen) {
-        delete insumosMedicos.imagen;
-        this.insumosMedicosService.storeInsumo(insumosMedicos, this.imagen).subscribe(
+      delete insumosMedicos.imagen;
+        this.insumosMedicosService.storeInsumo(insumosMedicos, this.imagen!).subscribe(
           (response) => {
             this.notificationService.mensaje(response);
             const inventarioId = this.generarInsumoMedicoForm.value.inventario_id;
-            this.router.navigate(['/enfermeria/inventarios', inventarioId]);
+            this.router.navigate(['/enfermeria/almacenes', inventarioId]);
           },
           (error) => {
             this.notificationService.error(error);
           }
         );
-      } else {
-        this.notificationService.error('Debes seleccionar una imagen.');
-      }
     } else {
       const camposNoValidos = Object.keys(this.generarInsumoMedicoForm.controls).filter(controlName => this.generarInsumoMedicoForm.get(controlName)?.invalid);
       const mensajes: string[] = [];
@@ -213,7 +211,7 @@ export class InsumoCreateComponent {
         (response) => {
           this.notificationService.mensaje(response);
           const inventarioId = this.agregarInsumoMedicoForm.value.inventario_id;
-          this.router.navigate(['/enfermeria/inventarios', inventarioId]);
+          this.router.navigate(['/enfermeria/almacenes', inventarioId]);
         },
         (error) => {
           this.notificationService.error(error);

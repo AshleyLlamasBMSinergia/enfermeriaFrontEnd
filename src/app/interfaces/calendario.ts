@@ -1,5 +1,6 @@
-import { Empleados } from "./empleados";
+
 import { HistorialesMedicos } from "./historiales-medicos";
+import { Profesionales } from "./profesionales";
 
 export interface Calendario {
     id: number;
@@ -8,5 +9,5 @@ export interface Calendario {
     color: string;
     motivo: string;
     paciente?: HistorialesMedicos;
-    profesional?: Empleados;
+    profesional?: Profesionales;
 }

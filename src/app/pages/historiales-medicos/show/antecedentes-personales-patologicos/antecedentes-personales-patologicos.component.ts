@@ -66,7 +66,6 @@ export class AntecedentesPersonalesPatologicosComponent {
     luxaciones: 'espLuxaciones',
     tetanias: 'espTetanias',
     alergias: 'espAlergias',
-    asma: 'epilepsia',
     enfDentales: 'espEnfDentales',
     enfOpticas: 'espEnfOpticas',
     altPsicologicas: 'espAltPsicologicas',

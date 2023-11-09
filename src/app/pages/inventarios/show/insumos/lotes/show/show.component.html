@@ -1,7 +1,7 @@
 <div class="content">
     <div class="container-fluid">
       <div class="card">
-        <div class="card-header text-secondary border-0">
+        <div class="card-header text-secondary border-0" [ngClass]="{'bg-danger text-white': caduco}">
           <h3 class="card-title text-center">Información del insumo</h3>
         </div>
         <div class="card-body">
@@ -20,13 +20,25 @@
                 </div>
               </div>
               <div class="col-12 col-md-8">
-                <div class="pb-2">
-                  <div class="d-flex border-bottom py-2">
-                    <div>
-                      <b>Nombre</b>
+                <div class="pb-2 row">
+                  <div class="col-12 col-sm-6">
+                    <div class="d-flex border-bottom py-2">
+                      <div>
+                        <b>Nombre</b>
+                      </div>
+                      <div class="ml-auto">
+                        {{lote?.insumo?.nombre}}
+                      </div>
                     </div>
-                    <div class="ml-auto">
-                      {{lote?.insumo?.nombre}}
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <div class="d-flex border-bottom py-2">
+                      <div>
+                        <b>Lote</b>
+                      </div>
+                      <div class="ml-auto">
+                        {{lote?.lote}}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -53,6 +65,26 @@
                       </div>
                       <div class="ml-auto">
                         {{lote?.insumo?.piezasPorLote}}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <div class="d-flex border-bottom py-2">
+                      <div>
+                        <b>Fecha de ingreso</b>
+                      </div>
+                      <div class="ml-auto">
+                        {{lote?.fechaIngreso | date:'dd/MM/yyyy'}}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6" [ngClass]="{'text-danger': caduco}">
+                    <div class="d-flex border-bottom py-2">
+                      <div>
+                        <b>Fecha de caducidad</b>
+                      </div>
+                      <div class="ml-auto">
+                        {{lote?.fechaCaducidad | date:'dd/MM/yyyy'}}
                       </div>
                     </div>
                   </div>

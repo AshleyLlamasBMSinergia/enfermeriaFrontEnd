@@ -32,6 +32,7 @@ export class HistorialesMedicosCreateComponent {
     telefono: 'teléfono',
     peso: 'peso',
     talla: 'talla',
+    imagen: 'imagen',
   };
 
   constructor
@@ -55,6 +56,7 @@ export class HistorialesMedicosCreateComponent {
       estadoCivil: [''],
       talla: [null],
       peso: [null],
+      imagen: [null],
     });
   }
 
@@ -68,6 +70,8 @@ export class HistorialesMedicosCreateComponent {
       this.historialMedicoForm.get('prefijoInternacional')!.setValidators([Validators.required]);
       this.historialMedicoForm.get('telefono')!.setValidators([Validators.required, Validators.maxLength(10)]);
       this.historialMedicoForm.get('email')!.setValidators([Validators.required, Validators.email]);
+      this.historialMedicoForm.get('imagen')!.setValidators([Validators.required]);
+
     } else {
       this.historialMedicoForm.get('RFC')!.clearValidators();
       this.historialMedicoForm.get('CURP')!.clearValidators();
@@ -127,20 +131,14 @@ export class HistorialesMedicosCreateComponent {
     if (!this.historialMedicoForm.invalid) {
       const historialMedico = this.historialMedicoForm.value;
   
-      if (this.imagen) {
-        delete historialMedico.imagen;
-  
-        this.historialesMedicosService.storeHistorialMedico(historialMedico, this.imagen).subscribe(
-          (response) => {
-            this.mensaje(response);
-          },
-          (error) => {
-            this.error(error);
-          }
-        );
-      } else {
-        this.error({ message: 'Debes seleccionar una imagen.' });
-      }
+      this.historialesMedicosService.storeHistorialMedico(historialMedico, this.imagen!).subscribe(
+        (response) => {
+          this.mensaje(response);
+        },
+        (error) => {
+          this.error(error);
+        }
+      );
     } else {
       const camposNoValidos = Object.keys(this.historialMedicoForm.controls).filter(controlName => this.historialMedicoForm.get(controlName)?.invalid);
       const mensajes: string[] = [];

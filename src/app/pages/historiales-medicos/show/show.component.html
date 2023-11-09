@@ -155,11 +155,11 @@
                           </div>
                           <div>
                             <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="radio" formControlName="tipo" id="tipo1" value="Externo">
+                              <input class="form-check-input" type="radio" formControlName="tipo" name='tipo' id="tipo1" value="Externo">
                               <label class="form-check-label" for="tipo1">Externo</label>
                             </div>
                             <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="radio" formControlName="tipo" id="tipo2" value="Interno">
+                              <input class="form-check-input" type="radio" formControlName="tipo" name='tipo' id="tipo2" value="Interno">
                               <label class="form-check-label" for="tipo2">Interno</label>
                             </div>
                           </div>
@@ -171,33 +171,47 @@
                             <b>Categoría</b>
                           </div>
                           <div class="ml-2">
-                            <select class="form-control w-100" formControlName="categoria" id="categoria">
-                              <option>Exámen físico</option>
-                              <option>Exámen de antidoping</option>
-                              <option>Exámen de embarazo</option>
-                              <option>Exámen de vista</option>
-                              <option>Otro</option>
-                            </select>
+                            
+                            <div class="form-group">
+                              <ng-container *ngIf="showInput; else showSelect">
+                                <div class="input-group mb-3">
+                                  <input type="text" class="form-control" formControlName="categoria" name="categoria" id="categoria">
+                                  <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="button" (click)="toggleCategoryInput()"><i class="fas fa-undo"></i></button>
+                                  </div>
+                                </div>
+                              </ng-container>
+                              <ng-template #showSelect>
+                                <select class="form-control w-100" formControlName="categoria" name="categoria" id="categoria" (change)="checkForOther()">
+                                  <option>Exámen físico</option>
+                                  <option>Exámen de antidoping</option>
+                                  <option>Exámen de embarazo</option>
+                                  <option>Exámen de vista</option>
+                                  <option>Otro</option>
+                                </select>
+                              </ng-template>
+                            </div>
+                                                    
+                            
                           </div>
                         </div>
                       </div>
                       <div class="py-2 col-12">
                         <div class="d-flex justify-content-between py-2">
-                          <div>
-                            <b>Archivos</b>
-                          </div>
-                          <div>
-                            <div class="form-group">
-                              <input type="file" class="form-control-file" id="archivo" (change)="archivosSeleccionados($event)" formControlName="archivos" accept="image/png, image/jpeg, application/pdf" multiple>
-                            </div>
+                          <div class="text-center mx-auto pt-1">
+                            <input type="file" id="archivoInput" (change)="archivosSeleccionados($event)" formControlName="archivos" accept="image/png, image/jpeg, application/pdf" multiple style="display: none">
+
+                            <label for="archivoInput" class="custom-file-upload">
+                              <i class="fa fa-file"></i> Seleccione los archivos
+                            </label>
                           </div>
                         </div>
                         <div class="border-bottom py-2">
-                          <div *ngIf="archivos.length > 0">
-                            <table class="table table-sm table-light">
-                              <thead>
+                          <div class="table-responsive" *ngIf="archivos.length > 0">
+                            <table class="table table-sm table-white rounded">
+                              <thead class="thead-light">
                                 <tr>
-                                  <th scope="col" class="text-secondary">Archivo</th>
+                                  <th scope="col" class="text-secondary">Archivos</th>
                                   <th scope="col" class="text-secondary">Tamaño</th>
                                   <th scope="col"></th>
                                 </tr>
@@ -208,8 +222,7 @@
                                     <td class="align-middle">{{ archivo.nombre }}</td>
                                     <td class="align-middle">{{ archivo.tamano }}</td>
                                     <td width="10px">
-                                      <button class="btn btn-sm btn-danger" (click)="eliminarArchivo(i)">
-                                        <i class="fas fa-trash"></i>
+                                      <button type="button" class="btn-close d-flex align-items-center mt-2" (click)="eliminarArchivo(i)">
                                       </button>
                                     </td>
                                   </tr>

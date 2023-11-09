@@ -19,6 +19,7 @@ export class LotesShowComponent {
   elementosPorPagina = 10;
 
   image: any;
+  caduco: boolean = false;
 
   constructor(
     private lotesMedicosService: LotesMedicosService,
@@ -31,6 +32,16 @@ export class LotesShowComponent {
   ngOnInit(): void {
     this.getLote();
   }
+
+  esFechaCaducidadHoyOPosterior(fechaCaducidad: Date | undefined): boolean {
+    if (!fechaCaducidad) {
+      return false;
+    }
+  
+    const fechaCaducidadDate = new Date(fechaCaducidad);
+    const hoy = new Date();
+    return fechaCaducidadDate <= hoy;
+  }
   
   getLote() {
     this.route.params.subscribe(params => {
@@ -41,6 +52,8 @@ export class LotesShowComponent {
         .subscribe(lote => {
           
           this.lote = lote;
+
+          this.caduco = this.esFechaCaducidadHoyOPosterior(lote?.fechaCaducidad);
 
           if (lote.insumo.image?.url) {
             this.obtenerImagen(lote.insumo.image?.url).subscribe((imagen) => {

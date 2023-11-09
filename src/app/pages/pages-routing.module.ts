@@ -54,11 +54,11 @@ const routes:Routes = [
         canActivate: [AuthGuard,]
       },
       {
-        path: 'inventarios',
+        path: 'almacenes',
         loadChildren: () =>
           import('./inventarios/inventarios.module').then((m) => m.InventariosModule),
         data: {
-          titulo: 'Inventarios',
+          titulo: 'Almacenes',
         },
         canActivate: [AuthGuard,]
       },

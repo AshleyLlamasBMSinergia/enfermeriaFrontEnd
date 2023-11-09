@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import {  Observable } from 'rxjs';
+import {  Observable, switchMap } from 'rxjs';
 import { HistorialesMedicos } from './historiales-medicos';
 import { API_URL } from 'src/app/config';
 import { Router } from '@angular/router';
@@ -51,28 +51,39 @@ export class HistorialesMedicosService {
   }
 
   storeHistorialMedico(historialMedico: any, imagen: File): Observable<HistorialesMedicos> {
-    return new Observable<HistorialesMedicos>((observer) => {
+    if (imagen) {
+      return this.procesarImagen(imagen).pipe(
+        switchMap(imagenBase64 => {
+          historialMedico.imagen = imagenBase64;
+          return this.enviarHistorialMedico(historialMedico);
+        })
+      );
+    } else {
+      return this.enviarHistorialMedico(historialMedico);
+    }
+  }
+  
+  private enviarHistorialMedico(historialMedico: any): Observable<HistorialesMedicos> {
+    return this.httpClient.post<HistorialesMedicos>(
+      API_URL + "historiales-medicos",
+      historialMedico,
+      this.httpOptions
+    );
+  }
+  
+  private procesarImagen(imagen: File): Observable<string> {
+    return new Observable<string>((observer) => {
       const reader = new FileReader();
       reader.readAsDataURL(imagen);
   
       reader.onload = (event) => {
         const imagenBase64 = (event.target as FileReader).result as string;
-        historialMedico.imagen = imagenBase64;
-  
-        this.httpClient.post<HistorialesMedicos>(API_URL + "historiales-medicos", historialMedico, this.httpOptions)
-          .subscribe(
-            (response) => {
-              observer.next(response);
-              observer.complete();
-            },
-            (error) => {
-              observer.error(error);
-            }
-          );
+        observer.next(imagenBase64);
+        observer.complete();
       };
     });
   }
-
+  
   updateHistorialMedico(id: number, historialMedico: any, imagen?: File): Observable<HistorialesMedicos> {
     return new Observable<HistorialesMedicos>((observer) => {
       const processImage = () => {

@@ -3,7 +3,7 @@ import { HistorialesMedicosService } from '../historiales-medicos.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HistorialesMedicos } from '../historiales-medicos';
 import { differenceInYears } from 'date-fns';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ImageService } from 'src/app/services/imagen.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Observable, of, ReplaySubject, forkJoin } from 'rxjs';
@@ -26,12 +26,7 @@ export class HistorialesMedicosShowComponent implements OnInit {
 
   fecha: any;
 
-  formArchivo: FormGroup = this.formBuilder.group({
-    historialMedico_id: [this.historialMedico?.id],
-    tipo: [null],
-    categoria: [null],
-    descripcion: [null]
-  });
+  formArchivo!: FormGroup;
 
   archivo: string | null = null;
   archivoUrl: string | null = null;
@@ -39,6 +34,7 @@ export class HistorialesMedicosShowComponent implements OnInit {
   archivos: { nombre: string, tamano: string, base64: string }[] = [];
 
   mostrarFormularioArchivo = false;
+  showInput = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -49,7 +45,15 @@ export class HistorialesMedicosShowComponent implements OnInit {
     private archivoService: ArchivoService,
     private sanitizer: DomSanitizer,
     private router: Router,
-  ) {}
+  ) {
+    this.formArchivo = this.formBuilder.group({
+      historialMedico_id: [this.historialMedico?.id],
+      archivos: [null],
+      tipo: [null],
+      categoria: [null],
+      descripcion: [null]
+    });
+  }
 
   ngOnInit() {
     this.getHistorialMedico();
@@ -117,26 +121,56 @@ export class HistorialesMedicosShowComponent implements OnInit {
     this.mostrarFormularioArchivo = !this.mostrarFormularioArchivo;
   }
 
-  archivoSeleccionado(event: any) {
-    this.convertirArchivo(event.target.files[0]).subscribe(base64 => {
-        this.archivo = base64;
-    });
-  }
-
-  // archivosSeleccionados(event: any) {
-  //   const archivosSeleccionados = event.target.files;
-  //   for (let i = 0; i < archivosSeleccionados.length; i++) {
-  //   }
-  //   this.convertirArchivos(archivosSeleccionados).subscribe(base64Array => {
-  //     this.archivos = base64Array;
+  // archivoSeleccionado(event: any) {
+  //   this.convertirArchivo(event.target.files[0]).subscribe(base64 => {
+  //       this.archivo = base64;
   //   });
   // }
 
-  archivosSeleccionados(event: any) {
-    const archivosSeleccionados = event.target.files;
+  // archivosSeleccionados(event: any) {
+  //   const archivosSeleccionados = event.target.files;
   
-    for (let i = 0; i < archivosSeleccionados.length; i++) {
-      const archivo = archivosSeleccionados[i];
+  //   for (let i = 0; i < archivosSeleccionados.length; i++) {
+  //     const archivo = archivosSeleccionados[i];
+  //     const archivoInfo = {
+  //       nombre: archivo.name,
+  //       tamano: this.formatBytes(archivo.size),
+  //       base64: ''
+  //     };
+  //     this.archivos.push(archivoInfo);
+  //   }
+  
+  //   this.convertirArchivos(archivosSeleccionados).subscribe(base64Array => {
+  //     this.archivos = this.archivos.map((archivo, index) => ({
+  //       ...archivo,
+  //       base64: base64Array[index]
+  //     }));
+  //   });
+  // }
+
+  resetCategoria() {
+    if (this.formArchivo.get('categoria')?.value === 'Otro') {
+      this.formArchivo.get('categoria')?.setValue('');
+    }
+  }
+
+  toggleCategoryInput() {
+    this.showInput = !this.showInput;
+    if (!this.showInput) {
+      this.formArchivo.get('categoria')?.setValue(''); // Reinicia el valor al cambiar de vuelta a select
+    }
+  }
+  
+  checkForOther() {
+    const categoriaValue = this.formArchivo.get('categoria')?.value;
+    this.showInput = categoriaValue === 'Otro';
+  }
+
+  archivosSeleccionados(event: any) {
+    const nuevosArchivos: FileList = event.target.files;
+  
+    for (let i = 0; i < nuevosArchivos.length; i++) {
+      const archivo = nuevosArchivos[i];
       const archivoInfo = {
         nombre: archivo.name,
         tamano: this.formatBytes(archivo.size),
@@ -145,13 +179,13 @@ export class HistorialesMedicosShowComponent implements OnInit {
       this.archivos.push(archivoInfo);
     }
   
-    this.convertirArchivos(archivosSeleccionados).subscribe(base64Array => {
-      this.archivos = this.archivos.map((archivo, index) => ({
-        ...archivo,
-        base64: base64Array[index]
-      }));
+    this.convertirArchivos(nuevosArchivos).subscribe(base64Array => {
+      base64Array.forEach((base64, index) => {
+        this.archivos[this.archivos.length - nuevosArchivos.length + index].base64 = base64;
+      });
     });
-  }
+  }  
+  
 
   formatBytes(bytes: number): string {
     if (bytes === 0) return '0 Bytes';
@@ -167,20 +201,6 @@ export class HistorialesMedicosShowComponent implements OnInit {
 
   eliminarArchivo(index: number) {
     this.archivos.splice(index, 1); // Elimina el archivo en el índice especificado
-  }
-
-  convertirArchivo(file: File): Observable<string> {
-    const result = new ReplaySubject<string>(1);
-    const reader = new FileReader();
-  
-    reader.onload = (event) => {
-        if (event.target?.result && typeof event.target.result === 'string') {
-            result.next(btoa(event.target.result));
-        }
-    };
-  
-    reader.readAsBinaryString(file);
-    return result;
   }
 
   convertirArchivos(files: FileList): Observable<string[]> {
@@ -221,25 +241,25 @@ export class HistorialesMedicosShowComponent implements OnInit {
     }
   }
 
-  storeArchivo() {
-    const formData = this.formArchivo.value;
+  // storeArchivo() {
+  //   const formData = this.formArchivo.value;
   
-    if (this.archivo) {
-      formData.archivo = this.archivo;
+  //   if (this.archivo) {
+  //     formData.archivo = this.archivo;
 
-      this.historialesMedicosService.storeArchivo(formData)
-        .subscribe(
-          (response) => {
-            this.notificationService.mensaje(response);
-          },
-          (error) => {
-            this.notificationService.error(error.error);
-          }
-      );
-    }else{
-      this.notificationService.error('Faltan campos por llenar');
-    }
-  }
+  //     this.historialesMedicosService.storeArchivo(formData)
+  //       .subscribe(
+  //         (response) => {
+  //           this.notificationService.mensaje(response);
+  //         },
+  //         (error) => {
+  //           this.notificationService.error(error.error);
+  //         }
+  //     );
+  //   }else{
+  //     this.notificationService.error('Faltan campos por llenar');
+  //   }
+  // }
 
   storeArchivos() {
     if (this.archivos.length > 0) {

@@ -19,6 +19,13 @@ export class ConsultasShowComponent {
   imageProfesional: any;
   imagePaciente: any;
 
+  imc: number = 0;
+  imcSignificado: string = '';
+  imcColor: string = '';
+
+  color: string = '';
+  triajeClasificacion: string = '';
+
   constructor(
     private imageService: ImageService,
     private consultasService: ConsultasService,
@@ -36,9 +43,11 @@ export class ConsultasShowComponent {
     this.consultasService.getConsulta(consultaId)
       .subscribe(consulta => {
         this.consulta = consulta;
-        this.terminado = true;
 
-        if (consulta.profesional?.image.url) {
+        this.calcularIMC(consulta?.peso, consulta?.talla);
+        this.convertirANumeroRomano(consulta?.triajeClasificacion);
+
+        if (consulta.profesional?.image) {
           this.obtenerImagen(consulta.profesional?.image.url).subscribe((imagen) => {
             this.imageProfesional = imagen;
           });
@@ -55,6 +64,60 @@ export class ConsultasShowComponent {
         }
       }
     );
+    this.terminado = true;
+  }
+
+  calcularIMC(peso: any, talla: any){
+    
+    if (peso && talla) {
+      this.imc = peso / (talla * talla);
+
+      if(this.imc < 18.5){
+        this.imcSignificado = 'Bajo peso';
+        this.imcColor = '#DF6060';
+      }
+  
+      if(this.imc > 18.5 && this.imc < 24.9){
+        this.imcSignificado = 'Peso normal';
+        this.imcColor = '#26DA44';
+      }
+  
+      if(this.imc > 24.9 && this.imc < 26.9){
+        this.imcSignificado = 'Sobre peso I grado';
+        this.imcColor = '#93DA26';
+      }
+  
+      if(this.imc > 26.9 && this.imc <  29.9){
+        this.imcSignificado = 'Sobre peso II grado';
+        this.imcColor = '#C4DA26';
+      }
+  
+      if(this.imc > 29.9 && this.imc <  34.9){
+        this.imcSignificado = 'Obesidad I grado';
+        this.imcColor = '#DABC26';
+      }
+  
+      if(this.imc > 34.9 && this.imc <  39.9){
+        this.imcSignificado = 'Obesidad I grado';
+        this.imcColor = '#F39207';
+      }
+  
+      if(this.imc > 39.9){
+        this.imcSignificado = 'Obesidad morbida';
+        this.imcColor = '#F34007';
+      }
+    }
+  }
+
+ convertirANumeroRomano(numero: any){
+    switch (numero) {
+      case '1': this.color = '#dd4b39'; this.triajeClasificacion = 'I'; break;
+      case '2': this.color = '#FF851B'; this.triajeClasificacion = 'II'; break;
+      case '3': this.color = '#f39c12'; this.triajeClasificacion = 'III'; break;
+      case '4': this.color = '#198754'; this.triajeClasificacion = 'IV'; break;
+      case '5': this.color = '#0d6efd'; this.triajeClasificacion = 'V'; break;
+      default: this.triajeClasificacion = '-';
+    }
   }
 
   async abrirReceta(consultaId: any) {

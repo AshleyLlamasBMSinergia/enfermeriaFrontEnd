@@ -12,8 +12,9 @@ import { InsumoCreateComponent } from './show/insumos/create/create.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { LotesShowComponent } from './show/insumos/lotes/show/show.component';
 import { LotesCreateComponent } from './show/insumos/lotes/create/create.component';
-import { MovimientosComponent } from './show/movimientos/movimientos.component';
 import { DatePipe } from '@angular/common';
+import { MovimientosShowComponent } from './show/movimientos/show/show.component';
+import { MovimientosCreateComponent } from './show/movimientos/create/create.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { DatePipe } from '@angular/common';
     InsumoCreateComponent,
     LotesShowComponent,
     LotesCreateComponent,
-    MovimientosComponent,
+    MovimientosShowComponent,
+    MovimientosCreateComponent
   ],
   imports: [
     CommonModule,

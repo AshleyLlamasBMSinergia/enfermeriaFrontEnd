@@ -3,11 +3,7 @@
     <div class="card">
       <div class="card-header text-secondary border-0">
         <h3 class="card-title text-center">Información del medicamento</h3>
-        <div class="card-tools">
-            <!-- <a class="btn btn-tool btn-sm">
-            <i class="fas fa-download"></i>
-            </a> -->
-        </div>
+
       </div>
       <div class="card-body">
         <div class="row">
@@ -148,7 +144,7 @@
                                         <input type="number" class="form-control" id="piezasDescontables" formControlName="piezasDescontables">
                                     </div>
                                     <div class="form-group col-12" *ngIf="movimientoForm.get('tipo')?.value === 'Cambiar de inventario'">
-                                      <label>Inventario</label>
+                                      <label>Almacén</label>
                                       <ngx-select [items]="inventarios" formControlName="inventario_id">
                                         <ng-content select="value"></ng-content>
                                       </ngx-select>

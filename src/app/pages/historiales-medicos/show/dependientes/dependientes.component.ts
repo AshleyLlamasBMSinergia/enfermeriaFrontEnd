@@ -59,19 +59,6 @@ export class DependientesComponent {
   }
 
   ngOnInit() {
-
-    this.historialesMedicosService.getDependientesDelEmpleado(this.historialMedico.pacientable_id).subscribe(
-      (dependientes: any) => {
-        this.dependientes = dependientes;
-        console.log(this.dependientes);
-        console.log(dependientes);
-
-      },
-      (error) => {
-        console.error('Error al obtener dependientes:', error);
-      }
-    );
-
     this.dependienteForm.get('empleado_id')?.setValue(this.historialMedico.pacientable_id);
   }  
 

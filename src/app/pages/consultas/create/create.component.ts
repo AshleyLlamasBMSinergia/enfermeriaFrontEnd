@@ -49,6 +49,8 @@ export class ConsultasCreateComponent implements OnInit {
   fechaActual: string | null = null;
   horaActual: string | null = null;
 
+  alergias!: string;
+
   imc: number = 0;
   imcSignificado: string = '';
   imcColor: string = '';
@@ -158,6 +160,7 @@ export class ConsultasCreateComponent implements OnInit {
       diagnostico_id: [null, [Validators.required]],
       complemento: [null, [Validators.required, Validators.maxLength(2294967295)]],
       receta: [null, [Validators.required, Validators.maxLength(2294967295)]],
+      inventario_id: [null],
       formInsumos: this.formInsumos
     });
 
@@ -255,7 +258,7 @@ export class ConsultasCreateComponent implements OnInit {
   getInventarios() {
     this.userService.user$.subscribe(
       (user: any) => {
-        this.inventariosService.getInventariosDelProfesional(user[0].useable_id).subscribe(
+        this.inventariosService.inventariosDelProfesionalParaConsulta(user[0].useable_id).subscribe(
           data => this.inventarios = data,
           error => console.error('Error al obtener inventarios', error)
         );
@@ -291,6 +294,7 @@ export class ConsultasCreateComponent implements OnInit {
   inventarios: any;
 
   getInsumosPorInventario(inventarioId: number) {
+    this.consultaForm.get('inventario_id')?.setValue(inventarioId);
     if (this.isUpdating) { return; }
     let inventarioSeleccionado = this.inventarios.find((inventario: any) => inventario.id === inventarioId);
 
@@ -329,6 +333,8 @@ export class ConsultasCreateComponent implements OnInit {
     return this.formBuilder.group({
       id: insumo ? insumo.id : null,
       nombre: insumo ? insumo.nombre : '',
+      piezasPorLote: insumo ? insumo.piezasPorLote : null,
+      precio: insumo ? insumo.precio : null,
       arrayLotes: insumo.lotes,
       lotes: this.formBuilder.array([])
     });
@@ -389,7 +395,7 @@ export class ConsultasCreateComponent implements OnInit {
     else {
       if (inputCantidad.value > Number(dataLote.piezasDisponibles)) {
         inputCantidad.setValue('');
-        Swal.fire('Invalido, no puede ser mayor a: ' + dataLote.piezasDisponibles + ' piezas disponibles');
+        Swal.fire('Las unidades no pueden ser mayor de ' + dataLote.piezasDisponibles + ' piezas disponibles');
       }
     }
   }
@@ -519,6 +525,7 @@ export class ConsultasCreateComponent implements OnInit {
     }
 
     if (historialMedico?.antecedentes_personales_patologicos?.alergias) {
+      this.alergias = historialMedico?.antecedentes_personales_patologicos?.espAlergias;
       this.notificationService.info('Este paciente padece de las siguientes alergías: ', historialMedico?.antecedentes_personales_patologicos?.espAlergias);
     }
   }
@@ -571,6 +578,14 @@ export class ConsultasCreateComponent implements OnInit {
   onPacienteChange(event: any) {
     const pacienteSeleccionado = this.opcionesPacientes.find(p => p.text === event.value);
     this.consultaForm.get('pacientable_id')?.setValue(pacienteSeleccionado?.id);
+  }
+
+  getPiezasDisponibles(insumo: any, loteIndex: number){
+    let lotes = this.getLotesSelect(insumo.value.id);
+    let inputLote = insumo.value.lotes[loteIndex];
+    let dataLote = lotes?.find(l => l.id == inputLote.lote);
+
+    return Number(dataLote?.piezasDisponibles);
   }
 
   guardar() {

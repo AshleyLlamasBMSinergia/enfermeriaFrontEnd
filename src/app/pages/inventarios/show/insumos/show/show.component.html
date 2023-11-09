@@ -59,28 +59,26 @@
         <div class="card">
           <div class="card-header text-secondary border-0">
             <h3 class="card-title text-center">Todos los lotes médicos de {{insumo?.nombre}} <span class="badge badge-info">{{insumo?.lotes?.length}}</span></h3>
-            <div class="card-tools">
-              <a href="#" class="btn btn-tool btn-sm">
-                <i class="fas fa-download"></i>
-              </a>
+          </div>
+          <div class="card-body row text-center">
+            <div class="col-12 col-sm-6">
+              <div class="info-box bg-pink1">
+                <div class="info-box-content">
+                  <span class="info-box-text">Lotes caducos sin desechar</span>
+                  <span class="info-box-number">{{cantidadLotesCaducos}}</span>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="card-header border-0">
-              <div class="row">
-                  <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8">
-                      <!-- <div class="input-group my-2">
-                          <div class="input-group-prepend">
-                            <div class="input-group-text"><i class="fas fa-search"></i></div>
-                          </div>
-                          <input [(ngModel)]="search" class="form-control form-control-sm" placeholder="Ingrese el lote" (keyup)="buscarLote()">
-                      </div> -->
-                  </div>
-                  <div class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
-                    <a class="btn btn-sm btn-pink btn-block  my-2" (click)="crearLote(inventario!.id, insumo!.id)"><i class="fas fa-plus"></i> Agregar lote</a>
-                  </div>
-              </div>   
-          </div>
+            <div class="col-12 col-sm-6">
+              <div class="info-box bg-pink2">
+                <div class="info-box-content">
+                  <span class="info-box-text">Lotes vacios</span>
+                  <span class="info-box-number">{{cantidadLotesVacios}}</span>
+                </div>
+              </div>
+            </div>
           <div class="card-body table-responsive p-0">
+            </div>
             <table class="table table-striped table-valign-middle">
               <thead>
               <tr>
@@ -91,7 +89,7 @@
               </tr>
               </thead>
               <tbody *ngIf="lotes.length > 0; else nolotes">
-                <tr *ngFor="let lote of lotes | paginate: {itemsPerPage: elementosPorPagina, currentPage: paginaActual}">
+                <tr *ngFor="let lote of lotes | paginate: {itemsPerPage: elementosPorPagina, currentPage: paginaActual}" [ngClass]="{'table-danger': esFechaCaducidadHoyOPosterior(lote.fechaCaducidad)}">
                       <td>
                           {{ lote.lote }}
                       </td>

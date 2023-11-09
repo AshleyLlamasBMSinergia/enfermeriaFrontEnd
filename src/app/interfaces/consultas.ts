@@ -1,8 +1,8 @@
 import { DecimalPipe } from "@angular/common";
 import { Calendario } from "src/app/interfaces/calendario";
-import { Empleados } from "src/app/interfaces/empleados";
 import { Image } from "./image";
 import { HistorialesMedicos } from "./historiales-medicos";
+import { Profesionales } from "./profesionales";
 
 export interface Consultas {
     id: number,
@@ -12,7 +12,7 @@ export interface Consultas {
 
     fecha: Date;
 
-    profesional: Empleados;
+    profesional: Profesionales;
 
     pacientable_id: number;
     pacientable_type: string;
@@ -28,21 +28,30 @@ export interface Consultas {
     };
 
     triajeClasificacion: number;
-    precionDiastolica: number;
+    presionSistolica: number;
+    presionDiastolica: number;
     frecuenciaRespiratoria: number;
     frecuenciaCardiaca: number;
     temperatura: number;
     edad: number;
     peso: DecimalPipe;
     talla: DecimalPipe;
-    altura: DecimalPipe;
-    grucemiaCapilar: string;
+    mg: number;
+    dl: number;
+
     subjetivo: string;
     objetivo: string;
     analisis: string;
     plan: string;
-    diagnostico: string;
+
+    diagnostico_id: number;
+    complemento: string;
     receta: string;
+
     pronostico: string;
     incapacidad: boolean;
+
+    diagnostico: {
+      nombre: string;
+    }
 }

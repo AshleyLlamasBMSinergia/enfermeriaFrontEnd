@@ -14,13 +14,13 @@
 }
 
 .chevron-icon::before {
-    content: "\f054"; /* Icono de chevron-right (puedes cambiarlo) */
+    content: "\f054";
 }
 
 .no-exist .chevron-icon::before {
-    content: "\f078"; /* Icono de chevron-down (puedes cambiarlo) */
+    content: "\f078";
 }
 .btn-none-efects {
-    text-decoration: none !important; /* Elimina el subrayado */
-    color: inherit !important; /* Usa el color del texto del elemento padre */
+    text-decoration: none !important;
+    color: inherit !important;
 }

@@ -36,14 +36,14 @@ export class SidebarService {
     //   url: 'requisiciones'
     // },
     {
-      titulo: 'Inventarios',
+      titulo: 'Almacenes',
       icono: 'assets/icons/insumosMedicos.svg',
-      url: 'inventarios'
+      url: 'almacenes'
     },
-    {
-      titulo: 'Estadisticas',
-      icono: 'assets/icons/estadisticas.svg',
-      url: 'estadisticas'
-    }    
+    // {
+    //   titulo: 'Estadisticas',
+    //   icono: 'assets/icons/estadisticas.svg',
+    //   url: 'estadisticas'
+    // }    
   ]
 }

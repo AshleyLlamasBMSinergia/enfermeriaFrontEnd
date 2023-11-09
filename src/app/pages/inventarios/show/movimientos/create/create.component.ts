@@ -4,16 +4,16 @@ import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
 import { NotificationService } from 'src/app/services/notification.service';
 import { MovimientosService } from 'src/app/services/movimientos.service';
-import { InventariosService } from '../../inventarios.service';
 import { ActivatedRoute } from '@angular/router';
 import { Inventarios } from 'src/app/interfaces/inventarios';
+import { InventariosService } from '../../../inventarios.service';
 
 @Component({
-  selector: 'app-movimientos',
-  templateUrl: './movimientos.component.html',
-  styleUrls: ['./movimientos.component.css']
+  selector: 'app-create',
+  templateUrl: './create.component.html',
+  styleUrls: ['./create.component.css']
 })
-export class MovimientosComponent {
+export class MovimientosCreateComponent {
   movimientoForm: FormGroup;
   formInsumos!: FormGroup;
   mensajesDeError: string[] = [];
@@ -136,6 +136,7 @@ export class MovimientosComponent {
     return this.formBuilder.group({
       id: value ? value.id : null,
       nombre: value ? value.nombre : '',
+      precio: value ? value.precioe : '',
       arrayLotes: this.lotesSelect,
       lotes: this.formBuilder.array([])
     });
@@ -152,6 +153,7 @@ export class MovimientosComponent {
       id: insumo ? insumo.id : null,
       nombre: insumo ? insumo.nombre : '',
       piezasPorLote: insumo ? insumo.piezasPorLote : null,
+      precio: insumo ? insumo.precio : null,
       arrayLotes: insumo.lotes,
       lotes: this.formBuilder.array([])
     });
