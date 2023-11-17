@@ -39,6 +39,7 @@
     "@types/bootstrap": "^5.2.6",
     "bootstrap": "^5.3.1",
     "core-decorators": "^0.20.0",
+    "custom-router": "^1.0.4",
     "date-fns": "^2.30.0",
     "jquery": "^3.7.1",
     "moment": "^2.29.4",

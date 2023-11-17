@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { HistorialesMedicos } from '../../historiales-medicos';
 import { NotificationService } from 'src/app/services/notification.service';
 import { HistorialesMedicosService } from '../../historiales-medicos.service';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -9,6 +8,8 @@ import { ImageService } from 'src/app/services/imagen.service';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { DomSanitizer } from '@angular/platform-browser';
+import { HistorialesMedicos } from 'src/app/interfaces/historiales-medicos';
+
 
 @Component({
   selector: 'app-dependientes',
@@ -50,7 +51,7 @@ export class DependientesComponent {
   ) {
     this.dependienteForm = this.formBuilder.group({
       empleado_id: [null],
-      imagen: [null, Validators.required],
+      imagen: [null],
       nombre: [null, [Validators.required, Validators.maxLength(255)]],
       sexo: ['', [Validators.required]],
       fechaNacimiento: [null,  [Validators.required]],
@@ -129,33 +130,30 @@ export class DependientesComponent {
       });
 
       this.mensajesDeError = mensajes;
-      console.log('error');
+
     } else {
       const dependiente = this.dependienteForm.value;
       
-      if(this.imagen){
-
-        if(this.id){
-          this.historialesMedicosService.updateDependiente(this.id, dependiente, this.imagen).subscribe(
-            (response) => {
-              this.notificationService.mensaje(response);
-            },
-            (error) => {
-              console.log(error)
-              this.notificationService.error(error.error);
-            }
-          );
-        }else{
-          this.historialesMedicosService.storeDependientes(dependiente, this.imagen).subscribe(
-            (response) => {
-              this.notificationService.mensaje(response);
-            },
-            (error) => {
-              console.log(error)
-              this.notificationService.error(error.error);
-            }
-          );
-        }
+      if(this.id){
+        this.historialesMedicosService.updateDependiente(this.id, dependiente, this.imagen!).subscribe(
+          (response) => {
+            this.notificationService.mensaje(response);
+          },
+          (error) => {
+            console.log(error)
+            this.notificationService.error(error.error);
+          }
+        );
+      }else{
+        this.historialesMedicosService.storeDependientes(dependiente, this.imagen!).subscribe(
+          (response) => {
+            this.notificationService.mensaje(response);
+          },
+          (error) => {
+            console.log(error)
+            this.notificationService.error(error.error);
+          }
+        );
       }
     }
   } 
@@ -177,12 +175,14 @@ export class DependientesComponent {
         this.image = '/assets/dist/img/user.png';
     }
 
+    const fechaNacimiento = new Date(dependiente.fechaNacimiento);
+
     this.dependienteForm.setValue({
       imagen: null,
       empleado_id: dependiente.empleado_id,
       nombre: dependiente.nombre,
       sexo: dependiente.sexo,
-      fechaNacimiento: dependiente.fechaNacimiento,
+      fechaNacimiento: fechaNacimiento,
 
       parentesco: dependiente.parentesco,
     });
@@ -195,7 +195,6 @@ export class DependientesComponent {
     this.dependienteForm.setValue({
       imagen: null,
       empleado_id: null,
-      email: null,
       nombre: null,
       sexo: '',
       fechaNacimiento: null,
@@ -205,7 +204,8 @@ export class DependientesComponent {
 
   showHistorialMedico(id: number | undefined) {
     if (id !== undefined) {
-        window.open(`/enfermeria/historiales-medicos/${id}`, '_blank');
+        window.open(`#/enfermeria/historiales-medicos/${id}`, '_blank');
+
     } else {
         this.notificationService.error('No se encontró el historial médico');
     }

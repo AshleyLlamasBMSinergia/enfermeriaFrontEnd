@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Router, RouterModule, Routes } from '@angular/router';
 import { NopageFoundComponent } from './nopage-found/nopage-found.component';
 import { CommonModule } from '@angular/common';
 import { PagesRoutingModule } from './pages/pages-routing.module';
@@ -14,7 +14,11 @@ const routes: Routes =  [
     loadChildren: () => import('./pages/pages.module').then(m => m.PagesModule),
     canActivate: [AuthGuard]
   },
-  { path: 'login', component: LoginComponent },
+  // {
+  //   path: 'auth',
+  //   loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule),
+  // },
+  // { path: 'login', component: LoginComponent },
   { path: '', component: LoginComponent },
   { path: '404', component: NopageFoundComponent },
   { path: '**', redirectTo: '/404' },
@@ -22,8 +26,9 @@ const routes: Routes =  [
 
 @NgModule({
   imports: [
+    // RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes, {useHash:true}),
     CommonModule,
-    RouterModule.forRoot(routes),
     PagesRoutingModule,
     AuthRoutingModule,
     HttpClientModule,

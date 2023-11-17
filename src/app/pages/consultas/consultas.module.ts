@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSelectModule } from 'ngx-select-ex';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { PagesModule } from '../pages.module';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,7 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
     ReactiveFormsModule,
     FormsModule,
     NgxPaginationModule,
-    CKEditorModule
+    CKEditorModule,
   ],
   providers: [DatePipe],
 })

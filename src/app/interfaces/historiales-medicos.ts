@@ -9,18 +9,19 @@ import { ExamenesVistas } from "src/app/interfaces/examenes-vista";
 import { Examenes } from "src/app/interfaces/examenes";
 import { User } from "./user";
 import { Dependientes } from "./dependientes";
-import { DecimalPipe } from "@angular/common";
+import { Puestos } from "./puestos";
 
 export interface HistorialesMedicos {
     id: number;
-    talla: DecimalPipe;
-    peso: DecimalPipe;
+    talla: number;
+    peso: number;
     pacientable_id: number;
     pacientable_type: string;
     
     user?: User;
 
     pacientable?: {
+      numero: number;
       nombre: string;
       RFC: string;
       curp: string;
@@ -38,8 +39,11 @@ export interface HistorialesMedicos {
       created_at: Date;
       updated_at: Date;
 
-      image: Image;
-      dependientes: Dependientes;
+      image: Image
+
+      dependientes?: Dependientes [];
+
+      puesto?: Puestos;
     };
 
     APPatologicos_id: number;
@@ -54,5 +58,7 @@ export interface HistorialesMedicos {
     examenes_antidoping?: ExamenesAntidopings [];
     examenes_embarazo?: ExamenesEmbarazos [];
     examenes_vista?: ExamenesVistas [];
+
+    examenesPorCategoria?: Record<string, Examenes[]>; 
     examenes?: Examenes [];
   }

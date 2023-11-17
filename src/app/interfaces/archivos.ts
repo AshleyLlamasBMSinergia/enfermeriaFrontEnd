@@ -4,4 +4,7 @@ export interface Archivos {
     categoria: string;
     archivable_id: number;
     archivable_type: string;
+
+    created_at: Date;
+    updated_at: Date;
 }

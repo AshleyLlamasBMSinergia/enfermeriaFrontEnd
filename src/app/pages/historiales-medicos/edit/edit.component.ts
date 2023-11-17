@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HistorialesMedicosService } from '../historiales-medicos.service';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { HistorialesMedicos } from '../historiales-medicos';
 import { NotificationService } from 'src/app/services/notification.service';
 import { Observable, of } from 'rxjs';
 import { ImageService } from 'src/app/services/imagen.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { catchError, map } from 'rxjs/operators';
+import { HistorialesMedicos } from 'src/app/interfaces/historiales-medicos';
 
 @Component({
   selector: 'app-edit',

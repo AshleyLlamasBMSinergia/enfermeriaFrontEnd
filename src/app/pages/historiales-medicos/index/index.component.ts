@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { HistorialesMedicos } from '../historiales-medicos';
 import { HistorialesMedicosService } from '../historiales-medicos.service';
 import { Router } from '@angular/router';
 import { Subject, debounceTime  } from 'rxjs';
 import { NotificationService } from 'src/app/services/notification.service';
+import { HistorialesMedicos } from 'src/app/interfaces/historiales-medicos';
 
 @Component({
   selector: 'app-index',

@@ -40,6 +40,11 @@ export class SidebarService {
       icono: 'assets/icons/insumosMedicos.svg',
       url: 'almacenes'
     },
+    {
+      titulo: 'Incapacidades',
+      icono: 'assets/icons/incapacidades.svg',
+      url: 'incapacidades'
+    },
     // {
     //   titulo: 'Estadisticas',
     //   icono: 'assets/icons/estadisticas.svg',

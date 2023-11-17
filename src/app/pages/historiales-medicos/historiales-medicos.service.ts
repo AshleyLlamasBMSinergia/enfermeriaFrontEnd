@@ -2,7 +2,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import {  Observable, switchMap } from 'rxjs';
-import { HistorialesMedicos } from './historiales-medicos';
 import { API_URL } from 'src/app/config';
 import { Router } from '@angular/router';
 import { AntecedentesPersonalesPatologicos } from 'src/app/interfaces/antecedentes-personales-patologicos';
@@ -10,6 +9,7 @@ import { AntecedentesPersonalesNoPatologicos } from 'src/app/interfaces/antecede
 import { AntecedentesHeredofamiliares } from 'src/app/interfaces/antecedentes-heredofamiliares';
 import { Examenes } from 'src/app/interfaces/examenes';
 import { Dependientes } from 'src/app/interfaces/dependientes';
+import { HistorialesMedicos } from 'src/app/interfaces/historiales-medicos';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +32,10 @@ export class HistorialesMedicosService {
   buscador(nombre: string): Observable<any[]> {
     const url = `${API_URL}historiales-medicos/buscador?nombre=${nombre}`;
     return this.httpClient.get<any[]>(url);
+  }
+
+  buscarHistorialMedicoCAN (numero: number): Observable<any[]> {
+    return this.httpClient.get<any[]>(API_URL+"can/empleados/"+numero);
   }
 
   getHistorialesMedicos (): Observable<HistorialesMedicos[]> {
@@ -126,52 +130,62 @@ export class HistorialesMedicosService {
     return this.httpClient.delete(url);
   }
 
+  // storeDependientes(dependiente: any, imagen: File): Observable<Dependientes> {
+  //   return new Observable<Dependientes>((observer) => {
+  //     const reader = new FileReader();
+  //     reader.readAsDataURL(imagen);
+  
+  //     reader.onload = (event) => {
+  //       const imagenBase64 = (event.target as FileReader).result as string;
+  //       dependiente.imagen = imagenBase64;
+  
+  //       this.httpClient.post<Dependientes>(API_URL + "dependientes", dependiente, this.httpOptions)
+  //         .subscribe(
+  //           (response) => {
+  //             observer.next(response);
+  //             observer.complete();
+  //           },
+  //           (error) => {
+  //             observer.error(error);
+  //           }
+  //         );
+  //     };
+  //   });
+  // }
+
   storeDependientes(dependiente: any, imagen: File): Observable<Dependientes> {
-    return new Observable<Dependientes>((observer) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(imagen);
-  
-      reader.onload = (event) => {
-        const imagenBase64 = (event.target as FileReader).result as string;
-        dependiente.imagen = imagenBase64;
-  
-        this.httpClient.post<Dependientes>(API_URL + "dependientes", dependiente, this.httpOptions)
-          .subscribe(
-            (response) => {
-              observer.next(response);
-              observer.complete();
-            },
-            (error) => {
-              observer.error(error);
-            }
-          );
-      };
-    });
+    if (imagen) {
+      return this.procesarImagen(imagen).pipe(
+        switchMap(imagenBase64 => {
+          dependiente.imagen = imagenBase64;
+          return this.enviarDependiente(dependiente);
+        })
+      );
+    } else {
+      return this.enviarDependiente(dependiente);
+    }
   }
 
   updateDependiente(id: number, dependiente: any, imagen: File): Observable<Dependientes> {
-    return new Observable<Dependientes>((observer) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(imagen);
+    if (imagen) {
+      return this.procesarImagen(imagen).pipe(
+        switchMap(imagenBase64 => {
+          dependiente.imagen = imagenBase64;
+          return this.enviarEditarDependiente(id, dependiente);
+        })
+      );
+    } else {
+      return this.enviarEditarDependiente(id, dependiente);
+    }
+  }
   
-      reader.onload = (event) => {
-        const imagenBase64 = (event.target as FileReader).result as string;
-        dependiente.imagen = imagenBase64;
-  
-        const url = `${API_URL}dependientes/edit/${id}`;
+  private enviarEditarDependiente(id: number, dependiente: any): Observable<Dependientes> {
+    const url = `${API_URL}dependientes/edit/${id}`;
+    return this.httpClient.put<Dependientes>(url, dependiente, this.httpOptions);
+  }
 
-        this.httpClient.put<Dependientes>(url, dependiente, this.httpOptions)
-          .subscribe(
-            (response) => {
-              observer.next(response);
-              observer.complete();
-            },
-            (error) => {
-              observer.error(error);
-            }
-          );
-      };
-    });
+  private enviarDependiente(dependiente: any): Observable<Dependientes> {
+    return this.httpClient.post<Dependientes>(API_URL + "dependientes", dependiente, this.httpOptions);
   }
 
   storeAntecedentespersonalesPatologicos(antecedentesPersonalesPatologicos: any): Observable<AntecedentesPersonalesPatologicos> {

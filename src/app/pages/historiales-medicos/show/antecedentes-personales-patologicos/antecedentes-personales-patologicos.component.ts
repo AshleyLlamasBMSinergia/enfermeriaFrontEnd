@@ -1,8 +1,8 @@
-import { HistorialesMedicos } from '../../historiales-medicos';
 import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { HistorialesMedicosService } from '../../historiales-medicos.service';
 import { NotificationService } from 'src/app/services/notification.service';
+import { HistorialesMedicos } from 'src/app/interfaces/historiales-medicos';
 
 @Component({
   selector: 'app-antecedentes-personales-patologicos',

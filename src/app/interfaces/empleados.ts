@@ -3,6 +3,7 @@ import { Image } from "./image";
 
 export interface Empleados {
   id: number;
+  numero: number;
   nombre: string;
   fechaNacimiento: Date;
 

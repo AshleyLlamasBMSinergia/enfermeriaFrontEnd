@@ -10,10 +10,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { LoadingInterceptor } from './loading.interceptor';
 import { SpinnerComponent } from './spinner/spinner.component';
-import { LoginComponent } from './auth/login/login.component';
 import { FormsModule } from '@angular/forms';
 import { AuthInterceptor } from './auth/auth.interceptor';
-import { AuthGuard } from './auth/auth.guard';
 
 @NgModule({
   declarations: [
@@ -21,7 +19,6 @@ import { AuthGuard } from './auth/auth.guard';
     NopageFoundComponent,
     SpinnerComponent,
     NopageFoundComponent,
-    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -30,10 +27,9 @@ import { AuthGuard } from './auth/auth.guard';
     AuthModule,
     PagesModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
   ],
   providers: [
-    // AuthGuard,
     {
       provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true
     },

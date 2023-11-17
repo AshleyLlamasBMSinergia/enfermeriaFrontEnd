@@ -156,6 +156,10 @@ export class InventarioShowComponent {
     return mensajes;
   }
 
+  inventarioIndex(inventarioId: number) {
+    return this.router.navigate(['/enfermeria/almacenes', inventarioId]);
+  }
+
   crearInsumo(inventarioId: number) {
     this.inventarioDataService.setInventarioId(inventarioId);
     this.router.navigate(['/enfermeria/almacenes', inventarioId, 'insumos', 'create']);

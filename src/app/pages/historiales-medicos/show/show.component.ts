@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HistorialesMedicosService } from '../historiales-medicos.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HistorialesMedicos } from '../historiales-medicos';
 import { differenceInYears } from 'date-fns';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ImageService } from 'src/app/services/imagen.service';
@@ -10,6 +9,7 @@ import { Observable, of, ReplaySubject, forkJoin } from 'rxjs';
 import { NotificationService } from 'src/app/services/notification.service';
 import { ArchivoService } from 'src/app/services/archivo.service';
 import { catchError, map } from 'rxjs/operators';
+import { HistorialesMedicos } from 'src/app/interfaces/historiales-medicos';
 
 @Component({
   selector: 'app-show',
@@ -86,7 +86,7 @@ export class HistorialesMedicosShowComponent implements OnInit {
     const historialMedicoId = +this.route.snapshot.paramMap.get('HistorialMedico')!;
     this.historialesMedicosService.getHistorialMedico(historialMedicoId)
       .subscribe(historialMedico => {
-        // console.table(historialMedico)
+
         this.historialMedico = historialMedico;
         this.calcularEdad();
         this.terminado = true;

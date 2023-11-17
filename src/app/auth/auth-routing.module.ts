@@ -3,17 +3,28 @@ import { CommonModule } from '@angular/common';
 import { LoginComponent } from './login/login.component';
 import { RouterModule, Routes } from '@angular/router';
 
-const routes:Routes = [
+// const routes:Routes = [
+//   {
+//     path: 'login', component: LoginComponent
+//   }
+// ]
+
+const routes: Routes = [
   {
-    path: 'login', component: LoginComponent
+    path: '',
+    children: [
+      {path: 'login', component: LoginComponent},
+      {path: '**', redirectTo: 'login'}
+    ]
   }
-]
+];
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
-    RouterModule.forRoot(routes)
+    // RouterModule.forRoot(routes)
+    RouterModule.forChild(routes)
   ],
   exports: [RouterModule]
 })

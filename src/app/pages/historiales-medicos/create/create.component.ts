@@ -3,8 +3,11 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 import { HistorialesMedicosService } from '../historiales-medicos.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { DatePipe } from '@angular/common';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
+  providers: [DatePipe],
   selector: 'app-create',
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.css']
@@ -12,6 +15,9 @@ import Swal from 'sweetalert2';
 export class HistorialesMedicosCreateComponent {
 
   historialMedicoForm: FormGroup;
+  formDireccion!: FormGroup;
+
+  image: any;
 
   imagen: File | null = null;
   url: string | null = null;
@@ -22,6 +28,7 @@ export class HistorialesMedicosCreateComponent {
     email: 'correo electrónico',
     paciente: 'tipo de paciente',
     nombre: 'nombre',
+    numero: 'número de empleado',
     RFC: 'RFC',
     CURP: 'CURP',
     IMSS: 'IMSS',
@@ -39,9 +46,20 @@ export class HistorialesMedicosCreateComponent {
   (
     private router: Router,
     private formBuilder: FormBuilder,
-    private historialesMedicosService: HistorialesMedicosService
+    private historialesMedicosService: HistorialesMedicosService,
+    private datePipe: DatePipe,
+    private sanitizer: DomSanitizer
   ) 
   {
+    this.formDireccion = this.formBuilder.group({
+      calle: [null],
+      interior: [null],
+      exterior: [null],
+      colonia: [null],
+      CP: [null],
+      localidad: [null],
+    });
+
     this.historialMedicoForm = this.formBuilder.group({
       email: [null],
       paciente: [''],
@@ -50,6 +68,8 @@ export class HistorialesMedicosCreateComponent {
       fechaNacimiento: [null],
       prefijoInternacional: ['+52'],
       telefono: [null],
+      numero: [null],
+      puesto: [''],
       CURP: [null],
       IMSS: [null],
       RFC: [''],
@@ -57,22 +77,25 @@ export class HistorialesMedicosCreateComponent {
       talla: [null],
       peso: [null],
       imagen: [null],
+      formDireccion: this.formDireccion
     });
   }
 
 
   cambiarValidaciones(tipoPaciente: string) {
     if (tipoPaciente === 'Empleado') {
+      this.historialMedicoForm.get('numero')!.setValidators([Validators.required]);
       this.historialMedicoForm.get('RFC')!.setValidators([Validators.required, Validators.maxLength(254)]);
       this.historialMedicoForm.get('CURP')!.setValidators([Validators.required, Validators.maxLength(254)]);
       this.historialMedicoForm.get('IMSS')!.setValidators([Validators.required, Validators.maxLength(254)]);
       this.historialMedicoForm.get('estadoCivil')!.setValidators([Validators.required]);
       this.historialMedicoForm.get('prefijoInternacional')!.setValidators([Validators.required]);
       this.historialMedicoForm.get('telefono')!.setValidators([Validators.required, Validators.maxLength(10)]);
-      this.historialMedicoForm.get('email')!.setValidators([Validators.required, Validators.email]);
-      this.historialMedicoForm.get('imagen')!.setValidators([Validators.required]);
-
+      this.historialMedicoForm.get('email')!.setValidators([Validators.required]);
+      this.historialMedicoForm.get('talla')!.setValidators([Validators.required]);
+      this.historialMedicoForm.get('peso')!.setValidators([Validators.required]);
     } else {
+      this.historialMedicoForm.get('numero')!.clearValidators();
       this.historialMedicoForm.get('RFC')!.clearValidators();
       this.historialMedicoForm.get('CURP')!.clearValidators();
       this.historialMedicoForm.get('IMSS')!.clearValidators();
@@ -85,6 +108,7 @@ export class HistorialesMedicosCreateComponent {
     }
   
     // Actualiza las validaciones
+    this.historialMedicoForm.get('numero')!.updateValueAndValidity();
     this.historialMedicoForm.get('RFC')!.updateValueAndValidity();
     this.historialMedicoForm.get('CURP')!.updateValueAndValidity();
     this.historialMedicoForm.get('IMSS')!.updateValueAndValidity();
@@ -125,6 +149,40 @@ export class HistorialesMedicosCreateComponent {
   
     return invalidControls;
   }
+
+  buscarEmpleado() {
+    this.historialesMedicosService.buscarHistorialMedicoCAN(this.historialMedicoForm.get('numero')!.value).subscribe(
+      (response) => {
+        const empleado = response[0];
+
+        this.image = this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${empleado.Foto}`);
+
+        this.historialMedicoForm.get('nombre')?.setValue(empleado.Nombre);
+        this.historialMedicoForm.get('RFC')?.setValue(empleado.RFC);
+        this.historialMedicoForm.get('CURP')?.setValue(empleado.Curp);
+        this.historialMedicoForm.get('sexo')?.setValue(empleado.Sexo);
+        this.historialMedicoForm.get('fechaNacimiento')?.setValue(
+          this.datePipe.transform(empleado.FechaNacimiento, 'yyyy-MM-dd')
+        );
+        this.historialMedicoForm.get('estadoCivil')?.setValue(empleado.EstadoCivil);
+        this.historialMedicoForm.get('telefono')?.setValue(empleado.Telefono);
+        this.historialMedicoForm.get('email')?.setValue(empleado.Correo);
+        this.historialMedicoForm.get('puesto')?.setValue(empleado.Puesto);
+
+        this.formDireccion.get('calle')?.setValue(empleado.Calle);
+        this.formDireccion.get('interior')?.setValue(empleado.Interior);
+        this.formDireccion.get('exterior')?.setValue(empleado.Exterior);
+        this.formDireccion.get('colonia')?.setValue(empleado.Colonia);
+      },
+      (error) => {
+        this.error(error);
+      }
+    );
+  }  
+
+  // guardar(){
+  //   console.log(this.historialMedicoForm.value);
+  // }
 
   guardar() {
     this.cambiarValidaciones(this.historialMedicoForm.get('paciente')!.value);

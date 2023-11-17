@@ -9,8 +9,6 @@ import { Observable, of } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import { catchError, map } from 'rxjs/operators';
 import { ImageService } from 'src/app/services/imagen.service';
-import { imagenValidator } from '../../../../../imagenValidator.component';
-
 @Component({
   selector: 'app-create',
   templateUrl: './create.component.html',

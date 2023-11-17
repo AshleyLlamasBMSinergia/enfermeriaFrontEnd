@@ -18,7 +18,7 @@ export class LoginComponent {
   login() {
     this.authService.login(this.credentials).subscribe(
       response => {
-        const token = response.data.token; // Asegúrate de que el token esté en la estructura de respuesta correcta
+        const token = response.data.token;
         localStorage.setItem('token', token);
   
         this.authService.handleLoginResponse(response);
