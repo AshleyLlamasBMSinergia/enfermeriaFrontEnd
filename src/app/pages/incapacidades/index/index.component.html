@@ -3,11 +3,6 @@
         <div class="card">
             <div class="card-header text-secondary border-0">
                 <h3 class="card-title text-center">Todas las incapacidades</h3>
-                <div class="card-tools">
-                    <!-- <a class="btn btn-tool btn-sm">
-                    <i class="fas fa-download"></i>
-                    </a> -->
-                </div>
             </div>
             <div class="card-header border-0">
                 <div class="row">
@@ -34,15 +29,10 @@
                                 {{incapacidad.empleado.nombre}}
                             </td>
                             <td>
-                                {{incapacidad.tipo}}
+                                {{incapacidad.tipo_incidencia.Nombre}}
                             </td>
                             <td>
-                                {{incapacidad.fechaInicial}}
-                            </td>
-                            <td width="10px">
-                                <button (click)="editIncapacidad(incapacidad.id)" class="btn btn-sm btn-primary">
-                                    <i class="fas fa-edit"></i>
-                                </button>
+                                {{incapacidad?.fechaEfectiva | date:'dd/MM/yyyy'}}
                             </td>
                             <td width="10px">
                                 <button (click)="showIncapacidad(incapacidad.id)" class="btn btn-sm btn-secondary">

@@ -24,16 +24,17 @@
             </div>
             <div class="card-body p-0">
                 <ul class="todo-list">
-                  <li *ngFor="let task of tasks" [ngClass]="{'done': task.completed}" class="bg-white">
+                  <li *ngFor="let task of tasks" [ngClass]="{'done': task.completed, 'text-danger': isFechaAntesDeHoy(task.fecha)}" class="bg-white">
                     <input type="checkbox" [(ngModel)]="task.completed" (change)="updateEstatusPendiente(task)">
-                    <span class="text">{{ task.titulo }}</span>
+                    <span class="text"><span class="text-pink pr-4">{{ task.fecha | date:'dd/MM/yyyy' }}</span> {{ task.titulo }}</span>
                     <div class="tools">
-                        <button class="btn btn-sm btn-primary mr-2" data-toggle="modal" data-target="#pendienteModal" (click)="openPendienteModal(task)"><i class="fas fa-edit"></i></button>
-                        <button class="btn btn-sm btn-danger" (click)="destroyPendiente(task.id)"><i class="fas fa-trash"></i></button>
-                      </div>
+                      <button class="btn btn-sm btn-primary mr-2" data-toggle="modal" data-target="#pendienteModal" (click)="openPendienteModal(task)"><i class="fas fa-edit"></i></button>
+                      <button class="btn btn-sm btn-danger" (click)="destroyPendiente(task.id)"><i class="fas fa-trash"></i></button>
+                    </div>
                   </li>
                 </ul>
-            </div>                
+              </div>
+                             
         </div>
         <!-- <div class="card">
             <div class="card-header text-secondary border-0">
@@ -137,6 +138,13 @@
         </div>
         <div class="modal-body">
             <form [formGroup]="pendienteForm">
+                <div class="form-group">
+                    <label for="fecha">Fecha</label>
+                    <input type="date" class="form-control" id="fecha" formControlName="fecha">
+                    <div class="text-danger">
+                      <p *ngIf="pendienteForm.get('fecha')?.errors?.['required']">La fecha es obligatoria.</p>
+                    </div>
+                </div>
                 <div class="form-group">
                   <label for="titulo">Título</label>
                   <input type="text" class="form-control" id="titulo" formControlName="titulo">

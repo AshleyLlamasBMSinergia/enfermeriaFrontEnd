@@ -54,7 +54,7 @@ export class HistorialesMedicosService {
     return this.httpClient.get(API_URL + "historial-medico/pdf/" + recetaId + '/' + fecha, { responseType: 'blob' });
   }
 
-  storeHistorialMedico(historialMedico: any, imagen: File): Observable<HistorialesMedicos> {
+  storeHistorialMedico(historialMedico: any, imagen: any): Observable<HistorialesMedicos> {
     if (imagen) {
       return this.procesarImagen(imagen).pipe(
         switchMap(imagenBase64 => {

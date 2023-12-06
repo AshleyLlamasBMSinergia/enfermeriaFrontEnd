@@ -42,4 +42,24 @@ export class IncapacidadesService {
   storeArchivos(archivos: any): Observable<any> {
     return this.httpClient.post<any>(this.apiURL+"/archivos", JSON.stringify(archivos), this.httpOptions);
   }
+
+  getTipoIncidencias(): Observable<any[]> {
+    return this.httpClient.get<any[]>(API_URL+'tipos-de-insidencias');
+  }
+
+  getControlIncapacidades(): Observable<any[]> {
+    return this.httpClient.get<any[]>(API_URL+'control-incapacidades');
+  }
+
+  getSecuelas(): Observable<any[]> {
+    return this.httpClient.get<any[]>(API_URL+'secuelas');
+  }
+
+  getTipoRiesgos(): Observable<any[]> {
+    return this.httpClient.get<any[]>(API_URL+'tipos-de-riesgos');
+  }
+
+  getTipoPermisos(): Observable<any[]> {
+    return this.httpClient.get<any[]>(API_URL+'tipos-de-permisos');
+  }
 }

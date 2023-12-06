@@ -18,13 +18,13 @@ const routes: Routes = [
     path: 'create', 
     component: LotesMedicosCreateComponent,
     data: {
-      subtitulo: 'Crear Lotes médicos',
+      subtitulo: 'Crear lotes médicos',
     },
   },
   {
     path: ':id', component:LotesMedicosShowComponent,
     data: {
-      subtitulo: 'Ver Lote médico'
+      subtitulo: 'Ver lote médico'
     }
   },
 ];

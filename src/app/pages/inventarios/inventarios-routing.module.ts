@@ -28,28 +28,28 @@ const routes: Routes = [
     path: ':inventarioId/insumos/create',
     component: InsumoCreateComponent,
     data: {
-      subtitulo: 'Ingresar Insumo',
+      subtitulo: 'Ingresar insumo',
     },
   },
   {
     path: ':inventarioId/insumos/:insumoId',
     component: InsumoShowComponent,
     data: {
-      subtitulo: 'Ver Insumo',
+      subtitulo: 'Ver insumo',
     },
   },
   {
     path: ':inventarioId/insumos/:insumoId/lotes/create',
     component: LotesCreateComponent,
     data: {
-      subtitulo: 'Ingresar Lote',
+      subtitulo: 'Ingresar lote',
     },
   },
   {
     path: ':inventarioId/insumos/:insumoId/lotes/:loteId',
     component: LotesShowComponent,
     data: {
-      subtitulo: 'Ver Lote',
+      subtitulo: 'Ver lote',
     },
   },
   {

@@ -36,10 +36,9 @@ export class EnfermeriaService {
     return this.httpClient.post<any>(API_URL+"pendientes", JSON.stringify(pendiente), this.httpOptions);
   }
 
-  updateTituloPendiente(id: number, nuevoTitulo: string): Observable<any> {
+  updateTituloPendiente(id: number, pendiente: any): Observable<any> {
     const url = `${API_URL}pendientes/update-titulo/${id}`;
-    const data = { titulo: nuevoTitulo };
-    return this.httpClient.put(url, data);
+    return this.httpClient.put(url, pendiente);
   }
 
   destroyPendiente(pendiente: number): Observable<any> {

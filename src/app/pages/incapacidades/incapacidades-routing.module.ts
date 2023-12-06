@@ -15,7 +15,7 @@ const routes:Routes = [
     },
   },
   {
-    path: 'incapacidades', component:IncapacidadesIndexComponent,
+    path: 'Incapacidades', component:IncapacidadesIndexComponent,
     data: {
       subtitulo: 'Incapacidades'
     }

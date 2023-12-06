@@ -18,21 +18,21 @@ const routes: Routes = [
     path: 'create', 
     component: InsumosMedicosCreateComponent,
     data: {
-      subtitulo: 'Crear Insumo',
+      subtitulo: 'Crear insumo',
     },
   },
   {
     path: ':id',
     component: LotesMedicosIndexComponent,
     data: {
-      subtitulo: 'Ver Insumo',
+      subtitulo: 'Ver insumo',
     },
   },
   {
     path: 'edit/:id',
     component: InsumosMedicosEditComponent,
     data: {
-      subtitulo: 'Editar Insumo',
+      subtitulo: 'Editar insumo',
     }
   }
 ];

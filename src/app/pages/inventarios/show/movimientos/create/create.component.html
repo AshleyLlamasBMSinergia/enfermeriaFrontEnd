@@ -19,7 +19,7 @@
                     </div>
                     <div *ngIf="movimientoForm.get('movimientoTipo_id')?.value">
                         <label class="col-form-label">
-                            Mover lotes
+                            Mover lotes <span class="text-secondary">(medicamento)</span>
                         </label>
                         <div [formGroup]="formInsumos">
                             <div class="card shadow-none">
@@ -35,11 +35,12 @@
                                         [allowClear]="true"
                                         [items]="insumos"
                                         optionValueField="id"
-                                        optionTextField="nombre"
+                                        optionTextField="lote"
                                         placeholder="Seleccione los insumos"
                                         (select)="addItemInsumo($event)"
                                         (remove)="deleteInsumo($event)">
                                     </ngx-select>
+
                                 </div>
                                 <div formArrayName="itemInsumo">
                                     <div *ngFor="let insumoSeleccionado of insumosForm().controls; let insIndex = index">

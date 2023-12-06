@@ -19,7 +19,7 @@ import { catchError, map } from 'rxjs/operators';
   styleUrls: ['./create.component.css']
 })
 export class IncapacidadesCreateComponent {
-  formIncapacidad: FormGroup;
+  formIncapacitacion: FormGroup;
 
   profesional: any;
   imageProfesional: any;
@@ -32,6 +32,12 @@ export class IncapacidadesCreateComponent {
 
   zonasAfectadas: any[] = [];
 
+  tipoIncidencias: any[] = [];
+  controlIncapacidades: any[] = [];
+  secuelas: any[] = [];
+  tipoRiesgos: any[] = [];
+  tipoPermisos: any[] = [];
+
   public Editor = ClassicEditor;
   mensajesDeError: string[] = [];
 
@@ -40,19 +46,20 @@ export class IncapacidadesCreateComponent {
   consecuentesOpciones: string[] = [];
 
   nombresDescriptivos: { [key: string]: string } = {
-    tipo: 'tipo de incapacidad',
-    consecuente: 'consecuente de la incapacidad',
-    fechaInicial: 'fecha inicial',
-    fechaTermino: 'fecha de termino',
-    fechaProxRevision: 'fecha de la proxima revisión',
-    calificacionAccidente: 'calificación del accidente',
-    causa: 'causa',
+
     diagnostico: 'diagnóstico',
     observaciones: 'observaciones',
-    empleado_id: 'empleado',
+    empleado: 'empleado',
     profesional_id: 'profesional',
     zonasAfectadas: 'zonas afectadas',
-    dias: 'días'
+    Dias: 'días que aplica',
+    TipoIncidencia: 'tipo de incidencia',
+    FechaEfectiva: 'fecha efectiva',
+    Folio: 'folio',
+    TipoRiesgo: 'tipo de riesgo',
+    Secuela: 'secuela',
+    TipoPermiso: 'tipo de permiso',
+    ControlIncapacidad: 'control de incapacidad'
   };
 
   public editorConfig = {
@@ -89,15 +96,16 @@ export class IncapacidadesCreateComponent {
     private sanitizer: DomSanitizer,
     private notificationService: NotificationService
   ) {
-    this.formIncapacidad = this.formBuilder.group({
-      tipo: ['', [Validators.required]],
-      consecuente: ['', [Validators.required]],
-      fechaInicial: [null, Validators.required],
-      fechaTermino: [null],
-      calificacionAccidente: [null, [Validators.required]],
-      dias: [null, [this.diasNoNegativos()]],
-      causa: [null],
-      diagnostico: [null],
+    this.formIncapacitacion = this.formBuilder.group({
+      TipoIncidencia: [null, [Validators.required]],
+      FechaEfectiva: [null, [Validators.required]],
+      Folio: [null, [Validators.required]],
+      Dias: [null, [Validators.required]],
+      TipoRiesgo: [null],
+      Secuela: [null],
+      TipoPermiso: [null],
+      ControlIncapacidad: [null],
+      diagnostico: [null, [Validators.required]],
       observaciones: [null],
       empleado_id: [null, [Validators.required]],
       profesional_id: [null, [Validators.required]],
@@ -105,24 +113,11 @@ export class IncapacidadesCreateComponent {
     });
   }
 
-  diasNoNegativos(): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: any } | null => {
-      const dias = control.value;
-  
-      // Verificar si días es un número y no es negativo
-      if (isNaN(dias) || dias < 0) {
-        return { 'diasNoNegativos': true };
-      }
-  
-      return null;  // La validación pasa
-    };
-  }
-
   ngOnInit(): void {
     this.userService.user$.subscribe(
       (user: any) => {
         this.profesional = user[0];
-        this.formIncapacidad.get('profesional_id')?.setValue(user[0].id);
+        this.formIncapacitacion.get('profesional_id')?.setValue(user[0].id);
         if (user[0].useable.image) {
           this.obtenerImagen(user[0].useable.image.url).subscribe((imagen) => {
             this.imageProfesional = imagen;
@@ -139,6 +134,68 @@ export class IncapacidadesCreateComponent {
     this.cargarOpcionesEmpleados();
     this.inicializarControles();
     this.getZonasAfectadas();
+
+    this.getTipoIncidencias();
+    this.getTipoRiesgos();
+    this.getSecuelas();
+    this.getControlIncapacidades();
+    this.getTipoPermisos();
+  }
+
+  getTipoIncidencias(){
+    this.incapacidadesService.getTipoIncidencias().subscribe(
+      (tipoIncidencias) => {
+        this.tipoIncidencias = tipoIncidencias;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+
+  getTipoRiesgos(){
+    this.incapacidadesService.getTipoRiesgos().subscribe(
+      (tipoRiesgos) => {
+        this.tipoRiesgos = tipoRiesgos;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  getSecuelas(){
+    this.incapacidadesService.getSecuelas().subscribe(
+      (secuelas) => {
+        this.secuelas = secuelas;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  getControlIncapacidades(){
+    this.incapacidadesService.getControlIncapacidades().subscribe(
+      (controlIncapacidad) => {
+        this.controlIncapacidades = controlIncapacidad;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  getTipoPermisos(){
+    this.incapacidadesService.getTipoPermisos().subscribe(
+      (tipoPermisos) => {
+        this.tipoPermisos = tipoPermisos;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
   getZonasAfectadas(){
@@ -155,21 +212,32 @@ export class IncapacidadesCreateComponent {
     );
   }
 
-  cambiarValidaciones(tipoIncapacidad: string) {
-    if (tipoIncapacidad === 'Riesgo de trabajo ST7' || tipoIncapacidad === 'Enfermedad profesional ST9') {
-      this.formIncapacidad.get('calificacionAccidente')!.setValidators([Validators.required]);
-      this.formIncapacidad.get('causa')!.setValidators([Validators.required]);
-      this.formIncapacidad.get('zonasAfectadas')!.setValidators([Validators.required]);
-    } else{
-      this.formIncapacidad.get('calificacionAccidente')!.clearValidators();
-      this.formIncapacidad.get('causa')!.clearValidators();
-      this.formIncapacidad.get('zonasAfectadas')!.clearValidators();
+  cambiarValidaciones(tipoIncidencia: string) {
+
+    if(tipoIncidencia === 'RT'){
+      this.formIncapacitacion.get('TipoRiesgo')!.setValidators([Validators.required]);
+      this.formIncapacitacion.get('Secuela')!.setValidators([Validators.required]);
+      this.formIncapacitacion.get('ControlIncapacidad')!.setValidators([Validators.required]);
+      this.formIncapacitacion.get('zonasAfectadas')!.setValidators([Validators.required]);
+    }else{
+      this.formIncapacitacion.get('TipoRiesgo')!.clearValidators();
+      this.formIncapacitacion.get('Secuela')!.clearValidators();
+      this.formIncapacitacion.get('ControlIncapacidad')!.clearValidators();
+      this.formIncapacitacion.get('zonasAfectadas')!.clearValidators();
+    }
+
+    if(tipoIncidencia === 'PP' || tipoIncidencia === 'PV'){
+      this.formIncapacitacion.get('TipoPermiso')!.setValidators([Validators.required]);
+    }else{
+      this.formIncapacitacion.get('TipoPermiso')!.clearValidators();
     }
   
     // Actualiza las validaciones
-    this.formIncapacidad.get('calificacionAccidente')!.updateValueAndValidity();
-    this.formIncapacidad.get('causa')!.updateValueAndValidity();
-    this.formIncapacidad.get('zonasAfectadas')!.updateValueAndValidity();
+    this.formIncapacitacion.get('TipoRiesgo')!.updateValueAndValidity();
+    this.formIncapacitacion.get('Secuela')!.updateValueAndValidity();
+    this.formIncapacitacion.get('ControlIncapacidad')!.updateValueAndValidity();
+    this.formIncapacitacion.get('zonasAfectadas')!.updateValueAndValidity();
+    this.formIncapacitacion.get('TipoPermiso')!.updateValueAndValidity();
   }
 
   cargarOpcionesEmpleados() {
@@ -189,7 +257,7 @@ export class IncapacidadesCreateComponent {
   cargarDatosEmpleado($id: number) {
     if (!this.isUpdating) {
       this.isUpdating = true;
-      this.formIncapacidad.get('empleado_id')?.setValue($id);
+      this.formIncapacitacion.get('empleado_id')?.setValue($id);
       this.historialesMedicosService.getHistorialMedicoPorPaciente('empleado', $id)
         .subscribe(historialMedico => {
           this.llenarFormularioEnAutomatico(historialMedico);
@@ -201,36 +269,44 @@ export class IncapacidadesCreateComponent {
   }
 
   private inicializarControles() {
-    this.formIncapacidad.get('tipo')?.valueChanges.subscribe((tipo) => {
-      this.actualizarConsecuentesOpciones(tipo);
+    this.formIncapacitacion.get('tipoIncapacitacion')?.valueChanges.subscribe((tipoIncapacitacion) => {
+      this.actualizarConsecuentesOpciones(tipoIncapacitacion);
     });
   }
   
-  private actualizarConsecuentesOpciones(tipo: string) {
-    const consecuenteControl = this.formIncapacidad.get('consecuente');
+  private actualizarConsecuentesOpciones(tipoIncapacitacion: string) {
+    const consecuenteControl = this.formIncapacitacion.get('consecuente');
     consecuenteControl?.reset();
   
-    const opciones = this.obtenerOpcionesConsecuenteSegunTipo(tipo);
+    const opciones = this.obtenerOpcionesConsecuenteSegunTipo(tipoIncapacitacion);
     consecuenteControl?.setValidators([Validators.required]);
     consecuenteControl?.setValue(null);
     consecuenteControl?.updateValueAndValidity(); 
   
-    this.formIncapacidad.updateValueAndValidity();
-    this.consecuentesOpciones = this.obtenerOpcionesConsecuenteSegunTipo(tipo);
+    this.formIncapacitacion.updateValueAndValidity();
+    this.consecuentesOpciones = this.obtenerOpcionesConsecuenteSegunTipo(tipoIncapacitacion);
   }
   
-  private obtenerOpcionesConsecuenteSegunTipo(tipo: string): string[] {
-    switch (tipo) {
+  private obtenerOpcionesConsecuenteSegunTipo(tipoIncapacitacion: string): string[] {
+    switch (tipoIncapacitacion) {
       case 'Riesgo de trabajo ST7':
       case 'Enfermedad profesional ST9':
-        return ['Incapacidad temporal', 'Incapacidad permanente', 'Incapacidad permanente parcial', 'Incapacidad permanente total', 'Muerte'];
+        return [
+          'Incapacitacion temporal',
+          'Incapacitacion permanente parcial provisional',
+          'Incapacitacion permanente parcial definitiva',
+          'Incapacitacion permanente total provisional',
+          'Incapacitacion permanente total definitiva',
+          'Recaída',
+          'Defunción'
+        ];
   
       case 'Enfermedad general':
-        return ['Incapacidad temporal', 'Invalidez', 'Muerte'];
+        return ['Incapacitacion temporal', 'Invalidez', 'Muerte'];
       case '':
         return [];
       default:
-        return ['Incapacidad temporal'];
+        return ['Incapacitacion temporal'];
     }
   }
   
@@ -262,8 +338,8 @@ export class IncapacidadesCreateComponent {
 
   obtenerDias(){
     this.dias = this.calcularDias(
-      this.formIncapacidad.get('fechaInicial')?.value,
-      this.formIncapacidad.get('fechaTermino')?.value
+      this.formIncapacitacion.get('fechaInicial')?.value,
+      this.formIncapacitacion.get('fechaTermino')?.value
     );
   }
 
@@ -281,22 +357,22 @@ export class IncapacidadesCreateComponent {
   }
 
   guardar() {
-    this.cambiarValidaciones(this.formIncapacidad.get('tipo')!.value);
+    this.cambiarValidaciones(this.formIncapacitacion.get('TipoIncidencia')!.value);
 
-    this.formIncapacidad.get('dias')?.setValue(
+    this.formIncapacitacion.get('dias')?.setValue(
       this.calcularDias(
-        this.formIncapacidad.get('fechaInicial')?.value,
-        this.formIncapacidad.get('fechaTermino')?.value
+        this.formIncapacitacion.get('fechaInicial')?.value,
+        this.formIncapacitacion.get('fechaTermino')?.value
       )
     );
 
-    if (this.formIncapacidad.invalid) {
-      const camposNoValidos = Object.keys(this.formIncapacidad.controls).filter(controlName => this.formIncapacidad.get(controlName)?.invalid);
+    if (this.formIncapacitacion.invalid) {
+      const camposNoValidos = Object.keys(this.formIncapacitacion.controls).filter(controlName => this.formIncapacitacion.get(controlName)?.invalid);
       const mensajes: string[] = [];
 
       camposNoValidos.forEach(controlName => {
-        this.formIncapacidad.get(controlName)!;
-        const control = this.formIncapacidad.get(controlName)!;
+        this.formIncapacitacion.get(controlName)!;
+        const control = this.formIncapacitacion.get(controlName)!;
         const errores = this.obtenerMensajesDeError(control).join(', ');
         mensajes.push(`El campo ${this.nombresDescriptivos[controlName]} ${errores}`);
       });
@@ -304,9 +380,9 @@ export class IncapacidadesCreateComponent {
       this.mensajesDeError = mensajes;
 
     } else {
-      const incapacidad = this.formIncapacidad.value;
+      const incapacitacion = this.formIncapacitacion.value;
 
-      this.incapacidadesService.storeIncapacidad(incapacidad).subscribe(
+      this.incapacidadesService.storeIncapacidad(incapacitacion).subscribe(
         (response) => {
           this.router.navigate(['/enfermeria/incapacidades/', response.id]);
           this.notificationService.mensaje(response);

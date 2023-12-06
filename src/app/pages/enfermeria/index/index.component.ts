@@ -16,6 +16,7 @@ export class EnfermeriaIndexComponent {
 
   selectedTask: any = {
     id: null,
+    fecha: null,
     titulo: ''
   };
 
@@ -23,7 +24,8 @@ export class EnfermeriaIndexComponent {
 
   constructor(private router: Router, private enfermeriaService: EnfermeriaService) {
     this.pendienteForm = new FormGroup({
-      titulo: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)])
+      titulo: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]),
+      fecha: new FormControl(null, [Validators.required])
     });
   }
 
@@ -43,6 +45,9 @@ export class EnfermeriaIndexComponent {
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(50)
+      ]),
+      fecha: new FormControl(null, [
+        Validators.required,
       ])
     });
 
@@ -53,6 +58,14 @@ export class EnfermeriaIndexComponent {
       }));
     });
   }
+
+
+  isFechaAntesDeHoy(fecha: string): boolean {
+    const fechaTask = new Date(fecha);
+    const hoy = new Date();
+    return fechaTask < hoy;
+  }
+  
 
   updateEstatusPendiente(pendiente: any) {
     const nuevoEstatus = pendiente.completed ? '1' : '0';
@@ -71,12 +84,13 @@ export class EnfermeriaIndexComponent {
     if (task) {
       // Editar pendiente existente
       this.selectedTask = { ...task };
-      this.pendienteForm.patchValue({ titulo: task.titulo });
+      this.pendienteForm.patchValue({ titulo: task.titulo, fecha: task.fecha });
     } else {
       // Crear nuevo pendiente
       this.selectedTask = {
         id: null,
-        titulo: ''
+        titulo: '',
+        fecha: null
       };
       this.pendienteForm.reset();
     }
@@ -95,7 +109,8 @@ export class EnfermeriaIndexComponent {
   }
 
   updateTituloPendiente(){
-    this.enfermeriaService.updateTituloPendiente(this.selectedTask.id, this.pendienteForm.get('titulo')?.value).subscribe(
+    const pendiente = this.pendienteForm.value;
+    this.enfermeriaService.updateTituloPendiente(this.selectedTask.id, pendiente).subscribe(
       (response) => {
         this.mensaje(response);
       },
@@ -107,7 +122,8 @@ export class EnfermeriaIndexComponent {
 
   storePendiente() {
     const nuevoPendiente = {
-      titulo: this.pendienteForm.get('titulo')?.value
+      titulo: this.pendienteForm.get('titulo')?.value,
+      fecha: this.pendienteForm.get('fecha')?.value
     };
   
     this.enfermeriaService.storePendiente(nuevoPendiente).subscribe(

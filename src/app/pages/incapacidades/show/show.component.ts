@@ -30,6 +30,12 @@ export class IncapacidadesShowComponent {
   mostrarFormularioArchivo = false;
   showInput = false;
 
+  incidencias: any[] = [];
+  loading: boolean = false;
+
+  paginaActual = 1;
+  elementosPorPagina = 10;
+
   constructor(
     private imageService: ImageService,
     private incapacidadesService: IncapacidadesService,
@@ -73,12 +79,6 @@ export class IncapacidadesShowComponent {
         }else{
           this.imageEmpleado = '/assets/dist/img/user.png';
         }
-
-        if (incapacidad.revisiones.alta) {
-          this.estatus = 'TERMINADO';
-        } else {
-          this.estatus = 'PENDIENTE';
-        }        
       }
     );
   }

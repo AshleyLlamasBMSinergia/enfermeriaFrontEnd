@@ -17,21 +17,21 @@ const routes: Routes = [
     path: 'create',
     component: HistorialesMedicosCreateComponent,
     data: {
-      subtitulo: 'Crear Historial Médico',
+      subtitulo: 'Crear historial médico',
     },
   },
   {
     path: 'edit/:HistorialMedico',
     component: HistorialesMedicosEditComponent,
     data: {
-      subtitulo: 'Editar Historial Médico',
+      subtitulo: 'Editar historial médico',
     },
   },
   {
     path: ':HistorialMedico',
     component: HistorialesMedicosShowComponent,
     data: {
-      subtitulo: 'Ver Historial Médico',
+      subtitulo: 'Ver historial médico',
     },
   },
 ];

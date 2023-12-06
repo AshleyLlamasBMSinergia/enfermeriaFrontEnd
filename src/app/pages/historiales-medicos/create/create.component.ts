@@ -150,12 +150,38 @@ export class HistorialesMedicosCreateComponent {
     return invalidControls;
   }
 
+  guardarImagenDesdeUrl(url: string) {
+    const xhr = new XMLHttpRequest();
+
+    xhr.onload = () => {
+      const blob = xhr.response;
+
+      // Convierte el blob a cadena Base64
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result as string;
+
+        // Guarda la cadena Base64 en tu formulario
+        this.historialMedicoForm.get('imagen')?.setValue(base64String);
+      };
+
+      reader.readAsDataURL(blob);
+    };
+
+    xhr.open('GET', url);
+    xhr.responseType = 'blob';
+    xhr.send();
+  }
+
+
   buscarEmpleado() {
     this.historialesMedicosService.buscarHistorialMedicoCAN(this.historialMedicoForm.get('numero')!.value).subscribe(
       (response) => {
         const empleado = response[0];
 
-        this.image = this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${empleado.Foto}`);
+        const url = 'https://177.244.28.6:3443/gaz/public/api/empleado/imagen/'+empleado.Empleado;
+        this.url = url;
+        this.guardarImagenDesdeUrl(url);
 
         this.historialMedicoForm.get('nombre')?.setValue(empleado.Nombre);
         this.historialMedicoForm.get('RFC')?.setValue(empleado.RFC);
@@ -178,17 +204,12 @@ export class HistorialesMedicosCreateComponent {
         this.error(error);
       }
     );
-  }  
-
-  // guardar(){
-  //   console.log(this.historialMedicoForm.value);
-  // }
+  }
 
   guardar() {
     this.cambiarValidaciones(this.historialMedicoForm.get('paciente')!.value);
     if (!this.historialMedicoForm.invalid) {
       const historialMedico = this.historialMedicoForm.value;
-  
       this.historialesMedicosService.storeHistorialMedico(historialMedico, this.imagen!).subscribe(
         (response) => {
           this.mensaje(response);

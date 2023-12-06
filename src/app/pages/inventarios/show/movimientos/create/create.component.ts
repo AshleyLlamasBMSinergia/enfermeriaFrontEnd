@@ -125,8 +125,10 @@ export class MovimientosCreateComponent {
         lotes.push(...insumo.lotes);
       }
     }
+    console.log(lotes);
     return lotes
   }
+
 
   insumosForm(): FormArray {
     return this.formInsumos.get('itemInsumo') as FormArray;
@@ -173,6 +175,7 @@ export class MovimientosCreateComponent {
   }
 
   itemLotes(itemLoteIndex: number): FormArray {
+
     return this.insumosForm()
       .at(itemLoteIndex)
       .get('lotes') as FormArray;
@@ -228,6 +231,7 @@ export class MovimientosCreateComponent {
   }
 
   getPiezasDisponibles(insumo: any, loteIndex: number){
+    // console.log(insumo.value);
     let lotes = this.getLotesSelect(insumo.value.id);
     let inputLote = insumo.value.lotes[loteIndex];
     let dataLote = lotes?.find(l => l.id == inputLote.lote);
