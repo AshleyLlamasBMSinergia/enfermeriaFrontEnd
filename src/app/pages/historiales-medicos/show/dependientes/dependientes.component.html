@@ -10,7 +10,7 @@
           <tbody>
               <tr *ngFor="let dependiente of historialMedico?.pacientable?.dependientes">
                   <td>
-                      {{ dependiente.nombre }}
+                    {{ getTextoCapitalizado(dependiente.nombre) }}
                   </td>
                   <td width="10px" *ngIf="dependiente.historial_medico">
                     <a (click)="showHistorialMedico(dependiente?.historial_medico?.id)" class="btn btn-sm btn-secondary">
@@ -84,12 +84,13 @@
                             <input type="date" class="form-control" id="fechaNacimiento" formControlName="fechaNacimiento">
                         </div>
                         <div class="form-group">
-                            <label for="email">Parentesco de {{historialMedico.pacientable?.nombre}}</label>
+                            <label for="email">Parentesco de <span class="text-lowercase text-capitalize">{{ getTextoCapitalizado(historialMedico.pacientable?.nombre) }}</span></label>
                             <select class="form-control text-center" id="parentesco" formControlName="parentesco">
                               <option value="" selected>-- Seleccione una opción --</option>
                               <option>Padre</option>
                               <option>Hermano</option>
                               <option>Hijo</option>
+                              <option>Esposo</option>
                             </select>
                         </div>
                     </div>

@@ -61,7 +61,7 @@ export class MovimientosCreateComponent {
     this.getInventario(inventarioId);
     this.userService.user$.subscribe(
       (user: any) => {
-        this.movimientoForm.get('profesional_id')?.setValue(user[0].id);
+        this.movimientoForm.get('profesional_id')?.setValue(user[0].useable_id);
       },
       (error) => {
         console.error('Error al obtener los datos del usuario', error);

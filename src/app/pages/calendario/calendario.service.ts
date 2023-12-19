@@ -42,4 +42,8 @@ export class CalendarioService {
     const url = `${this.apiURL}horarios/${profesionalId}/${fecha}/horas-disponibles`;
     return this.httpClient.get(url);
   }
+
+  buscarExcel(buscarExcel: any) {
+    return this.httpClient.post(this.apiURL+'citas/excel', buscarExcel, { responseType: 'blob' });
+  }
 }

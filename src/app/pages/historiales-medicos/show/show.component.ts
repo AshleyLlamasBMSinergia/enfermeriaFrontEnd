@@ -10,6 +10,7 @@ import { NotificationService } from 'src/app/services/notification.service';
 import { ArchivoService } from 'src/app/services/archivo.service';
 import { catchError, map } from 'rxjs/operators';
 import { HistorialesMedicos } from 'src/app/interfaces/historiales-medicos';
+import { CapitalizarTextoService } from 'src/app/services/capitalizar-texto.service';
 
 @Component({
   selector: 'app-show',
@@ -45,6 +46,7 @@ export class HistorialesMedicosShowComponent implements OnInit {
     private archivoService: ArchivoService,
     private sanitizer: DomSanitizer,
     private router: Router,
+    private capitalizarTextoService: CapitalizarTextoService
   ) {
     this.formArchivo = this.formBuilder.group({
       historialMedico_id: [this.historialMedico?.id],
@@ -57,6 +59,10 @@ export class HistorialesMedicosShowComponent implements OnInit {
 
   ngOnInit() {
     this.getHistorialMedico();
+  }
+
+  getTextoCapitalizado(texto:any): string {
+    return this.capitalizarTextoService.capitalizarTexto(texto);
   }
 
   calcularEdad() {

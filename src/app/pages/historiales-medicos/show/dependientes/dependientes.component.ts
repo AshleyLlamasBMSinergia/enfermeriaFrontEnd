@@ -9,6 +9,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { DomSanitizer } from '@angular/platform-browser';
 import { HistorialesMedicos } from 'src/app/interfaces/historiales-medicos';
+import { CapitalizarTextoService } from 'src/app/services/capitalizar-texto.service';
 
 
 @Component({
@@ -46,6 +47,7 @@ export class DependientesComponent {
     private formBuilder: FormBuilder,
     private notificationService: NotificationService,
     private historialesMedicosService: HistorialesMedicosService,
+    private capitalizarTextoService: CapitalizarTextoService,
     private imageService: ImageService,
     private sanitizer: DomSanitizer,
   ) {
@@ -61,7 +63,11 @@ export class DependientesComponent {
 
   ngOnInit() {
     this.dependienteForm.get('empleado_id')?.setValue(this.historialMedico.pacientable_id);
-  }  
+  }
+
+  getTextoCapitalizado(texto:any): string {
+    return this.capitalizarTextoService.capitalizarTexto(texto);
+  }
 
   imagenSeleccionada(event: any) {
     this.imagen = event.target.files[0] as File;

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { EnfermeriaService } from '../enfermeria.service';
 import Swal from 'sweetalert2';
 import { FormGroup, FormControl, Validators } from '@angular/forms'; // Importa los módulos necesarios
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-index',
@@ -13,6 +14,7 @@ export class EnfermeriaIndexComponent {
 
   citasHoy: number = 0;
   tasks: any[] = [];
+  profesional!:  any;
 
   selectedTask: any = {
     id: null,
@@ -22,7 +24,11 @@ export class EnfermeriaIndexComponent {
 
   pendienteForm: FormGroup;
 
-  constructor(private router: Router, private enfermeriaService: EnfermeriaService) {
+  constructor(
+    private router: Router,
+    private enfermeriaService: EnfermeriaService,
+    private userService: UserService,
+  ) {
     this.pendienteForm = new FormGroup({
       titulo: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]),
       fecha: new FormControl(null, [Validators.required])
@@ -31,12 +37,21 @@ export class EnfermeriaIndexComponent {
 
   ngOnInit(): void {
 
-    this.enfermeriaService.getCitasHoy().subscribe(
+    this.userService.user$.subscribe(
+      (user: any) => {
+        this.profesional = user[0];
+      },
+      (error) => {
+        console.error('Error al obtener los datos del usuario', error);
+      }
+    );
+
+    this.enfermeriaService.getCitasHoy(this.profesional.useable_id).subscribe(
       (citasHoy: number) => {
         this.citasHoy = citasHoy;
       },
       (error) => {
-        console.error('Error al obtener el número de citas', error);
+        console.error('Error al obtener el número de citas: '+this.profesional.useable_id, error);
       }
     );
 

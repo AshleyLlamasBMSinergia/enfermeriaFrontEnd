@@ -179,7 +179,7 @@ export class HistorialesMedicosCreateComponent {
       (response) => {
         const empleado = response[0];
 
-        const url = 'https://177.244.28.6:3443/gaz/public/api/empleado/imagen/'+empleado.Empleado;
+        const url = 'https://200.92.206.26:3443/gaz/public/api/empleado/imagen/'+empleado.Empleado;
         this.url = url;
         this.guardarImagenDesdeUrl(url);
 

@@ -16,7 +16,8 @@
                             <div class="input-group-prepend">
                               <div class="input-group-text"><i class="fas fa-search"></i></div>
                             </div>
-                            <input [(ngModel)]="search" class="form-control form-control-sm" placeholder="Ingrese el nombre del paciente" (keyup)="buscarPaciente()">
+                            <!-- <input [(ngModel)]="search" class="form-control form-control-sm" placeholder="Ingrese el nombre del paciente" (keyup)="buscarPaciente()"> -->
+                            <input [(ngModel)]="search" class="form-control form-control-sm" placeholder="Ingrese el nombre del paciente" (keydown.enter)="realizarBusqueda()" />
                         </div>
                     </div>
                     <div class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
@@ -38,12 +39,18 @@
                     <tbody *ngIf="historialesMedicos.length > 0; else noHistoriales">
                         <tr *ngFor="let historial of historialesMedicos | paginate: {itemsPerPage: elementosPorPagina, currentPage: paginaActual}">
                             <td>
-                                {{ historial.pacientable?.nombre }}
+                                {{ getTextoCapitalizado(historial.pacientable?.nombre) }}
                             </td>
-                            <td [ngSwitch]="historial.pacientable_type" class="text-center">
-                                (<small *ngSwitchCase="'App\\Models\\NomEmpleado'">Empleado</small>
-                                <small *ngSwitchCase="'App\\Models\\RHDependiente'">Dependiente</small>
-                                <small *ngSwitchCase="'App\\Models\\Externo'">Externo</small>)
+                            <td [ngSwitch]="historial.pacientable_type" class="text-center">  
+                                <small *ngSwitchCase="'App\\Models\\NomEmpleado'">
+                                    <span class="badge badge-pill badge-info">Empleado</span>
+                                </small>
+                                <small *ngSwitchCase="'App\\Models\\RHDependiente'">
+                                    <span class="badge badge-pill badge-warning">Dependiente</span>
+                                </small>
+                                <small *ngSwitchCase="'App\\Models\\Externo'">
+                                    <span class="badge badge-pill badge-secondary">Externo</span>
+                                </small>
                             </td>
                             <td width="10px">
                                 <button (click)="showHistorialMedico(historial.id)" class="btn btn-sm btn-secondary">

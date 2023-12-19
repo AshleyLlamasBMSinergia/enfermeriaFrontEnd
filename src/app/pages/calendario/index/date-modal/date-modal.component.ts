@@ -49,6 +49,7 @@ export class DateModalComponent {
       this.userService.user$.subscribe(
         (user: any) => {
           this.profesional = user[0];
+          console.log(this.profesional.useable_id);
         },
         (error) => {
           console.error('Error al obtener los datos del usuario', error);
@@ -88,9 +89,8 @@ export class DateModalComponent {
     const selectedDate = new Date(this.selectedDate); // Convertir a objeto Date
     const formattedDate = formatDate(selectedDate, 'yyyy-MM-dd', 'en-US');
   
-    this.calendarioService.getHorariosDisponibles(this.profesional.id, formattedDate).subscribe(
+    this.calendarioService.getHorariosDisponibles(this.profesional.useable_id, formattedDate).subscribe(
       (horariosDisponibles: string[]) => {
-        console.log(this.profesional.id);
         this.horariosDisponibles = horariosDisponibles;
         if(this.isEditing){
           this.horariosDisponibles.push(this.hora);
@@ -194,7 +194,7 @@ export class DateModalComponent {
       fecha: fechaHoraLocal,
       pacientable_type: this.pacientable_type,
       pacientable_id: this.pacientable_id,
-      profesional_id: this.profesional.id,
+      profesional_id: this.profesional.useable_id,
     };
 
     this.calendarioService.storeCita(cita).subscribe(
@@ -266,7 +266,7 @@ export class DateModalComponent {
         fecha: fechaHoraLocal,
         pacientable_type: this.pacientable_type,
         pacientable_id: this.pacientable_id,
-        profesional_id: this.profesional.id,
+        profesional_id: this.profesional.useable_id,
       };
     
       // Llamar al servicio para actualizar la cita en el backend

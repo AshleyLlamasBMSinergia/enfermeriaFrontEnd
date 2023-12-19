@@ -85,7 +85,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="border rounded mt-3" *ngIf="formIncapacitacion.get('TipoIncidencia')!.value === 'RT'">
+                        <div class="border rounded mt-3" *ngIf="!(formIncapacitacion.get('TipoIncidencia')!.value === 'PP' ||
+                        formIncapacitacion.get('TipoIncidencia')!.value === 'PG')">
                             <div class="m-2">
                                 <div class="border-bottom">
                                     <h5 class="py-1 text-center">Datos de incapacidad</h5>
@@ -134,7 +135,7 @@
                             </div>
                         </div>
                         <div class="border rounded mt-3" *ngIf="formIncapacitacion.get('TipoIncidencia')!.value === 'PP' ||
-                        formIncapacitacion.get('TipoIncidencia')!.value === 'PV'">
+                        formIncapacitacion.get('TipoIncidencia')!.value === 'PG'">
                             <div class="m-2">
                                 <div class="border-bottom">
                                     <h5 class="py-1 text-center">Datos del permiso</h5>

@@ -5,8 +5,8 @@ import { RouterModule } from '@angular/router';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { CalendarioRoutingModule } from './calendario-routing.module';
 import { DateModalComponent } from './index/date-modal/date-modal.component';
-import { FormsModule } from '@angular/forms';
 import { NgxSelectModule } from 'ngx-select-ex';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -19,7 +19,9 @@ import { NgxSelectModule } from 'ngx-select-ex';
     RouterModule,
     CalendarioRoutingModule,
     FormsModule,
-    NgxSelectModule
+    NgxSelectModule,
+    ReactiveFormsModule,
+    FormsModule,
   ],
   providers: [DatePipe],
 })

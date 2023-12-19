@@ -26,7 +26,6 @@
     font-weight: 600;
     color: rgba(74, 74, 74, 0.8);
     position: relative;
-    cursor: pointer;
     float: left;
   }
   
@@ -70,19 +69,6 @@
     color: rgba(0, 0, 0, 0.2);
   }
   
-  /*** hover breadcrumbs ***/
-  .bcca-breadcrumb-item:hover {
-    background-color: #f9f9f9;
+  .no-select {
+    user-select: none !important;
   }
-  
-  .bcca-breadcrumb-item:hover:after {
-    border: 14px solid #f9f9f9;
-    border-left-color: transparent;
-    border-bottom-color: transparent;
-  }
-  
-  .bcca-breadcrumb-item:first-child:hover {
-    background-color: rgba(255, 41, 112, 0.6);
-  }
-  
-  

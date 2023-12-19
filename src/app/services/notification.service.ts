@@ -38,6 +38,13 @@ export class NotificationService {
   }
 
   error(response: any) {
+
+    if (response.error && response.error.error) {
+      response = response.error.error;
+    } else {
+      response = '¡Ups!, ocurrió un error :(';
+    }
+
     Swal.fire({
       icon: 'error',
       title: response,

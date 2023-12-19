@@ -26,12 +26,12 @@
                     <tbody *ngIf="incapacidades.length > 0; else noIncapacidades">
                         <tr *ngFor="let incapacidad of incapacidades | paginate: {itemsPerPage: elementosPorPagina, currentPage: paginaActual}">
                             <td>
-                                {{incapacidad.empleado.nombre}}
+                                {{ getTextoCapitalizado(incapacidad.empleado.nombre) }}
                             </td>
-                            <td>
-                                {{incapacidad.tipo_incidencia.Nombre}}
+                            <td class="text-center">
+                                {{ getTextoCapitalizado(incapacidad.tipo_incidencia.Nombre)}}
                             </td>
-                            <td>
+                            <td class="text-center">
                                 {{incapacidad?.fechaEfectiva | date:'dd/MM/yyyy'}}
                             </td>
                             <td width="10px">

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Subject, debounceTime  } from 'rxjs';
 import { NotificationService } from 'src/app/services/notification.service';
 import { HistorialesMedicos } from 'src/app/interfaces/historiales-medicos';
+import { CapitalizarTextoService } from 'src/app/services/capitalizar-texto.service';
 
 @Component({
   selector: 'app-index',
@@ -24,6 +25,7 @@ export class HistorialesMedicosIndexComponent {
     constructor(
       private historialesMedicosService: HistorialesMedicosService,
       private notificationService: NotificationService,
+      private capitalizarTextoService: CapitalizarTextoService,
       private router: Router,
     ) { }
   
@@ -37,21 +39,34 @@ export class HistorialesMedicosIndexComponent {
       });
     }
 
+    getTextoCapitalizado(texto:any): string {
+      return this.capitalizarTextoService.capitalizarTexto(texto);
+    }
+
     buscarPaciente() {
       this.searchTerms.next(this.search.trim());
     }
-    
-    realizarBusqueda() {
-      if (this.search.trim() !== '') {
+
+    //Por enter
+    realizarBusqueda(): void {
         this.historialesMedicosService.buscador(this.search)
-          .subscribe(
-            historiales => this.historialesMedicos = historiales,
-            error => console.error(error)
-          );
-      } else {
-        this.getHistorialesMedicos();
-      }
+        .subscribe(
+          historiales => this.historialesMedicos = historiales,
+          error => console.error(error)
+        );
     }
+    
+    // realizarBusqueda() { //Por texto
+    //   if (this.search.trim() !== '') {
+    //     this.historialesMedicosService.buscador(this.search)
+    //       .subscribe(
+    //         historiales => this.historialesMedicos = historiales,
+    //         error => console.error(error)
+    //       );
+    //   } else {
+    //     this.getHistorialesMedicos();
+    //   }
+    // }
 
     getHistorialesMedicos(): void {
       this.historialesMedicosService.getHistorialesMedicos().subscribe(

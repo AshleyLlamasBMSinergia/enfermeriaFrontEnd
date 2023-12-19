@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Incapacidades } from 'src/app/interfaces/incapacidades';
 import { NotificationService } from 'src/app/services/notification.service';
 import { IncapacidadesService } from '../incapacidades.service';
+import { CapitalizarTextoService } from 'src/app/services/capitalizar-texto.service';
 
 @Component({
   selector: 'app-index',
@@ -19,11 +20,16 @@ export class IncapacidadesIndexComponent {
   constructor(
     private incapacidadesService: IncapacidadesService,
     private notificationService: NotificationService,
+    private capitalizarTextoService: CapitalizarTextoService,
     private router: Router,
   ) { }
 
   ngOnInit(): void {
       this.getIncapacidades();
+  }
+
+  getTextoCapitalizado(texto:any): string {
+    return this.capitalizarTextoService.capitalizarTexto(texto);
   }
 
   getIncapacidades(): void {

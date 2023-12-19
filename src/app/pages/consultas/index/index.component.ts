@@ -4,6 +4,7 @@ import { ConsultasService } from '../consultas.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { UserService } from 'src/app/services/user.service';
+import { CapitalizarTextoService } from 'src/app/services/capitalizar-texto.service';
 
 @Component({
   selector: 'app-index',
@@ -22,6 +23,7 @@ export class ConsultasIndexComponent implements OnInit{
     constructor(
       private consultasService: ConsultasService,
       private router: Router,
+      private capitalizarTextoService: CapitalizarTextoService,
       private userService: UserService,
     ) { }
   
@@ -38,9 +40,13 @@ export class ConsultasIndexComponent implements OnInit{
 
       this.getConsultas();
     }
+
+    getTextoCapitalizado(texto:any): string {
+      return this.capitalizarTextoService.capitalizarTexto(texto);
+    }
   
     getConsultas(): void {
-      this.consultasService.getConsultas(this.profesional.id).subscribe(
+      this.consultasService.getConsultas(this.profesional.useable_id).subscribe(
         (consultas: Consultas[]) => {
           this.consultas = consultas.map((consulta) => {
             return this.consultasService.pacientable(consulta);

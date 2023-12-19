@@ -117,7 +117,7 @@ export class IncapacidadesCreateComponent {
     this.userService.user$.subscribe(
       (user: any) => {
         this.profesional = user[0];
-        this.formIncapacitacion.get('profesional_id')?.setValue(user[0].id);
+        this.formIncapacitacion.get('profesional_id')?.setValue(user[0].useable_id);
         if (user[0].useable.image) {
           this.obtenerImagen(user[0].useable.image.url).subscribe((imagen) => {
             this.imageProfesional = imagen;
@@ -388,6 +388,7 @@ export class IncapacidadesCreateComponent {
           this.notificationService.mensaje(response);
         },
         (error) => {
+          console.log(error);
           this.notificationService.error(error);
         }
       );

@@ -18,6 +18,7 @@ import { HistorialesMedicosService } from '../../historiales-medicos/historiales
 import { InventariosService } from '../../inventarios/inventarios.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { HistorialesMedicos } from 'src/app/interfaces/historiales-medicos';
+import { CapitalizarTextoService } from 'src/app/services/capitalizar-texto.service';
 
 @Component({
   selector: 'app-create',
@@ -103,6 +104,8 @@ export class ConsultasCreateComponent implements OnInit {
         '|',
         'undo',
         'redo',
+        // '|',
+        // 'outdent', 'indent'
       ]
     },
     image: {
@@ -127,7 +130,8 @@ export class ConsultasCreateComponent implements OnInit {
     private datePipe: DatePipe,
     private sanitizer: DomSanitizer,
     private inventariosService: InventariosService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private capitalizarTextoService: CapitalizarTextoService
   ) {
     this.formInsumos = this.formBuilder.group({
       inventario: '',
@@ -203,6 +207,10 @@ export class ConsultasCreateComponent implements OnInit {
     this.insumosSelect = [];
   }
 
+  getTextoCapitalizado(texto:any): string {
+    return this.capitalizarTextoService.capitalizarTexto(texto);
+  }
+  
   getCita() {
     if (this.citaId !== null && this.citaId !== undefined) {
 
@@ -605,7 +613,7 @@ export class ConsultasCreateComponent implements OnInit {
     } else {
       const fechaHoraActual = `${this.fechaActual} ${this.horaActual}`;
       this.consultaForm.get('fecha')?.setValue(fechaHoraActual);
-      this.consultaForm.get('profesional_id')?.setValue(this.profesional?.id);
+      this.consultaForm.get('profesional_id')?.setValue(this.profesional?.useable_id);
 
       const consulta = this.consultaForm.value;
 

@@ -3,11 +3,6 @@
         <div class="card">
             <div class="card-header text-secondary border-0">
               <h3 class="card-title text-center">Todas las consultas</h3>
-              <div class="card-tools">
-                <a href="#" class="btn btn-tool btn-sm">
-                  <i class="fas fa-download"></i>
-                </a>
-              </div>
             </div>
             <div class="card-header border-0">
                 <div class="float-right">
@@ -30,7 +25,7 @@
                     <tr *ngFor="let consulta of consultas | paginate: {itemsPerPage: elementosPorPagina, currentPage: paginaActual}">
                         <td>
                             <!-- <img src="../assets/dist/img/user2-160x160.jpg" alt="Product 1" class="img-circle img-size-32 mr-2"> -->
-                            {{ consulta.pacientable?.nombre }}
+                            {{ getTextoCapitalizado(consulta.pacientable?.nombre) }}
                         </td>
                         <td>
                             {{ consulta.fecha | date:'dd/MM/yyyy' }}

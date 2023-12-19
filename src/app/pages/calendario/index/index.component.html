@@ -4,6 +4,16 @@
           <div class="card-header text-secondary border-0">
             <h3 class="card-title text-center">Calendario</h3>
           </div>
+          <div class="card-header border-0">
+            <div class="row">
+                <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8">
+
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
+                  <button type="button" class="btn btn-sm btn-pink btn-block  my-2" data-toggle="modal" data-target="#citasExcel"><i class="fas fa-file-excel"></i> Descargar Excel de citas</button>
+                </div>
+            </div>   
+        </div>
           <div class="card-body">
             <full-calendar [options]="calendarOptions" class="my-custom-calendar"></full-calendar>
           </div>
@@ -14,5 +24,60 @@
 <div class="modal fade" id="dateModal" tabindex="-1" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog modal-lg" role="document">
     <app-date-modal [selectedDate]="selectedDate" [relatedEvents]="relatedEvents"></app-date-modal>
+  </div>
+</div>
+
+<div class="modal fade" id="citasExcel" tabindex="-1" role="dialog" aria-labelledby="citasExcelLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header border-0 text-pink">
+        <h5 class="modal-title" id="citasExcelLabel"><i class="fas fa-file-excel"></i> Descargar Excel de citas</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form [formGroup]="excelCitaForm" (ngSubmit)="buscarExcel()">
+        <div class="modal-body">
+            <div class="row">
+              <div class="col-12">
+                  <div class="form-group">
+                    <label class="col-form-label">
+                      Tipo
+                    </label>
+                      <select class="form-control" id="tipo" formControlName="tipo">
+                        <option value="">-- Seleccione una opción --</option>
+                        <option value="Consulta">Consulta médica</option>
+                        <option value="Psicólogo">Psicólogo</option>
+                        <option value="Nutriólogo">Nutriólogo</option>
+                      </select>
+                  </div>
+              </div>
+              <div class="col-12">
+                  <div class="form-group">
+                      <label>
+                          Fechas
+                          <span class="text-danger">*</span>
+                      </label>
+                      <div class="input-group">
+                          <input type="date" class="form-control" id="fechaInicial" formControlName="fechaInicial">
+                          <div class="input-group-append">
+                              <label class="input-group-text">al</label>
+                          </div>
+                          <input type="date" class="form-control" id="fechaFinal" formControlName="fechaFinal">
+                      </div>
+                  </div>
+              </div>
+            </div>
+            <div *ngIf="mensajesDeError.length > 0" class="text-danger pt-3">
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-danger" *ngFor="let mensaje of mensajesDeError">{{ mensaje }}</li>
+                </ul>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-pink"><i class="fas fa-search"></i> Buscar</button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
