@@ -13,7 +13,7 @@
  */
 :root {
   --blue: #007bff;
-  --indigo: #6610f2;
+  --indigo: #0080FF;
   --purple: #6f42c1;
   --pink: #e83e8c;
   --red: #dc3545;
@@ -10622,7 +10622,7 @@ a.text-dark:hover, a.text-dark:focus {
   --fuchsia: #f672d8;
   --maroon: #ed6c9b;
   --blue: #3f6791;
-  --indigo: #6610f2;
+  --indigo: #0080FF;
   --purple: #6f42c1;
   --pink: #e83e8c;
   --red: #e74c3c;

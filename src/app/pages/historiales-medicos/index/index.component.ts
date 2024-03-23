@@ -5,6 +5,7 @@ import { Subject, debounceTime  } from 'rxjs';
 import { NotificationService } from 'src/app/services/notification.service';
 import { HistorialesMedicos } from 'src/app/interfaces/historiales-medicos';
 import { CapitalizarTextoService } from 'src/app/services/capitalizar-texto.service';
+import Chart from 'chart.js/auto';
 
 @Component({
   selector: 'app-index',
@@ -18,6 +19,7 @@ export class HistorialesMedicosIndexComponent {
 
   paginaActual = 1;
   elementosPorPagina = 10;
+
   
   search: string = '';
   private searchTerms = new Subject<string>();
@@ -30,6 +32,7 @@ export class HistorialesMedicosIndexComponent {
     ) { }
   
     ngOnInit(): void {
+      this.estadisticaPacientesConMasConsultas();
       this.getHistorialesMedicos();
 
       this.searchTerms.pipe(
@@ -55,24 +58,49 @@ export class HistorialesMedicosIndexComponent {
           error => console.error(error)
         );
     }
-    
-    // realizarBusqueda() { //Por texto
-    //   if (this.search.trim() !== '') {
-    //     this.historialesMedicosService.buscador(this.search)
-    //       .subscribe(
-    //         historiales => this.historialesMedicos = historiales,
-    //         error => console.error(error)
-    //       );
-    //   } else {
-    //     this.getHistorialesMedicos();
-    //   }
-    // }
 
     getHistorialesMedicos(): void {
       this.historialesMedicosService.getHistorialesMedicos().subscribe(
         (historialesMedicos: HistorialesMedicos[]) => {
           this.historialesMedicos = historialesMedicos.map((historialMedico) => {
             return this.historialesMedicosService.pacientable(historialMedico);
+          });
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    }
+
+    estadisticaPacientesConMasConsultas(){
+      this.historialesMedicosService.getEstadisticaPacientesConMasConsultas().subscribe(
+        (datos: any) => {
+          const pacientesConMasConsultas = document.getElementById('myChart');
+          const myChart = new Chart("pacientesConMasConsultas", {
+              type: 'bar',
+              data: {
+                labels: datos.labels,
+                datasets: [{
+                    label: 'Consultas',
+                    data: datos.data,
+                    backgroundColor: datos.backgroundColor,
+                    borderColor: datos.backgroundColor,
+                    borderWidth: 1,
+                }]
+              },
+              options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                    },
+                },
+                plugins: {
+                  title: {
+                      display: true,
+                  },
+                  
+              }
+            }
           });
         },
         (error) => {

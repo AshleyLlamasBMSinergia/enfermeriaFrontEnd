@@ -28,8 +28,8 @@ export class ConsultasService {
     return consultas;
   }
 
-  getConsultas(profesionalId: number): Observable<Consultas[]> {
-    return this.httpClient.get<Consultas[]>(this.apiURL+'/profesional/'+profesionalId);
+  getConsultas(): Observable<Consultas[]> {
+    return this.httpClient.get<Consultas[]>(this.apiURL);
   }
 
   getDiagnosticos(): Observable<Diagnosticos[]> {

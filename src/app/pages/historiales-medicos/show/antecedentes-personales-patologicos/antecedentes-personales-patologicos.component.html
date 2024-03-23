@@ -15,7 +15,7 @@
               <b>Cirugías</b>
             </div>
             <div class="ml-auto">
-              {{historialMedico!.antecedentes_personales_patologicos.cirujias}}
+              {{historialMedico!.antecedentes_personales_patologicos.cirujias|| 'No ❌'}}
             </div>
           </div>
           <div *ngIf="historialMedico!.antecedentes_personales_patologicos.espCirujias">
@@ -31,7 +31,7 @@
               <b>Contusiones</b>
             </div>
             <div class="ml-auto">
-              {{historialMedico!.antecedentes_personales_patologicos.contusiones}}
+              {{historialMedico!.antecedentes_personales_patologicos.contusiones || 'No ❌'}}
             </div>
           </div>
           <div *ngIf="historialMedico!.antecedentes_personales_patologicos.espContusiones">
@@ -47,7 +47,7 @@
               <b>Lumbalgias</b>
             </div>
             <div class="ml-auto">
-              {{historialMedico!.antecedentes_personales_patologicos.lumbalgias}}
+              {{historialMedico!.antecedentes_personales_patologicos.lumbalgias|| 'No ❌'}}
             </div>
           </div>
           <div *ngIf="historialMedico!.antecedentes_personales_patologicos.espLumbalgias">
@@ -63,7 +63,7 @@
               <b>Hernias</b>
             </div>
             <div class="ml-auto">
-              {{historialMedico!.antecedentes_personales_patologicos.hernias}}
+              {{historialMedico!.antecedentes_personales_patologicos.hernias || 'No ❌'}}
             </div>
           </div>
           <div *ngIf="historialMedico!.antecedentes_personales_patologicos.espHernias">
@@ -79,7 +79,7 @@
               <b>Fracturas</b>
             </div>
             <div class="ml-auto">
-              {{historialMedico!.antecedentes_personales_patologicos.fracturas}}
+              {{historialMedico!.antecedentes_personales_patologicos.fracturas || 'No ❌'}}
             </div>
           </div>
           <div *ngIf="historialMedico!.antecedentes_personales_patologicos.espFracturas">
@@ -95,7 +95,7 @@
               <b>Dorsalgias</b>
             </div>
             <div class="ml-auto">
-              {{historialMedico!.antecedentes_personales_patologicos.dorsalgias}}
+              {{historialMedico!.antecedentes_personales_patologicos.dorsalgias || 'No ❌'}}
             </div>
           </div>
           <div *ngIf="historialMedico!.antecedentes_personales_patologicos.espDorsalgias">
@@ -111,7 +111,7 @@
               <b>Hospitalizaciones</b>
             </div>
             <div class="ml-auto">
-              {{historialMedico!.antecedentes_personales_patologicos.hospitalizaciones}}
+              {{historialMedico!.antecedentes_personales_patologicos.hospitalizaciones|| 'No ❌'}}
             </div>
           </div>
           <div *ngIf="historialMedico!.antecedentes_personales_patologicos.espHospitalizaciones">
@@ -127,7 +127,7 @@
               <b>Esguinces</b>
             </div>
             <div class="ml-auto">
-              {{historialMedico!.antecedentes_personales_patologicos.esguinces}}
+              {{historialMedico!.antecedentes_personales_patologicos.esguinces || 'No ❌'}}
             </div>
           </div>
           <div *ngIf="historialMedico!.antecedentes_personales_patologicos.espEsguinces">
@@ -143,7 +143,7 @@
               <b>Lesiones arteriales</b>
             </div>
             <div class="ml-auto">
-              {{historialMedico!.antecedentes_personales_patologicos.lesionesArteriales}}
+              {{historialMedico!.antecedentes_personales_patologicos.lesionesArteriales || 'No ❌'}}
             </div>
           </div>
           <div *ngIf="historialMedico!.antecedentes_personales_patologicos.espLesionesArteriales">
@@ -159,7 +159,7 @@
               <b>Transfusiones</b>
             </div>
             <div class="ml-auto">
-              {{historialMedico!.antecedentes_personales_patologicos.transfusiones}}
+              {{historialMedico!.antecedentes_personales_patologicos.transfusiones || 'No ❌'}}
             </div>
           </div>
           <div *ngIf="historialMedico!.antecedentes_personales_patologicos.espTransfusiones">
@@ -175,7 +175,7 @@
               <b>Luxaciones</b>
             </div>
             <div class="ml-auto">
-              {{historialMedico!.antecedentes_personales_patologicos.luxaciones}}
+              {{historialMedico!.antecedentes_personales_patologicos.luxaciones || 'No ❌'}}
             </div>
           </div>
           <div *ngIf="historialMedico!.antecedentes_personales_patologicos.espLuxaciones">
@@ -191,7 +191,7 @@
               <b>Tetanias</b>
             </div>
             <div class="ml-auto">
-              {{historialMedico!.antecedentes_personales_patologicos.tetanias}}
+              {{historialMedico!.antecedentes_personales_patologicos.tetanias || 'No ❌'}}
             </div>
           </div>
           <div *ngIf="historialMedico!.antecedentes_personales_patologicos.espTetanias">
@@ -207,7 +207,7 @@
               <b>Alergias</b>
             </div>
             <div class="ml-auto">
-              {{historialMedico!.antecedentes_personales_patologicos.alergias}}
+              {{historialMedico!.antecedentes_personales_patologicos.alergias || 'No ❌'}}
             </div>
           </div>
           <div *ngIf="historialMedico!.antecedentes_personales_patologicos.espAlergias">
@@ -223,7 +223,7 @@
               <b>Asma</b>
             </div>
             <div class="ml-auto">
-              {{historialMedico!.antecedentes_personales_patologicos.asma}}
+              {{historialMedico!.antecedentes_personales_patologicos.asma || 'No ❌'}}
             </div>
           </div>
         </div>
@@ -234,7 +234,7 @@
               <b>Epilepsia</b>
             </div>
             <div class="ml-auto">
-              {{historialMedico!.antecedentes_personales_patologicos.epilepsia}}
+              {{historialMedico!.antecedentes_personales_patologicos.epilepsia || 'No ❌'}}
             </div>
           </div>
         </div>
@@ -245,7 +245,7 @@
               <b>Enfermedades dentales</b>
             </div>
             <div class="ml-auto">
-              {{historialMedico!.antecedentes_personales_patologicos.enfDentales}}
+              {{historialMedico!.antecedentes_personales_patologicos.enfDentales || 'No ❌'}}
             </div>
           </div>
           <div *ngIf="historialMedico!.antecedentes_personales_patologicos.espEnfDentales">
@@ -261,7 +261,7 @@
               <b>Enfermedades ópticas</b>
             </div>
             <div class="ml-auto">
-              {{historialMedico!.antecedentes_personales_patologicos.enfOpticas}}
+              {{historialMedico!.antecedentes_personales_patologicos.enfOpticas || 'No ❌'}}
             </div>
           </div>
           <div *ngIf="historialMedico!.antecedentes_personales_patologicos.espEnfOpticas">
@@ -277,7 +277,7 @@
               <b>Alteraciones psicológicas</b>
             </div>
             <div class="ml-auto">
-              {{historialMedico!.antecedentes_personales_patologicos.altPsicologicas}}
+              {{historialMedico!.antecedentes_personales_patologicos.altPsicologicas || 'No ❌'}}
             </div>
           </div>
           <div *ngIf="historialMedico!.antecedentes_personales_patologicos.espAltPsicologicas">

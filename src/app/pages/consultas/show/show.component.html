@@ -43,7 +43,8 @@
                         <small>
                             <div class="align-items-center d-flex justify-content-around w-100 h-100">
                                 <span><i class="fas fa-circle fa-xs px-1 text-pink"></i><b>Fecha:</b> {{ consulta?.fecha | date:'dd/MM/yyyy' : '-' }}</span>
-                                <span><i class="fas fa-circle fa-xs px-1 text-pink"></i><b>Hora:</b> {{ consulta?.fecha | date:'hh:mm a' : '-' }}</span>
+                                <span><i class="fas fa-circle fa-xs px-1 text-pink"></i><b>Hora de inicio:</b> {{ consulta?.fecha | date:'hh:mm a' : '-' }}</span>
+                                <span><i class="fas fa-circle fa-xs px-1 text-pink"></i><b>Hora de término:</b> {{ consulta?.created_at | date:'hh:mm a' : '-' }}</span>
                                 <span *ngIf="consulta?.profesional?.direccion">
                                     <i class="fas fa-circle fa-xs px-1 text-pink"></i>
                                     <b>Lugar:</b>
@@ -212,7 +213,7 @@
                             </div>
                         </div>
                     </div>
-                    <div>
+                    <div class="table-responsive">
                         <table class="table table-borderless">
                             <tbody>
                                 <ng-container *ngIf="consulta?.subjetivo">

@@ -5,6 +5,12 @@ import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { DatePipe } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
+import { CapitalizarTextoService } from 'src/app/services/capitalizar-texto.service';
+import { EmpleadosService } from 'src/app/services/empleados.service';
+import { UserService } from 'src/app/services/user.service';
+import { CedisService } from 'src/app/services/cedis.service';
+import { EstadosService } from 'src/app/services/estados.service';
+import { Estados } from 'src/app/interfaces/estados';
 
 @Component({
   providers: [DatePipe],
@@ -17,14 +23,22 @@ export class HistorialesMedicosCreateComponent {
   historialMedicoForm: FormGroup;
   formDireccion!: FormGroup;
 
-  image: any;
+  cedis: any;
 
+  image: any;
   imagen: File | null = null;
   url: string | null = null;
 
   mensajesDeError: string[] = [];
 
+  opcionesEmpleados: any[] = [];
+  empleado: any;
+
+  estados: Estados[] = [];
+  localidades!: any;
+
   nombresDescriptivos: { [key: string]: string } = {
+    cedi_id: 'cedi',
     email: 'correo electrónico',
     paciente: 'tipo de paciente',
     nombre: 'nombre',
@@ -39,11 +53,18 @@ export class HistorialesMedicosCreateComponent {
     telefono: 'teléfono',
     peso: 'peso',
     talla: 'talla',
+    empleado_id: 'empleado',
+    parentesco: 'parentesco',
     imagen: 'imagen',
   };
 
   constructor
   (
+    private empleadosServices: EmpleadosService,
+    private estadosService: EstadosService,
+    private userService: UserService,
+    private cedisService: CedisService,
+    private capitalizarTextoService: CapitalizarTextoService,
     private router: Router,
     private formBuilder: FormBuilder,
     private historialesMedicosService: HistorialesMedicosService,
@@ -57,32 +78,117 @@ export class HistorialesMedicosCreateComponent {
       exterior: [null],
       colonia: [null],
       CP: [null],
-      localidad: [null],
+      localidad_id: [null],
     });
 
     this.historialMedicoForm = this.formBuilder.group({
+      cedi_id: [null, [Validators.required]],
       email: [null],
-      paciente: [''],
-      nombre: [null],
-      sexo: [''],
-      fechaNacimiento: [null],
+      paciente: ['', [Validators.required]],
+      nombre: [null, [Validators.required]],
+      sexo: ['', [Validators.required]],
+      fechaNacimiento: [null, [Validators.required]],
       prefijoInternacional: ['+52'],
-      telefono: [null],
+      telefono: [null, [Validators.required, Validators.maxLength(10)]],
       numero: [null],
       puesto: [''],
       CURP: [null],
       IMSS: [null],
       RFC: [''],
       estadoCivil: [''],
-      talla: [null],
-      peso: [null],
+      talla: [null, [Validators.required]],
+      peso: [null, [Validators.required]],
+      empleado_id: [null],
+      parentesco: [null],
       imagen: [null],
       formDireccion: this.formDireccion
     });
   }
 
+  ngOnInit(): void {
+    this.userService.user$.subscribe(
+      (user: any) => {
+        this.cargarCedis(user[0].useable_id);
+      },
+      (error) => {
+        console.error('Error al obtener los datos del usuario', error);
+      }
+    );
+    this.cargarOpcionesEmpleados();
+    this.getEstados();
+  }
+
+  getEstados(){
+    this.estadosService.getEstados().subscribe(
+      (estados) => {
+        this.estados = estados.map((estado: any) => ({
+          id: estado.id,
+          text: estado.nombre,
+          localidades: estado.localidades
+        }));
+      },
+      (error) => {
+        console.error('Error al obtener los estados:', error);
+      }
+    );
+  }
+
+  onEstadosChange(event: any) {
+    if (this.estados) {
+      const estadoSeleccionado = this.estados.find(estado => estado.id === event);
+      this.localidades = estadoSeleccionado?.localidades || [];
+    }
+  }
+  
+  cargarCedis(profesionalId:number){
+    this.cedisService.getCedis(profesionalId).subscribe(
+      (cedis) => {
+        this.cedis = cedis.map((cedi: any) => ({
+          id: cedi.id,
+          text: cedi.nombre + ' (' + cedi.empresa.Nombre + ')',
+        }));
+      },
+      (error) => {
+        console.error('Error al obtener los cedis:', error);
+      }
+    );
+  }
+
+  getTextoCapitalizado(texto:any): string {
+    return this.capitalizarTextoService.capitalizarTexto(texto);
+  }
+
+  cargarOpcionesEmpleados() {
+    this.empleadosServices.getEmpleados().subscribe(
+      (empleados) => {
+        this.opcionesEmpleados = empleados.map((empleado: any) => ({
+          id: empleado.id,
+          text: empleado.nombre,
+          empleado: empleado
+        }));
+      },
+      (error) => {
+        console.error('Error al obtener empleados:', error);
+      }
+    );
+  }
+  
+  onEmpleadoChange(event: any){
+    if (this.opcionesEmpleados) {
+      const empleadoSeleccionado = this.opcionesEmpleados.find(empleado => empleado.id === event);
+      this.empleado = empleadoSeleccionado.empleado ? empleadoSeleccionado : null;
+    }
+  }
 
   cambiarValidaciones(tipoPaciente: string) {
+    // this.historialMedicoForm.get('paciente')!.setValidators([Validators.required]);
+    // this.historialMedicoForm.get('cedi_id')!.setValidators([Validators.required]);
+
+    // this.historialMedicoForm.get('nombre')!.setValidators([Validators.required]);
+
+    // this.historialMedicoForm.get('talla')!.setValidators([Validators.required]);
+    // this.historialMedicoForm.get('peso')!.setValidators([Validators.required]);
+
     if (tipoPaciente === 'Empleado') {
       this.historialMedicoForm.get('numero')!.setValidators([Validators.required]);
       this.historialMedicoForm.get('RFC')!.setValidators([Validators.required, Validators.maxLength(254)]);
@@ -90,10 +196,7 @@ export class HistorialesMedicosCreateComponent {
       this.historialMedicoForm.get('IMSS')!.setValidators([Validators.required, Validators.maxLength(254)]);
       this.historialMedicoForm.get('estadoCivil')!.setValidators([Validators.required]);
       this.historialMedicoForm.get('prefijoInternacional')!.setValidators([Validators.required]);
-      this.historialMedicoForm.get('telefono')!.setValidators([Validators.required, Validators.maxLength(10)]);
       this.historialMedicoForm.get('email')!.setValidators([Validators.required]);
-      this.historialMedicoForm.get('talla')!.setValidators([Validators.required]);
-      this.historialMedicoForm.get('peso')!.setValidators([Validators.required]);
     } else {
       this.historialMedicoForm.get('numero')!.clearValidators();
       this.historialMedicoForm.get('RFC')!.clearValidators();
@@ -101,23 +204,31 @@ export class HistorialesMedicosCreateComponent {
       this.historialMedicoForm.get('IMSS')!.clearValidators();
       this.historialMedicoForm.get('estadoCivil')!.clearValidators();
       this.historialMedicoForm.get('prefijoInternacional')!.clearValidators();
-      this.historialMedicoForm.get('telefono')!.clearValidators();
       this.historialMedicoForm.get('email')!.clearValidators();
-      this.historialMedicoForm.get('talla')!.clearValidators();
-      this.historialMedicoForm.get('peso')!.clearValidators();
     }
-  
+
+    
+    if (tipoPaciente === 'Dependiente') {
+      this.historialMedicoForm.get('empleado_id')!.setValidators([Validators.required]);
+      this.historialMedicoForm.get('parentesco')!.setValidators([Validators.required, Validators.maxLength(254)]);
+      this.historialMedicoForm.get('telefono')!.setValidators([Validators.nullValidator, Validators.maxLength(254)]);
+
+      this.historialMedicoForm.get('telefono')!.updateValueAndValidity();
+    } else {
+      this.historialMedicoForm.get('empleado_id')!.clearValidators();
+      this.historialMedicoForm.get('parentesco')!.clearValidators();
+    }
+
     // Actualiza las validaciones
     this.historialMedicoForm.get('numero')!.updateValueAndValidity();
     this.historialMedicoForm.get('RFC')!.updateValueAndValidity();
     this.historialMedicoForm.get('CURP')!.updateValueAndValidity();
     this.historialMedicoForm.get('IMSS')!.updateValueAndValidity();
-    this.historialMedicoForm.get('estadoCivil')!.updateValueAndValidity();
-    this.historialMedicoForm.get('prefijoInternacional')!.updateValueAndValidity();
-    this.historialMedicoForm.get('telefono')!.updateValueAndValidity();
+    this.historialMedicoForm.get('estadoCivil')!.updateValueAndValidity();;
     this.historialMedicoForm.get('email')!.updateValueAndValidity();
-    this.historialMedicoForm.get('talla')!.updateValueAndValidity();
-    this.historialMedicoForm.get('peso')!.updateValueAndValidity();
+
+    this.historialMedicoForm.get('empleado_id')!.updateValueAndValidity();
+    this.historialMedicoForm.get('parentesco')!.updateValueAndValidity();
   }
 
   imagenSeleccionada(event: any) {
@@ -175,11 +286,14 @@ export class HistorialesMedicosCreateComponent {
 
 
   buscarEmpleado() {
-    this.historialesMedicosService.buscarHistorialMedicoCAN(this.historialMedicoForm.get('numero')!.value).subscribe(
+    this.historialesMedicosService.buscarHistorialMedico(this.historialMedicoForm.get('cedi_id')?.value ,this.historialMedicoForm.get('numero')!.value).subscribe(
       (response) => {
-        const empleado = response[0];
 
-        const url = 'https://200.92.206.26:3443/gaz/public/api/empleado/imagen/'+empleado.Empleado;
+        console.log(response);
+        const empleado = response[0][0];
+
+        const url = response[1];
+
         this.url = url;
         this.guardarImagenDesdeUrl(url);
 

@@ -10,6 +10,8 @@ import { Examenes } from "src/app/interfaces/examenes";
 import { User } from "./user";
 import { Dependientes } from "./dependientes";
 import { Puestos } from "./puestos";
+import { Empleados } from "./empleados";
+import { Incapacidades } from "./incapacidades";
 
 export interface HistorialesMedicos {
     id: number;
@@ -43,7 +45,11 @@ export interface HistorialesMedicos {
 
       dependientes?: Dependientes [];
 
+      incapacidades?: Incapacidades[];
+
       puesto?: Puestos;
+
+      empleado?: Empleados;
     };
 
     APPatologicos_id: number;

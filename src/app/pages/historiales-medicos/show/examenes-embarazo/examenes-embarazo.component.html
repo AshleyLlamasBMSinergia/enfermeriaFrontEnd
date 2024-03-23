@@ -25,7 +25,7 @@
                 <b>Tipo</b>
             </div>
             <div class="ml-auto">
-                {{examen_embarazo?.tipo}}
+                {{examen_embarazo?.tipo || '-'}}
             </div>
             </div>
         </div>
@@ -36,7 +36,7 @@
                 <b>Resultado</b>
             </div>
             <div class="ml-auto">
-                {{examen_embarazo?.resultado}}
+                {{examen_embarazo?.resultado || 'No ❌'}}
             </div>
             </div>
         </div>

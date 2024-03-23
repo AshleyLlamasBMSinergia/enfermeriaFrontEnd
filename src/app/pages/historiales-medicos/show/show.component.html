@@ -17,7 +17,7 @@
               </div>
               <div>
                 <div class="text-center pt-3">
-                  <button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" data-target="#datosGenerales" aria-expanded="false" aria-controls="collapseDatosGenerales">
+                  <button class="btn btn-info btn-sm" type="button" data-toggle="collapse" data-target="#datosGenerales" aria-expanded="false" aria-controls="collapseDatosGenerales">
                     Datos generales
                   </button>
                 </div>
@@ -25,6 +25,10 @@
                   <div class="p-3 table-responsive">
                     <table class="table">
                       <tbody>
+                        <tr *ngIf="historialMedico!.pacientable?.numero">
+                          <th scope="row">Número de empleado</th>
+                          <td class="text-center">{{historialMedico!.pacientable?.numero}}</td>
+                        </tr>
                         <tr *ngIf="edad">
                           <th scope="row">Edad</th>
                           <td class="text-center">{{edad}} años</td>
@@ -79,13 +83,17 @@
             </div>
           </div>
         </div>
-        <app-dependientes *ngIf="historialMedico?.pacientable_type == 'App\\Models\\NomEmpleado'" [historialMedico]="historialMedico!"></app-dependientes>
-        
-        <div class="card">
+
+        <!-- DESCARGAR PDF HISTORIAL MEDICO -->
+        <div class="card card-outline card-pink collapsed-card">
           <div class="card-header text-secondary border-0">
-            <h3 class="card-title text-center">Descargar historial médico</h3>
+            <h3 class="card-title text-center text-pink font-weight-bold">Descargar historial médico</h3>
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+            </div>
           </div>
           <div class="card-body">
+            <p class="text-pink"><small>Buscador por fecha</small></p>
             <div class="input-group input-group-sm my-2">
               <input type="date" class="form-control form-control-sm" [(ngModel)]="fecha">
               <div class="input-group-append">
@@ -97,11 +105,33 @@
           </div>
         </div>
 
+        <div  *ngIf="historialMedico?.pacientable_type == 'App\\Models\\NomEmpleado'">
+          <!-- DEPENDIENTES -->
+          <app-dependientes [historialMedico]="historialMedico!"></app-dependientes>
+
+          <!-- INFO -->
+          <div class="info-box bg-info">
+            <span class="info-box-icon">
+              <img src="assets/icons/incapacidades.svg">
+            </span>
+            <div class="info-box-content">
+              <span class="info-box-text">Incapacidades</span>
+              <span class="info-box-number">{{historialMedico.pacientable?.incapacidades?.length}}</span>
+            </div>
+          </div>
+        </div>
+
       </div>
+
       <div class="col-md-8">
-        <div class="card">
-          <div class="card-header text-secondary border-0">
-            <h3 class="card-title text-center">Antecedentes</h3>
+
+        <!-- ANTECEDENTES -->
+        <div class="card card-outline card-pink">
+          <div class="card-header">
+            <h3 class="card-title text-center text-pink font-weight-bold">Antecedentes</h3>
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+            </div>
           </div>
           <div class="card-body">
             <div>
@@ -133,130 +163,134 @@
           </div>
         </div>
 
-        <div class="card">
+        <!-- EXAMENES -->
+        <div class="card card-outline card-pink">
           <div class="card-header text-secondary border-0">
-            <h3 class="card-title text-center">Exámenes médicos</h3>
-            <button type="submit" class="btn btn-sm btn-secondary float-right" (click)="abrirFormularioArchivo()">
-              <i class="fas fa-upload"></i>
-              {{ mostrarFormularioArchivo ? 'Cancelar' : 'Subir archivos de otros exámenes médicos' }}
-            </button>
+            <h3 class="card-title text-center text-pink font-weight-bold">Exámenes médicos</h3>
+            <!-- <p class="text-secondary mb-1" *ngIf="historialMedico!.pacientable?.estatus">
+              {{historialMedico!.pacientable?.estatus }}
+            </p> -->
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+            </div>
           </div>
           <div class="card-body">
+            <div class="text-center">
+              <button type="button" class="btn btn-sm btn-white text-pink btn-block over-pink" (click)="abrirFormularioArchivo()">
+                <i class="fas fa-upload"></i>
+                {{ mostrarFormularioArchivo ? 'Cancelar' : 'Subir examen' }}
+              </button>
+            </div>
+            <hr>
             <div *ngIf="mostrarFormularioArchivo">
-              <div>
-                <div class="bg-light rounded p-3">
-                  <form [formGroup]="formArchivo" (submit)="storeArchivos()">
-
-                    <div class="row">
-                      <div class="py-2 col-12">
-                        <div class="d-flex justify-content-between border-bottom py-2">
-                          <div>
-                            <b>Tipo de examen</b>
-                          </div>
-                          <div>
-                            <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="radio" formControlName="tipo" name='tipo' id="tipo1" value="Externo">
-                              <label class="form-check-label" for="tipo1">Externo</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="radio" formControlName="tipo" name='tipo' id="tipo2" value="Interno">
-                              <label class="form-check-label" for="tipo2">Interno</label>
-                            </div>
-                          </div>
-                        </div>
+              <form [formGroup]="formArchivo" (submit)="storeArchivos()">
+                <div class="row">
+                  <div class="py-2 col-12">
+                    <div class="d-flex justify-content-between border-bottom py-2">
+                      <div>
+                        <b>Tipo de examen</b>
                       </div>
-                      <div class="py-2 col-12 col-sm-12">
-                        <div class="d-flex justify-content-between border-bottom py-2">
-                          <div>
-                            <b>Categoría</b>
-                          </div>
-                          <div class="ml-2">
-                            
-                            <div class="form-group">
-                              <ng-container *ngIf="showInput; else showSelect">
-                                <div class="input-group mb-3">
-                                  <input type="text" class="form-control" formControlName="categoria" name="categoria" id="categoria">
-                                  <div class="input-group-append">
-                                    <button class="btn btn-secondary" type="button" (click)="toggleCategoryInput()"><i class="fas fa-undo"></i></button>
-                                  </div>
-                                </div>
-                              </ng-container>
-                              <ng-template #showSelect>
-                                <select class="form-control w-100" formControlName="categoria" name="categoria" id="categoria" (change)="checkForOther()">
-                                  <option>Exámen físico</option>
-                                  <option>Exámen de antidoping</option>
-                                  <option>Exámen de embarazo</option>
-                                  <option>Exámen de vista</option>
-                                  <option>Otro</option>
-                                </select>
-                              </ng-template>
-                            </div>
-                                                    
-                            
-                          </div>
+                      <div>
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" type="radio" formControlName="tipo" name='tipo' id="tipo1" value="Externo">
+                          <label class="form-check-label" for="tipo1">Externo</label>
                         </div>
-                      </div>
-                      <div class="py-2 col-12">
-                        <div class="d-flex justify-content-between py-2">
-                          <div class="text-center mx-auto pt-1">
-                            <input type="file" id="archivoInput" (change)="archivosSeleccionados($event)" formControlName="archivos" accept="image/png, image/jpeg, application/pdf" multiple style="display: none">
-
-                            <label for="archivoInput" class="custom-file-upload">
-                              <i class="fa fa-file"></i> Seleccione los archivos
-                            </label>
-                          </div>
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" type="radio" formControlName="tipo" name='tipo' id="tipo2" value="Interno">
+                          <label class="form-check-label" for="tipo2">Interno</label>
                         </div>
-                        <div class="border-bottom py-2">
-                          <div class="table-responsive" *ngIf="archivos.length > 0">
-                            <table class="table table-sm table-white rounded">
-                              <thead class="thead-light">
-                                <tr>
-                                  <th scope="col" class="text-secondary">Archivos</th>
-                                  <th scope="col" class="text-secondary">Tamaño</th>
-                                  <th scope="col"></th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <ng-container *ngFor="let archivo of archivos; let i = index">
-                                  <tr>
-                                    <td class="align-middle">{{ archivo.nombre }}</td>
-                                    <td class="align-middle">{{ archivo.tamano }}</td>
-                                    <td width="10px">
-                                      <button type="button" class="btn-close d-flex align-items-center mt-2" (click)="eliminarArchivo(i)">
-                                      </button>
-                                    </td>
-                                  </tr>
-                                </ng-container>
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="py-2 col-12">
-                        <div class="d-flex justify-content-between pt-2">
-                          <div>
-                            <b>Descripción</b>
-                          </div>
-                        </div>
-                        <div>
-                          <textarea class="form-control form-control-sm" formControlName="descripcion" id="descripcion" row="3"></textarea>
-                        </div>
-                      </div>
-                      <div class="text-center pt-3">
-                        <button type="submit" class="btn btn-sm btn-pink">
-                          <i class="fas fa-save"></i> Guardar
-                        </button>
                       </div>
                     </div>
-                  </form>
+                  </div>
+                  <div class="col-12 col-sm-12">
+                    <div class="form-group">
+                      <label class="col-form-label">
+                        Categoría
+                      <span class="text-danger">*</span>
+                      </label>
+                      <ng-container *ngIf="showInput; else showSelect">
+                        <div class="input-group w-100">
+                          <input type="text" class="form-control" formControlName="categoria" name="categoria" id="categoria">
+                          <div class="input-group-append">
+                            <button class="btn btn-secondary" type="button" (click)="toggleCategoryInput()"><i class="fas fa-undo"></i></button>
+                          </div>
+                        </div>
+                      </ng-container>
+                      <ng-template #showSelect>
+                        <select class="form-control w-100" formControlName="categoria" name="categoria" id="categoria" (change)="checkForOther()">
+                          <option>Exámen físico</option>
+                          <option>Exámen de antidoping</option>
+                          <option>Exámen de embarazo</option>
+                          <option>Exámen de vista</option>
+                          <option>Otro</option>
+                        </select>
+                      </ng-template>
+                    </div>
+                  </div>
+                  <div class="py-2 col-12">
+                    <div class="d-flex justify-content-between py-2">
+                      <div class="text-center mx-auto pt-1">
+                        <input type="file" id="archivoInput" (change)="archivosSeleccionados($event)" formControlName="archivos" accept="image/png, image/jpeg, application/pdf" multiple style="display: none">
+      
+                        <label for="archivoInput" class="custom-file-upload">
+                          <i class="fa fa-file"></i> Seleccione los archivos
+                        </label>
+                      </div>
+                    </div>
+                    <div class="border-bottom py-2">
+                      <div class="table-responsive" *ngIf="archivos.length > 0">
+                        <table class="table table-sm table-white rounded">
+                          <thead class="thead-light">
+                            <tr>
+                              <th scope="col" class="text-secondary">Archivos</th>
+                              <th scope="col" class="text-secondary">Tamaño</th>
+                              <th scope="col"></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <ng-container *ngFor="let archivo of archivos; let i = index">
+                              <tr>
+                                <td class="align-middle">{{ archivo.nombre }}</td>
+                                <td class="align-middle">{{ archivo.tamano }}</td>
+                                <td width="10px">
+                                  <button type="button" class="btn-close d-flex align-items-center mt-2" (click)="eliminarArchivo(i)">
+                                  </button>
+                                </td>
+                              </tr>
+                            </ng-container>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="d-flex justify-content-between pt-2">
+                      <div>
+                        <b>Descripción</b>
+                      </div>
+                    </div>
+                    <div>
+                      <textarea class="form-control form-control-sm" formControlName="descripcion" id="descripcion" row="3"></textarea>
+                    </div>
+                  </div>
+                  <div *ngIf="mensajesDeError.length > 0" class="text-danger py-3">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-danger" *ngFor="let mensaje of mensajesDeError">{{ mensaje }}</li>
+                    </ul>
+                  </div>
+                  <div class="text-center pt-3">
+                    <button type="submit" class="btn btn-sm btn-pink">
+                      <i class="fas fa-save"></i> Subir archivos
+                    </button>
+                  </div>
                 </div>
-              </div>
+              </form>
             </div>
             <div *ngIf="!mostrarFormularioArchivo">
               <div>
                 <div>
                   <button class="btn btn-flat text-left border-0" type="button" data-toggle="collapse" data-target="#examenF" aria-expanded="false" aria-controls="collapseExamenF" [class.no-exist]="!historialMedico!.examenes_fisicos?.length">
-                    <h5 class="pt-2"><i class="fas  fa-circle btn-option"></i> Exámenes físicos</h5>
+                    <h5 class="pt-2"><i class="fas  fa-circle btn-option"></i> Exámenes físicos <span class="badge badge-secondary">{{historialMedico!.examenes_fisicos?.length}}</span></h5>
                   </button>
                 </div>
   
@@ -266,7 +300,7 @@
               </div>
               <div>
                 <button class="btn btn-flat text-left border-0" type="button" data-toggle="collapse" data-target="#examenA" aria-expanded="false" aria-controls="collapseExamenA" [class.no-exist]="!historialMedico!.examenes_antidoping?.length">
-                  <h5 class="pt-2"><i class="fas  fa-circle btn-option"></i> Exámenes de antidoping</h5>
+                  <h5 class="pt-2"><i class="fas  fa-circle btn-option"></i> Exámenes de antidoping <span class="badge badge-secondary">{{historialMedico!.examenes_antidoping?.length}}</span></h5>
                 </button>
                 <div class="collapse" id="examenA">
                   <app-examenes-antidoping *ngIf="historialMedico !== null" [historialMedico]="historialMedico"></app-examenes-antidoping>
@@ -274,7 +308,7 @@
               </div>
               <div>
                 <button class="btn btn-flat text-left border-0" type="button" data-toggle="collapse" data-target="#examenE" aria-expanded="false" aria-controls="collapseExamenE" [class.no-exist]="!historialMedico!.examenes_embarazo?.length">
-                  <h5 class="pt-2"><i class="fas  fa-circle btn-option"></i> Exámenes de embarazo</h5>
+                  <h5 class="pt-2"><i class="fas  fa-circle btn-option"></i> Exámenes de embarazo <span class="badge badge-secondary">{{historialMedico!.examenes_embarazo?.length}}</span></h5>
                 </button>
                 <div class="collapse" id="examenE">
                   <app-examenes-embarazo *ngIf="historialMedico !== null" [historialMedico]="historialMedico"></app-examenes-embarazo>
@@ -282,7 +316,7 @@
               </div>
               <div>
                 <button class="btn btn-flat text-left border-0" type="button" data-toggle="collapse" data-target="#examenV" aria-expanded="false" aria-controls="collapseExamenV" [class.no-exist]="!historialMedico!.examenes_vista?.length">
-                  <h5 class="pt-2"><i class="fas  fa-circle btn-option"></i> Exámenes de vista</h5>
+                  <h5 class="pt-2"><i class="fas  fa-circle btn-option"></i> Exámenes de vista <span class="badge badge-secondary">{{historialMedico!.examenes_vista?.length}}</span></h5>
                 </button>
                 <div class="collapse" id="examenV">
                   <app-examenes-vista *ngIf="historialMedico !== null" [historialMedico]="historialMedico"></app-examenes-vista>
@@ -291,7 +325,7 @@
               <div *ngIf="historialMedico!.examenes?.length">
                 <div>
                   <button class="btn btn-flat text-left border-0" type="button" data-toggle="collapse" data-target="#examen" aria-expanded="false" aria-controls="collapseExamen">
-                    <h5 class="pt-2"><i class="fas  fa-circle btn-option"></i> Otros exámenes</h5>
+                    <h5 class="pt-2"><i class="fas  fa-circle btn-option"></i> Otros exámenes <span class="badge badge-secondary">{{historialMedico!.examenes?.length}}</span> </h5>
                   </button>
                 
                   <div class="collapse" id="examen">
@@ -393,6 +427,7 @@
             </div>
           </div>
         </div>
+      
       </div>
     </div>
   </div>

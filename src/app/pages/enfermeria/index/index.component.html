@@ -26,7 +26,13 @@
                 <ul class="todo-list">
                   <li *ngFor="let task of tasks" [ngClass]="{'done': task.completed, 'text-danger': isFechaAntesDeHoy(task.fecha)}" class="bg-white">
                     <input type="checkbox" [(ngModel)]="task.completed" (change)="updateEstatusPendiente(task)">
-                    <span class="text"><span class="text-pink pr-4">{{ task.fecha | date:'dd/MM/yyyy' }}</span> {{ task.titulo }}</span>
+                    <span class="text d-inline-block" tabindex="0" data-toggle="tooltip" title="{{ task.profesional.nombre }}">
+                        <span class="text-pink pr-4 float-left">
+                            {{ task.fecha | date:'dd/MM/yyyy' }}</span>
+                        <span class="pr-4">
+                            {{ task.titulo }}
+                        </span>
+                    </span>
                     <div class="tools">
                       <button class="btn btn-sm btn-primary mr-2" data-toggle="modal" data-target="#pendienteModal" (click)="openPendienteModal(task)"><i class="fas fa-edit"></i></button>
                       <button class="btn btn-sm btn-danger" (click)="destroyPendiente(task.id)"><i class="fas fa-trash"></i></button>
@@ -158,7 +164,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-primary" (click)="guardarPendiente()">Guardar</button>
+            <button type="button" class="btn btn-pink" (click)="guardarPendiente()" *ngIf="!pendienteForm.get('profesional_id')?.errors?.['required']">Guardar</button>
         </div>
       </div>
     </div>

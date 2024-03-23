@@ -74,4 +74,26 @@ export class NotificationService {
 
     return result.isConfirmed;
   }
+
+  async confirmar(title: string, text: string): Promise<boolean> {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger',
+      },
+      buttonsStyling: false,
+    });
+
+    const result = await swalWithBootstrapButtons.fire({
+      title: `${title}`,
+      text: `${text}`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí',
+      cancelButtonText: 'No',
+      reverseButtons: true,
+    });
+
+    return result.isConfirmed;
+  }
 }

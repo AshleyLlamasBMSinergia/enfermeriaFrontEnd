@@ -1,3 +1,4 @@
+import { Accidentes } from "./accidentes";
 import { Altas } from "./altas";
 import { Archivos } from "./archivos";
 import { Empleados } from "./empleados";
@@ -22,12 +23,9 @@ export interface Incapacidades {
     empleado_id: number,
     profesional_id: number,
 
-    empleado: Empleados;
     profesional: Profesionales;
 
     zonas_afectadas: zonasAfectadas[];
-
-    archivosPorCategoria: Record<string, Archivos[]>; 
 
     tipo_incidencia: {
         TipoIncidencia: string,

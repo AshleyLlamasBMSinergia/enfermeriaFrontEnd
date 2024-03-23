@@ -10,7 +10,10 @@ export interface AntecedentesPersonalesNoPatologicos {
     espMenarca: string,
 
     alcoholismo: string,
+    espAlcoholismo: string,
+
     tabaquismo: string,
+    espTabaquismo: string,
     
     toxicomanias: string,
     espToxicomanias: string,

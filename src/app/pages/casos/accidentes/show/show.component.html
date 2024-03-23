@@ -1,0 +1,154 @@
+<div class="row">
+    <div class="form-group col-12">
+        <label class="col-form-label">
+          Fecha y hora
+        </label>
+        <div class="border rounded p-2 bg-white text-center text-uppercase">
+          {{ caso?.accidente?.fecha | date:'d/M/yy h:mm a'}}
+        </div>
+    </div>
+
+    <div class="form-group col-12">
+        <label class="col-form-label">
+          Lugar
+        </label>
+        <div class="border rounded p-2 bg-white text-center text-uppercase">
+          {{ caso?.accidente?.lugar }}
+        </div>
+    </div>
+
+    <div class="form-group col-12">
+        <label class="col-form-label">
+          Descripción
+        </label>
+        <div class="border rounded p-2 bg-white" [innerHtml]='caso?.accidente?.descripcion'></div>
+    </div>
+
+    <div class="form-group col-12">
+        <label class="col-form-label">
+          Diagnóstico
+        </label>
+        <div class="border rounded p-2 bg-white text-center text-uppercase">
+          {{ caso?.accidente?.diagnostico?.nombre }}
+        </div>
+    </div>
+
+    <div class="form-group col-12 col-md-4">
+        <label class="col-form-label">
+          Causa
+        </label>
+        <div class="border rounded p-2 bg-white text-center text-uppercase">
+            {{ caso?.accidente?.causa }}
+        </div>
+    </div>
+
+    <div class="form-group col-12 col-md-4">
+        <label class="col-form-label">
+          Canalizado
+        </label>
+        <div class="border rounded p-2 bg-white text-center text-uppercase">
+            {{ caso?.accidente?.canalizado }}
+        </div>
+    </div>
+
+    <div class="form-group col-12 col-md-4">
+        <label class="col-form-label">
+          Clínica
+        </label>
+        <div class="border rounded p-2 bg-white text-center text-uppercase">
+            {{ caso?.accidente?.clinica }}
+        </div>
+    </div>
+
+    <div class="form-group col-12 col-md-6">
+        <label class="col-form-label">
+          Días de incapacidad interna
+        </label>
+        <div class="border rounded p-2 bg-white text-center text-uppercase">
+            {{ caso?.accidente?.diasIncInterna }}
+        </div>
+    </div>
+
+    <div class="form-group col-12 col-md-6">
+        <label class="col-form-label">
+          Costo por días de incapacidad interna
+        </label>
+        <div class="border rounded p-2 bg-white text-center text-uppercase text-danger">
+            $ {{ caso?.accidente?.costoIncInterna }}
+        </div>
+    </div>
+
+    <div class="pb-3">
+        <label class="col-form-label">
+          Costos estudios / otros <span class="text-danger">*</span><small> ( Total: $ <span>{{ getTotalCostoEstudios() }}</span> )</small>
+        </label>
+        
+        <div class="border rounded p-3">
+          <span class="badge badge-info">{{accidente.accidente_cost_estudios.length}}</span>
+          <table class="table table-sm table-borderless">
+            <thead>
+              <tr class="text-center">
+                  <th scope="col">Descripción</th>
+                  <th scope="col">Monto</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="w-100" *ngFor="let costEstudio of accidente.accidente_cost_estudios">
+                  <td width="80%">
+                    <div class="border rounded p-2 bg-white text-center text-uppercase">
+                      {{ costEstudio.descripcion }}
+                    </div>
+                  </td>
+                  <td width="30%">
+                    <div class="border rounded p-2 bg-white text-center text-uppercase text-danger">
+                      $ {{ costEstudio.monto }}
+                    </div>
+                  </td>
+              </tr>
+            </tbody>          
+          </table>
+        </div>
+    </div>
+
+    <div class="form-group col-12 col-md-6">
+      <label class="col-form-label">
+        Costo de consulta
+      </label>
+      <div class="border rounded p-2 bg-white text-center text-uppercase text-danger">
+          $ {{ caso?.accidente?.costoConsulta }}
+      </div>
+    </div>
+
+    <div class="form-group col-12 col-md-6">
+      <label class="col-form-label">
+        Costo de medicamento
+      </label>
+      <div class="border rounded p-2 bg-white text-center text-uppercase text-danger">
+          $ {{ caso?.accidente?.costoMedicamento }}
+      </div>
+    </div>
+
+    <div class="form-group col-12">
+      <label class="col-form-label">
+        Calificación
+      </label>
+      <div class="border rounded p-2 bg-white text-center">
+          {{ caso?.accidente?.calificacion }}
+      </div>
+    </div>
+
+    <div class="form-group col-12">
+      <label class="col-form-label">
+        Observaciones
+      </label>
+      <div class="border rounded p-2 bg-white" [innerHtml]='caso?.accidente?.observaciones'></div>
+    </div>
+
+    <div class="form-group col-12">
+      <label class="col-form-label">
+        Resultado
+      </label>
+      <div class="border rounded p-2 bg-white" [innerHtml]='caso?.accidente?.resultado'></div>
+    </div>
+    <p><b>Costo total:</b> <span class="text-danger"> $ {{getTotalCosto()}}</span></p>
+</div>

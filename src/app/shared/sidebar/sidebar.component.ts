@@ -14,7 +14,7 @@ import { UserService } from 'src/app/services/user.service';
 export class SidebarComponent implements OnInit {
 
   menuItems?:any[];
-  user: any;
+  user!: any;
   image: any;
 
   constructor(
@@ -31,20 +31,23 @@ export class SidebarComponent implements OnInit {
 
     this.userService.user$.subscribe(
       (user: any) => {
-        this.user = user[0];
-        if(user[0].useable.image){
-          this.imageService.getImagen(user[0].useable.image.url).subscribe(
-            (response: any) => {
-              const blob = new Blob([response], { type: 'image/jpeg' });
-              this.image = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
-            },
-            (error) => {
-              console.error('Error al obtener la imagen', error);
-              this.image = '/assets/dist/img/user.png';
-            }
-          );
-        }else{
-          this.image = '/assets/dist/img/user.png';
+        this.user = user ? user[0] ?? null : null;
+        
+        if(user){
+          if(user[0].useable.image){
+            this.imageService.getImagen(user[0].useable.image.url).subscribe(
+              (response: any) => {
+                const blob = new Blob([response], { type: 'image/jpeg' });
+                this.image = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
+              },
+              (error) => {
+                console.error('Error al obtener la imagen', error);
+                this.image = '/assets/dist/img/user.png';
+              }
+            );
+          }else{
+            this.image = '/assets/dist/img/user.png';
+          }
         }
       },
       (error) => {
@@ -56,8 +59,7 @@ export class SidebarComponent implements OnInit {
   logout() {
     this.authService.logout().subscribe(
       () => {
-        // localStorage.removeItem('token');
-        localStorage.clear();
+        this.userService.clearUser();
         this.router.navigateByUrl('/login');
       },
       error => {

@@ -25,30 +25,15 @@ export class SidebarService {
       icono: 'assets/icons/historialesMedicos.svg',
       url: 'historiales-medicos'
     },
-    // {
-    //   titulo: 'Insumos médicos',
-    //   icono: 'assets/icons/insumosMedicos.svg',
-    //   url: 'insumos-medicos'
-    // },
-    // {
-    //   titulo: 'Requisiciones',
-    //   icono: 'assets/icons/requisiciones.svg',
-    //   url: 'requisiciones'
-    // },
     {
       titulo: 'Almacenes',
       icono: 'assets/icons/insumosMedicos.svg',
       url: 'almacenes'
     },
     {
-      titulo: 'Incapacidades',
+      titulo: 'Casos de incapacidades',
       icono: 'assets/icons/incapacidades.svg',
-      url: 'incapacidades'
-    },
-    // {
-    //   titulo: 'Estadisticas',
-    //   icono: 'assets/icons/estadisticas.svg',
-    //   url: 'estadisticas'
-    // }    
+      url: 'casos'
+    },   
   ]
 }

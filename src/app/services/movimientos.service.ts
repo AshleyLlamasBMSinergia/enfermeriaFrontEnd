@@ -16,7 +16,7 @@ export class MovimientosService {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
     })
- }
+   }
 
   private apiURL = API_URL+"movimientos";
 

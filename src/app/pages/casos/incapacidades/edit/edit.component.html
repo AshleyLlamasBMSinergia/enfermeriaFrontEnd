@@ -1,0 +1,19 @@
+<form [formGroup]="formIncapacitacion" (ngSubmit)="guardar()">
+    <div class="form-group">
+        <label class="col-form-label">
+            Tipo de incidencia
+          <span class="text-danger">*</span>
+        </label>
+        <select class="form-control" formControlName="TipoIncidencia">
+            <option *ngFor="let tipoIncidencia of tipoIncidencias" [value]="tipoIncidencia.TipoIncidencia">{{ tipoIncidencia.Nombre }}</option>
+        </select>
+    </div>
+    <div *ngIf="mensajesDeError.length > 0" class="text-danger py-3">
+        <ul class="list-group">
+            <li class="list-group-item list-group-item-danger" *ngFor="let mensaje of mensajesDeError">{{ mensaje }}</li>
+        </ul>
+    </div>
+    <div class="text-center">
+        <button class="btn bg-pink">Guardar</button>
+    </div>
+</form>

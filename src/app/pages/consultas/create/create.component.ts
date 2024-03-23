@@ -35,6 +35,8 @@ export class ConsultasCreateComponent implements OnInit {
 
   color: string | null = null;
 
+  inventariosRespaldo!: any;
+
   profesional: any;
   imageProfesional: any;
   imagePaciente: any;
@@ -163,7 +165,7 @@ export class ConsultasCreateComponent implements OnInit {
       plan: [null, [Validators.maxLength(2294967295)]],
       diagnostico_id: [null, [Validators.required]],
       complemento: [null, [Validators.required, Validators.maxLength(2294967295)]],
-      receta: [null, [Validators.required, Validators.maxLength(2294967295)]],
+      receta: [null],
       inventario_id: [null],
       formInsumos: this.formInsumos
     });
@@ -285,18 +287,36 @@ export class ConsultasCreateComponent implements OnInit {
     );
   }
 
-  getLotesSelect(id: any) {
-    const insumoIdBuscado = id;
+  getLotesSelect(insumoId: any) {
     const lotes = [];
-    for (const elemento of this.inventarios) {
-      for (const insumo of elemento.insumos) {
-        if (insumo.id === insumoIdBuscado) {
+
+    //Filtrar para obtener los lotes del insumo
+    for (const inventario of this.inventarios) {
+      for (const insumo of inventario.insumos) {
+        if (insumo.id === insumoId) {
           lotes.push(...insumo.lotes);
         }
       }
     }
     return lotes
   }
+
+  // getLotesSelect(id: any) {
+  //   const insumoIdBuscado = id;
+  //   const lotes: any[] = []; // Especifica el tipo de los lotes
+  
+  //   for (const elemento of this.inventarios) {
+  //     for (const insumo of elemento.insumos) {
+  //       if (insumo.id === insumoIdBuscado) {
+  //         const lotesDisponibles = insumo.lotes;
+  
+  //         // Filtra los lotes disponibles para excluir los ya seleccionados
+  //         lotes.push(lotesDisponibles.filter((lote: any) => !insumo.lotes.includes(lote.id)));
+  //       }
+  //     }
+  //   }
+  //   return lotes;
+  // }
 
   formInsumos!: FormGroup;
   inventarios: any;
@@ -503,8 +523,6 @@ export class ConsultasCreateComponent implements OnInit {
     this.paciente = historialMedico.pacientable;
     this.historialMedico = historialMedico;
 
-    console.log('paciente'+this.paciente);
-
     if (historialMedico?.pacientable?.fechaNacimiento) {
       const fechaNacimiento = new Date(historialMedico?.pacientable?.fechaNacimiento);
       const edad = differenceInYears(new Date(), fechaNacimiento);
@@ -588,9 +606,9 @@ export class ConsultasCreateComponent implements OnInit {
     this.consultaForm.get('pacientable_id')?.setValue(pacienteSeleccionado?.id);
   }
 
-  getPiezasDisponibles(insumo: any, loteIndex: number){
-    let lotes = this.getLotesSelect(insumo.value.id);
-    let inputLote = insumo.value.lotes[loteIndex];
+  getPiezasDisponibles(lotesDelInsumo: any, loteIndex: number){
+    let lotes = this.getLotesSelect(lotesDelInsumo.value.id);
+    let inputLote = lotesDelInsumo.value.lotes[loteIndex];
     let dataLote = lotes?.find(l => l.id == inputLote.lote);
 
     return Number(dataLote?.piezasDisponibles);

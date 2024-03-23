@@ -48,4 +48,17 @@ export class InventariosService {
     const url = `${this.apiURL}/buscador?nombre=${nombre}`;
     return this.httpClient.get<any[]>(url);
   }
+
+  //ESTADISTICAS:
+  getEstadisticaInsumosConMasLotesCaducos(inventarioId:number): Observable<any[]> {
+    return this.httpClient.get<any[]>(`${API_URL}estadisticas/inventario/${inventarioId}/insumos-con-mas-desechos`);
+  }
+
+  // getEstadisticaInsumosConMasDespachosPorReceta(inventarioId:number): Observable<any[]> {
+  //   return this.httpClient.get<any[]>(`${API_URL}estadisticas/inventario/${inventarioId}/insumos-con-mas-despachos-por-receta`);
+  // }
+
+  getEstadisticaInsumosConMasDespachosPorReceta(inventarioId:number, fechaInicial: string, fechaFinal: string): Observable<any[]> {
+      return this.httpClient.get<any[]>(`${API_URL}estadisticas/inventario/${inventarioId}/insumos-con-mas-despachos-por-receta?fechaInicial=${fechaInicial}&fechaFinal=${fechaFinal}`);
+  }
 }

@@ -63,11 +63,11 @@ const routes:Routes = [
         canActivate: [AuthGuard,]
       },
       {
-        path: 'incapacidades',
+        path: 'casos',
         loadChildren: () =>
-          import('./incapacidades/incapacidades.module').then((m) => m.IncapacidadesModule),
+          import('./casos/casos.module').then((m) => m.CasosModule),
         data: {
-          titulo: 'Incapacidades',
+          titulo: 'Casos',
         },
         canActivate: [AuthGuard,]
       },

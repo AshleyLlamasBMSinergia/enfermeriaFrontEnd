@@ -1,0 +1,170 @@
+<form [formGroup]="formAccidente" (submit)="guardar()">
+    <div class="row">
+      <div class="form-group col-12">
+        <label class="col-form-label">
+            Fecha y hora
+            <span class="text-danger">*</span>
+        </label>
+        <input type="datetime-local" id="fecha" class="form-control text-center" formControlName="fecha">
+      </div>
+      <div class="form-group col-12 col-md-12">
+        <label class="col-form-label">
+          Lugar
+        <span class="text-danger">*</span>
+        </label>
+        <ng-container *ngIf="showInput; else showSelect">
+          <div class="input-group w-100">
+            <input type="text" class="form-control" formControlName="lugar" name="lugar" id="lugar">
+            <div class="input-group-append">
+              <button class="btn btn-secondary" type="button" (click)="toggleLugarInput()"><i class="fas fa-undo"></i></button>
+            </div>
+          </div>
+        </ng-container>
+        <ng-template #showSelect>
+          <select class="form-control w-100" formControlName="lugar" name="lugar" id="lugar" (change)="checkForOther()">
+            <option>Otro</option>
+          </select>
+        </ng-template>
+      </div>
+      <div class="form-group">
+        <label class="col-form-label">
+            Descripción
+            <span class="text-danger">*</span>
+        </label>
+        <ckeditor [editor]="Editor" [config]="editorConfig" id="descripcion" formControlName="descripcion"></ckeditor>
+      </div>
+      <div class="form-group">
+        <label class="col-form-label">
+            Diagnóstico
+            <span class="text-danger">*</span>
+        </label>
+        <ngx-select [items]="diagnosticos" formControlName="diagnostico_id">
+            <ng-content select="value"></ng-content>
+        </ngx-select>
+      </div>
+      <div class="form-group col-12">
+        <label class="col-form-label">
+            Causa
+          <span class="text-danger">*</span>
+        </label>
+        <select class="form-control" formControlName="causa">
+            <option>Acto Inseguro</option>
+            <option>Condición insegura</option>
+            <option >Accidente vial</option>
+            <option>Pendiente</option>
+        </select>
+      </div>
+      <div class="form-group col-12 col-md-6">
+        <label class="col-form-label">
+            Canalizado
+            <span class="text-danger">*</span>
+        </label>
+        <input type="text" id="canalizado" class="form-control" formControlName="canalizado">
+      </div>
+      <div class="form-group col-12 col-md-6">
+        <label class="col-form-label">
+            Clínica
+            <span class="text-danger">*</span>
+        </label>
+        <input type="text" id="clinica" class="form-control" formControlName="clinica">
+      </div>
+
+      <div class="form-group col-12 col-md-6">
+        <label class="col-form-label">
+            Días de incapacidad interna 
+            <span class="text-danger">*</span>
+        </label>
+        <input type="number" id="diasIncInterna" class="form-control text-center" formControlName="diasIncInterna">
+      </div>
+      <div class="form-group col-12 col-md-6">
+          <label class="col-form-label">
+              Costo por días de incapacidad interna ({{formAccidente.get('diasIncInterna')?.value || 0}} X <span class="text-danger">$ {{formAccidente.get('salario')?.value || 0}}</span>)
+              <span class="text-danger">*</span>
+          </label>
+          <input type="number" id="costoIncInterna" class="form-control text-center" [value]="calcularCostoIncInterna()" readonly formControlName="costoIncInterna">
+      </div>
+    
+      <div class="pb-3">
+        <label class="col-form-label">
+          Costos estudios / otros <span class="text-danger">*</span><small> ( Total: $<span>{{ getTotalCostoEstudios() }}</span> )</small>
+        </label>
+        <div class="border rounded p-3">
+          <span class="badge badge-info">{{formAccidente.get('costos')!.value.length}}</span>
+          <table class="table table-sm table-borderless">
+            <thead>
+              <tr class="text-center">
+                  <th scope="col">Descripción</th>
+                  <th scope="col">Monto</th>
+              </tr>
+            </thead>
+            <tbody formArrayName="costos">
+              <tr class="w-100" *ngFor="let item of items.controls; let i = index" [formGroupName]="i">
+                  <td width="80%">
+                      <input type="text" [id]="'descripcion-' + i" class="form-control" formControlName="descripcion">
+                  </td>
+                  <td width="20%">
+                      <input type="number" [id]="'monto-' + i" class="form-control text-center" formControlName="monto">
+                  </td>
+                  <td width="10%">
+                      <button type="button" class="btn-close d-flex align-items-center mt-2" (click)="removeCosto(i)"></button>
+                  </td>
+              </tr>
+            </tbody>          
+          </table>
+          <button type="button" class="btn btn-secondary btn-block" (click)="addCosto()"><i class="fas fa-plus"></i> Agregar costo</button>
+        </div>
+      </div>
+
+      <div class="form-group col-12 col-md-6">
+        <label class="col-form-label">
+            Costo consulta
+            <span class="text-danger">*</span>
+        </label>
+        <input type="number" id="costoConsulta" class="form-control text-center" formControlName="costoConsulta">
+      </div>
+      <div class="form-group col-12 col-md-6">
+        <label class="col-form-label">
+            Costo de medicamento
+            <span class="text-danger">*</span>
+        </label>
+        <input type="number" id="costoMedicamento" class="form-control text-center" formControlName="costoMedicamento">
+      </div>
+      <div class="form-group col-12">
+        <label class="col-form-label">
+          Calificación
+          <span class="text-danger">*</span>
+        </label>
+        <select class="form-control w-100" formControlName="calificacion" name="calificacion" id="calificacion">
+          <option>NO DE TRAYECTO </option>
+          <option>DE TRAYECTO </option>
+          <option>DE TRABAJO</option>
+          <option>NO DE TRABAJO</option>
+          <option>ENFERMEDADES PROFESIONAL</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="col-form-label">
+            Observaciones
+            <span class="text-danger">*</span>
+        </label>
+        <ckeditor [editor]="Editor" [config]="editorConfig" id="observaciones" formControlName="observaciones"></ckeditor>
+      </div>
+      <div class="form-group">
+        <label class="col-form-label">
+            Resultado de la investigación
+        </label>
+        <ckeditor [editor]="Editor" [config]="editorConfig" id="resultado" formControlName="resultado"></ckeditor>
+      </div>
+      <p><b>Costo total:</b> $ {{getTotalCosto()}}</p>
+    </div>
+    <div *ngIf="mensajesDeError.length > 0" class="text-danger py-3">
+      <ul class="list-group">
+          <li class="list-group-item list-group-item-danger" *ngFor="let mensaje of mensajesDeError">{{ mensaje }}</li>
+      </ul>
+    </div>
+    <div class="text-center pt-3">
+      <button type="submit" class="btn btn-sm btn-pink">
+        <i class="fas fa-save"></i> Guardar
+      </button>
+    </div>
+</form>

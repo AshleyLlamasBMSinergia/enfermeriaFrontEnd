@@ -22,102 +22,102 @@
             
             <div class="row">
                 <div class="py-2 col-12 col-sm-6">
-                <div class="d-flex border-bottom py-2">
-                    <div>
-                    <b>T.A</b>
+                    <div class="d-flex border-bottom py-2">
+                        <div>
+                        <b>T.A</b>
+                        </div>
+                        <div class="ml-auto">
+                            {{ examen_fisico?.TA ?? '-' }}
+                        </div>
                     </div>
-                    <div class="ml-auto">
-                    {{examen_fisico?.TA}}
-                    </div>
-                </div>
                 </div>
     
                 <div class="py-2 col-12 col-sm-6">
-                <div class="d-flex border-bottom py-2">
-                    <div>
-                    <b>F.R</b>
+                    <div class="d-flex border-bottom py-2">
+                        <div>
+                        <b>F.R</b>
+                        </div>
+                        <div class="ml-auto">
+                        {{ examen_fisico?.FR ?? '-' }}
+                        </div>
                     </div>
-                    <div class="ml-auto">
-                    {{examen_fisico?.FR}}
-                    </div>
-                </div>
                 </div>
     
                 <div class="py-2 col-12 col-sm-6">
-                <div class="d-flex border-bottom py-2">
-                    <div>
-                    <b>Peso</b>
+                    <div class="d-flex border-bottom py-2">
+                        <div>
+                        <b>Peso</b>
+                        </div>
+                        <div class="ml-auto">
+                            {{ examen_fisico?.peso ?? '-' }} Kg
+                        </div>
                     </div>
-                    <div class="ml-auto">
-                    {{examen_fisico?.peso}} Kg
-                    </div>
-                </div>
                 </div>
     
                 <div class="py-2 col-12 col-sm-6">
-                <div class="d-flex border-bottom py-2">
-                    <div>
-                    <b>T.C</b>
+                    <div class="d-flex border-bottom py-2">
+                        <div>
+                        <b>F.C</b>
+                        </div>
+                        <div class="ml-auto">
+                            {{ examen_fisico?.TC ?? '-' }}
+                        </div>
                     </div>
-                    <div class="ml-auto">
-                    {{examen_fisico?.TC}}
-                    </div>
-                </div>
                 </div>
     
                 <div class="py-2 col-12 col-sm-6">
-                <div class="d-flex border-bottom py-2">
-                    <div>
-                    <b>Temperatura</b>
+                    <div class="d-flex border-bottom py-2">
+                        <div>
+                        <b>Temperatura</b>
+                        </div>
+                        <div class="ml-auto">
+                            {{ examen_fisico?.temperatura ?? '-' }} C
+                        </div>
                     </div>
-                    <div class="ml-auto">
-                    {{examen_fisico?.temperatura}} C
-                    </div>
-                </div>
                 </div>
     
                 <div class="py-2 col-12 col-sm-6">
-                <div class="d-flex border-bottom py-2">
-                    <div>
-                    <b>Talla</b>
+                    <div class="d-flex border-bottom py-2">
+                        <div>
+                        <b>Talla</b>
+                        </div>
+                        <div class="ml-auto">
+                            {{ examen_fisico?.talla ?? '-' }}
+                        </div>
                     </div>
-                    <div class="ml-auto">
-                    {{examen_fisico?.talla}}
-                    </div>
-                </div>
                 </div>
     
                 <div class="py-2 col-12 col-sm-6">
-                <div class="d-flex border-bottom py-2">
-                    <div>
-                    <b>Estado de conciencia</b>
+                    <div class="d-flex border-bottom py-2">
+                        <div>
+                        <b>Estado de conciencia</b>
+                        </div>
+                        <div class="ml-auto">
+                            {{ examen_fisico?.estadoConciencia ?? 'Normal ✔️' }}
+                        </div>
                     </div>
-                    <div class="ml-auto">
-                    {{examen_fisico?.estadoConciencia}}
-                    </div>
-                </div>
                 </div>
     
                 <div class="py-2 col-12 col-sm-6">
-                <div class="d-flex border-bottom py-2">
-                    <div>
-                    <b>Coordinación</b>
+                    <div class="d-flex border-bottom py-2">
+                        <div>
+                        <b>Coordinación</b>
+                        </div>
+                        <div class="ml-auto">
+                            {{ examen_fisico?.coordinacion ?? 'Normal ✔️' }}
+                        </div>
                     </div>
-                    <div class="ml-auto">
-                    {{examen_fisico?.coordinacion}}
-                    </div>
-                </div>
                 </div>
     
                 <div class="py-2 col-12 col-sm-6">
-                <div class="d-flex border-bottom py-2">
-                    <div>
-                    <b>Equilibrio</b>
+                    <div class="d-flex border-bottom py-2">
+                        <div>
+                        <b>Equilibrio</b>
+                        </div>
+                        <div class="ml-auto">
+                            {{ examen_fisico?.equilibrio ?? 'Normal ✔️' }}
+                        </div>
                     </div>
-                    <div class="ml-auto">
-                    {{examen_fisico?.equilibrio}}
-                    </div>
-                </div>
                 </div>
     
                 <div class="py-2 col-12 col-sm-6">
@@ -126,7 +126,7 @@
                     <b>Marcha</b>
                     </div>
                     <div class="ml-auto">
-                    {{examen_fisico?.marcha}}
+                        {{ examen_fisico?.marcha ?? 'Normal ✔️' }}
                     </div>
                 </div>
                 </div>
@@ -137,7 +137,7 @@
                     <b>Orientación</b>
                     </div>
                     <div class="ml-auto">
-                    {{examen_fisico?.orientacion}}
+                        {{examen_fisico?.orientacion ?? 'Normal ✔️'}}
                     </div>
                 </div>
                 </div>
@@ -148,7 +148,7 @@
                     <b>Orientación en tiempo</b>
                     </div>
                     <div class="ml-auto">
-                    {{examen_fisico?.orientacionTiempo}}
+                    {{examen_fisico?.orientacionTiempo ?? 'Normal ✔️'}}
                     </div>
                 </div>
                 </div>
@@ -159,7 +159,7 @@
                     <b>Orientación en persona</b>
                     </div>
                     <div class="ml-auto">
-                    {{examen_fisico?.orientacionPersona}}
+                    {{examen_fisico?.orientacionPersona ?? 'Normal ✔️'}}
                     </div>
                 </div>
                 </div>
@@ -170,7 +170,7 @@
                     <b>Orientación en espacio</b>
                     </div>
                     <div class="ml-auto">
-                    {{examen_fisico?.orientacionEspacio}}
+                    {{examen_fisico?.orientacionEspacio ?? 'Normal ✔️'}}
                     </div>
                 </div>
                 </div>
@@ -187,7 +187,7 @@
                         <b>Craneo</b>
                         </div>
                         <div class="ml-auto">
-                        {{examen_fisico?.cabeza?.craneo}}
+                        {{examen_fisico?.cabeza?.craneo ?? 'Normal ✔️'}}
                         </div>
                     </div>
                     </div>
@@ -198,7 +198,7 @@
                         <b>Ojos</b>
                         </div>
                         <div class="ml-auto">
-                        {{examen_fisico?.cabeza?.ojos}}
+                        {{examen_fisico?.cabeza?.ojos ?? 'Normal ✔️'}}
                         </div>
                     </div>
                     </div>
@@ -209,7 +209,7 @@
                         <b>Nariz</b>
                         </div>
                         <div class="ml-auto">
-                        {{examen_fisico?.cabeza?.nariz}}
+                        {{examen_fisico?.cabeza?.nariz ?? 'Normal ✔️'}}
                         </div>
                     </div>
                     </div>
@@ -220,7 +220,7 @@
                         <b>Boca</b>
                         </div>
                         <div class="ml-auto">
-                        {{examen_fisico?.cabeza?.boca}}
+                        {{examen_fisico?.cabeza?.boca ?? 'Normal ✔️'}}
                         </div>
                     </div>
                     </div>
@@ -231,7 +231,7 @@
                         <b>Cuello</b>
                         </div>
                         <div class="ml-auto">
-                        {{examen_fisico?.cabeza?.cuello}}
+                        {{examen_fisico?.cabeza?.cuello ?? 'Normal ✔️'}}
                         </div>
                     </div>
                     </div>
@@ -244,7 +244,7 @@
                     </div>
                     <div>
                         <div class="border rounded bg-white p-2">
-                        {{ examen_fisico?.cabeza?.observaciones }}
+                        {{ examen_fisico?.cabeza?.observaciones ?? 'Ninguna'}}
                         </div>
                     </div>
                     </div>
@@ -263,7 +263,7 @@
                         <b>Campos pulmonares</b>
                         </div>
                         <div class="ml-auto">
-                        {{examen_fisico?.torax?.camposPulmonares}}
+                        {{examen_fisico?.torax?.camposPulmonares ?? 'Normal ✔️'}}
                         </div>
                     </div>
                     </div>
@@ -274,7 +274,7 @@
                         <b>AMP. AMPLEX.</b>
                         </div>
                         <div class="ml-auto">
-                        {{examen_fisico?.torax?.ampAmplex}}
+                        {{examen_fisico?.torax?.ampAmplex ?? 'Normal ✔️'}}
                         </div>
                     </div>
                     </div>
@@ -285,7 +285,7 @@
                         <b>Ruido pulmonar</b>
                         </div>
                         <div class="ml-auto">
-                        {{examen_fisico?.torax?.ruidoPulmonar}}
+                        {{examen_fisico?.torax?.ruidoPulmonar ?? 'Normal ✔️'}}
                         </div>
                     </div>
                     </div>
@@ -296,7 +296,7 @@
                         <b>Trans. Voz</b>
                         </div>
                         <div class="ml-auto">
-                        {{examen_fisico?.torax?.transVoz}}
+                        {{examen_fisico?.torax?.transVoz ?? 'Normal ✔️'}}
                         </div>
                     </div>
                     </div>
@@ -307,7 +307,7 @@
                         <b>Área precordial</b>
                         </div>
                         <div class="ml-auto">
-                        {{examen_fisico?.torax?.areaPrecordial}}
+                        {{examen_fisico?.torax?.areaPrecordial ?? 'Normal ✔️'}}
                         </div>
                     </div>
                     </div>
@@ -318,7 +318,7 @@
                         <b>FC.</b>
                         </div>
                         <div class="ml-auto">
-                        {{examen_fisico?.torax?.FC}}
+                        {{examen_fisico?.torax?.FC ?? 'Normal ✔️'}}
                         </div>
                     </div>
                     </div>
@@ -329,7 +329,7 @@
                         <b>Tono</b>
                         </div>
                         <div class="ml-auto">
-                        {{examen_fisico?.torax?.tono}}
+                        {{examen_fisico?.torax?.tono ?? 'Normal ✔️'}}
                         </div>
                     </div>
                     </div>
@@ -340,7 +340,7 @@
                         <b>Ritmo</b>
                         </div>
                         <div class="ml-auto">
-                        {{examen_fisico?.torax?.ritmo}}
+                        {{examen_fisico?.torax?.ritmo ?? 'Normal ✔️'}}
                         </div>
                     </div>
                     </div>
@@ -353,7 +353,7 @@
                     </div>
                     <div>
                         <div class="border rounded bg-white p-2">
-                        {{ examen_fisico?.torax?.observaciones }}
+                        {{ examen_fisico?.torax?.observaciones  ?? 'Ninguna'}}
                         </div>
                     </div>
                     </div>
@@ -372,7 +372,7 @@
                         <b>Pared</b>
                         </div>
                         <div class="ml-auto">
-                        {{examen_fisico?.abdomen?.pared}}
+                        {{examen_fisico?.abdomen?.pared ?? 'Normal ✔️'}}
                         </div>
                     </div>
                     </div>
@@ -383,7 +383,7 @@
                         <b>Peristalsis</b>
                         </div>
                         <div class="ml-auto">
-                        {{examen_fisico?.abdomen?.peristalsis}}
+                        {{examen_fisico?.abdomen?.peristalsis ?? 'Normal ✔️'}}
                         </div>
                     </div>
                     </div>
@@ -394,7 +394,7 @@
                         <b>Visceromagalias</b>
                         </div>
                         <div class="ml-auto">
-                        {{examen_fisico?.abdomen?.visceromegalias}}
+                        {{examen_fisico?.abdomen?.visceromegalias ?? 'Normal ✔️'}}
                         </div>
                     </div>
                     </div>
@@ -405,7 +405,7 @@
                         <b>Hernias</b>
                         </div>
                         <div class="ml-auto">
-                        {{examen_fisico?.abdomen?.hernias}}
+                        {{examen_fisico?.abdomen?.hernias ?? 'Normal ✔️'}}
                         </div>
                     </div>
                     </div>
@@ -418,7 +418,7 @@
                     </div>
                     <div>
                         <div class="border rounded bg-white p-2">
-                        {{ examen_fisico?.abdomen?.observaciones }}
+                        {{ examen_fisico?.abdomen?.observaciones  ?? 'Ninguna'}}
                         </div>
                     </div>
                     </div>
@@ -434,10 +434,10 @@
                     <div class="py-2 col-12 col-sm-6">
                     <div class="d-flex border-bottom py-2">
                         <div>
-                        <b>Toraxicas</b>
+                        <b>Torácicas</b>
                         </div>
                         <div class="ml-auto">
-                        {{examen_fisico?.extremidad?.toraxicas}}
+                        {{examen_fisico?.extremidad?.toraxicas ?? 'Normal ✔️'}}
                         </div>
                     </div>
                     </div>
@@ -448,7 +448,7 @@
                         <b>Hombros</b>
                         </div>
                         <div class="ml-auto">
-                        {{examen_fisico?.extremidad?.hombro}}
+                        {{examen_fisico?.extremidad?.hombro ?? 'Normal ✔️'}}
                         </div>
                     </div>
                     </div>
@@ -459,7 +459,7 @@
                         <b>Codos</b>
                         </div>
                         <div class="ml-auto">
-                        {{examen_fisico?.extremidad?.codo}}
+                        {{examen_fisico?.extremidad?.codo ?? 'Normal ✔️'}}
                         </div>
                     </div>
                     </div>
@@ -470,7 +470,7 @@
                         <b>Muñecas</b>
                         </div>
                         <div class="ml-auto">
-                        {{examen_fisico?.extremidad?.muneca}}
+                        {{examen_fisico?.extremidad?.muneca ?? 'Normal ✔️'}}
                         </div>
                     </div>
                     </div>
@@ -481,7 +481,7 @@
                         <b>Pie</b>
                         </div>
                         <div class="ml-auto">
-                        {{examen_fisico?.extremidad?.pie}}
+                        {{examen_fisico?.extremidad?.pie ?? 'Normal ✔️'}}
                         </div>
                     </div>
                     </div>
@@ -492,7 +492,7 @@
                         <b>Movilidad</b>
                         </div>
                         <div class="ml-auto">
-                        {{examen_fisico?.extremidad?.movilidad}}
+                        {{examen_fisico?.extremidad?.movilidad ?? 'Normal ✔️'}}
                         </div>
                     </div>
                     </div>
@@ -503,7 +503,7 @@
                         <b>Pelvicas</b>
                         </div>
                         <div class="ml-auto">
-                        {{examen_fisico?.extremidad?.pelvicas}}
+                        {{examen_fisico?.extremidad?.pelvicas ?? 'Normal ✔️'}}
                         </div>
                     </div>
                     </div>
@@ -514,7 +514,7 @@
                         <b>Cadera</b>
                         </div>
                         <div class="ml-auto">
-                        {{examen_fisico?.extremidad?.cadera}}
+                        {{examen_fisico?.extremidad?.cadera ?? 'Normal ✔️'}}
                         </div>
                     </div>
                     </div>
@@ -525,7 +525,7 @@
                         <b>Rodillas</b>
                         </div>
                         <div class="ml-auto">
-                        {{examen_fisico?.extremidad?.rodilla}}
+                        {{examen_fisico?.extremidad?.rodilla ?? 'Normal ✔️'}}
                         </div>
                     </div>
                     </div>
@@ -536,7 +536,7 @@
                         <b>Tobillos</b>
                         </div>
                         <div class="ml-auto">
-                        {{examen_fisico?.extremidad?.tobillo}}
+                        {{examen_fisico?.extremidad?.tobillo ?? 'Normal ✔️'}}
                         </div>
                     </div>
                     </div>
@@ -547,7 +547,7 @@
                         <b>Manos</b>
                         </div>
                         <div class="ml-auto">
-                        {{examen_fisico?.extremidad?.mano}}
+                        {{examen_fisico?.extremidad?.mano ?? 'Normal ✔️'}}
                         </div>
                     </div>
                     </div>
@@ -558,7 +558,7 @@
                         <b>Fuerza</b>
                         </div>
                         <div class="ml-auto">
-                        {{examen_fisico?.extremidad?.fuerza}}
+                        {{examen_fisico?.extremidad?.fuerza ?? 'Normal ✔️'}}
                         </div>
                     </div>
                     </div>
@@ -571,7 +571,7 @@
                     </div>
                     <div>
                         <div class="border rounded bg-white p-2">
-                        {{ examen_fisico?.abdomen?.observaciones }}
+                        {{ examen_fisico?.abdomen?.observaciones  ?? 'Ninguna'}}
                         </div>
                     </div>
                     </div>
@@ -590,7 +590,7 @@
                         <b>Lordosis</b>
                         </div>
                         <div class="ml-auto">
-                        {{examen_fisico?.columna_vertebral?.lordosis}}
+                        {{examen_fisico?.columna_vertebral?.lordosis ?? 'Normal ✔️'}}
                         </div>
                     </div>
                     </div>
@@ -601,7 +601,7 @@
                         <b>Flexión</b>
                         </div>
                         <div class="ml-auto">
-                        {{examen_fisico?.columna_vertebral?.flexion}}
+                        {{examen_fisico?.columna_vertebral?.flexion ?? 'Normal ✔️'}}
                         </div>
                     </div>
                     </div>
@@ -612,7 +612,7 @@
                         <b>Lateralizacion</b>
                         </div>
                         <div class="ml-auto">
-                        {{examen_fisico?.columna_vertebral?.lateralizacion}}
+                        {{examen_fisico?.columna_vertebral?.lateralizacion ?? 'Normal ✔️'}}
                         </div>
                     </div>
                     </div>
@@ -623,7 +623,7 @@
                         <b>Puntos de dolor</b>
                         </div>
                         <div class="ml-auto">
-                        {{examen_fisico?.columna_vertebral?.puntosDolor}}
+                        {{examen_fisico?.columna_vertebral?.puntosDolor ?? 'Normal ✔️'}}
                         </div>
                     </div>
                     </div>
@@ -634,7 +634,7 @@
                         <b>Xifosis</b>
                         </div>
                         <div class="ml-auto">
-                        {{examen_fisico?.columna_vertebral?.xifosis}}
+                        {{examen_fisico?.columna_vertebral?.xifosis ?? 'Normal ✔️'}}
                         </div>
                     </div>
                     </div>
@@ -645,7 +645,7 @@
                         <b>Extensión</b>
                         </div>
                         <div class="ml-auto">
-                        {{examen_fisico?.columna_vertebral?.extension}}
+                        {{examen_fisico?.columna_vertebral?.extension ?? 'Normal ✔️'}}
                         </div>
                     </div>
                     </div>
@@ -656,7 +656,7 @@
                         <b>Rotación</b>
                         </div>
                         <div class="ml-auto">
-                        {{examen_fisico?.columna_vertebral?.rotacion}}
+                        {{examen_fisico?.columna_vertebral?.rotacion ?? 'Normal ✔️'}}
                         </div>
                     </div>
                     </div>
@@ -669,7 +669,7 @@
                     </div>
                     <div>
                         <div class="border rounded bg-white p-2">
-                        {{ examen_fisico?.columna_vertebral?.otros }}
+                        {{ examen_fisico?.columna_vertebral?.otros  ?? '-'}}
                         </div>
                     </div>
                     </div>
@@ -682,7 +682,7 @@
                     </div>
                     <div>
                         <div class="border rounded bg-white p-2">
-                        {{ examen_fisico?.columna_vertebral?.observaciones }}
+                        {{ examen_fisico?.columna_vertebral?.observaciones  ?? 'Ninguna'}}
                         </div>
                     </div>
                     </div>
@@ -703,7 +703,7 @@
                         <b>Vista</b>
                         </div>
                         <div class="ml-auto">
-                        {{examen_fisico?.organo_sentido?.vista}}
+                        {{examen_fisico?.organo_sentido?.vista ?? 'Normal ✔️'}}
                         </div>
                     </div>
                     </div>
@@ -714,7 +714,7 @@
                         <b>Oido</b>
                         </div>
                         <div class="ml-auto">
-                        {{examen_fisico?.organo_sentido?.oido}}
+                        {{examen_fisico?.organo_sentido?.oido ?? 'Normal ✔️'}}
                         </div>
                     </div>
                     </div>
@@ -725,7 +725,7 @@
                         <b>Olfato</b>
                         </div>
                         <div class="ml-auto">
-                        {{examen_fisico?.organo_sentido?.olfato}}
+                        {{examen_fisico?.organo_sentido?.olfato ?? 'Normal ✔️'}}
                         </div>
                     </div>
                     </div>
@@ -736,7 +736,7 @@
                         <b>Tacto</b>
                         </div>
                         <div class="ml-auto">
-                        {{examen_fisico?.organo_sentido?.tacto}}
+                        {{examen_fisico?.organo_sentido?.tacto ?? 'Normal ✔️'}}
                         </div>
                     </div>
                     </div>
@@ -749,7 +749,7 @@
                     </div>
                     <div>
                         <div class="border rounded bg-white p-2">
-                        {{ examen_fisico?.organo_sentido?.observaciones }}
+                        {{ examen_fisico?.organo_sentido?.observaciones  ?? 'Ninguna'}}
                         </div>
                     </div>
                     </div>
@@ -809,7 +809,7 @@
         <div class="py-2 col-12 col-sm-6">
         <div class="d-flex justify-content-between border-bottom py-2">
             <div>
-            <b>T.C</b>
+            <b>F.C</b>
             </div>
             <div class="ml-2">
             <input type="text" class="form-control form-control-sm" formControlName="TC" id="TC">
@@ -1247,7 +1247,7 @@
             <div class="py-2 col-12 col-sm-6">
             <div class="d-flex justify-content-between border-bottom py-2">
                 <div>
-                <b>Toraxicas</b>
+                <b>Torácicas</b>
                 </div>
                 <div class="ml-2">
                 <input type="text" class="form-control form-control-sm" formControlName="toraxicas" id="toraxicas">

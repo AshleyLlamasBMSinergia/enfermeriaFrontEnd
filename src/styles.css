@@ -28,6 +28,12 @@ a {
     text-decoration: none;
 }
 
+.bg-blue{
+    background-color: #0080FF;
+    color: white;
+
+}
+
 .btn-pink {
     background-color: #ff2970;
     color: #fff;
@@ -37,6 +43,18 @@ a {
 .btn-pink:hover {
     background-color: #c72158;
     border-color: #c72158;
+    color: #fff;
+}
+
+.btn-blue {
+    background-color: #0080FF;
+    color: #fff;
+    border-color: #0080FF;
+}
+  
+.btn-blue:hover {
+    background-color: #34a9f7;
+    border-color: #34a9f7;
     color: #fff;
 }
 
@@ -102,17 +120,59 @@ a {
     background: rgb(255, 40, 94) !important;
 }
 
+.bg-pink-light{
+    background: rgb(255, 249, 249) !important;
+}
+
 .custom-file-upload {
-    border: 1px solid hsl(340, 100%, 58%);
+    border-radius: 10px;
+
     display: inline-block;
-    padding: 8px 12px;
+    padding: 40px;
     cursor: pointer;
-    border-radius: 4px;
-    background-color: #fff;
-    color: #ff2970;
+
+    /* background: rgb(255,255,255);
+    background: linear-gradient(45deg, rgba(255,255,255,1) 0%, rgba(255,175,224,0.2575406032482599) 51%, rgba(255,255,255,1) 100%);
+    color: #646464; */
+
+    background-color: #ffffff;
+    opacity: 0.8;
+    background: repeating-linear-gradient( 45deg, #c0fdff, #c0fdff 9px, #ffffff 9px, #ffffff 45px );
   }
   
   .custom-file-upload:hover {
-    background-color: #ff2970;
-    color: #fff;
+    border-width: 10px;
+
+    /* background-color: #95edf0;
+    color: #fff; */
+
+    background-color: #ffffff;
+    opacity: 0.8;
+    background: repeating-linear-gradient( 45deg, #d49aae, #d49aae 9px, #ffffff 9px, #ffffff 45px );
   }
+
+  .over-pink:hover {
+    border-color: #ff2970;
+  }
+
+  /* CALENDARIO */
+  .my-custom-calendar ::ng-deep {
+    /* Estilos para los botones del calendario */
+  .fc-button {
+    background-color: #ff2970;
+    color: white;
+    border: none;
+  }
+
+  /* Estilos para el titulo */
+  .fc-toolbar-title::first-letter{
+      text-transform: capitalize;
+  }
+
+  /* Estilos para las celdas de encabezado */
+  .fc-col-header-cell-cushion, .fc-daygrid-day-number {
+    color: #2e2e2e;
+    text-transform: capitalize;
+  }
+}
+/* CIERRE DE CALENDARIO */

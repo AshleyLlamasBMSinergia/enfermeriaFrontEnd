@@ -1,13 +1,16 @@
 import { Component } from '@angular/core';
 import { InventariosService } from '../inventarios.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject, debounceTime  } from 'rxjs';
+import { Subject  } from 'rxjs';
 import { InventarioDataService } from '../inventario-data.service';
 import { Inventarios } from 'src/app/interfaces/inventarios';
 import { Movimientos } from 'src/app/interfaces/movimientos';
 import { MovimientosService } from 'src/app/services/movimientos.service';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormControlName, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NotificationService } from 'src/app/services/notification.service';
+import Chart from 'chart.js/auto';
+import { Insumos } from 'src/app/interfaces/insumos';
+import { InsumosMedicosService } from '../../insumos-medicos/insumos-medicos.service';
 
 @Component({
   selector: 'app-show',
@@ -17,6 +20,7 @@ import { NotificationService } from 'src/app/services/notification.service';
 export class InventarioShowComponent {
   //INVENTARIO
   inventario?: Inventarios;
+  insumos!: any;
 
   paginaActual = 1;
   elementosPorPagina = 10;
@@ -41,11 +45,18 @@ export class InventarioShowComponent {
     fechaFinal: 'fecha final',
   };
 
+  //VARIABLES DE GRAFICAS
+  insumoConMasDespachosPorRecetaChart:any;
+
+  fechaInicial: string = '';
+  fechaFinal: string = '';
+
   constructor(
     private inventariosService: InventariosService,
     private router: Router,
     private route: ActivatedRoute,
     private inventarioDataService: InventarioDataService,
+    private insumosService: InsumosMedicosService,
     private movimientosService: MovimientosService,
     private notificationService: NotificationService,
     private formBuilder: FormBuilder,
@@ -70,6 +81,11 @@ export class InventarioShowComponent {
     this.inventariosService.getInventario(inventarioId)
       .subscribe(inventario => {
         this.inventario = inventario;
+        this.insumos = inventario.insumos;
+
+        //ESTADISTICAS
+        this.estadisticaInsumosConMasLotesCaducos(inventarioId);
+        this.estadisticaInsumosConMasDespachosPorReceta(inventarioId, '', '');
 
         this.pdfMovimientoForm.get('inventario_id')?.setValue(inventarioId);
     });
@@ -80,20 +96,96 @@ export class InventarioShowComponent {
     });
   }
 
-  buscarInsumo() {
-    this.searchTerms.next(this.search.trim());
-  }
+
+    //Por enter
+    realizarBusqueda(): void {
+        this.insumosService.buscador(this.search, this.inventario!.id)
+        .subscribe(
+          insumos => this.insumos = insumos,
+          error => console.error(error)
+        );
+    }
   
-  realizarBusqueda() {
-    // if (this.search.trim() !== '') {
-    //   this.insumosMedicosService.buscador(this.search)
-    //     .subscribe(
-    //       insumos => this.insumos = insumos,
-    //       error => console.error(error)
-    //     );
-    // } else {
-    //   this.getInsumosMedicos();
-    // }
+  estadisticaInsumosConMasLotesCaducos(inventarioId:number){
+    this.inventariosService.getEstadisticaInsumosConMasLotesCaducos(inventarioId).subscribe(
+      (datos: any) => {
+        const insumoConMasDesechos = document.getElementById('myChart');
+        const myChart = new Chart("insumoConMasDesechos", {
+            type: 'bar',
+            data: {
+              labels: datos.labels,
+              datasets: [{
+                  label: 'Movimientos de desechos de almacen',
+                  data: datos.data,
+                  backgroundColor: datos.backgroundColor,
+                  borderColor: datos.backgroundColor,
+                  borderWidth: 1,
+              }]
+            },
+            options: {
+              scales: {
+                  y: {
+                      beginAtZero: true,
+                  },
+              },
+              plugins: {
+                title: {
+                    display: true,
+                },
+                
+            }
+          }
+        });
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  buscarInsumosConMasDespachosPorReceta(): void {
+    this.estadisticaInsumosConMasDespachosPorReceta(this.inventario!.id, this.fechaInicial, this.fechaFinal);
+  }
+
+  estadisticaInsumosConMasDespachosPorReceta(inventarioId:number, fechaInicial: string, fechaFinal: string){
+      this.inventariosService.getEstadisticaInsumosConMasDespachosPorReceta(inventarioId, fechaInicial, fechaFinal).subscribe(
+      (datos: any) => {
+
+        if (this.insumoConMasDespachosPorRecetaChart) {
+          this.insumoConMasDespachosPorRecetaChart.destroy();
+        }
+
+          const insumoConMasDespachosPorReceta = document.getElementById('insumoConMasDespachosPorReceta');
+          this.insumoConMasDespachosPorRecetaChart = new Chart('insumoConMasDespachosPorReceta', {
+              type: 'bar',
+              data: {
+              labels: datos.labels,
+              datasets: [{
+                  label: 'Despachos por receta',
+                  data: datos.data,
+                  backgroundColor: datos.backgroundColor,
+                  borderColor: datos.backgroundColor,
+                  borderWidth: 1,
+              }]
+              },
+              options: {
+              scales: {
+                  y: {
+                  beginAtZero: true,
+                  },
+              },
+              plugins: {
+                  title: {
+                  display: true,
+                  },
+              }
+              }
+          });
+      },
+      (error) => {
+          console.log(error);
+      }
+      );
   }
 
   buscarPDF(){

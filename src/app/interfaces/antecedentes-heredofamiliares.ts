@@ -1,6 +1,7 @@
 export interface AntecedentesHeredofamiliares {
     id: number,
     padresViven: string,
+    espPadresViven: string,
     hermanosViven: string,
     hermanasViven: string,
     diabetes: string,

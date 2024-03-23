@@ -26,7 +26,7 @@ export class UserService {
   }
 
   clearUser() {
-    localStorage.removeItem('user');
+    localStorage.clear();
     this.userSubject.next(null);
   }
 }

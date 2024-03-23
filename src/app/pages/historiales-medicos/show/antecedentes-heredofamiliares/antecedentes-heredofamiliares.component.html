@@ -15,7 +15,12 @@
                 <b>Padres viven</b>
               </div>
               <div class="ml-auto">
-                {{historialMedico!.antecedentes_heredofamiliares.padresViven}}
+                {{historialMedico!.antecedentes_heredofamiliares.padresViven || '-'}}
+              </div>
+            </div>
+            <div *ngIf="historialMedico!.antecedentes_heredofamiliares.espPadresViven">
+              <div class="border rounded bg-white p-2">
+                {{ historialMedico!.antecedentes_heredofamiliares.espPadresViven }}
               </div>
             </div>
           </div>
@@ -26,7 +31,7 @@
                 <b>Hermanos viven</b>
               </div>
               <div class="ml-auto">
-                {{historialMedico!.antecedentes_heredofamiliares.hermanosViven}}
+                {{historialMedico!.antecedentes_heredofamiliares.hermanosViven || '-'}}
               </div>
             </div>
           </div>
@@ -37,7 +42,7 @@
                 <b>Hermanas viven</b>
               </div>
               <div class="ml-auto">
-                {{historialMedico!.antecedentes_heredofamiliares.hermanasViven}}
+                {{historialMedico!.antecedentes_heredofamiliares.hermanasViven || '-'}}
               </div>
             </div>
           </div>
@@ -48,7 +53,7 @@
                 <b>Diabetes</b>
               </div>
               <div class="ml-auto">
-                {{historialMedico!.antecedentes_heredofamiliares.diabetes}}
+                {{historialMedico!.antecedentes_heredofamiliares.diabetes || 'No ❌'}}
               </div>
             </div>
             <div *ngIf="historialMedico!.antecedentes_heredofamiliares.espDiabetes">
@@ -64,7 +69,7 @@
                 <b>Obesidad</b>
               </div>
               <div class="ml-auto">
-                {{historialMedico!.antecedentes_heredofamiliares.obecidad}}
+                {{historialMedico!.antecedentes_heredofamiliares.obecidad || 'No ❌'}}
               </div>
             </div>
             <div *ngIf="historialMedico!.antecedentes_heredofamiliares.espObecidad">
@@ -80,7 +85,7 @@
                 <b>Hipertensión Arterial</b>
               </div>
               <div class="ml-auto">
-                {{historialMedico!.antecedentes_heredofamiliares.hipertensionArterial}}
+                {{historialMedico!.antecedentes_heredofamiliares.hipertensionArterial || 'No ❌'}}
               </div>
             </div>
             <div *ngIf="historialMedico!.antecedentes_heredofamiliares.espHipertensionArterial">
@@ -96,7 +101,7 @@
                 <b>Psoriasis / Vitiligo</b>
               </div>
               <div class="ml-auto">
-                {{historialMedico!.antecedentes_heredofamiliares.psoriasisVitiligo}}
+                {{historialMedico!.antecedentes_heredofamiliares.psoriasisVitiligo || 'No ❌'}}
               </div>
             </div>
             <div *ngIf="historialMedico!.antecedentes_heredofamiliares.espPsoriasisVitiligo">
@@ -112,7 +117,7 @@
                 <b>Cardiopatías</b>
               </div>
               <div class="ml-auto">
-                {{historialMedico!.antecedentes_heredofamiliares.cardiopatias}}
+                {{historialMedico!.antecedentes_heredofamiliares.cardiopatias || 'No ❌'}}
               </div>
             </div>
             <div *ngIf="historialMedico!.antecedentes_heredofamiliares.espCardiopatias">
@@ -128,7 +133,7 @@
                 <b>Lepra</b>
               </div>
               <div class="ml-auto">
-                {{historialMedico!.antecedentes_heredofamiliares.lepra}}
+                {{historialMedico!.antecedentes_heredofamiliares.lepra || 'No ❌'}}
               </div>
             </div>
             <div *ngIf="historialMedico!.antecedentes_heredofamiliares.espLepra">
@@ -144,7 +149,7 @@
                 <b>Neoplásicos</b>
               </div>
               <div class="ml-auto">
-                {{historialMedico!.antecedentes_heredofamiliares.neoplasicos}}
+                {{historialMedico!.antecedentes_heredofamiliares.neoplasicos || 'No ❌'}}
               </div>
             </div>
             <div *ngIf="historialMedico!.antecedentes_heredofamiliares.espNeoplasicos">
@@ -160,7 +165,7 @@
                 <b>Fímicos</b>
               </div>
               <div class="ml-auto">
-                {{historialMedico!.antecedentes_heredofamiliares.fimicos}}
+                {{historialMedico!.antecedentes_heredofamiliares.fimicos || 'No ❌'}}
               </div>
             </div>
             <div *ngIf="historialMedico!.antecedentes_heredofamiliares.espFimicos">
@@ -176,7 +181,7 @@
                 <b>Tiroideos</b>
               </div>
               <div class="ml-auto">
-                {{historialMedico!.antecedentes_heredofamiliares.tiroideos}}
+                {{historialMedico!.antecedentes_heredofamiliares.tiroideos || 'No ❌'}}
               </div>
             </div>
             <div *ngIf="historialMedico!.antecedentes_heredofamiliares.espTiroideos">
@@ -192,7 +197,7 @@
                 <b>Psiquiátricos</b>
               </div>
               <div class="ml-auto">
-                {{historialMedico!.antecedentes_heredofamiliares.psiquiatricos}}
+                {{historialMedico!.antecedentes_heredofamiliares.psiquiatricos || 'No ❌'}}
               </div>
             </div>
             <div *ngIf="historialMedico!.antecedentes_heredofamiliares.espPsiquiatricos">
@@ -208,7 +213,7 @@
                 <b>Alergias</b>
               </div>
               <div class="ml-auto">
-                {{historialMedico!.antecedentes_heredofamiliares.alergias}}
+                {{historialMedico!.antecedentes_heredofamiliares.alergias || 'No ❌'}}
               </div>
             </div>
             <div *ngIf="historialMedico!.antecedentes_heredofamiliares.espAlergias">
@@ -224,7 +229,7 @@
                 <b>Colagenopatias</b>
               </div>
               <div class="ml-auto">
-                {{historialMedico!.antecedentes_heredofamiliares.colagenopatias}}
+                {{historialMedico!.antecedentes_heredofamiliares.colagenopatias || 'No ❌'}}
               </div>  
             </div>
             <div *ngIf="historialMedico!.antecedentes_heredofamiliares.espColagenopatias">
@@ -240,7 +245,7 @@
                 <b>Problemas mentales</b>
               </div>
               <div class="ml-auto">
-                {{historialMedico!.antecedentes_heredofamiliares.probMentales}}
+                {{historialMedico!.antecedentes_heredofamiliares.probMentales || 'No ❌'}}
               </div>
             </div>
             <div *ngIf="historialMedico!.antecedentes_heredofamiliares.espProbMentales">
@@ -256,7 +261,7 @@
                 <b>Otros</b>
               </div>
               <div class="ml-auto">
-                {{historialMedico!.antecedentes_heredofamiliares.otros}}
+                {{historialMedico!.antecedentes_heredofamiliares.otros || '-'}}
               </div>
             </div>
           </div>
@@ -284,6 +289,11 @@
                   <label class="form-check-label" for="padresViven2">Si</label>
                 </div>
               </div>
+            </div>
+            <div *ngIf="formAHeredofamiliares.get('padresViven')?.value === 'Si'">
+              <label class="text-secondary small">Especifique
+              </label>
+              <textarea class="form-control" rows="3" formControlName="espPadresViven"></textarea>
             </div>
           </div>
 

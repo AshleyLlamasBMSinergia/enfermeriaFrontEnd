@@ -1,66 +1,77 @@
 <div class="content">
     <div class="container-fluid">
-        <div class="card">
+        <!-- INSUMOS -->
+        <div class="card card-outline card-info">
             <div class="card-header text-secondary border-0">
-              <h3 class="card-title text-center">Todos los insumos médicos de {{inventario?.nombre}}</h3>
+              <h3 class="card-title text-center text-info font-weight-bold">Todos los insumos médicos de {{inventario?.nombre}}</h3>
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+              </div>
             </div>
-            <div class="card-header border-0">
+            <div class="card-body border-0">
                 <div class="row">
                     <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8">
-                        <!-- <div class="input-group my-2">
+                        <div class="input-group my-2">
                             <div class="input-group-prepend">
                               <div class="input-group-text"><i class="fas fa-search"></i></div>
                             </div>
-                            <input [(ngModel)]="search" class="form-control form-control-sm" placeholder="Ingrese el nombre del insumo" (keyup)="buscarInsumo()">
-                        </div> -->
+                            <input [(ngModel)]="search" class="form-control form-control-sm" placeholder="Ingrese el nombre del insumo" (keydown.enter)="realizarBusqueda()" />
+                        </div>
                     </div>
                     <div class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
                         <a class="btn btn-sm btn-pink btn-block  my-2" (click)="crearInsumo(inventario!.id)"><i class="fas fa-plus"></i> Agregar insumo</a>
                     </div>
-                </div>   
+                </div>
+                <div>
+                    <span class="font-weight-bold text-secondary mr-2">Semaforización de cajas por insumo:</span>
+                    <span class="badge badge-pill badge-success mr-2">Más de 10</span>
+                    <span class="badge badge-pill badge-warning mr-2">10 - 6</span>
+                    <span class="badge badge-pill badge-danger mr-2">5 - 1</span>
+                    <span class="badge badge-pill badge-dark">0</span>
+                </div> 
             </div>
             <div class="card-body table-responsive p-0">
-              <table class="table table-striped table-valign-middle">
-                <thead>
-                <tr>
-                    <th></th>
-                    <th>Insumos</th>
-                    <th class="text-center">Stock en cajas</th>
-                    <th class="text-center">Stock en piezas</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody *ngIf="inventario?.insumos!.length > 0; else noInsumos">
-                    <tr *ngFor="let insumo of inventario!.insumos | paginate: {itemsPerPage: elementosPorPagina, currentPage: paginaActual}">
-                        <td>
-                            <i class="fas fa-circle" [ngClass]="{
-                                'text-success': insumo.lotes.length > 10,
-                                'text-warning': insumo.lotes.length <= 10 && insumo.lotes.length > 5,
-                                'text-danger': insumo.lotes.length <= 5,
-                                'text-black': insumo.lotes.length === 0
-                            }"></i>
-                        </td>
-                        <td>
-                            {{ insumo?.nombre }}
-                        </td>
-                        <td class="text-center">
-                            {{ insumo?.lotes?.length || 0 }}
-                        </td>
-                        <td class="text-center">
-                            {{ obtenerSumatoriaPiezasDisponibles(insumo!.lotes) }}
-                        </td>
-                        <td width="10px">
-                            <button href="#" class="btn btn-sm btn-secondary" (click)="showInsumoMedico(insumo.id)">
-                                <i class="fas fa-list"></i>
-                            </button>
-                        </td>
+                <table class="table table-striped table-valign-middle table-sm">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>Insumos</th>
+                        <th class="text-center">Stock en cajas</th>
+                        <th class="text-center">Stock en piezas</th>
+                        <th></th>
                     </tr>
-                </tbody>
-              </table>
+                    </thead>
+                    <tbody *ngIf="insumos?.length > 0; else noInsumos">
+                        <tr *ngFor="let insumo of insumos | paginate: {id: 'pagination1', itemsPerPage: elementosPorPagina, currentPage: paginaActual}">
+                            <td>
+                                <i class="fas fa-circle" [ngClass]="{
+                                    'text-success': insumo!.lotes.length > 10,
+                                    'text-warning': insumo!.lotes.length <= 10 && insumo.lotes.length > 5,
+                                    'text-danger': insumo!.lotes.length <= 5,
+                                    'text-black': insumo!.lotes.length === 0
+                                }"></i>
+                            </td>
+                            <td>
+                                {{ insumo?.nombre }}
+                            </td>
+                            <td class="text-center">
+                                {{ insumo?.lotes?.length || 0 }}
+                            </td>
+                            <td class="text-center">
+                                {{ obtenerSumatoriaPiezasDisponibles(insumo!.lotes) }}
+                            </td>
+                            <td width="10px">
+                                <button href="#" class="btn btn-sm btn-secondary" (click)="showInsumoMedico(insumo.id)">
+                                    <i class="fas fa-list"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
             <div class="card-footer">
                 <div class="d-flex justify-content-center">
-                    <pagination-controls (pageChange)="paginaActual = $event"></pagination-controls>
+                    <pagination-controls id="pagination1" (pageChange)="paginaActual = $event"></pagination-controls>
                 </div>
             </div>
             <ng-template #noInsumos>
@@ -69,11 +80,16 @@
                 </tr>
             </ng-template>
         </div>
-        <div class="card">
+
+        <!-- MOVIMIENTOS -->
+        <div class="card card-outline card-info">
             <div class="card-header text-secondary border-0">
-              <h3 class="card-title text-center">Todos los movimientos de {{inventario?.nombre}}</h3>
+              <h3 class="card-title text-center text-info font-weight-bold">Todos los movimientos de {{inventario?.nombre}}</h3>
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+              </div>
             </div>
-            <div class="card-header border-0">
+            <div class="card-body border-0">
                 <div class="row">
                     <div class="col-xl-6 col-lg-4 col-md-4 col-sm-4">
 
@@ -87,19 +103,19 @@
                 </div>   
             </div>
             <div class="card-body table-responsive p-0">
-              <table class="table table-striped table-valign-middle text-center">
+              <table class="table table-striped table-sm table-valign-middle text-center">
                 <thead>
-                <tr>
-                    <th></th>
-                    <th>Folio</th>
-                    <th class="text-center">Movimiento</th>
-                    <th class="text-center">Fecha</th>
-                    <th>Profesional</th>
-                    <th></th>
-                </tr>
+                    <tr>
+                        <th></th>
+                        <th>Folio</th>
+                        <th class="text-center">Movimiento</th>
+                        <th class="text-center">Fecha</th>
+                        <th>Profesional</th>
+                        <th></th>
+                    </tr>
                 </thead>
                 <tbody *ngIf="movimientos.length > 0; else noMovimientos">
-                    <tr *ngFor="let movimiento of movimientos | paginate: {itemsPerPage: movimientosElementosPorPagina, currentPage: movimientosPaginaActual}">
+                    <tr *ngFor="let movimiento of movimientos | paginate: {id: 'pagination2', itemsPerPage: movimientosElementosPorPagina, currentPage: movimientosPaginaActual}">
                         <td>
                             <ng-container *ngIf="movimiento.movimientoTipo_id == 3 || movimiento.movimientoTipo_id >= 11; else elseBlock">
                                 <i class="fas fa-arrow-up text-success"></i>
@@ -112,7 +128,7 @@
                             {{ movimiento.id }}
                         </td>
                         <td>
-                            {{ movimiento.tipo_de_movimiento.tipoDeMovimiento }} <span class="text-pink">{{ movimiento.tipo_de_movimiento.clave }}</span>
+                            {{ movimiento.tipo_de_movimiento.tipoDeMovimiento }}
                         </td>
                         <td class="text-center">
                             {{ movimiento.fecha | date: 'dd/MM/yyyy' }}
@@ -131,7 +147,7 @@
             </div>
             <div class="card-footer">
                 <div class="d-flex justify-content-center">
-                    <pagination-controls (pageChange)="movimientosPaginaActual = $event"></pagination-controls>
+                    <pagination-controls id="pagination2" (pageChange)="movimientosPaginaActual = $event"></pagination-controls>
                 </div>
             </div>
             <ng-template #noMovimientos>
@@ -140,9 +156,48 @@
                 </tr>
             </ng-template>
         </div>
+
+        <!-- INFO DE INSUMO CON MAS MOVIMIENTOS DE DESECHOS -->
+        <div class="card card-outline card-pink">
+          <div class="card-header text-secondary border-0">
+            <h3 class="card-title text-center text-pink font-weight-bold">Insumos con más desechos de {{inventario?.nombre}} </h3>
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div style="width: 100%;"><canvas id="insumoConMasDesechos"></canvas></div>
+          </div>
+        </div>
+
+        <!-- INFO DE INSUMO CON MAS DESPACHOS POR RECETA -->
+        <div class="card card-outline card-pink">
+          <div class="card-header text-secondary border-0">
+            <h3 class="card-title text-center text-pink font-weight-bold">Insumos con más despachos por receta de {{inventario?.nombre}} </h3>
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <label>
+                  Fechas
+              </label>
+              <div class="input-group">
+                  <input type="date" class="form-control" id="fechaInicial" [(ngModel)]="fechaInicial" (ngModelChange)="buscarInsumosConMasDespachosPorReceta()">
+                  <div class="input-group-append">
+                      <label class="input-group-text">al</label>
+                  </div>
+                  <input type="date" class="form-control" id="fechaFinal" [(ngModel)]="fechaFinal" (ngModelChange)="buscarInsumosConMasDespachosPorReceta()">
+              </div>
+            </div>
+            <div style="width: 100%;"><canvas id="insumoConMasDespachosPorReceta"></canvas></div>
+          </div>
+        </div>
     </div>
 </div>
 
+<!-- MODAL REPORTE DEL MOVIMIENTO -->
 <div class="modal fade" id="movimientoPDFModal" tabindex="-1" role="dialog" aria-labelledby="movimientoPDFModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">

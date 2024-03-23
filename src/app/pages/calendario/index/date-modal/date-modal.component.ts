@@ -174,9 +174,8 @@ export class DateModalComponent {
 
   createCita() {
     const fechaCalendario = new Date(this.selectedDate);
-
     const [horas, minutos] = this.hora.split(':').map(Number);
-
+  
     const fechaHora = new Date(
       fechaCalendario.getFullYear(),
       fechaCalendario.getMonth(),
@@ -184,10 +183,10 @@ export class DateModalComponent {
       horas,
       minutos
     );
-
-    // Convertir a la hora local
-    const fechaHoraLocal = fechaHora.toLocaleString();
-
+  
+    // Convertir a la hora local (puedes utilizar la misma función formatDate)
+    const fechaHoraLocal = formatDate(fechaHora, 'yyyy-MM-dd HH:mm:ss', 'en-US');
+  
     const cita = {
       tipo: this.tipo,
       motivo: this.motivo,
@@ -196,7 +195,7 @@ export class DateModalComponent {
       pacientable_id: this.pacientable_id,
       profesional_id: this.profesional.useable_id,
     };
-
+  
     this.calendarioService.storeCita(cita).subscribe(
       (response) => {
         this.mensaje(response);
@@ -206,6 +205,7 @@ export class DateModalComponent {
       }
     );
   }
+  
 
   editCita(event: any) {
     this.editedCita = event;
@@ -245,7 +245,6 @@ export class DateModalComponent {
   updateCita() {
     if (this.editedCita && this.editedCita.calendario) {
       const fechaCalendario = new Date(this.selectedDate);
-
       const [horas, minutos] = this.hora.split(':').map(Number);
   
       const fechaHora = new Date(
@@ -257,8 +256,11 @@ export class DateModalComponent {
       );
   
       // Convertir a la hora local
-      const fechaHoraLocal = fechaHora.toISOString();
-
+      const fechaHoraLocal = formatDate(fechaHora, 'yyyy-MM-dd HH:mm:ss', 'en-US');
+  
+      // Obtener el ID de la cita que se está actualizando
+      const citaId = this.editedCita.calendario.id;
+  
       // Construir el objeto de la cita actualizada con los datos del formulario
       const citaActualizada = {
         tipo: this.tipo,
@@ -268,11 +270,9 @@ export class DateModalComponent {
         pacientable_id: this.pacientable_id,
         profesional_id: this.profesional.useable_id,
       };
-    
+  
       // Llamar al servicio para actualizar la cita en el backend
-      const cita = this.editedCita.calendario; // Utilizar la cita almacenada en editedCita
-
-      this.calendarioService.updateCita(cita.id, citaActualizada).subscribe(
+      this.calendarioService.updateCita(citaId, citaActualizada).subscribe(
         (response) => {
           this.mensaje(response); // Llamar a la función mensaje() con la respuesta
         },
@@ -282,7 +282,7 @@ export class DateModalComponent {
       );
     }
   }
-
+  
   destroyCita(event: any) {
     const cita = event.calendario;
   

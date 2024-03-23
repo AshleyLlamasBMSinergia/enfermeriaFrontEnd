@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HistorialesMedicosService } from '../historiales-medicos.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { differenceInYears } from 'date-fns';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ImageService } from 'src/app/services/imagen.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Observable, of, ReplaySubject, forkJoin } from 'rxjs';
@@ -37,6 +37,16 @@ export class HistorialesMedicosShowComponent implements OnInit {
   mostrarFormularioArchivo = false;
   showInput = false;
 
+  mensajesDeError: string[] = [];
+
+  nombresDescriptivos: { [key: string]: string } = {
+    historialMedico_id: 'historial médico',
+    archivos: 'archivos',
+    tipo: 'tipo',
+    categoria: 'categoría',
+    descripcion: 'descripción',
+  };
+
   constructor(
     private formBuilder: FormBuilder,
     private historialesMedicosService: HistorialesMedicosService,
@@ -49,11 +59,13 @@ export class HistorialesMedicosShowComponent implements OnInit {
     private capitalizarTextoService: CapitalizarTextoService
   ) {
     this.formArchivo = this.formBuilder.group({
-      historialMedico_id: [this.historialMedico?.id],
-      archivos: [null],
-      tipo: [null],
-      categoria: [null],
-      descripcion: [null]
+      historialMedico_id: [null],
+      archivos: [null, [Validators.required]],
+      tipo: [null, [Validators.required]],
+      categoria: [null, [Validators.required]],
+      archivable_id: [null],
+      archivable_type: ["App\\Models\\Examen", [Validators.required]],
+      descripcion: [null, []]
     });
   }
 
@@ -97,10 +109,9 @@ export class HistorialesMedicosShowComponent implements OnInit {
         this.calcularEdad();
         this.terminado = true;
 
-        this.formArchivo.get('historialMedico_id')?.setValue(historialMedico.id);
+        console.log(historialMedico);
 
         if (historialMedico.pacientable?.image?.url) {
-          
           this.obtenerImagen(historialMedico.pacientable?.image?.url).subscribe((imagen) => {
             this.image = imagen;
           });
@@ -126,33 +137,6 @@ export class HistorialesMedicosShowComponent implements OnInit {
   abrirFormularioArchivo(){
     this.mostrarFormularioArchivo = !this.mostrarFormularioArchivo;
   }
-
-  // archivoSeleccionado(event: any) {
-  //   this.convertirArchivo(event.target.files[0]).subscribe(base64 => {
-  //       this.archivo = base64;
-  //   });
-  // }
-
-  // archivosSeleccionados(event: any) {
-  //   const archivosSeleccionados = event.target.files;
-  
-  //   for (let i = 0; i < archivosSeleccionados.length; i++) {
-  //     const archivo = archivosSeleccionados[i];
-  //     const archivoInfo = {
-  //       nombre: archivo.name,
-  //       tamano: this.formatBytes(archivo.size),
-  //       base64: ''
-  //     };
-  //     this.archivos.push(archivoInfo);
-  //   }
-  
-  //   this.convertirArchivos(archivosSeleccionados).subscribe(base64Array => {
-  //     this.archivos = this.archivos.map((archivo, index) => ({
-  //       ...archivo,
-  //       base64: base64Array[index]
-  //     }));
-  //   });
-  // }
 
   resetCategoria() {
     if (this.formArchivo.get('categoria')?.value === 'Otro') {
@@ -247,43 +231,40 @@ export class HistorialesMedicosShowComponent implements OnInit {
     }
   }
 
-  // storeArchivo() {
-  //   const formData = this.formArchivo.value;
-  
-  //   if (this.archivo) {
-  //     formData.archivo = this.archivo;
-
-  //     this.historialesMedicosService.storeArchivo(formData)
-  //       .subscribe(
-  //         (response) => {
-  //           this.notificationService.mensaje(response);
-  //         },
-  //         (error) => {
-  //           this.notificationService.error(error.error);
-  //         }
-  //     );
-  //   }else{
-  //     this.notificationService.error('Faltan campos por llenar');
-  //   }
-  // }
-
   storeArchivos() {
-    if (this.archivos.length > 0) {
+
+    if (this.archivos.length <= 0) {
+      this.notificationService.info('Ups! :(', 'Faltan campos por llenar');
+    }
+
+    if (this.formArchivo.invalid) {
+      const camposNoValidos = Object.keys(this.formArchivo.controls).filter(controlName => this.formArchivo.get(controlName)?.invalid);
+      const mensajes: string[] = [];
+
+      camposNoValidos.forEach(controlName => {
+        this.formArchivo.get(controlName)!;
+        const control = this.formArchivo.get(controlName)!;
+        const errores = this.obtenerMensajesDeError(control).join(', ');
+        mensajes.push(`El campo ${this.nombresDescriptivos[controlName]} ${errores}`);
+      });
+
+      this.mensajesDeError = mensajes;
+    } else {
+      this.formArchivo.get('historialMedico_id')?.setValue(this.historialMedico.id);
+
       const formData = this.formArchivo.value;
       formData.archivos = this.archivos.map(archivo => archivo.base64);
     
       this.historialesMedicosService.storeArchivos(formData)
-        .subscribe(
-          (response) => {
-            this.notificationService.mensaje(response);
-          },
-          (error) => {
-            this.notificationService.error(error.error.error);
-            console.log(error);
-          }
-        );
-    } else {
-      this.notificationService.error('Faltan campos por llenar');
+      .subscribe(
+        (response) => {
+          this.notificationService.mensaje(response);
+        },
+        (error) => {
+          this.notificationService.error(error.error.error);
+          console.log(error);
+        }
+      );
     }
   }
   
@@ -301,5 +282,39 @@ export class HistorialesMedicosShowComponent implements OnInit {
         }
       );
     }
+  }
+
+  obtenerMensajesDeError(control: AbstractControl): string[] {
+    const mensajes: string[] = [];
+
+    if (control.errors) {
+      for (const errorKey in control.errors) {
+        switch (errorKey) {
+          case 'required':
+            mensajes.push(' es obligatorio');
+            break;
+          case 'maxlength':
+            mensajes.push(' excede el límite de longitud permitido');
+            break;
+          case 'email':
+            mensajes.push(' no es valido');
+            break;
+          case 'diasNoNegativos':
+            mensajes.push('no puede estar en negativo');
+            break;
+          default:
+            mensajes.push(`Error: ${errorKey}`);
+            break;
+        }
+      }
+    }
+
+    if (control instanceof FormGroup) {
+      Object.keys(control.controls).forEach(key => {
+        mensajes.push(...this.obtenerMensajesDeError(control.get(key)!));
+      });
+    }
+
+    return mensajes;
   }
 }

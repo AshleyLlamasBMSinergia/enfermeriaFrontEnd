@@ -8,7 +8,7 @@ import { catchError, map } from 'rxjs/operators';
 import { Observable, ReplaySubject, forkJoin, of } from 'rxjs';
 import { MovimientoMovs } from 'src/app/interfaces/movimientoMovs';
 import { NotificationService } from 'src/app/services/notification.service';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ArchivoService } from 'src/app/services/archivo.service';
 
 @Component({
@@ -32,6 +32,14 @@ export class MovimientosShowComponent {
   mostrarFormularioArchivo = false;
   showInput = false;
 
+  mensajesDeError: string[] = [];
+
+  nombresDescriptivos: { [key: string]: string } = {
+    movimiento_id: 'movimiento',
+    archivos: 'archivos',
+    categoria: 'categoría',
+  };
+
   constructor(
     private imageService: ImageService,
     private movimientosService: MovimientosService,
@@ -42,9 +50,9 @@ export class MovimientosShowComponent {
     private formBuilder: FormBuilder,
   ) {
     this.formArchivo = this.formBuilder.group({
-      movimiento_id: [this.movimiento?.id],
-      archivos: [null],
-      categoria: [null],
+      movimiento_id: [this.movimiento?.id, [Validators.required]],
+      archivos: [null, [Validators.required]],
+      categoria: [null, [Validators.required]],
     });
   }
 
@@ -211,7 +219,24 @@ export class MovimientosShowComponent {
   }
 
   storeArchivos() {
-    if (this.archivos.length > 0) {
+
+    if (this.archivos.length <= 0) {
+      this.notificationService.info('Ups! :(', 'Faltan campos por llenar');
+    }
+
+    if(this.formArchivo.invalid) {
+      const camposNoValidos = Object.keys(this.formArchivo.controls).filter(controlName => this.formArchivo.get(controlName)?.invalid);
+      const mensajes: string[] = [];
+
+      camposNoValidos.forEach(controlName => {
+        this.formArchivo.get(controlName)!;
+        const control = this.formArchivo.get(controlName)!;
+        const errores = this.obtenerMensajesDeError(control).join(', ');
+        mensajes.push(`El campo ${this.nombresDescriptivos[controlName]} ${errores}`);
+      });
+
+      this.mensajesDeError = mensajes;
+    }else{
       const formData = this.formArchivo.value;
       formData.archivos = this.archivos.map(archivo => archivo.base64);
     
@@ -224,8 +249,40 @@ export class MovimientosShowComponent {
             this.notificationService.error(error.error.error);
           }
         );
-    } else {
-      this.notificationService.error('Faltan campos por llenar');
     }
+  }
+
+  obtenerMensajesDeError(control: AbstractControl): string[] {
+    const mensajes: string[] = [];
+
+    if (control.errors) {
+      for (const errorKey in control.errors) {
+        switch (errorKey) {
+          case 'required':
+            mensajes.push(' es obligatorio');
+            break;
+          case 'maxlength':
+            mensajes.push(' excede el límite de longitud permitido');
+            break;
+          case 'email':
+            mensajes.push(' no es valido');
+            break;
+          case 'diasNoNegativos':
+            mensajes.push('no puede estar en negativo');
+            break;
+          default:
+            mensajes.push(`Error: ${errorKey}`);
+            break;
+        }
+      }
+    }
+
+    if (control instanceof FormGroup) {
+      Object.keys(control.controls).forEach(key => {
+        mensajes.push(...this.obtenerMensajesDeError(control.get(key)!));
+      });
+    }
+
+    return mensajes;
   }
 }

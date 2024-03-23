@@ -12,6 +12,7 @@ import { LotesMedicosService } from 'src/app/pages/lotes-medicos/lotes-medicos.s
 import { NotificationService } from 'src/app/services/notification.service';
 import { InventariosService } from '../../../inventarios.service';
 import { Inventarios } from 'src/app/interfaces/inventarios';
+import Chart from 'chart.js/auto';
 
 @Component({
   selector: 'app-show',
@@ -35,6 +36,10 @@ export class InsumoShowComponent {
   search: string = '';
   private searchTerms = new Subject<string>();
 
+  // chart:any;
+
+  tablaSalidaDeLotes!: any;
+
   constructor(
     private notificationService: NotificationService,
     private insumosMedicoService: InsumosMedicosService,
@@ -47,7 +52,6 @@ export class InsumoShowComponent {
   ) { }
 
   ngOnInit(): void {
-
     this.getInsumo();
 
     this.searchTerms.pipe(
@@ -59,6 +63,52 @@ export class InsumoShowComponent {
 
   buscarLote() {
     this.searchTerms.next(this.search.trim());
+  }
+
+  getTablaSalidaDeLotes(inventarioId: number, insumoId: number){
+    this.insumosMedicoService.getTablaDeSalidaDeLotes(inventarioId, insumoId).subscribe(
+      (data:any) => {
+        this.tablaSalidaDeLotes
+        this.tablaSalidaDeLotes = data;
+      }
+    );
+  }
+
+  estadisticaSalidaDeLotes(inventarioId:number, insumoId:number){
+    this.insumosMedicoService.getEstadisticaDeSalidaDeLotes(inventarioId, insumoId).subscribe(
+      (datos: any) => {
+        const ctx = document.getElementById('myChart');
+        const myChart = new Chart("ctx", {
+            type: 'doughnut',
+            data: {
+                labels: datos.labels,
+                datasets: [{
+                    label: 'Movimientos de lotes',
+                    data: datos.data,
+                    backgroundColor: datos.backgroundColor,
+                    // borderColor: datos.backgroundColor,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+              scales: {
+                  y: {
+                      beginAtZero: true
+                  }
+              },
+              plugins: {
+                title: {
+                    display: true,
+                },
+                
+            }
+          }
+        });
+          },
+          (error) => {
+            console.log(error);
+          }
+    );
   }
   
   realizarBusqueda() {
@@ -81,6 +131,8 @@ export class InsumoShowComponent {
       const inventarioId = params['inventarioId']; // Obtén el ID del inventario
       const insumoId = params['insumoId']; // Obtén el ID del insumo
       this.buscarInsumo(inventarioId, insumoId);
+      this.estadisticaSalidaDeLotes(inventarioId, insumoId);
+      this.getTablaSalidaDeLotes(inventarioId, insumoId);
     });
   }
 
@@ -134,6 +186,31 @@ export class InsumoShowComponent {
     const hoy = new Date();
 
     return fechaCaducidadDate <= hoy;
+  }
+
+  semaforoDeCaducidad(fechaCaducidad: Date) {
+    let color;
+
+    const fechaCaducidadDate = new Date(fechaCaducidad);
+    const hoy = new Date();
+    
+    // Sumar 6 meses a la fecha actual
+    const seisMesesDespues = new Date(hoy.getFullYear(), hoy.getMonth() + 6, hoy.getDate());
+
+    // Sumar 12 meses a la fecha actual
+    const doceMesesDespues = new Date(hoy.getFullYear(), hoy.getMonth() + 12, hoy.getDate());
+
+    if (fechaCaducidadDate > doceMesesDespues) {
+      color = '#13D52A'; //Verde
+    }else{
+      color = '#FFD215'; //Amarillo
+    }
+
+    if (fechaCaducidadDate < seisMesesDespues) {
+      color = '#dc3545'; //Rojo
+    }
+
+    return color
   }
 
   showLote(inventarioId: number, insumoId: number, loteId: number) {

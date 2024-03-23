@@ -46,7 +46,7 @@ export class ConsultasIndexComponent implements OnInit{
     }
   
     getConsultas(): void {
-      this.consultasService.getConsultas(this.profesional.useable_id).subscribe(
+      this.consultasService.getConsultas().subscribe(
         (consultas: Consultas[]) => {
           this.consultas = consultas.map((consulta) => {
             return this.consultasService.pacientable(consulta);

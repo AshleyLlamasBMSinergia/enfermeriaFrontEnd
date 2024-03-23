@@ -35,7 +35,7 @@
                                         [allowClear]="true"
                                         [items]="insumos"
                                         optionValueField="id"
-                                        optionTextField="lote"
+                                        optionTextField="nombre"
                                         placeholder="Seleccione los insumos"
                                         (select)="addItemInsumo($event)"
                                         (remove)="deleteInsumo($event)">
@@ -43,8 +43,8 @@
 
                                 </div>
                                 <div formArrayName="itemInsumo">
-                                    <div *ngFor="let insumoSeleccionado of insumosForm().controls; let insIndex = index">
-                                        <div class="mb-1" [formGroupName]="insIndex">
+                                    <div *ngFor="let insumoSeleccionado of insumosForm().controls; let insumoIndex = index">
+                                        <div class="mb-1" [formGroupName]="insumoIndex">
                                             <div>
                                                 <div>
                                                     <div class="list-group-item d-flex justify-content-between align-items-center">
@@ -63,22 +63,22 @@
                                                                 <th scope="col">Unidades</th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody *ngFor="let lote of itemLotes(insIndex).controls; let loteIndex=index" [formGroupName]="loteIndex">
+                                                        <tbody *ngFor="let lote of itemLotes(insumoIndex).controls; let loteIndex=index" [formGroupName]="loteIndex">
                                                             <tr>
                                                                 <td width="70%">
                                                                     <ngx-select
                                                                         [formControlName]="'lote'"
                                                                         [allowClear]="true"
                                                                         optionValueField="id"
-                                                                        optionTextField="id"
                                                                         placeholder="Seleccione el lote"
+                                                                        optionTextField="lote"
                                                                         [items]="this.getLotesSelect(insumoSeleccionado.value.id)"
                                                                         >
                                                                     </ngx-select>
                                                                 </td>
                                                                 <td width="30%">
                                                                     <div class="input-group">
-                                                                        <input type="number" class="form-control" formControlName="cantidad" min="1" required (focusout)="onFocusOutCantidad(insIndex, insumoSeleccionado, loteIndex)"/>
+                                                                        <input type="number" class="form-control" formControlName="cantidad" min="1" required (focusout)="onFocusOutCantidad(insumoIndex, insumoSeleccionado, loteIndex)"/>
                                                                         <div class="input-group-append">
                                                                             <label class="input-group-text">
                                                                                 <span *ngIf="getPiezasDisponibles(insumoSeleccionado, loteIndex)">{{ getPiezasDisponibles(insumoSeleccionado, loteIndex) }}</span>
@@ -87,7 +87,7 @@
                                                                     </div>
                                                                 </td>
                                                                 <td width="10px">
-                                                                    <button type="button" class="btn-close d-flex align-items-center mt-2" (click)="removeItemLote(insIndex,loteIndex)">
+                                                                    <button type="button" class="btn-close d-flex align-items-center mt-2" (click)="removeItemLote(insumoIndex,loteIndex)">
                                                                     </button>
                                                                 </td>
                                                             </tr>
@@ -102,17 +102,24 @@
                                                                     <th scope="col">Unidades</th>
                                                                 </tr>
                                                             </thead>
-                                                            <tbody *ngFor="let lote of itemLotes(insIndex).controls; let loteIndex=index" [formGroupName]="loteIndex">
+                                                            <tbody *ngFor="let lote of itemLotes(insumoIndex).controls; let loteIndex=index" [formGroupName]="loteIndex">
                                                                 <tr>
                                                                     <td width="60%">
-                                                                        <input type="text" class="form-control" formControlName="lote" required>
+                                                                        <div class="input-group mb-3">
+                                                                            <div class="input-group-prepend">
+                                                                              <span class="input-group-text" id="basic-addon1">{{loteIndex+1}}</span>
+                                                                            </div>
+                                                                            <input type="text" class="form-control" formControlName="lote" required>
+                                                                        </div>
                                                                     </td>
                                                                     <td width="20%">
-                                                                        <input type="date" class="form-control" formControlName="fechaCaducidad" required/>
+                                                                        <!-- {{this.formInsumos.get('itemInsumo')?.value[insumoIndex].lotes[loteIndex].fechaCaducidad}} -->
+                                                                        <input type="date" class="form-control" formControlName="fechaCaducidad"/>
                                                                     </td>
                                                                     <td width="20%">
+                                                                        <!-- {{this.formInsumos.get('itemInsumo')?.value[insumoIndex].lotes[loteIndex].cantidad}} -->
                                                                         <div class="input-group">
-                                                                            <input type="number" class="form-control" formControlName="cantidad" min="1" (focusout)="onFocusOutCantidad(insIndex, insumoSeleccionado, loteIndex)"/>
+                                                                            <input type="number" class="form-control" formControlName="cantidad" min="1" (focusout)="onFocusOutCantidad(insumoIndex, insumoSeleccionado, loteIndex)"/>
                                                                             <div class="input-group-append">
                                                                                 <label class="input-group-text">
                                                                                 {{ insumoSeleccionado.value.piezasPorLote }}
@@ -121,7 +128,7 @@
                                                                         </div>
                                                                     </td>
                                                                     <td width="10px">
-                                                                        <button type="button" class="btn-close d-flex align-items-center mt-2" (click)="removeItemLote(insIndex,loteIndex)">
+                                                                        <button type="button" class="btn-close d-flex align-items-center mt-2" (click)="removeItemLote(insumoIndex, loteIndex)">
                                                                         </button>
                                                                     </td>
                                                                 </tr>
@@ -131,7 +138,7 @@
                                                 </table>
                                             </div>
                                             <div>
-                                                <button type="button" class="btn btn-secondary btn-block" (click)="addItemLote(insIndex)"><i class="fas fa-plus"></i> Agregar lote de {{ insumoSeleccionado.value.nombre }}</button>
+                                                <button type="button" class="btn btn-secondary btn-block" (click)="addItemLote(insumoIndex)"><i class="fas fa-plus"></i> Agregar lote de {{ insumoSeleccionado.value.nombre }}</button>
                                             </div>
                                         </div>
                                         <hr>

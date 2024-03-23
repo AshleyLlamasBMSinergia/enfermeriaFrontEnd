@@ -23,9 +23,10 @@ export class InsumosMedicosService {
 
   constructor( private httpClient: HttpClient, private router: Router ) { }
 
-  buscador(nombre: string): Observable<any[]> {
-    const url = `${API_URL}insumos-medicos/buscador?nombre=${nombre}`;
-    return this.httpClient.get<any[]>(url);
+  buscador(nombre: string, inventarioId: number): Observable<any[]> {
+    const url = `${API_URL}insumos-medicos/buscador`;
+    const params = { nombre: nombre, inventario_id: inventarioId.toString() };
+    return this.httpClient.get<any[]>(url, { params: params }); 
   }
 
   getInsumosMedicos(): Observable<Insumos[]> {
@@ -86,5 +87,15 @@ export class InsumosMedicosService {
   destroyInsumo(insumos: number): Observable<any> {
     const url = `${API_URL}insumos-medicos/${insumos}`;
     return this.httpClient.delete(url);
+  }
+
+  //ESTADISTICAS:
+  getEstadisticaDeSalidaDeLotes(inventarioId:number, insumoId: number): Observable<any[]> {
+    return this.httpClient.get<any[]>(`${API_URL}estadisticas/inventario/${inventarioId}/movimientos-del-insumo/${insumoId}`);
+  }
+
+  //TABLAS:
+  getTablaDeSalidaDeLotes(inventarioId:number, insumoId: number): Observable<any[]> {
+    return this.httpClient.get<any[]>(`${API_URL}tabla/inventario/${inventarioId}/gastos-del-insumo/${insumoId}`);
   }
 }

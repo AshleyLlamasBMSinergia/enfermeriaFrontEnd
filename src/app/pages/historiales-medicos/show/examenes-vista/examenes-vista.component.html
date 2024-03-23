@@ -25,7 +25,7 @@
                         <b>Tipo</b>
                         </div>
                         <div class="ml-auto">
-                        {{examen_vista?.tipo}}
+                        {{examen_vista?.tipo || '-'}}
                         </div>
                     </div>
                     </div>
@@ -36,7 +36,7 @@
                         <b>¿Necesita lentes?</b>
                         </div>
                         <div class="ml-auto">
-                        {{examen_vista?.necesitaLentes}}
+                        {{examen_vista?.necesitaLentes || 'No ❌'}}
                         </div>
                     </div>
                     </div>
@@ -47,7 +47,7 @@
                         <b>¿Usa lentes?</b>
                         </div>
                         <div class="ml-auto">
-                        {{examen_vista?.usaLentes}}
+                        {{examen_vista?.usaLentes || 'No ❌'}}
                         </div>
                     </div>
                     </div>

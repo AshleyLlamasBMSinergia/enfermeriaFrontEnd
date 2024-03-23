@@ -183,13 +183,15 @@ export class DependientesComponent {
 
     const fechaNacimiento = new Date(dependiente.fechaNacimiento);
 
+    const fechaNacimientoString = fechaNacimiento.toISOString().split('T')[0];
+    
     this.dependienteForm.setValue({
       imagen: null,
       empleado_id: dependiente.empleado_id,
       nombre: dependiente.nombre,
       sexo: dependiente.sexo,
-      fechaNacimiento: fechaNacimiento,
-
+      fechaNacimiento: fechaNacimientoString,
+    
       parentesco: dependiente.parentesco,
     });
   }

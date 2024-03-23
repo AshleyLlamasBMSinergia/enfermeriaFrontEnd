@@ -38,6 +38,10 @@ export class HistorialesMedicosService {
     return this.httpClient.get<any[]>(API_URL+"can/empleados/"+numero);
   }
 
+  buscarHistorialMedico(cediId:number, numeroEmpleado:number){
+    return this.httpClient.get<any[]>(API_URL+"cedis/"+cediId+"/empleados/"+numeroEmpleado);
+  }
+
   getHistorialesMedicos (): Observable<HistorialesMedicos[]> {
     return this.httpClient.get<HistorialesMedicos[]>(API_URL+"historiales-medicos");
   }
@@ -129,29 +133,6 @@ export class HistorialesMedicosService {
     const url = `${API_URL}historiales-medicos/${historialMedico}`;
     return this.httpClient.delete(url);
   }
-
-  // storeDependientes(dependiente: any, imagen: File): Observable<Dependientes> {
-  //   return new Observable<Dependientes>((observer) => {
-  //     const reader = new FileReader();
-  //     reader.readAsDataURL(imagen);
-  
-  //     reader.onload = (event) => {
-  //       const imagenBase64 = (event.target as FileReader).result as string;
-  //       dependiente.imagen = imagenBase64;
-  
-  //       this.httpClient.post<Dependientes>(API_URL + "dependientes", dependiente, this.httpOptions)
-  //         .subscribe(
-  //           (response) => {
-  //             observer.next(response);
-  //             observer.complete();
-  //           },
-  //           (error) => {
-  //             observer.error(error);
-  //           }
-  //         );
-  //     };
-  //   });
-  // }
 
   storeDependientes(dependiente: any, imagen: File): Observable<Dependientes> {
     if (imagen) {
@@ -293,5 +274,10 @@ export class HistorialesMedicosService {
 
   getHistorialMedicoPorPaciente(pacienteType: string, pacienteId: number):Observable<any>{
     return this.httpClient.get<HistorialesMedicos>(API_URL+"historiales-medicos/"+pacienteType+"/"+pacienteId);
+  }
+
+  //ESTADISTICAS
+  getEstadisticaPacientesConMasConsultas(): Observable<any[]> {
+    return this.httpClient.get<any[]>(`${API_URL}estadisticas/historiales-medicos/pacientes-con-mas-consultas`);
   }
 }

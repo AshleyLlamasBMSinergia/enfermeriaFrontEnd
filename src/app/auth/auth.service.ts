@@ -30,24 +30,24 @@ export class AuthService {
   handleLoginResponse(response: any) {
     if (response.status) {
       this.userService.setUser(response.data.user);
-      console.log(this.userService.getUser());
       this.router.navigate(['/enfermeria/inicio']);
     }
   }
 
   logout(): Observable<any> {
     const url = `${API_URL}logout`;
-    this.userService.clearUser();
     return this.http.post(url, {});
   }
 
   getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
     if (token) {
+      const id = this.userService.getUser().value[0].id;
       return new HttpHeaders({
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${token}`,
+        'user_id': id,
       });
     } else {
       return new HttpHeaders({

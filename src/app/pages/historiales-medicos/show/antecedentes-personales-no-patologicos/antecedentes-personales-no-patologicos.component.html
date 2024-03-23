@@ -15,7 +15,7 @@
                 <b>Anticonceptivos</b>
               </div>
               <div class="ml-auto">
-                {{historialMedico!.antecedentes_personales_no_patologicos.anticonceptivos}}
+                {{historialMedico!.antecedentes_personales_no_patologicos.anticonceptivos || '-'}}
               </div>
             </div>
             <div *ngIf="historialMedico!.antecedentes_personales_no_patologicos.espAnticonceptivos">
@@ -31,7 +31,7 @@
                 <b>Obstétrico</b>
               </div>
               <div class="ml-auto">
-                {{historialMedico!.antecedentes_personales_no_patologicos.obstetrico}}
+                {{historialMedico!.antecedentes_personales_no_patologicos.obstetrico || 'No ❌'}}
               </div>
             </div>
             <div *ngIf="historialMedico!.antecedentes_personales_no_patologicos.espObstetrico">
@@ -47,7 +47,7 @@
                 <b>Menarca</b>
               </div>
               <div class="ml-auto">
-                {{historialMedico!.antecedentes_personales_no_patologicos.menarca}}
+                {{historialMedico!.antecedentes_personales_no_patologicos.menarca || 'No ❌'}}
               </div>
             </div>
             <div *ngIf="historialMedico!.antecedentes_personales_no_patologicos.espMenarca">
@@ -63,7 +63,12 @@
                 <b>Alcoholismo</b>
               </div>
               <div class="ml-auto">
-                {{historialMedico!.antecedentes_personales_no_patologicos.alcoholismo}}
+                {{historialMedico!.antecedentes_personales_no_patologicos.alcoholismo || 'No ❌'}}
+              </div>
+            </div>
+            <div *ngIf="historialMedico!.antecedentes_personales_no_patologicos.espAlcoholismo">
+              <div class="border rounded bg-white p-2">
+                {{ historialMedico!.antecedentes_personales_no_patologicos.espAlcoholismo }}
               </div>
             </div>
           </div>
@@ -74,7 +79,12 @@
                 <b>Tabaquismo</b>
               </div>
               <div class="ml-auto">
-                {{historialMedico!.antecedentes_personales_no_patologicos.tabaquismo}}
+                {{historialMedico!.antecedentes_personales_no_patologicos.tabaquismo || 'No ❌'}}
+              </div>
+            </div>
+            <div *ngIf="historialMedico!.antecedentes_personales_no_patologicos.espTabaquismo">
+              <div class="border rounded bg-white p-2">
+                {{ historialMedico!.antecedentes_personales_no_patologicos.espTabaquismo }}
               </div>
             </div>
           </div>
@@ -85,7 +95,7 @@
                 <b>Toxicomanías</b>
               </div>
               <div class="ml-auto">
-                {{historialMedico!.antecedentes_personales_no_patologicos.toxicomanias}}
+                {{historialMedico!.antecedentes_personales_no_patologicos.toxicomanias || 'No ❌'}}
               </div>
             </div>
             <div *ngIf="historialMedico!.antecedentes_personales_no_patologicos.espToxicomanias">
@@ -101,7 +111,7 @@
                 <b>Religión</b>
               </div>
               <div class="ml-auto">
-                {{historialMedico!.antecedentes_personales_no_patologicos.religion}}
+                {{historialMedico!.antecedentes_personales_no_patologicos.religion || 'Ninguno'}}
               </div>
             </div>
             <div *ngIf="historialMedico!.antecedentes_personales_no_patologicos.espReligion">
@@ -117,7 +127,7 @@
                 <b>Pasatiempos</b>
               </div>
               <div class="ml-auto">
-                {{historialMedico!.antecedentes_personales_no_patologicos.pasatiempos}}
+                {{historialMedico!.antecedentes_personales_no_patologicos.pasatiempos || '-'}}
               </div>
             </div>
           </div>
@@ -128,7 +138,7 @@
                 <b>Tipo y RH</b>
               </div>
               <div class="ml-auto">
-                {{historialMedico!.antecedentes_personales_no_patologicos.tipoYRH}}
+                {{historialMedico!.antecedentes_personales_no_patologicos.tipoYRH || '-'}}
               </div>
             </div>
           </div>
@@ -139,7 +149,7 @@
                 <b>Inmunizaciones</b>
               </div>
               <div class="ml-auto">
-                {{historialMedico!.antecedentes_personales_no_patologicos.inmunizaciones}}
+                {{historialMedico!.antecedentes_personales_no_patologicos.inmunizaciones || 'No ❌'}}
               </div>
             </div>
             <div *ngIf="historialMedico!.antecedentes_personales_no_patologicos.espInmunizaciones">
@@ -155,7 +165,7 @@
                 <b>Alimentación</b>
               </div>
               <div class="ml-auto">
-                {{historialMedico!.antecedentes_personales_no_patologicos.alimentacion}}
+                {{historialMedico!.antecedentes_personales_no_patologicos.alimentacion || '-'}}
               </div>
             </div>
           </div>
@@ -166,7 +176,7 @@
                 <b>Aseo personal</b>
               </div>
               <div class="ml-auto">
-                {{historialMedico!.antecedentes_personales_no_patologicos.aseoPersonal}}
+                {{historialMedico!.antecedentes_personales_no_patologicos.aseoPersonal || 'Normal ✔️'}}
               </div>
             </div>
           </div>
@@ -177,7 +187,7 @@
                 <b>Deportes</b>
               </div>
               <div class="ml-auto">
-                {{historialMedico!.antecedentes_personales_no_patologicos.deportes}}
+                {{historialMedico!.antecedentes_personales_no_patologicos.deportes || '-'}}
               </div>
             </div>
             <div *ngIf="historialMedico!.antecedentes_personales_no_patologicos.espDeportes">
@@ -193,7 +203,7 @@
                 <b>Baja estatura</b>
               </div>
               <div class="ml-auto">
-                {{historialMedico!.antecedentes_personales_no_patologicos.bajo}}
+                {{historialMedico!.antecedentes_personales_no_patologicos.bajo || 'No ❌'}}
               </div>
             </div>
           </div>
@@ -204,7 +214,7 @@
                 <b>SobrePeso</b>
               </div>
               <div class="ml-auto">
-                {{historialMedico!.antecedentes_personales_no_patologicos.sobrePeso}}
+                {{historialMedico!.antecedentes_personales_no_patologicos.sobrePeso || 'No ❌'}}
               </div>
             </div>
           </div>
@@ -215,7 +225,7 @@
                 <b>Hacinamiento</b>
               </div>
               <div class="ml-auto">
-                {{historialMedico!.antecedentes_personales_no_patologicos.hacinamiento}}
+                {{historialMedico!.antecedentes_personales_no_patologicos.hacinamiento || 'No ❌'}}
               </div>
             </div>
           </div>
@@ -226,7 +236,7 @@
                 <b>Promiscuidad</b>
               </div>
               <div class="ml-auto">
-                {{historialMedico!.antecedentes_personales_no_patologicos.promiscuidad}}
+                {{historialMedico!.antecedentes_personales_no_patologicos.promiscuidad || 'No ❌'}}
               </div>
             </div>
           </div>
@@ -327,6 +337,12 @@
                 </div>
               </div>
             </div>
+            <div *ngIf="formAPNPatologicos.get('alcoholismo')?.value === 'Si'">
+              <label class="text-secondary small">Especifique
+                <span class="text-danger">*</span>
+              </label>
+              <textarea class="form-control" rows="3" formControlName="espAlcoholismo"></textarea>
+            </div>
           </div>
 
           <div class="py-2 border-bottom">
@@ -344,6 +360,12 @@
                   <label class="form-check-label" for="tabaquismo2">Si</label>
                 </div>
               </div>
+            </div>
+            <div *ngIf="formAPNPatologicos.get('tabaquismo')?.value === 'Si'">
+              <label class="text-secondary small">Especifique
+                <span class="text-danger">*</span>
+              </label>
+              <textarea class="form-control" rows="3" formControlName="espTabaquismo"></textarea>
             </div>
           </div>
 

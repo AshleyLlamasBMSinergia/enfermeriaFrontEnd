@@ -7,7 +7,7 @@
             <div class="card-body">
                 <form [formGroup]="historialMedicoForm" (submit)="guardar()">
                     <div>
-                        <div class="form-group">
+                        <div class="form-group" *ngIf="historialMedicoForm.get('paciente')?.value != 'Dependiente'">
                             <label>Tipo de paciente</label>
                             <select class="form-control text-center" id="paciente" formControlName="paciente">
                             <option value="" selected>-- Seleccione una opción --</option>
@@ -15,7 +15,7 @@
                             <option>Externo</option>
                             </select>
                         </div>
-                        <div class="row" *ngIf="historialMedicoForm.get('paciente')?.value === 'Empleado' || historialMedicoForm.get('paciente')?.value === 'Externo'">
+                        <div class="row" *ngIf="historialMedicoForm.get('paciente')?.value">
                             <div class="col-12 col-md-3">
                                 <div class="form-group">
                                     <div class="custom-file">
@@ -39,16 +39,16 @@
                             </div>
                             <div class="col-12 col-md-9">
                                 <div class="row">
-                                    <div class="col-12 col-md-6" [ngClass]="{'col-md-12': historialMedicoForm.get('paciente')?.value === 'Externo'}">
+                                    <div class="col-12 col-md-6" [ngClass]="{'col-md-12': historialMedicoForm.get('paciente')?.value != 'Empleado'}">
                                         <div class="form-group">
                                             <label>Nombre (s)</label>
                                             <input type="text" class="form-control" id="nombre" formControlName="nombre">
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group" *ngIf="historialMedicoForm.get('paciente')?.value != 'Dependiente'">
                                             <label for="email">Correo electrónico</label>
                                             <input type="text" class="form-control" id="email" formControlName="email">
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group" *ngIf="historialMedicoForm.get('paciente')?.value != 'Dependiente'">
                                             <label>Teléfono</label>
                                             <div class="input-group">
                                                 <select class="custom-select" id="prefijoInternacional" style="width: 25%;" formControlName="prefijoInternacional">
@@ -84,8 +84,18 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="form-group" *ngIf="historialMedicoForm.get('paciente')?.value === 'Dependiente'">
+                                            <label for="email">Parentesco de <a class="text-lowercase text-capitalize" (click)="showHistorialMedico(historialMedico.pacientable?.empleado?.historial_medico?.id)">{{ getTextoCapitalizado(historialMedico.pacientable?.empleado?.nombre) }}</a></label>
+                                            <select class="form-control text-center" id="parentesco" formControlName="parentesco">
+                                              <option value="" selected>-- Seleccione una opción --</option>
+                                              <option>Padre</option>
+                                              <option>Hermano</option>
+                                              <option>Hijo</option>
+                                              <option>Esposo</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div class="col-12 col-md-6" [hidden]="historialMedicoForm.get('paciente')?.value === 'Externo'">
+                                    <div class="col-12 col-md-6" [hidden]="historialMedicoForm.get('paciente')?.value != 'Empleado'">
                                         <div class="form-group">
                                             <label>RFC</label>
                                             <input type="text" class="form-control" id="RFC" formControlName="RFC">

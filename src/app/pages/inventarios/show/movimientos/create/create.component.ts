@@ -105,14 +105,14 @@ export class MovimientosCreateComponent {
 
   getMovimientosTipos(){
     this.movimientosService.getMoviemientoTipos().subscribe(
-      (externos) => {
-        this.movimientoTipos = externos.map((tipo: any) => ({
+      (tipo) => {
+        this.movimientoTipos = tipo.map((tipo: any) => ({
           id: tipo.id,
           text: tipo.tipoDeMovimiento,
         }));
       },
       (error) => {
-        console.error('Error al obtener externos:', error);
+        console.error('Error al obtener los tipos de movimiento:', error);
       }
     );
   }
@@ -125,7 +125,6 @@ export class MovimientosCreateComponent {
         lotes.push(...insumo.lotes);
       }
     }
-    console.log(lotes);
     return lotes
   }
 

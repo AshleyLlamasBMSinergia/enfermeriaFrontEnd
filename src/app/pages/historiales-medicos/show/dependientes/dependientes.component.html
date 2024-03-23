@@ -1,12 +1,19 @@
-<div class="card">
+<div class="card card-outline card-pink collapsed-card">
     <div class="card-header text-secondary border-0">
-      <h3 class="card-title text-center">Dependientes</h3>
-      <button (click)="crearDependiente()" type="button" class="btn btn-sm btn-pink float-right" data-toggle="modal" data-target="#dependienteModal">
-        <i class="fas fa-plus"></i> Dar alta
-      </button>
+      <h3 class="card-title text-center text-pink font-weight-bold">Dependientes</h3>
+      <div class="card-tools">
+        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+      </div>
     </div>
-    <div class="card-body table-responsive" *ngIf="historialMedico?.pacientable?.dependientes !== undefined && historialMedico?.pacientable?.dependientes!.length > 0">
-      <table class="table table-sm table-valign-middle">
+    <div class="card-body">
+      <div class="text-center">
+        <button (click)="crearDependiente()" type="button" class="btn btn-sm btn-white text-pink btn-block over-pink" data-toggle="modal" data-target="#dependienteModal">
+          <i class="fas fa-plus"></i> Dar alta
+        </button>
+      </div>
+      <hr>
+      <div class="table-responsive" *ngIf="historialMedico?.pacientable?.dependientes !== undefined && historialMedico?.pacientable?.dependientes!.length > 0">
+        <table class="table table-sm table-borderless">
           <tbody>
               <tr *ngFor="let dependiente of historialMedico?.pacientable?.dependientes">
                   <td>
@@ -30,6 +37,7 @@
               </tr>
           </tbody>
       </table>
+      </div>
     </div>
   </div>
   <div class="modal fade" id="dependienteModal" tabindex="-1" role="dialog" aria-labelledby="dependienteModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">

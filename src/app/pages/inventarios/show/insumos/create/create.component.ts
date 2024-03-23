@@ -81,7 +81,7 @@ export class InsumoCreateComponent {
       nombre: [null, [Validators.required, Validators.maxLength(254)]],
       piezasPorLote: [null, [Validators.required]],
       descripcion: [null, [Validators.maxLength(40000)]],
-      precio: [null, [Validators.required]],
+      precio: [null],
       inventario_id: [inventarioId, Validators.required],
       imagen: [null],
       reactivos: [[]]

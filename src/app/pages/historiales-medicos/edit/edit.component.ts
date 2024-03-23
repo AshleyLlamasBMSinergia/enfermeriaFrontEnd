@@ -8,6 +8,7 @@ import { ImageService } from 'src/app/services/imagen.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { catchError, map } from 'rxjs/operators';
 import { HistorialesMedicos } from 'src/app/interfaces/historiales-medicos';
+import { CapitalizarTextoService } from 'src/app/services/capitalizar-texto.service';
 
 @Component({
   selector: 'app-edit',
@@ -40,19 +41,21 @@ export class HistorialesMedicosEditComponent implements OnInit {
     telefono: 'teléfono',
     talla: 'talla',
     peso: 'peso',
+    parentesco: 'parentesco',
   };
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
+    private capitalizarTextoService: CapitalizarTextoService,
     private historialesMedicosService: HistorialesMedicosService,
     private notificationService: NotificationService,
     private imageService: ImageService,
     private sanitizer: DomSanitizer,
   ) {
     this.historialMedicoForm = this.formBuilder.group({
-      email: [null, [Validators.required, Validators.email]],
+      email: [null, [Validators.email]],
       paciente: ['', [Validators.required]],
       nombre: [null, [Validators.required, Validators.maxLength(254)]],
       sexo: ['', [Validators.required, Validators.maxLength(254)]],
@@ -65,6 +68,7 @@ export class HistorialesMedicosEditComponent implements OnInit {
       estadoCivil: ['', [Validators.required, Validators.maxLength(254)]],
       peso: [null],
       talla: [null],
+      parentesco: ['', [Validators.maxLength(255)]],
     });
   }
 
@@ -83,18 +87,27 @@ export class HistorialesMedicosEditComponent implements OnInit {
           case 'App\\Models\\Externo':
             paciente = 'Externo';
             break;
+          case 'App\\Models\\RHDependiente':
+            paciente = 'Dependiente';
+            break;
         }
 
         const telefonoCompleto = historialMedico.pacientable?.telefono;
         const telefono = telefonoCompleto?.slice(-10); // Obtener los últimos 10 dígitos
         const prefijoInternacional = telefonoCompleto?.slice(0, -10); // Obtener el resto
 
+        const fechaNacimiento = historialMedico.pacientable?.fechaNacimiento
+          ? new Date(historialMedico.pacientable.fechaNacimiento)
+          : null;
+        
+        const fechaNacimientoString = fechaNacimiento ? fechaNacimiento.toISOString().split('T')[0] : null;
+        
         this.historialMedicoForm.patchValue({
           email: historialMedico.pacientable?.correo,
           paciente: paciente,
           nombre: historialMedico.pacientable?.nombre,
           sexo: historialMedico.pacientable?.sexo,
-          fechaNacimiento: historialMedico.pacientable?.fechaNacimiento,
+          fechaNacimiento: fechaNacimientoString,
           prefijoInternacional: prefijoInternacional,
           telefono: telefono,
           CURP: historialMedico.pacientable?.curp,
@@ -103,7 +116,9 @@ export class HistorialesMedicosEditComponent implements OnInit {
           estadoCivil: historialMedico.pacientable?.estadoCivil,
           talla: historialMedico.talla,
           peso: historialMedico.peso,
+          parentesco: (historialMedico.pacientable as any)?.parentesco ?? '',
         });
+        
 
         if (historialMedico.pacientable?.image?.url) {
           this.obtenerImagen(historialMedico.pacientable?.image?.url).subscribe((imagen) => {
@@ -114,6 +129,14 @@ export class HistorialesMedicosEditComponent implements OnInit {
             console.log('El paciente del historial médico no tiene imagen');
         }
     });
+  }
+
+  getTextoCapitalizado(texto:any): string {
+    return this.capitalizarTextoService.capitalizarTexto(texto);
+  }
+
+  showHistorialMedico(id: any) {
+    this.router.navigate(['/enfermeria/historiales-medicos', id]);
   }
 
   obtenerImagen(url: string): Observable<any> {

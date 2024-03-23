@@ -1,0 +1,517 @@
+<div class="content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header bg-pink1">
+                <h3 class="card-title text-center font-weight-bold mb-1 h3">CASO <span  class="text-pink">#{{ caso?.id }}</span></h3>
+                <div class="card-tools">
+                  <button type="button"  class="btn btn-primary ml-2" data-toggle="modal" data-target="#casoEditModal"><i class="fas fa-edit"></i></button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <div class="bg-pink2 h-100 shadow">
+                          <div class="d-flex flex-column align-items-center">
+                            <img [src]="imageEmpleado" alt="Empleado" class="rounded-circle img-border img-circle mt-3" width="150">
+                            <div>
+                                <div class="mt-3 text-center">
+                                  <h4>
+                                    {{ caso?.empleado?.nombre }}
+                                  </h4>
+                          
+                                  <p class="py-3">
+                                      <a [routerLink]="['/enfermeria/historiales-medicos', caso?.empleado?.historial_medico?.id]" target="_blank">Ver historial médico</a>
+                                  </p>
+
+                                </div>
+                            </div>
+                          </div>
+                          <div class="row px-3">
+                            <div class="form-group col-12">
+                              <label class="col-form-label">
+                                Departamento
+                              </label>
+                              <div class="border rounded p-2 bg-white text-center">
+                                {{caso?.departamento?.Nombre || '-'}}
+                              </div>
+                            </div>
+
+                            <div class="form-group col-12">
+                              <label class="col-form-label">
+                                Puesto
+                              </label>
+                              <div class="border rounded p-2 bg-white text-center text-uppercase">
+                                {{ caso?.empleado?.puesto.nombre || '-' }}
+                              </div>
+                            </div>
+
+                            <ng-container *ngIf="caso?.accidente">
+                              <div class="form-group col-12 col-md-6">
+                                <label class="col-form-label">
+                                  Antigüedad
+                                </label>
+                                <div class="border rounded p-2 bg-white text-center text-uppercase">
+                                  {{ caso?.accidente?.antiguedad || '-' }}
+                                </div>
+                              </div>
+
+                              <div class="form-group col-12 col-md-6">
+                                <label class="col-form-label">
+                                  Turno
+                                </label>
+                                <div class="border rounded p-2 bg-white text-center text-uppercase">
+                                  {{ caso?.accidente?.turno || '-' }}
+                                </div>
+                              </div>
+                            </ng-container>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+
+                      <div class="row">
+                        <div class="col-12 col-md-6"> 
+                          <div class="info-box bg-info">
+                            <span class="info-box-icon">
+                              <img src="assets/icons/incapacidades.svg">
+                            </span>
+                            <div class="info-box-content">
+                              <span class="info-box-text">Incapacidades</span>
+                              <span class="info-box-number">{{caso?.incapacidades?.length}}</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                          <div class="info-box bg-pink text-white">
+                            <span class="info-box-icon">
+                              <img src="assets/icons/dias.svg">
+                            </span>
+                            <div class="info-box-content">
+                              <span class="info-box-text">Total días</span>
+                              <span class="info-box-number">{{totalDias}}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-form-label">
+                          Estatus
+                        </label>
+                        <div class="flex">
+                          <div class="border rounded p-2  text-center">
+                            {{ caso?.estatus }}
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group" *ngIf="caso?.doctos">
+                        <label class="col-form-label">
+                          Doctos
+                        </label>
+                        <div class="border rounded p-2  text-center">
+                            {{ caso?.doctos }}
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                <hr>
+                <h3 class="text-center">Incapacidades</h3>
+                <div class="mt-3">
+                  <div class="d-flex justify-content-between">
+                    <ul class="nav nav-tabs mr-auto">
+                      <li class="nav-item" *ngFor="let incapacidad of caso?.incapacidades; let i = index">
+                        <a class="nav-link" (click)="mostrarContenido(incapacidad)" [class.active]="incapacidad === incapacidadSeleccionada">{{ i + 1 }}</a>
+                      </li>
+                    </ul>
+                    <button type="button"  class="btn btn-secondary ml-2" (click)="exportarIncapacidad()"><i class="fas fa-solid fa-file-export"></i></button>
+                    <button type="button"  class="btn btn-primary ml-2" data-toggle="modal" data-target="#incapacidadEditModal"><i class="fas fa-edit"></i></button>
+                    <button type="button"  class="btn btn-pink ml-2" data-toggle="modal" data-target="#incapacidadCreateModal"><i class="fas fa-plus"></i> Nueva incapacidad</button>
+                  </div> 
+                  <div>
+                    <div class="row">
+                      <div class="form-group col-12">
+                        <label class="col-form-label">
+                          Tipo de incidencia
+                        </label>
+                        <div class="border rounded p-2  text-center">
+                            {{ incapacidadSeleccionada?.tipo_incidencia?.Nombre }}
+                        </div>
+                      </div>
+                      <div class="form-group col-12 col-md-4">
+                        <label class="col-form-label">
+                          Fecha efectiva
+                        </label>
+                        <div class="border rounded p-2  text-center">
+                          {{incapacidadSeleccionada?.fechaEfectiva | date:'dd/MM/yyyy'}}
+                        </div>
+                      </div>
+                      <div class="form-group col-12 col-md-4">
+                        <label class="col-form-label">
+                          Días que aplica
+                        </label>
+                        <div class="border rounded p-2  text-center">
+                          {{incapacidadSeleccionada?.dias}}
+                        </div>
+                      </div>
+                      <div class="form-group col-12 col-md-4">
+                        <label class="col-form-label">
+                          Termina
+                        </label>
+                        <div class="border rounded p-2  text-center">
+                          {{fechaFinal | date:'dd/MM/yyyy'}}
+                        </div>
+                      </div>
+                      <div class="form-group col-12">
+                        <label class="col-form-label">
+                          Folio
+                        </label>
+                        <div class="border rounded p-2  text-center">
+                          {{incapacidadSeleccionada?.folio}}
+                        </div>
+                      </div>
+                      <div class="form-group col-12" *ngIf="incapacidadSeleccionada?.diagnostico">
+                        <label class="col-form-label">
+                            Diagnóstico
+                        </label>
+                        <div class="border rounded p-2 bg-white" [innerHtml]='incapacidadSeleccionada?.diagnostico'></div>
+                      </div>
+                    </div>
+                    <div class="border rounded mt-3" *ngIf="incapacidadSeleccionada?.TipoPermiso == '0'">
+                        <div class="m-2">
+                          <div class="border-bottom">
+                            <h5 class="py-1 text-center">Datos de incapacidad  </h5>
+                          </div>
+                          <div>
+                              <div class="form-group">
+                              <label class="col-form-label">
+                                  Tipo de riesgo
+                              </label>
+                              <div class="border rounded p-2  text-center">
+                                  {{ incapacidadSeleccionada!.tipo_riesgo!.Nombre }}
+                              </div>
+                              </div>
+                              <div class="form-group">
+                                  <label class="col-form-label">
+                                      Secuela
+                                  </label>
+                                  <div class="border rounded p-2  text-center">
+                                      {{ incapacidadSeleccionada!.secuela!.Nombre }}
+                                  </div>
+                              </div>
+                              <div class="form-group">
+                                  <label class="col-form-label">
+                                      Control caso
+                                  </label>
+                                  <div class="border rounded p-2  text-center">
+                                      {{ incapacidadSeleccionada!.control_incapacidad!.Nombre }}
+                                  </div>
+                              </div>
+                              <div class="form-group" *ngIf="incapacidadSeleccionada!.zonas_afectadas!.length">
+                                  <label class="col-form-label">
+                                      Zonas afectadas
+                                  </label>
+                                  <div class="d-flex flex-wrap">
+                                      <div *ngFor="let zona of incapacidadSeleccionada!.zonas_afectadas" class="mr-2 mb-2">
+                                          <span class="badge badge-pill badge-danger">{{ zona.zona }}</span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="border rounded mt-3" *ngIf="incapacidadSeleccionada?.TipoPermiso != '0'">
+                        <div class="m-2">
+                            <div class="border-bottom">
+                                <h5 class="py-1 text-center">Datos del permiso</h5>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label">
+                                Tipo de permiso
+                                </label>
+                                <div class="border rounded p-2  text-center">
+                                    {{ incapacidadSeleccionada?.tipo_permiso?.Nombre }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" *ngIf="incapacidadSeleccionada?.observaciones">
+                        <label class="col-form-label">
+                            Observaciones
+                        </label>
+                        <div class="border rounded p-2 bg-white" [innerHtml]='incapacidadSeleccionada!.observaciones'></div>
+                    </div>               
+                  </div>                    
+                </div>
+            </div>
+        </div>
+
+      <!-- REGISTRO DE INCIDENCIAS -->
+      <div class="card card-outline card-info">
+        <div class="card-header">
+          <h3 class="card-title text-center text-info font-weight-bold">Registro de incidencia</h3>
+          <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+          </div>
+        </div>
+        <div class="card-body p-0">
+          <full-calendar [options]="calendarOptions" class="my-custom-calendar"></full-calendar>
+          <div class="table-responsive">
+            <table class="table table-hover text-center">
+                <thead class="thead-light">
+                    <tr>
+                        <th></th>
+                        <th>Fecha efectiva</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let incapacidad of caso?.incapacidades">
+                        <tr>
+                          <td class="text-vertical" [class.bg-pink]="incapacidad?.id === incapacidadSeleccionada?.id" [class.bg-light]="incapacidad?.id !== incapacidadSeleccionada?.id" class="text-vertical" scope="row">{{ incapacidad.folio }}</td>
+                          <td>
+                            <p *ngFor="let incidencia of incapacidad.nom_incidencias">
+                              {{ incidencia.FechaEfectiva | date:'dd/MM/yyyy' }} <span *ngIf="incidencia.exportado"> ✔️</span>
+                            </p>
+                          </td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="caso">
+        <!-- ARCHIVOS -->
+        <div class="card card-outline card-pink">
+          <div class="card-header border-0">
+            <h3 class="card-title text-center text-pink font-weight-bold">Archivos</h3>
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="text-center">
+              <button type="button" class="btn btn-sm btn-white text-pink btn-block over-pink" (click)="abrirFormularioArchivo()">
+                <i class="fas fa-upload"></i>
+                {{ mostrarFormularioArchivo ? 'Cancelar' : 'Subir archivo' }}
+              </button>
+            </div>
+            <hr>
+            <div *ngIf="mostrarFormularioArchivo">
+              <form [formGroup]="formArchivo" (submit)="storeArchivos()">
+                <div class="row">
+                  <div class="col-12 col-sm-12">
+                    <div class="form-group">
+                      <label class="col-form-label">
+                        Categoría
+                      <span class="text-danger">*</span>
+                      </label>
+                      <ng-container *ngIf="showInput; else showSelect">
+                        <div class="input-group w-100">
+                          <input type="text" class="form-control" formControlName="categoria" name="categoria" id="categoria">
+                          <div class="input-group-append">
+                            <button class="btn btn-secondary" type="button" (click)="toggleCategoryInput()"><i class="fas fa-undo"></i></button>
+                          </div>
+                        </div>
+                      </ng-container>
+                      <ng-template #showSelect>
+                        <select class="form-control w-100" formControlName="categoria" name="categoria" id="categoria" (change)="checkForOther()">
+                          <option>Inicial probable riesgo</option>
+                          <option>Subsecuente probable riesgo</option>
+                          <option>Riesgo de trabajo ST7</option>
+                          <option>Riesgo de trabajo ST7 calificado</option>
+                          <option>Enfermedad profesional ST9</option>
+                          <option>Enfermedad profesional ST9 calificado</option>
+                          <option>Alta médica ST2</option>
+                          <option>Recaída ST8</option>
+                          <option>caso parcial permanente</option>
+                          <option>Costo estudios / otros</option>
+                          <option>Otro</option>
+                        </select>
+                      </ng-template>
+                    </div>
+                  </div>
+                  <div class="py-2 col-12">
+                    <div class="d-flex justify-content-between py-2">
+                      <div class="text-center mx-auto pt-1">
+                        <input type="file" id="archivoInput" (change)="archivosSeleccionados($event)" formControlName="archivos" accept="image/png, image/jpeg, application/pdf" multiple style="display: none">
+      
+                        <label for="archivoInput" class="custom-file-upload">
+                          <i class="fa fa-file"></i> Seleccione los archivos
+                        </label>
+                      </div>
+                    </div>
+                    <div class="border-bottom py-2">
+                      <div class="table-responsive" *ngIf="archivos.length > 0">
+                        <table class="table table-sm table-white rounded">
+                          <thead class="thead-light">
+                            <tr>
+                              <th scope="col" class="text-secondary">Archivos</th>
+                              <th scope="col" class="text-secondary">Tamaño</th>
+                              <th scope="col"></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <ng-container *ngFor="let archivo of archivos; let i = index">
+                              <tr>
+                                <td class="align-middle">{{ archivo.nombre }}</td>
+                                <td class="align-middle">{{ archivo.tamano }}</td>
+                                <td width="10px">
+                                  <button type="button" class="btn-close d-flex align-items-center mt-2" (click)="eliminarArchivo(i)">
+                                  </button>
+                                </td>
+                              </tr>
+                            </ng-container>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="mensajesDeError.length > 0" class="text-danger py-3">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-danger" *ngFor="let mensaje of mensajesDeError">{{ mensaje }}</li>
+                    </ul>
+                  </div>
+                  <div class="text-center pt-3">
+                    <button type="submit" class="btn btn-sm btn-pink">
+                      <i class="fas fa-save"></i> Subir archivos
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div *ngIf="!mostrarFormularioArchivo">
+              
+              <!-- ARCHIVOS -->
+              <div>
+                <div *ngFor="let categoria of caso?.archivosPorCategoria | keyvalue; let i = index;">
+                  <div>
+                    <div class="border-bottom mb-2" [id]="'headingAccordionEV' + i">
+                      <h5 class="mb-0">
+                        <button class="btn btn-none-efects border-0" [attr.data-bs-toggle]="'collapse'" [attr.data-bs-target]="'#collapseArchivo' + i" [attr.aria-expanded]="false" [attr.aria-controls]="'collapseArchivo' + i">
+                          <h5 class="text-secondary">
+                              <img src="assets/icons/carpeta.svg" alt="Carpeta" width="35px">
+                              {{ categoria.key }}
+                          </h5>
+                        </button>
+                      </h5>
+                    </div>
+                    <div [id]="'collapseArchivo' + i" class="collapse" [attr.aria-labelledby]="'headingAccordionArchivo' + i" data-parent="#examenV">
+                      <div class="bg-light rounded p-3">
+                        <div class="py-3">
+                          <div class="d-inline-block m-1" *ngFor="let archivo of categoria.value">
+                            <button class="btn btn-info py-3" (click)="abrirArchivo(archivo.url)">
+                            <img src="assets/icons/archivoMedico.svg" alt="Carpeta" width="35px">
+                            <!-- <small>
+                                {{ archivo.created_at | date:'dd/MM/yyyy' }}
+                            </small> -->
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ARCHIVOS PENDIENDETES -->
+              <div class="pt-2" *ngIf="archivosPendientes.length > 0">
+                <ul class="list-group">
+                  <li class="list-group-item list-group-item-danger" *ngFor="let pendiente of archivosPendientes">Falta {{pendiente}}</li>
+                </ul>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- ACCIDENTES -->
+        <div class="card card-outline card-pink  ">
+          <div class="card-header border-0">
+            <h3 class="card-title text-center text-pink font-weight-bold">Investigación de accidentes</h3>
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="text-center" *ngIf="!caso?.accidente">
+              <button type="button" class="btn btn-sm btn-white text-pink btn-block over-pink" (click)="abrirFormularioAccidente()">
+                {{ mostrarFormularioAccidente ? 'Cancelar' : 'Registrar investigación' }}
+              </button>
+            </div>
+            <div *ngIf="mostrarFormularioAccidente">
+              <app-accidentes-create [caso]="caso!"></app-accidentes-create>
+            </div>
+            <div *ngIf="caso?.accidente && !mostrarFormularioAccidente">
+              <div class="pb-4">
+                <a class="btn btn-tool btn-sm float-right" (click)="destroyAccidente()">
+                    <i class="fas fa-trash text-danger"></i>
+                </a>
+                <a class="btn btn-tool btn-sm float-right" (click)="abrirFormularioAccidente()">
+                  <i class="fas fa-edit text-primary"></i>
+                </a>
+              </div>
+              <div>
+                <app-accidentes-show [caso]="caso!"></app-accidentes-show>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+        
+    </div>
+</div>
+
+<!-- MODAL PARA CREAR INCAPACIDAD -->
+<div class="modal fade" id="incapacidadCreateModal" tabindex="-1" role="dialog" aria-labelledby="incapacidadCreateModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header border-0">
+        <h5 class="modal-title" id="incapacidadCreateModalLabel">Generar otra incapacidad</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ng-container *ngIf="caso">
+          <app-incapacidades-form [caso]="caso!"></app-incapacidades-form>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- MODAL PARA EDITAR INCAPACIDAD -->
+<div class="modal fade" id="incapacidadEditModal" tabindex="-1" role="dialog" aria-labelledby="incapacidadEditModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header border-0">
+        <h5 class="modal-title" id="incapacidadEditModalLabel">Editar incapacidad</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" *ngIf="incapacidadSeleccionada">
+        <app-incapacidades-edit [incapacidad]="incapacidadSeleccionada!"></app-incapacidades-edit>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PARA EDITAR CASO -->
+<div class="modal fade" id="casoEditModal" tabindex="-1" role="dialog" aria-labelledby="casoEditModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header border-0">
+        <h5 class="modal-title" id="casoEditModalLabel">Editar caso</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" *ngIf="caso">
+        <app-casos-edit [caso]="caso!"></app-casos-edit>
+      </div>
+    </div>
+  </div>
+</div>

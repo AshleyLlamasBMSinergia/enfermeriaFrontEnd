@@ -16,4 +16,5 @@ export interface NomIncidencias {
     Aplicada: 1,
     TipoPermiso: 0,
     incapacidad_id: number,
+    exportado: boolean,
 }

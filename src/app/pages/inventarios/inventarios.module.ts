@@ -15,6 +15,7 @@ import { LotesCreateComponent } from './show/insumos/lotes/create/create.compone
 import { DatePipe } from '@angular/common';
 import { MovimientosShowComponent } from './show/movimientos/show/show.component';
 import { MovimientosCreateComponent } from './show/movimientos/create/create.component';
+import { NgChartjsModule } from 'ng-chartjs';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { MovimientosCreateComponent } from './show/movimientos/create/create.com
     NgxPaginationModule,
     NgxSelectModule,
     CKEditorModule,
-    DatePipe
+    DatePipe,
+    NgChartjsModule
   ],
 })
 export class InventariosModule { }

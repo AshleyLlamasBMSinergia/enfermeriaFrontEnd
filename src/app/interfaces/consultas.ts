@@ -54,4 +54,6 @@ export interface Consultas {
     diagnostico: {
       nombre: string;
     }
+
+    created_at: Date;
 }

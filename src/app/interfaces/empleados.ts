@@ -10,4 +10,6 @@ export interface Empleados {
   historial_medico: HistorialesMedicos;
 
   image: Image;
+
+  puesto: any;
 }

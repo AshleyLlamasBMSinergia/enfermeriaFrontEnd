@@ -19,7 +19,7 @@ export class EnfermeriaIndexComponent {
   selectedTask: any = {
     id: null,
     fecha: null,
-    titulo: ''
+    titulo: '',
   };
 
   pendienteForm: FormGroup;
@@ -31,7 +31,8 @@ export class EnfermeriaIndexComponent {
   ) {
     this.pendienteForm = new FormGroup({
       titulo: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]),
-      fecha: new FormControl(null, [Validators.required])
+      fecha: new FormControl(null, [Validators.required]),
+      profesional_id: new FormControl(null, [Validators.required]),
     });
   }
 
@@ -39,7 +40,10 @@ export class EnfermeriaIndexComponent {
 
     this.userService.user$.subscribe(
       (user: any) => {
-        this.profesional = user[0];
+        this.profesional = user ? user[0] ?? null : null;
+        if(user){
+          this.pendienteForm.get('profesional_id')?.setValue(user[0].useable_id);
+        }
       },
       (error) => {
         console.error('Error al obtener los datos del usuario', error);
@@ -54,17 +58,6 @@ export class EnfermeriaIndexComponent {
         console.error('Error al obtener el número de citas: '+this.profesional.useable_id, error);
       }
     );
-
-    this.pendienteForm = new FormGroup({
-      titulo: new FormControl('', [
-        Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(50)
-      ]),
-      fecha: new FormControl(null, [
-        Validators.required,
-      ])
-    });
 
     this.enfermeriaService.getPendientes().subscribe(data => {
       this.tasks = data.map(task => ({
@@ -99,15 +92,16 @@ export class EnfermeriaIndexComponent {
     if (task) {
       // Editar pendiente existente
       this.selectedTask = { ...task };
-      this.pendienteForm.patchValue({ titulo: task.titulo, fecha: task.fecha });
+      this.pendienteForm.patchValue({ titulo: task.titulo, fecha: task.fecha, profesional_id: this.profesional.useable_id});
     } else {
       // Crear nuevo pendiente
       this.selectedTask = {
         id: null,
         titulo: '',
-        fecha: null
+        fecha: null,
       };
       this.pendienteForm.reset();
+      this.pendienteForm.get('profesional_id')?.setValue(this.profesional.useable_id);
     }
   }  
 
@@ -138,7 +132,8 @@ export class EnfermeriaIndexComponent {
   storePendiente() {
     const nuevoPendiente = {
       titulo: this.pendienteForm.get('titulo')?.value,
-      fecha: this.pendienteForm.get('fecha')?.value
+      fecha: this.pendienteForm.get('fecha')?.value,
+      profesional_id: this.pendienteForm.get('profesional_id')?.value
     };
   
     this.enfermeriaService.storePendiente(nuevoPendiente).subscribe(

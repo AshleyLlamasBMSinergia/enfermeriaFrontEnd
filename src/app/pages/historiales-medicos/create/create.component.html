@@ -1,52 +1,107 @@
 <div class="content">
     <div class="container-fluid">
-        <div class="card">
-            <div class="card-header text-secondary border-0">
-                <h3 class="card-title text-center">Crear historial médico</h3>
-            </div>
-            <div class="card-body">
-                <form [formGroup]="historialMedicoForm" (submit)="guardar()">
-                    <div>
-                        <div class="form-group">
-                            <label>Tipo de paciente</label>
-                            <select class="form-control text-center" id="paciente" formControlName="paciente">
-                            <option value="" selected>-- Seleccione una opción --</option>
-                            <option>Empleado</option>
-                            <option>Externo</option>
-                            </select>
+        <form [formGroup]="historialMedicoForm" (submit)="guardar()">
+            <div class="card">
+                <div class="card-header bg-pink1">
+                    <!-- OPCIONES PRINCIPALES -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>
+                                    Tipo de paciente
+                                    <span class="text-danger">*</span>
+                                </label>
+                                    <select class="form-control text-center" id="paciente" formControlName="paciente">
+                                    <option>Empleado</option>
+                                    <option>Externo</option>
+                                    <option>Dependiente</option>
+                                </select>
+                            </div>
                         </div>
-                        <div *ngIf="historialMedicoForm.get('paciente')?.value === 'Empleado' || historialMedicoForm.get('paciente')?.value === 'Externo'">
-                            <hr>
-                            <div class="row">
-                                <div class="col-12 col-md-3">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label class="col-form-label">
+                                    Cedis (Plaza)
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <div class="form-group">
+                                    <ngx-select [items]="cedis" id="cedis" [className]="cedis" formControlName="cedi_id">
+                                        <ng-content select="value"></ng-content>
+                                    </ngx-select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="historialMedicoForm.get('paciente')?.value && historialMedicoForm.get('cedi_id')?.value">
+                    <div class="card-body">
+                        <div class="row">
+                            <!-- //Otros datos -->
+                            <div class="col-12 col-md-4" [ngClass]="{'col-12 col-md-6': historialMedicoForm.get('paciente')?.value == 'Dependiente'}">
+                                <div class="shadow p-3 bg-pink2">
+                                    <h5 class="text-center text-pink">Fotografía</h5>
                                     <div class="form-group">
                                         <div class="custom-file">
                                             <input type="file" class="custom-file-input" id="imagen" formControlName="imagen" (change)="imagenSeleccionada($event)">
                                             <label class="custom-file-label">Fotografía</label>
                                         </div>
                                     </div>
-                                    <div class="pb-3">
+                                    <div>
                                         <ng-container *ngIf="url; else defaultImage">
-                                            <img *ngIf="url" [src]="url" alt="Imagen seleccionada" class="img-thumbnail mx-auto d-block">
+                                            <img *ngIf="url" [src]="url" alt="Imagen seleccionada" class="mx-auto d-block text-center img-fluid">
                                         </ng-container>
                                         <ng-template #defaultImage>
-                                            <img src="/assets/dist/img/user.png" alt="Imagen seleccionada" class="img-thumbnail mx-auto d-block">
+                                            <img src="/assets/dist/img/user.png" alt="Imagen seleccionada" class="mx-auto d-block text-center img-fluid">
                                         </ng-template>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-9">
-                                    <div class="row">
-                                        <div class="col-12 col-md-6" [ngClass]="{'col-md-12': historialMedicoForm.get('paciente')?.value === 'Externo'}">
-                                            <div class="form-group">
-                                                <label>Nombre (s)</label>
-                                                <input type="text" class="form-control" id="nombre" formControlName="nombre">
+                                <div class="pt-3">
+                                    <h5 class="text-center text-pink">Datos físicos</h5>
+                                    <div>
+                                        <div class="form-group">
+                                            <label>
+                                                Peso
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <input type="number" class="form-control" id="peso" formControlName="peso">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-form-label">
+                                                Altura
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="input-group mb-3">
+                                                <input type="number" id="talla" class="form-control" formControlName="talla">
+                                                <div class="input-group-append">
+                                                <span class="input-group-text">m</span>
+                                                </div>
                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- //Datos basicos -->
+                            <div class="col-12 col-md-4" [ngClass]="{'col-12 col-md-6': historialMedicoForm.get('paciente')?.value == 'Dependiente'}">
+                                <div>
+                                    <h5 class="text-center text-pink">Datos básicos</h5>
+                                    <div>
+                                        <div class="form-group">
+                                            <label>
+                                                Nombre (s)
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <input type="text" class="form-control" id="nombre" formControlName="nombre">
+                                        </div>
+                                        <div *ngIf="historialMedicoForm.get('paciente')?.value != 'Dependiente'">
                                             <div class="form-group">
                                                 <label for="email">Correo electrónico</label>
                                                 <input type="text" class="form-control" id="email" formControlName="email">
                                             </div>
                                             <div class="form-group">
-                                                <label>Teléfono</label>
+                                                <label>
+                                                    Teléfono
+                                                    <span class="text-danger">*</span>
+                                                </label>
                                                 <div class="input-group">
                                                     <select class="custom-select" id="prefijoInternacional" style="width: 25%;" formControlName="prefijoInternacional">
                                                     <option selected>+52</option>
@@ -54,119 +109,166 @@
                                                     <input type="tel" class="form-control" id="telefono" style="width: 75%;" formControlName="telefono">
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <label>Sexo</label>
-                                                <select class="form-control text-center" id="sexo" formControlName="sexo">
-                                                <option value="" selected>-- Seleccione una opción --</option>
-                                                <option>F</option>
-                                                <option>M</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Fecha de nacimiento</label>
-                                                <input type="date" class="form-control" id="fechaNacimiento" formControlName="fechaNacimiento">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Peso</label>
-                                                <input type="number" class="form-control" id="peso" formControlName="peso">
-                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>
+                                                Sexo 
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <select class="form-control text-center" id="sexo" formControlName="sexo">
+                                            <option value="" selected></option>
+                                            <option>F</option>
+                                            <option>M</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Fecha de nacimiento 
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <input type="date" class="form-control" id="fechaNacimiento" formControlName="fechaNacimiento">
+                                        </div>
+                                        <div *ngIf="historialMedicoForm.get('paciente')?.value == 'Dependiente'">
                                             <div class="form-group">
                                                 <label class="col-form-label">
-                                                    Altura
+                                                  Empleado
+                                                  <span class="text-danger">*</span>
                                                 </label>
-                                                <div class="input-group mb-3">
-                                                    <input type="number" id="talla" class="form-control" formControlName="talla">
-                                                    <div class="input-group-append">
-                                                      <span class="input-group-text">m</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-md-6" [hidden]="historialMedicoForm.get('paciente')?.value === 'Externo'">
-                                            <div class="form-group">
-                                                <label>Número de empleado</label>
-                                                <div class="input-group mb-3">
-                                                    <input type="text" class="form-control" id="numero" formControlName="numero">
-                                                    <div class="input-group-append">
-                                                        <button class="btn btn-secondary" type="button" id="buscar" (click)="buscarEmpleado()"> <i class="fas fa-search"></i> Buscar datos</button>
-                                                    </div>
-                                                </div>
+                                                <ngx-select [items]="opcionesEmpleados" formControlName="empleado_id" name="empleado_id" (select)="onEmpleadoChange($event)">
+                                                    <ng-content select="value"></ng-content>
+                                                </ngx-select>
                                             </div>
                                             <div class="form-group">
-                                                <label>RFC</label>
-                                                <input type="text" class="form-control" id="RFC" formControlName="RFC">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>CURP</label>
-                                                <input type="text" class="form-control" id="CURP" formControlName="CURP">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>IMSS</label>
-                                                <input type="text" class="form-control" id="IMSS" formControlName="IMSS">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Estado civil</label>
-                                                <select class="form-control text-center" id="estadoCivil" formControlName="estadoCivil">
-                                                <option value="" selected>-- Seleccione una opción --</option>
-                                                <option value="S">Soltero</option>
-                                                <option value="C">Casado</option>
-                                                <!-- <option>Divorciado legalmente</option>
-                                                <option>Separado legalmente</option>
-                                                <option>Viudo de matrimonio civil</option> -->
+                                                <label for="parentesco">
+                                                        Parentesco de <span class="text-lowercase text-capitalize">{{ getTextoCapitalizado(empleado?.text) }}</span>
+                                                    <span class="text-danger">*</span>
+                                                </label>
+                                                <select class="form-control text-center" id="parentesco" formControlName="parentesco">
+                                                  <option value="" selected></option>
+                                                  <option>Padre</option>
+                                                  <option>Hermano</option>
+                                                  <option>Hijo</option>
+                                                  <option>Esposo</option>
                                                 </select>
                                             </div>
-                                            <div>
-                                                <div class="card shadow-none bg-light">
-                                                    <div class="card-body row" [formGroup]="formDireccion">
-                                                        <div class="col-12 col-xl-12">
-                                                            <div class="form-group">
-                                                                <label>Calle</label>
-                                                                <input type="text" class="form-control" id="calle" formControlName="calle">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12 col-xl-6">
-                                                            <div class="form-group">
-                                                                <label>Exterior</label>
-                                                                <input type="text" class="form-control" id="exterior" formControlName="exterior">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12 col-xl-6">
-                                                            <div class="form-group">
-                                                                <label>Interior</label>
-                                                                <input type="text" class="form-control" id="interior" formControlName="interior">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12 col-xl-12">
-                                                            <div class="form-group">
-                                                                <label>Colonia</label>
-                                                                <input type="text" class="form-control" id="colonia" formControlName="colonia">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col">
-                                                            <div class="form-group">
-                                                                <label>CP</label>
-                                                                <input type="text" class="form-control" id="CP" formControlName="CP">
-                                                            </div>
-                                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- //Datos del empleado -->
+                            <div class="col-12 col-md-4" [hidden]="historialMedicoForm.get('paciente')?.value == 'Dependiente'" [ngClass]="{'col-12 col-md-6': historialMedicoForm.get('paciente')?.value == 'Dependiente'}">
+                                <div *ngIf="historialMedicoForm.get('paciente')?.value != 'Dependiente'">
+                                    <div>
+                                        <div class="row" [formGroup]="formDireccion">
+                                            <h5 class="text-center text-pink">Dirección</h5>
+                                            <div class="col-12 col-xl-12">
+                                                <div class="form-group">
+                                                    <label>Calle</label>
+                                                    <input type="text" class="form-control" id="calle" formControlName="calle">
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-xl-4">
+                                                <div class="form-group">
+                                                    <label>Exterior</label>
+                                                    <input type="text" class="form-control" id="exterior" formControlName="exterior">
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-xl-4">
+                                                <div class="form-group">
+                                                    <label>Interior</label>
+                                                    <input type="text" class="form-control" id="interior" formControlName="interior">
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-xl-4">
+                                                <div class="form-group">
+                                                    <label>CP</label>
+                                                    <input type="text" class="form-control" id="CP" formControlName="CP">
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-xl-12">
+                                                <div class="form-group">
+                                                    <label>Colonia</label>
+                                                    <input type="text" class="form-control" id="colonia" formControlName="colonia">
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label">
+                                                        Estado
+                                                    </label>
+                                                    <div class="form-group">
+                                                        <ngx-select [items]="estados" id="estados" [className]="estados" (select)="onEstadosChange($event)">
+                                                            <ng-content select="value"></ng-content>
+                                                        </ngx-select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12" *ngIf="localidades">
+                                                <div class="form-group">
+                                                    <label class="col-form-label">
+                                                        Localidad
+                                                    </label>
+                                                    <div class="form-group">
+                                                        <ngx-select [items]="localidades" id="localidades" optionTextField="nombre" [className]="localidades">
+                                                            <ng-content select="value"></ng-content>
+                                                        </ngx-select>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div *ngIf="mensajesDeError.length > 0" class="text-danger pt-3">
-                                    <ul class="list-group">
-                                        <li class="list-group-item list-group-item-danger" *ngFor="let mensaje of mensajesDeError">{{ mensaje }}</li>
-                                    </ul>
-                                </div>
-                                <div class="text-center pt-3">
-                                    <button class="btn bg-pink">Guardar</button>
+                                <div *ngIf="historialMedicoForm.get('paciente')?.value == 'Empleado'">
+                                    <h5 class="text-center text-pink">Otros datos</h5>
+                                    <div class="form-group">
+                                        <label>
+                                            Número de empleado
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <div class="input-group mb-3">
+                                            <input type="number" class="form-control" id="numero" formControlName="numero" min="1">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-secondary" type="button" id="buscar" (click)="buscarEmpleado()" [disabled]="!historialMedicoForm.get('paciente')?.value || !historialMedicoForm.get('numero')?.value"> <i class="fas fa-search"></i> Buscar datos</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>RFC</label>
+                                        <input type="text" class="form-control" id="RFC" formControlName="RFC">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>CURP</label>
+                                        <input type="text" class="form-control" id="CURP" formControlName="CURP">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>IMSS</label>
+                                        <input type="text" class="form-control" id="IMSS" formControlName="IMSS">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Estado civil
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <select class="form-control text-center" id="estadoCivil" formControlName="estadoCivil">
+                                            <option value="S">Soltero</option>
+                                            <option value="C">Casado</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <div *ngIf="mensajesDeError.length > 0" class="text-danger pt-3">
+                            <ul class="list-group">
+                                <li class="list-group-item list-group-item-danger" *ngFor="let mensaje of mensajesDeError">{{ mensaje }}</li>
+                            </ul>
+                        </div>
                     </div>
-                </form>
+                    <div class="card-footer">
+                        <div class="text-center">
+                            <button class="btn bg-pink">Guardar</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>

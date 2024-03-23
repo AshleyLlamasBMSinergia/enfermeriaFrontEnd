@@ -1,5 +1,8 @@
+import { Profesionales } from "./profesionales";
+
 export interface Pendiente {
     id: number,
     estatus: boolean,
-    titulo: string
+    titulo: string,
+    profesional: Profesionales,
   }

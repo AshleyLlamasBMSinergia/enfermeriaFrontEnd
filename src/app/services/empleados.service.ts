@@ -1,3 +1,4 @@
+import { DecimalPipe } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
@@ -27,5 +28,9 @@ export class EmpleadosService {
 
   getEmpleado(id: number): Observable<Empleados> {
     return this.httpClient.get<Empleados>(`${this.apiURL}/${id}`);
+  }
+
+  getEmpleadoSalario(empleadoId: number): Observable<any> {
+    return this.httpClient.get<DecimalPipe[]>(API_URL+'salario-de-empleado/'+empleadoId);
   }
 }
