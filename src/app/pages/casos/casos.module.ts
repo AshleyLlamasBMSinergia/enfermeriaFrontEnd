@@ -17,6 +17,10 @@ import { AccidentesCreateComponent } from './accidentes/create/create.component'
 import { incapacidadesEditComponent } from './incapacidades/edit/edit.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { CasosEditComponent } from './edit/edit.component';
+import { PaginationModule } from 'src/app/pagination/pagination.module';
+import { IncapacidadesIndexComponent } from './incapacidades/index/index.component';
+import { IncapacidadesShowComponent } from './incapacidades/show/show.component';
+import { IncapacidadComponent } from './incapacidades/incapacidad/incapacidad.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +32,10 @@ import { CasosEditComponent } from './edit/edit.component';
     AccidentesCreateComponent,
     AccidentesShowComponent,
     incapacidadesEditComponent,
-    CasosEditComponent
+    CasosEditComponent,
+    IncapacidadesIndexComponent,
+    IncapacidadesShowComponent,
+    IncapacidadComponent
   ],
   imports: [
     CommonModule,
@@ -41,6 +48,7 @@ import { CasosEditComponent } from './edit/edit.component';
     CKEditorModule,
     DatePipe,
     FullCalendarModule,
+    PaginationModule
   ],
   providers: [
     DatePipe

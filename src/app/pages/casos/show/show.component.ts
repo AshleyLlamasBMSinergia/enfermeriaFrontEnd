@@ -101,11 +101,6 @@ export class CasosShowComponent {
 
   ngOnInit() {
     this.getCaso();
-    this.calendarioIncidencias();
-  }
-
-  calendarioIncidencias(){
-    
   }
 
   getCaso() {
@@ -120,7 +115,7 @@ export class CasosShowComponent {
         if (caso.incapacidades.length > 0) {
           let incapacidad = caso.incapacidades[0];
           this.incapacidadSeleccionada = incapacidad;
-          this.fechaFinal = this.obtenerFechaFinal(incapacidad!.fechaEfectiva, incapacidad!.dias);
+          // this.fechaFinal = this.obtenerFechaFinal(incapacidad!.fechaEfectiva, incapacidad!.dias);
 
           const events: any[] = [];
           
@@ -206,15 +201,7 @@ export class CasosShowComponent {
     }
   }
 
-  obtenerFechaFinal(fechaInicial: any, dias: number): Date {
-    const fechaInicialDate = new Date(fechaInicial.replace(/-/g, '/'));
-
-    const fechaFinal = new Date(fechaInicialDate.getTime() + dias * 24 * 60 * 60 * 1000);
-    return fechaFinal;
-  }
-
   mostrarContenido(incapacidad: Incapacidades) {
-    this.fechaFinal = this.obtenerFechaFinal(incapacidad!.fechaEfectiva, incapacidad!.dias);
     this.incapacidadSeleccionada = incapacidad;
   }
 
@@ -343,7 +330,8 @@ export class CasosShowComponent {
             this.notificationService.mensaje(response);
           },
           (error) => {
-            this.notificationService.error(error.error.error);
+            this.notificationService.error(error);
+            console.log(error);
           }
         );
     }

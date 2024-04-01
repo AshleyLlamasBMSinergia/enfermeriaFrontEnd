@@ -126,121 +126,8 @@
                     <button type="button"  class="btn btn-secondary ml-2" (click)="exportarIncapacidad()"><i class="fas fa-solid fa-file-export"></i></button>
                     <button type="button"  class="btn btn-primary ml-2" data-toggle="modal" data-target="#incapacidadEditModal"><i class="fas fa-edit"></i></button>
                     <button type="button"  class="btn btn-pink ml-2" data-toggle="modal" data-target="#incapacidadCreateModal"><i class="fas fa-plus"></i> Nueva incapacidad</button>
-                  </div> 
-                  <div>
-                    <div class="row">
-                      <div class="form-group col-12">
-                        <label class="col-form-label">
-                          Tipo de incidencia
-                        </label>
-                        <div class="border rounded p-2  text-center">
-                            {{ incapacidadSeleccionada?.tipo_incidencia?.Nombre }}
-                        </div>
-                      </div>
-                      <div class="form-group col-12 col-md-4">
-                        <label class="col-form-label">
-                          Fecha efectiva
-                        </label>
-                        <div class="border rounded p-2  text-center">
-                          {{incapacidadSeleccionada?.fechaEfectiva | date:'dd/MM/yyyy'}}
-                        </div>
-                      </div>
-                      <div class="form-group col-12 col-md-4">
-                        <label class="col-form-label">
-                          Días que aplica
-                        </label>
-                        <div class="border rounded p-2  text-center">
-                          {{incapacidadSeleccionada?.dias}}
-                        </div>
-                      </div>
-                      <div class="form-group col-12 col-md-4">
-                        <label class="col-form-label">
-                          Termina
-                        </label>
-                        <div class="border rounded p-2  text-center">
-                          {{fechaFinal | date:'dd/MM/yyyy'}}
-                        </div>
-                      </div>
-                      <div class="form-group col-12">
-                        <label class="col-form-label">
-                          Folio
-                        </label>
-                        <div class="border rounded p-2  text-center">
-                          {{incapacidadSeleccionada?.folio}}
-                        </div>
-                      </div>
-                      <div class="form-group col-12" *ngIf="incapacidadSeleccionada?.diagnostico">
-                        <label class="col-form-label">
-                            Diagnóstico
-                        </label>
-                        <div class="border rounded p-2 bg-white" [innerHtml]='incapacidadSeleccionada?.diagnostico'></div>
-                      </div>
-                    </div>
-                    <div class="border rounded mt-3" *ngIf="incapacidadSeleccionada?.TipoPermiso == '0'">
-                        <div class="m-2">
-                          <div class="border-bottom">
-                            <h5 class="py-1 text-center">Datos de incapacidad  </h5>
-                          </div>
-                          <div>
-                              <div class="form-group">
-                              <label class="col-form-label">
-                                  Tipo de riesgo
-                              </label>
-                              <div class="border rounded p-2  text-center">
-                                  {{ incapacidadSeleccionada!.tipo_riesgo!.Nombre }}
-                              </div>
-                              </div>
-                              <div class="form-group">
-                                  <label class="col-form-label">
-                                      Secuela
-                                  </label>
-                                  <div class="border rounded p-2  text-center">
-                                      {{ incapacidadSeleccionada!.secuela!.Nombre }}
-                                  </div>
-                              </div>
-                              <div class="form-group">
-                                  <label class="col-form-label">
-                                      Control caso
-                                  </label>
-                                  <div class="border rounded p-2  text-center">
-                                      {{ incapacidadSeleccionada!.control_incapacidad!.Nombre }}
-                                  </div>
-                              </div>
-                              <div class="form-group" *ngIf="incapacidadSeleccionada!.zonas_afectadas!.length">
-                                  <label class="col-form-label">
-                                      Zonas afectadas
-                                  </label>
-                                  <div class="d-flex flex-wrap">
-                                      <div *ngFor="let zona of incapacidadSeleccionada!.zonas_afectadas" class="mr-2 mb-2">
-                                          <span class="badge badge-pill badge-danger">{{ zona.zona }}</span>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                        </div>
-                    </div>
-                    <div class="border rounded mt-3" *ngIf="incapacidadSeleccionada?.TipoPermiso != '0'">
-                        <div class="m-2">
-                            <div class="border-bottom">
-                                <h5 class="py-1 text-center">Datos del permiso</h5>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-form-label">
-                                Tipo de permiso
-                                </label>
-                                <div class="border rounded p-2  text-center">
-                                    {{ incapacidadSeleccionada?.tipo_permiso?.Nombre }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group" *ngIf="incapacidadSeleccionada?.observaciones">
-                        <label class="col-form-label">
-                            Observaciones
-                        </label>
-                        <div class="border rounded p-2 bg-white" [innerHtml]='incapacidadSeleccionada!.observaciones'></div>
-                    </div>               
-                  </div>                    
+                  </div>       
+                  <app-incapacidad *ngIf="incapacidadSeleccionada" [inputIncapacidad]="incapacidadSeleccionada"></app-incapacidad>       
                 </div>
             </div>
         </div>
@@ -324,7 +211,7 @@
                           <option>Enfermedad profesional ST9 calificado</option>
                           <option>Alta médica ST2</option>
                           <option>Recaída ST8</option>
-                          <option>caso parcial permanente</option>
+                          <option>Caso parcial permanente</option>
                           <option>Costo estudios / otros</option>
                           <option>Otro</option>
                         </select>

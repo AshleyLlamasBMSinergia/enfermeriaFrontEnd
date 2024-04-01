@@ -17,6 +17,7 @@ import { ExamenesFisicosComponent } from './show/examenes-fisicos/examenes-fisic
 import { ExamenesEmbarazoComponent } from './show/examenes-embarazo/examenes-embarazo.component';
 import { ExamenesVistaComponent } from './show/examenes-vista/examenes-vista.component';
 import { DependientesComponent } from './show/dependientes/dependientes.component';
+import { PaginationModule } from 'src/app/pagination/pagination.module';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { DependientesComponent } from './show/dependientes/dependientes.componen
     ReactiveFormsModule,
     NgxPaginationModule,
     NgxSelectModule,
+    PaginationModule
   ],
 })
 export class HistorialesMedicosModule { }

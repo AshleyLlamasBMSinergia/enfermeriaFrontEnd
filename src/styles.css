@@ -176,3 +176,28 @@ a {
   }
 }
 /* CIERRE DE CALENDARIO */
+
+/* LOANDING */
+.loader-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding-bottom: 10px;
+}
+
+.loader {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #FF2970;
+    animation: l2 2s infinite;
+}
+
+@keyframes l2 {
+    0%, 100% { transform: translateX(-35px); box-shadow: 0 0 #13D52A, 0 0 #FFD215; }
+    40% { transform: translateX(35px); box-shadow: -15px 0 #13D52A, -30px 0 #FFD215; }
+    50% { transform: translateX(35px); box-shadow: 0 0 #13D52A, 0 0 #FFD215; }
+    90% { transform: translateX(-35px); box-shadow: 15px 0 #13D52A, 30px 0 #FFD215; }
+}

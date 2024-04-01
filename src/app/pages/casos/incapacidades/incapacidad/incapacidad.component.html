@@ -1,0 +1,115 @@
+<div>
+    <div class="row">
+      <div class="form-group col-12">
+        <label class="col-form-label">
+          Tipo de incidencia
+        </label>
+        <div class="border rounded p-2  text-center">
+            {{ incapacidad?.tipo_incidencia?.Nombre }}
+        </div>
+      </div>
+      <div class="form-group col-12 col-md-4">
+        <label class="col-form-label">
+          Fecha efectiva
+        </label>
+        <div class="border rounded p-2  text-center">
+          {{incapacidad?.fechaEfectiva | date:'dd/MM/yyyy'}}
+        </div>
+      </div>
+      <div class="form-group col-12 col-md-4">
+        <label class="col-form-label">
+          Días que aplica
+        </label>
+        <div class="border rounded p-2  text-center">
+          {{incapacidad?.dias}}
+        </div>
+      </div>
+      <div class="form-group col-12 col-md-4">
+        <label class="col-form-label">
+          Termina
+        </label>
+        <div class="border rounded p-2  text-center">
+          {{fechaFinal | date:'dd/MM/yyyy'}}
+        </div>
+      </div>
+      <div class="form-group col-12">
+        <label class="col-form-label">
+          Folio
+        </label>
+        <div class="border rounded p-2  text-center">
+          {{incapacidad?.folio}}
+        </div>
+      </div>
+      <div class="form-group col-12" *ngIf="incapacidad?.diagnostico">
+        <label class="col-form-label">
+            Diagnóstico
+        </label>
+        <div class="border rounded p-2 bg-white" [innerHtml]='incapacidad?.diagnostico'></div>
+      </div>
+    </div>
+    <div class="border rounded mt-3" *ngIf="incapacidad?.TipoPermiso == '0'">
+        <div class="m-2">
+          <div class="border-bottom">
+            <h5 class="py-1 text-center">Datos de incapacidad  </h5>
+          </div>
+          <div>
+              <div class="form-group">
+              <label class="col-form-label">
+                  Tipo de riesgo
+              </label>
+              <div class="border rounded p-2  text-center">
+                  {{ incapacidad!.tipo_riesgo!.Nombre }}
+              </div>
+              </div>
+              <div class="form-group">
+                  <label class="col-form-label">
+                      Secuela
+                  </label>
+                  <div class="border rounded p-2  text-center">
+                      {{ incapacidad!.secuela!.Nombre }}
+                  </div>
+              </div>
+              <div class="form-group">
+                  <label class="col-form-label">
+                      Control caso
+                  </label>
+                  <div class="border rounded p-2  text-center">
+                      {{ incapacidad!.control_incapacidad!.Nombre }}
+                  </div>
+              </div>
+              <div class="form-group" *ngIf="incapacidad!.zonas_afectadas!.length">
+                  <label class="col-form-label">
+                      Zonas afectadas
+                  </label>
+                  <div class="d-flex flex-wrap">
+                      <div *ngFor="let zona of incapacidad!.zonas_afectadas" class="mr-2 mb-2">
+                          <span class="badge badge-pill badge-danger">{{ zona.zona }}</span>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+    </div>
+    <div class="border rounded mt-3" *ngIf="incapacidad?.TipoPermiso != '0'">
+        <div class="m-2">
+            <div class="border-bottom">
+                <h5 class="py-1 text-center">Datos del permiso</h5>
+            </div>
+            <div class="form-group">
+                <label class="col-form-label">
+                Tipo de permiso
+                </label>
+                <div class="border rounded p-2  text-center">
+                    {{ incapacidad?.tipo_permiso?.Nombre }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group" *ngIf="incapacidad?.observaciones">
+        <label class="col-form-label">
+            Observaciones
+        </label>
+        <div class="border rounded p-2 bg-white" [innerHtml]='incapacidad!.observaciones'></div>
+    </div>               
+  </div>
+  

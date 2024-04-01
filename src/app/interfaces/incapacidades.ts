@@ -1,6 +1,7 @@
 import { Accidentes } from "./accidentes";
 import { Altas } from "./altas";
 import { Archivos } from "./archivos";
+import { Casos } from "./casos";
 import { Empleados } from "./empleados";
 import { NomIncidencias } from "./nomIncidencias";
 import { Profesionales } from "./profesionales";
@@ -10,6 +11,7 @@ import { zonasAfectadas } from "./zonas-afectadas";
 export interface Incapacidades {
     id: number,
     folio: string,
+    caso_id: number,
     fechaEfectiva: Date,
     dias: number,
     TipoIncidencia: string,
@@ -61,4 +63,9 @@ export interface Incapacidades {
     },
 
     nom_incidencias: NomIncidencias[]
+    caso: Casos;
+    archivosPorCategoria: Record<string, Archivos[]>, 
+
+    exportado: boolean
+    
 }

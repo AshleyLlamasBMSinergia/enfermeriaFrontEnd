@@ -4,19 +4,26 @@ import { CasosIndexComponent } from './index/index.component';
 import { RouterModule, Routes } from '@angular/router';
 import { CasosCreateComponent } from './create/create.component';
 import { CasosShowComponent } from './show/show.component';
+import { IncapacidadesIndexComponent } from './incapacidades/index/index.component';
+import { IncapacidadesShowComponent } from './incapacidades/show/show.component';
 
 const routes:Routes = [
   {
-    path: '',
-    component: CasosIndexComponent,
+    path: '', component: CasosIndexComponent,
     data: {
       subtitulo: 'Casos',
     },
   },
   {
-    path: 'Casos', component:CasosIndexComponent,
+    path: 'incapacidades', component: IncapacidadesIndexComponent,
     data: {
-      subtitulo: 'Incapacidades'
+      subtitulo: 'Incapacidades',
+    },
+  },
+  {
+    path: 'incapacidades/:id', component:IncapacidadesShowComponent,
+    data: {
+      subtitulo: 'Ver incapacidad'
     }
   },
   {

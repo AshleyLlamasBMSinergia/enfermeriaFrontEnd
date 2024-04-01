@@ -16,25 +16,96 @@
             <div class="card-body table-responsive p-0">
                 <table class="table table-sm table-striped table-valign-middle">
                     <thead>
-                    <tr class="text-center">
-                        <th>#</th>
-                        <th>Empleado</th>
-                        <th></th>
-                    </tr>
+                        <tr class="text-center">
+                            <th>
+                                <!-- <i class="fas fa-angle-down text-pink"></i> -->
+                                Caso
+                            </th>
+                            <th>
+                                <!-- <i class="fas fa-angle-down text-pink"></i> -->
+                                Empleado
+                            </th>
+                            <th>
+                                <!-- <i class="fas fa-angle-down text-pink"></i> -->
+                                Puesto
+                            </th>
+                            <th>
+                                <!-- <i class="fas fa-angle-down text-pink"></i> -->
+                                Departamento
+                            </th>
+                            <th>
+                                <!-- <i class="fas fa-angle-down text-pink"></i> -->
+                                Fecha
+                            </th>
+                            <th>
+                                <!-- <i class="fas fa-angle-down text-pink"></i> -->
+                                Estatus
+                            </th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <th width="20px">
+                                <input type="text" class="form-control form-control-sm text-center" name="caso" placeholder="#" [(ngModel)]="filtros.caso" (keyup.enter)="submitForm()">
+                            </th>
+                            <th>
+                                <input type="text" class="form-control form-control-sm text-center" name="empleado" placeholder="Nombre" [(ngModel)]="filtros.empleado" (keyup.enter)="submitForm()">
+                            </th>
+                            <th>
+                                <input type="text" class="form-control form-control-sm text-center" name="puesto" placeholder="Nombre" [(ngModel)]="filtros.puesto" (keyup.enter)="submitForm()">
+                            </th>
+                            <th>
+                                <input type="text" class="form-control form-control-sm text-center" name="departamento" placeholder="Nombre" [(ngModel)]="filtros.departamento" (keyup.enter)="submitForm()">
+                            </th>
+                            <th>
+                                <input type="date" class="form-control form-control-sm text-center" name="fecha" [(ngModel)]="filtros.fecha" (change)="submitForm()">
+                            </th>
+                            <th>
+                                <select name="estatus" class="form-control form-control-sm text-center" name="estatus" [(ngModel)]="filtros.estatus" (change)="submitForm()">
+                                    <option value="">Todos</option>
+                                    <option>PENDIENTE</option>
+                                    <option>TERMINADO</option>
+                                </select>
+                            </th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
                     </thead>
                     <tbody *ngIf="casos.length > 0; else nocasos">
-                        <tr *ngFor="let caso of casos | paginate: {itemsPerPage: elementosPorPagina, currentPage: paginaActual}">
+                        <tr *ngFor="let caso of casos">
                             <td class="text-center">
                                 {{ caso.id }}
                             </td>
                             <td>
                                 {{ getTextoCapitalizado(caso.empleado.nombre) }}
                             </td>
-                            <td width="10px">
+                            <td class="text-center">
+                                {{ getTextoCapitalizado(caso.empleado.puesto.nombre) }}
+                            </td>
+                            <td class="text-center">
+                                {{ getTextoCapitalizado(caso.departamento.Nombre) }}
+                            </td>
+                            <td class="text-center">
+                                {{ caso.incapacidades[0].fechaEfectiva ? (caso.incapacidades[0].fechaEfectiva | date:'dd-MM-yyyy') : '-' }}
+                            </td>
+                            <td class="text-center">
+                                <small>
+                                    <span class="badge badge-pill" [ngClass]="{'badge-danger': caso.estatus === 'PENDIENTE', 'badge-success': caso.estatus === 'TERMINADO'}">{{caso.estatus}}</span>
+                                </small>
+                            </td>
+                            <td width="10px" class="text-center">
                                 <button (click)="showCaso(caso.id)" class="btn btn-sm btn-secondary">
                                     <i class="fas fa-eye"></i>
                                 </button>
                             </td>
+                            <td>
+                                <button type="button" (click)="editCaso(caso)" class="btn btn-sm btn-primary ml-2" data-toggle="modal" data-target="#casoEditModal"><i class="fas fa-edit"></i></button>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-sm btn-secondary ml-2"><i class="fas fa-list"></i></button>
+                            </td>                      
                         </tr>
                     </tbody>
                     <ng-template #nocasos>
@@ -45,10 +116,24 @@
                 </table>
             </div>
             <div class="card-footer">
-                <div class="d-flex justify-content-center">
-                    <pagination-controls (pageChange)="paginaActual = $event"></pagination-controls>
-                </div>
+                <app-pagination [url]="'casos'"></app-pagination>
             </div>
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="casoEditModal" tabindex="-1" role="dialog" aria-labelledby="casoEditModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+      <div class="modal-content">
+        <div class="modal-header border-0">
+          <h5 class="modal-title" id="casoEditModalLabel">Editar caso</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" *ngIf="casoSeleccionado">
+          <app-casos-edit [caso]="casoSeleccionado!"></app-casos-edit>
+        </div>
+      </div>
+    </div>
+  </div>

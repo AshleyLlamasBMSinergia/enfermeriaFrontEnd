@@ -6,6 +6,7 @@ import { NotificationService } from 'src/app/services/notification.service';
 import { HistorialesMedicos } from 'src/app/interfaces/historiales-medicos';
 import { CapitalizarTextoService } from 'src/app/services/capitalizar-texto.service';
 import Chart from 'chart.js/auto';
+import { SharedDataService } from 'src/app/pagination/shared-data.service';
 
 @Component({
   selector: 'app-index',
@@ -15,11 +16,6 @@ import Chart from 'chart.js/auto';
 
 export class HistorialesMedicosIndexComponent {
   historialesMedicos: HistorialesMedicos[] = [];
-  loading: boolean = false;
-
-  paginaActual = 1;
-  elementosPorPagina = 10;
-
   
   search: string = '';
   private searchTerms = new Subject<string>();
@@ -28,12 +24,17 @@ export class HistorialesMedicosIndexComponent {
       private historialesMedicosService: HistorialesMedicosService,
       private notificationService: NotificationService,
       private capitalizarTextoService: CapitalizarTextoService,
+      private sharedDataService: SharedDataService,
       private router: Router,
     ) { }
   
     ngOnInit(): void {
       this.estadisticaPacientesConMasConsultas();
-      this.getHistorialesMedicos();
+      // this.getHistorialesMedicos();
+
+      this.sharedDataService.solicitudes$.subscribe(solicitudes => {
+        this.historialesMedicos = solicitudes;
+      });
 
       this.searchTerms.pipe(
         debounceTime(500)

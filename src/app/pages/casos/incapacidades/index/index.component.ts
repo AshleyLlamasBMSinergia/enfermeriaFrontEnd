@@ -1,29 +1,27 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { Casos } from 'src/app/interfaces/casos';
+import { Incapacidades } from 'src/app/interfaces/incapacidades';
 import { SharedDataService } from 'src/app/pagination/shared-data.service';
 import { CapitalizarTextoService } from 'src/app/services/capitalizar-texto.service';
-import { CasosService } from 'src/app/services/casos.service';
-import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-index',
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.css']
 })
-export class CasosIndexComponent {
-  casos: Casos[] = [];
-  casoSeleccionado?: Casos;
+export class IncapacidadesIndexComponent {
+  incapacidades: Incapacidades[] = [];
 
   filtros:any = {
+    folio: '',
     caso: '',
+    numeroEmpleado: '',
     empleado: '',
-    puesto: '',
-    departamento: '',
+    tipoDeincidencia: '',
     fecha: '',
-    estatus: '',
+    exportado: '',
   };
-  
+
   constructor(
     private sharedDataService: SharedDataService,
     private capitalizarTextoService: CapitalizarTextoService,
@@ -31,13 +29,13 @@ export class CasosIndexComponent {
   ) { }
 
   ngOnInit(): void {
-    this.loadCasos();
+    this.loadIncapacidades();
   }
 
-
-  loadCasos(){
+  loadIncapacidades(){
     this.sharedDataService.solicitudes$.subscribe(solicitudes => {
-      this.casos = solicitudes;
+      console.log(solicitudes);
+      this.incapacidades = solicitudes;
     });
   }
 
@@ -45,16 +43,17 @@ export class CasosIndexComponent {
     return this.capitalizarTextoService.capitalizarTexto(texto);
   }
 
+  showIncapacidad(id: number) {
+    this.router.navigate(['/enfermeria/casos/incapacidades', id]);
+  }
+
   showCaso(id: number) {
     this.router.navigate(['/enfermeria/casos', id]);
   }
 
-  editCaso(caso: Casos) {
-    this.casoSeleccionado = caso;
-  }
-
   submitForm() {
+    console.log(this.filtros);
     this.sharedDataService.updateFiltros(this.filtros);
-    this.loadCasos();
+    this.loadIncapacidades();
   }
 }

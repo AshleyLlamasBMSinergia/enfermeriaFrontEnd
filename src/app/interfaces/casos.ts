@@ -1,6 +1,5 @@
 import { Accidentes } from "./accidentes"
 import { Archivos } from "./archivos"
-import { Diagnosticos } from "./diagnosticos";
 import { Empleados } from "./empleados";
 import { Incapacidades } from "./incapacidades"
 

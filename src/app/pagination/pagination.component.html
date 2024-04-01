@@ -1,0 +1,19 @@
+<nav class="pagination-number pt-2">
+    <ul class="pagination d-flex justify-content-center flex-wrap pagination-rounded-flat pagination-success">
+        <li class="page-item" [class.disabled]="paginaActual === 1 || loading">
+            <a class="page-link" data-abc="true" (click)="previousPage()"><i class="fa fa-angle-left"></i></a>
+        </li>
+        
+        <ng-container *ngFor="let pagina of paginas; let i = index">
+            <ng-container *ngIf="pagina <= 1 || pagina >= totalPaginas || (i >= paginaActual - 4 && i <= paginaActual + 2)">
+                <li class="page-item" [ngClass]="{'active': pagina === paginaActual, 'disabled': loading}">
+                    <a class="page-link" data-abc="true" (click)="goToPage(pagina)">{{ pagina }}</a>
+                </li>                        
+            </ng-container>
+        </ng-container>
+        
+        <li class="page-item"  [class.disabled]="paginaActual === totalPaginas || loading">
+            <a class="page-link" data-abc="true" (click)="nextPage()"><i class="fa fa-angle-right"></i></a>
+        </li>
+    </ul>
+</nav>

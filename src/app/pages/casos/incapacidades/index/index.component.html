@@ -1,0 +1,120 @@
+<div class="content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header text-secondary border-0">
+                <h3 class="card-title text-center">Todas las incapacidades</h3>
+            </div>
+            <div class="card-header border-0">
+                <div class="row">
+                    <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8">
+                    </div>
+                    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
+                        <a class="btn btn-sm btn-pink btn-block  my-2" routerLink="/enfermeria/casos/create"><i class="fas fa-plus"></i> Nuevo caso</a>
+                    </div>
+                </div>   
+            </div>
+            <div class="card-body table-responsive p-0">
+                <table class="table table-sm table-striped table-valign-middle">
+                    <thead>
+                        <tr class="text-center">
+                            <th>
+                                <!-- <i class="fas fa-angle-down text-pink"></i> -->
+                                Caso
+                            </th>
+                            <th>
+                                <!-- <i class="fas fa-angle-down text-pink"></i> -->
+                                Folio
+                            </th>
+                            <th>
+                                <!-- <i class="fas fa-angle-down text-pink"></i> -->
+                                # Empleado
+                            </th>
+                            <th>
+                                <!-- <i class="fas fa-angle-down text-pink"></i> -->
+                                Nombre del empleado
+                            </th>
+                            <th>
+                                <!-- <i class="fas fa-angle-down text-pink"></i> -->
+                                Tipo de incidencia
+                            </th>
+                            <th>
+                                <!-- <i class="fas fa-angle-down text-pink"></i> -->
+                                Fecha de expedición
+                            </th>
+                            <th>
+                                <!-- <i class="fas fa-angle-down text-pink"></i> -->
+                                Exportado
+                            </th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <th width="40px">
+                                <input type="number" class="form-control form-control-sm text-center" name="caso" placeholder="#" [(ngModel)]="filtros.caso" (keyup.enter)="submitForm()">
+                            </th>
+                            <th>
+                                <input type="text" class="form-control form-control-sm text-center" name="folio" placeholder="Folio" [(ngModel)]="filtros.folio" (keyup.enter)="submitForm()">
+                            </th>
+                            <th width="40px">
+                                <input type="number" class="form-control form-control-sm text-center" name="numeroEmpleado" placeholder="#" [(ngModel)]="filtros.numeroEmpleado" (keyup.enter)="submitForm()">
+                            </th>
+                            <th>
+                                <input type="text" class="form-control form-control-sm text-center" name="empleado" placeholder="empleado" [(ngModel)]="filtros.empleado" (keyup.enter)="submitForm()">
+                            </th>
+                            <th>
+                                <input type="text" class="form-control form-control-sm text-center" name="tipoDeincidencia" placeholder="Tipo de incidencia" [(ngModel)]="filtros.tipoDeincidencia" (keyup.enter)="submitForm()">
+                            </th>
+                            <th>
+                                <input type="date" class="form-control form-control-sm text-center" name="fecha" [(ngModel)]="filtros.fecha" (change)="submitForm()">
+                            </th>
+                            <th>
+                                <select name="exportado" id="exportado" class="form-control form-control-sm text-center" [(ngModel)]="filtros.exportado" (change)="submitForm()">
+                                    <option value="">Todos</option>
+                                    <option>NO</option>
+                                    <option>SI</option>
+                                </select>
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="incapacidades.length > 0; else noincapacidad">
+                        <tr *ngFor="let incapacidad of incapacidades">
+                            <td class="text-center">
+                                <a class="text-primary" style="cursor: pointer;" (click)="showCaso(incapacidad.caso_id)">{{ incapacidad.caso_id }}</a>
+                            </td>
+                            <td class="text-center">
+                                {{ incapacidad.folio }}
+                            </td>
+                            <td class="text-center">
+                                {{  incapacidad.caso.empleado.numero}}
+                            </td>
+                            <td>
+                                {{  getTextoCapitalizado(incapacidad.caso.empleado.nombre) }}
+                            </td>
+                            <td>
+                                {{ getTextoCapitalizado(incapacidad.tipo_incidencia.Nombre) }}
+                            </td>
+                            <td class="text-center">
+                                {{ incapacidad.fechaEfectiva ? (incapacidad.fechaEfectiva | date:'dd-MM-yyyy') : '-' }}
+                            </td>
+                            <td class="text-center">
+                                <span class="badge badge-pill" [ngClass]="{'badge-danger': !incapacidad.exportado, 'badge-success': incapacidad.exportado}">{{ incapacidad.exportado ? 'Si' : 'No' }}</span>
+                            </td>                            
+                            <td width="10px" class="text-center">
+                                <button (click)="showIncapacidad(incapacidad.id)" class="btn btn-sm btn-secondary">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </td>
+                    </tbody>
+                    <ng-template #noincapacidad>
+                        <tr>
+                            <td colspan="8" class="text-center">Sin incapacidades</td>
+                        </tr>
+                    </ng-template>
+                </table>
+            </div>
+            <div class="card-footer">
+                <app-pagination [url]="'incapacidades'"></app-pagination>
+            </div>
+        </div>
+    </div>
+</div>
