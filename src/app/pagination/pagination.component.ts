@@ -22,8 +22,10 @@ export class PaginationComponent {
   loading: boolean = false;
 
   ngOnInit(): void {
-    this.loadSolicitudes();
-    this.loadFiltros();
+    setTimeout(()=>{
+      this.loadSolicitudes();
+      this.loadFiltros();
+    }, 1000);
   }
 
   constructor(
@@ -39,10 +41,10 @@ export class PaginationComponent {
 
   loadSolicitudes(): void {
     this.loading = true;
-  
     // Suscribirse a los cambios de los filtros
     this.sharedDataService.filtros$.subscribe(filtros => {
       this.filtros = filtros;
+  
       // Cargar las solicitudes cada vez que los filtros cambien
       this.paginationService.getSolicitudes(this.url, this.paginaActual, this.elementosPorPagina, this.filtros).subscribe(
         response => {

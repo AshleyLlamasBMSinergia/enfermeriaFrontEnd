@@ -90,8 +90,8 @@
                         </ng-container>
                         <ng-template #showSelect>
                           <select class="form-control w-100" formControlName="categoria" name="categoria" id="categoria" (change)="checkForOther()">
-                            <option *ngIf="incapacidad!.control_incapacidad.ControlIncapacidad == '2'">Inicial probable riesgo</option>
-                            <option *ngIf="incapacidad!.control_incapacidad.ControlIncapacidad == '3'">Subsecuente probable riesgo</option>
+                            <option value="Inicial probable riesgo">Inicial probable riesgo</option>
+                            <option value="Subsecuente probable riesgo">Subsecuente probable riesgo</option>
                             <option>Otro</option>
                           </select>
                         </ng-template>

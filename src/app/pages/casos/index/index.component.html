@@ -79,29 +79,31 @@
                                 {{ caso.id }}
                             </td>
                             <td>
-                                {{ getTextoCapitalizado(caso.empleado.nombre) }}
+                                {{ caso?.empleado?.nombre }}
                             </td>
                             <td class="text-center">
-                                {{ getTextoCapitalizado(caso.empleado.puesto.nombre) }}
+                                {{ caso?.empleado?.puesto.nombre }}
                             </td>
                             <td class="text-center">
-                                {{ getTextoCapitalizado(caso.departamento.Nombre) }}
+                                {{ caso?.departamento?.Nombre }}
                             </td>
                             <td class="text-center">
-                                {{ caso.incapacidades[0].fechaEfectiva ? (caso.incapacidades[0].fechaEfectiva | date:'dd-MM-yyyy') : '-' }}
+                                {{ caso!.incapacidades[0]!.fechaEfectiva ? (caso!.incapacidades[0]!.fechaEfectiva | date:'dd-MM-yyyy') : '-' }}
                             </td>
                             <td class="text-center">
                                 <small>
-                                    <span class="badge badge-pill" [ngClass]="{'badge-danger': caso.estatus === 'PENDIENTE', 'badge-success': caso.estatus === 'TERMINADO'}">{{caso.estatus}}</span>
+                                    <span class="badge badge-pill" [ngClass]="{'badge-danger': caso?.estatus === 'PENDIENTE', 'badge-success': caso?.estatus === 'TERMINADO'}">{{caso?.estatus}}</span>
                                 </small>
                             </td>
                             <td width="10px" class="text-center">
-                                <button (click)="showCaso(caso.id)" class="btn btn-sm btn-secondary">
+                                <button (click)="showCaso(caso!.id)" class="btn btn-sm btn-secondary">
                                     <i class="fas fa-eye"></i>
                                 </button>
                             </td>
                             <td>
-                                <button type="button" (click)="editCaso(caso)" class="btn btn-sm btn-primary ml-2" data-toggle="modal" data-target="#casoEditModal"><i class="fas fa-edit"></i></button>
+                                <button type="button" (click)="editCaso(caso!)" class="btn btn-sm btn-primary ml-2" data-toggle="modal" [attr.data-target]="'#casoEditModal' + caso?.id">
+                                    <i class="fas fa-edit"></i>
+                                </button>                                
                             </td>
                             <td>
                                 <button type="button" class="btn btn-sm btn-secondary ml-2"><i class="fas fa-list"></i></button>
@@ -110,7 +112,7 @@
                     </tbody>
                     <ng-template #nocasos>
                         <tr>
-                            <td colspan="4" class="text-center">Sin casos</td>
+                            <td colspan="7" class="text-center">Sin casos</td>
                         </tr>
                     </ng-template>
                 </table>
@@ -122,7 +124,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="casoEditModal" tabindex="-1" role="dialog" aria-labelledby="casoEditModalLabel" aria-hidden="true">
+<div *ngIf="casoSeleccionado" class="modal fade" [id]="'casoEditModal' + casoSeleccionado.id" tabindex="-1" role="dialog" aria-labelledby="casoEditModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
       <div class="modal-content">
         <div class="modal-header border-0">
@@ -131,7 +133,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body" *ngIf="casoSeleccionado">
+        <div class="modal-body">
           <app-casos-edit [caso]="casoSeleccionado!"></app-casos-edit>
         </div>
       </div>

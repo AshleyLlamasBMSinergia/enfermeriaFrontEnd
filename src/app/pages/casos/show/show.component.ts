@@ -1,7 +1,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { ImageService } from 'src/app/services/imagen.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NotificationService } from 'src/app/services/notification.service';
 import { catchError, map } from 'rxjs/operators';
@@ -89,6 +89,7 @@ export class CasosShowComponent {
     private formBuilder: FormBuilder,
     private archivoService: ArchivoService,
     private datePipe: DatePipe,
+    private router: Router,
   ) {
     this.formArchivo = this.formBuilder.group({
       caso_id: [null],
@@ -154,6 +155,10 @@ export class CasosShowComponent {
         this.calcularArchivosPendientes(caso);
       }
     );
+  }
+
+  showCaso(id: number) {
+    this.router.navigate(['/enfermeria/casos/incapacidades', id]);
   }
 
   calcularArchivosPendientes(caso: any){

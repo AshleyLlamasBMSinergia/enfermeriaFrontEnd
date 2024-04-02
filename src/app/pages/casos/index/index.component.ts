@@ -3,8 +3,6 @@ import { Router } from '@angular/router';
 import { Casos } from 'src/app/interfaces/casos';
 import { SharedDataService } from 'src/app/pagination/shared-data.service';
 import { CapitalizarTextoService } from 'src/app/services/capitalizar-texto.service';
-import { CasosService } from 'src/app/services/casos.service';
-import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-index',
@@ -31,15 +29,20 @@ export class CasosIndexComponent {
   ) { }
 
   ngOnInit(): void {
+    this.casos = [];
     this.loadCasos();
   }
 
 
-  loadCasos(){
-    this.sharedDataService.solicitudes$.subscribe(solicitudes => {
-      this.casos = solicitudes;
-    });
-  }
+  loadCasos() {
+    setTimeout(()=>{
+      this.sharedDataService.solicitudes$
+        .subscribe(solicitudes => {
+          this.casos = solicitudes;
+        }
+      );
+    }, 2000);
+  }  
 
   getTextoCapitalizado(texto:any): string {
     return this.capitalizarTextoService.capitalizarTexto(texto);

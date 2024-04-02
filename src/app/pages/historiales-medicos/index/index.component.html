@@ -39,7 +39,7 @@
                     <tbody *ngIf="historialesMedicos.length > 0; else noHistoriales">
                         <tr *ngFor="let historial of historialesMedicos">
                             <td>
-                                {{ getTextoCapitalizado(historial.pacientable?.nombre) }}
+                                {{ historial.pacientable?.nombre }}
                             </td>
                             <td [ngSwitch]="historial.pacientable_type" class="text-center">  
                                 <small *ngSwitchCase="'App\\Models\\NomEmpleado'">
@@ -63,7 +63,7 @@
                                 </button>
                             </td>
                             <td width="10px">
-                                <button (click)="destroyHistorialMedico(historial.id)" href="#" class="btn btn-sm btn-danger">
+                                <button (click)="destroyHistorialMedico(historial.id)" class="btn btn-sm btn-danger">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </td>

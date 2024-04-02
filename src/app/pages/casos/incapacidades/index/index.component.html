@@ -58,7 +58,7 @@
                                 <input type="number" class="form-control form-control-sm text-center" name="numeroEmpleado" placeholder="#" [(ngModel)]="filtros.numeroEmpleado" (keyup.enter)="submitForm()">
                             </th>
                             <th>
-                                <input type="text" class="form-control form-control-sm text-center" name="empleado" placeholder="empleado" [(ngModel)]="filtros.empleado" (keyup.enter)="submitForm()">
+                                <input type="text" class="form-control form-control-sm text-center" name="empleado" placeholder="Empleado" [(ngModel)]="filtros.empleado" (keyup.enter)="submitForm()">
                             </th>
                             <th>
                                 <input type="text" class="form-control form-control-sm text-center" name="tipoDeincidencia" placeholder="Tipo de incidencia" [(ngModel)]="filtros.tipoDeincidencia" (keyup.enter)="submitForm()">
@@ -85,13 +85,13 @@
                                 {{ incapacidad.folio }}
                             </td>
                             <td class="text-center">
-                                {{  incapacidad.caso.empleado.numero}}
+                                {{  incapacidad?.caso?.empleado?.numero}}
                             </td>
                             <td>
-                                {{  getTextoCapitalizado(incapacidad.caso.empleado.nombre) }}
+                                {{  incapacidad?.caso?.empleado?.nombre }}
                             </td>
                             <td>
-                                {{ getTextoCapitalizado(incapacidad.tipo_incidencia.Nombre) }}
+                                {{ incapacidad?.tipo_incidencia?.Nombre }}
                             </td>
                             <td class="text-center">
                                 {{ incapacidad.fechaEfectiva ? (incapacidad.fechaEfectiva | date:'dd-MM-yyyy') : '-' }}

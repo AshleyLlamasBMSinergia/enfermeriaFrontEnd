@@ -32,9 +32,11 @@ export class HistorialesMedicosIndexComponent {
       this.estadisticaPacientesConMasConsultas();
       // this.getHistorialesMedicos();
 
-      this.sharedDataService.solicitudes$.subscribe(solicitudes => {
-        this.historialesMedicos = solicitudes;
-      });
+      setTimeout(()=>{
+        this.sharedDataService.solicitudes$.subscribe(solicitudes => {
+          this.historialesMedicos = solicitudes;
+        });
+      }, 1000);
 
       this.searchTerms.pipe(
         debounceTime(500)

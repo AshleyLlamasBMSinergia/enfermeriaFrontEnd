@@ -61,14 +61,6 @@ export class IncapacidadesShowComponent {
     this.incapacidadesService.getIncapacidad(id)
       .subscribe(incapacidad => {
         this.incapacidad = incapacidad;
-
-        if (incapacidad.caso.empleado?.image) {
-          this.obtenerImagen(incapacidad.caso.empleado?.image.url).subscribe((imagen) => {
-            this.imageEmpleado = imagen;
-          });
-        }else{
-          this.imageEmpleado = '/assets/dist/img/user.png';
-        }
       }
     );
   }

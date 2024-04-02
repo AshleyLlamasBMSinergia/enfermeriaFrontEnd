@@ -8,7 +8,6 @@ export class SharedDataService {
   private solicitudesSubject = new BehaviorSubject<any[]>([]);
   solicitudes$ = this.solicitudesSubject.asObservable();
 
-  // Agrega la declaración y definición de filtrosSubject
   private filtrosSubject = new BehaviorSubject<any[]>([]);
   filtros$ = this.filtrosSubject.asObservable();
 

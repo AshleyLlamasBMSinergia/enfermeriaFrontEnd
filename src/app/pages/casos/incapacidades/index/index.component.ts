@@ -33,10 +33,11 @@ export class IncapacidadesIndexComponent {
   }
 
   loadIncapacidades(){
-    this.sharedDataService.solicitudes$.subscribe(solicitudes => {
-      console.log(solicitudes);
-      this.incapacidades = solicitudes;
-    });
+    setTimeout(()=>{
+      this.sharedDataService.solicitudes$.subscribe(solicitudes => {
+        this.incapacidades = solicitudes;
+      });
+    }, 2000);
   }
 
   getTextoCapitalizado(texto:any): string {
@@ -52,7 +53,6 @@ export class IncapacidadesIndexComponent {
   }
 
   submitForm() {
-    console.log(this.filtros);
     this.sharedDataService.updateFiltros(this.filtros);
     this.loadIncapacidades();
   }
